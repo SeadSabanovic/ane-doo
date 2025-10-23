@@ -18,7 +18,7 @@ export const menuData: Array<{
   },
   {
     id: 2,
-    title: "Prodaja",
+    title: "Shop",
     newTab: false,
     path: "/",
   },
