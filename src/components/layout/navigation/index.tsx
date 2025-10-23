@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { menuData } from "./menuData";
 import Container from "../container";
 import { Heart, Search, ShoppingCart } from "lucide-react";
 import {
@@ -27,7 +26,8 @@ const Navigation = () => {
             </Link>
 
             {/* <!-- header top right --> */}
-            <div className="flex w-full lg:w-auto items-center gap-3">
+            <div className="flex  items-center gap-3">
+              <DesktopMenu />
               {/* <!-- header top right / Search --> */}
               <InputGroup>
                 <InputGroupInput placeholder="Pretraga..." />
@@ -51,21 +51,6 @@ const Navigation = () => {
             </div>
           </div>
           {/* <!-- header top end --> */}
-        </Container>
-      </div>
-
-      <div className="border-b py-2">
-        <Container className="flex items-center gap-4 justify-center">
-          {/* {menuData.map((item) => (
-            <Link
-              key={item.id}
-              href={item.path}
-              className="font-medium text-gray-500 hover:text-primary"
-            >
-              {item.title}
-            </Link>
-          ))} */}
-          <DesktopMenu />
         </Container>
       </div>
     </header>

@@ -23,12 +23,6 @@ export const menuData: Array<{
     path: "/",
   },
   {
-    id: 3,
-    title: "Kontakt",
-    newTab: false,
-    path: "/",
-  },
-  {
     id: 6,
     title: "Kategorije",
     newTab: false,
@@ -36,7 +30,25 @@ export const menuData: Array<{
     submenu: [
       {
         id: 61,
-        title: "Shop With Sidebar",
+        title: "Muška odjeća",
+        newTab: false,
+        path: "/",
+      },
+      {
+        id: 62,
+        title: "Ženska odjeća",
+        newTab: false,
+        path: "/",
+      },
+      {
+        id: 63,
+        title: "Dječja odjeća",
+        newTab: false,
+        path: "/",
+      },
+      {
+        id: 64,
+        title: "Sportska odjeća",
         newTab: false,
         path: "/",
       },
