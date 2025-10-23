@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
+import HeroSection from "@/components/pages/Home";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <h1 className="text-4xl font-bold">ANE DOO</h1>
-      <Button>Deploy Now</Button>
+      <HeroSection />
     </main>
   );
 }
