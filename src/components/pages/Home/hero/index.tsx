@@ -54,7 +54,7 @@ export default function HeroSection() {
             alt="Shirt"
             width={500}
             height={500}
-            className="object-contain max-w-[30%]"
+            className="object-contain max-w-[30%] w-full h-full"
           />
         </div>
       </Container>
