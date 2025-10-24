@@ -3,6 +3,7 @@ import HeroCarousel from "./hero-carousel";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import HeroFeature from "./hero-feature";
 
 export default function HeroSection() {
   return (
@@ -58,6 +59,8 @@ export default function HeroSection() {
           />
         </div>
       </Container>
+
+      <HeroFeature />
     </section>
   );
 }
