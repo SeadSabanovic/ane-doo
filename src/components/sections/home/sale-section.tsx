@@ -17,7 +17,7 @@ export default function SaleSection() {
             Pogledaj <ArrowUpRight />
           </Button>
         </div>
-        <div className="col-span-1 aspect-square">
+        <div className="col-span-1 aspect-video">
           <Image
             src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
             alt="Sale"
