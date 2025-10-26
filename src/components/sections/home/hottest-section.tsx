@@ -1,8 +1,8 @@
 import Container from "@/components/layout/container";
 import ProductCard from "@/components/ui/product-card";
-import { Sparkles } from "lucide-react";
+import { Flame } from "lucide-react";
 
-export default function NewSection() {
+export default function HottestSection() {
   const products = [
     {
       id: 1,
@@ -40,29 +40,20 @@ export default function NewSection() {
       price: 21.99,
       image: "/images/product/shirt.png",
     },
-    {
-      id: 7,
-      name: "Product 7",
-      price: 22.99,
-      image: "/images/product/shirt.png",
-    },
-    {
-      id: 8,
-      name: "Product 8",
-      price: 23.99,
-      image: "/images/product/shirt.png",
-    },
+    
   ];
   return (
     <section className="py-10">
       <Container>
         <div className="flex items-center gap-3">
-          <Sparkles />
-          <span className="text-md leading-none font-medium">Novo</span>
+          <Flame />
+          <span className="text-md leading-none font-medium">
+            Najprodavanije
+          </span>
         </div>
-        <h2 className="text-3xl font-bold mt-2">U ponudi</h2>
+        <h2 className="text-3xl font-bold mt-2">Ovog mjeseca</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
