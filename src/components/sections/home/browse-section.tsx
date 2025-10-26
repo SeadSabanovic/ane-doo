@@ -70,7 +70,7 @@ export default function BrowseSection() {
   }, [api]);
 
   return (
-    <section className="py-10">
+    <section className="pt-10">
       <Container>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -117,7 +117,7 @@ export default function BrowseSection() {
                   key={category.id}
                   className="pl-2 md:pl-4 lg:basis-1/5 md:basis-1/3 basis-1/2"
                 >
-                  <div className="group rounded-md bg-gray-50 relative aspect-square border cursor-pointer flex flex-col items-center justify-center">
+                  <div className="group rounded-md bg-gray-50 relative aspect-square cursor-pointer flex flex-col items-center justify-center">
                     <Image
                       src={category.image}
                       alt={category.name}

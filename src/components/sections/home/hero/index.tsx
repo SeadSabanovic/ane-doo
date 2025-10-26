@@ -7,7 +7,7 @@ import HeroFeature from "./hero-feature";
 
 export default function HeroSection() {
   return (
-    <section className="bg-blue-50 py-10">
+    <section className="bg-gray-50 py-10">
       <Container className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-5">
         <HeroCarousel />
         <div className="bg-background rounded-md p-6 flex gap-5 items-center lg:col-span-2">
