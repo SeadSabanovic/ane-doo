@@ -36,18 +36,22 @@ const Navigation = () => {
                 </InputGroupAddon>
               </InputGroup>
               {/* <!-- header top right / Wishlist and Cart --> */}
-              <Button variant="outline" size="icon" className="relative">
-                <Heart />
-                <small className="font-medium text-xs leading-none text-dark absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
-                  {1}
-                </small>
-              </Button>
-              <Button variant="outline" size="icon" className="relative">
-                <ShoppingCart size={24} />
-                <small className="font-medium text-xs text-dark absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
-                  {4}
-                </small>
-              </Button>
+              <Link href="/spaseno">
+                <Button variant="outline" size="icon" className="relative">
+                  <Heart />
+                  <small className="font-medium text-xs leading-none text-dark absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
+                    {1}
+                  </small>
+                </Button>
+              </Link>
+              <Link href="/blagajna">
+                <Button variant="outline" size="icon" className="relative">
+                  <ShoppingCart size={24} />
+                  <small className="font-medium text-xs text-dark absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
+                    {4}
+                  </small>
+                </Button>
+              </Link>
             </div>
           </div>
           {/* <!-- header top end --> */}
