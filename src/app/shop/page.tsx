@@ -1,4 +1,6 @@
 import Container from "@/components/layout/container";
+import PageHeader from "@/components/layout/page-header";
+import ShopSidebar from "@/components/shop/shop-sidebar";
 import ProductCard from "@/components/ui/product-card";
 import Link from "next/link";
 
@@ -51,15 +53,18 @@ export default function ShopPage() {
 
   return (
     <div className="py-12">
-      <Container>
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Shop</h1>
-          <p className="text-muted-foreground">
-            Pregledajte našu kolekciju proizvoda
-          </p>
-        </div>
+      <PageHeader
+        title="Shop"
+        description="Pregledajte našu kolekciju proizvoda"
+        breadcrumbItems={[
+          { label: "Početna", href: "/" },
+          { label: "Shop", href: "/shop" },
+        ]}
+      />
+      <Container className="flex flex-col lg:flex-row gap-6">
+        <ShopSidebar />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 flex-1">
           {products.map((product) => (
             <Link key={product.id} href={`/shop/${product.slug}`}>
               <ProductCard product={product} />
