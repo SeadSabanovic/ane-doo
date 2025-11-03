@@ -76,11 +76,17 @@ export default function HeroCarousel() {
                     <br />
                     <span className="font-light">sniženje</span>
                   </h4>
-                  <h2 className="text-4xl font-bold mt-6 text-center lg:text-left">{slide.title}</h2>
+                  <h2 className="text-4xl font-bold mt-6 text-center lg:text-left">
+                    {slide.title}
+                  </h2>
                   <p className="mt-2 text-muted-foreground text-center lg:text-left">
                     {slide.description}
                   </p>
-                  <Button className="mt-8 w-fit text-center lg:text-left" size="lg" asChild>
+                  <Button
+                    className="mt-8 w-fit text-center lg:text-left"
+                    size="lg"
+                    asChild
+                  >
                     <a href={slide.ctaHref}>
                       Pogledaj <ArrowUpRight />
                     </a>
@@ -107,8 +113,8 @@ export default function HeroCarousel() {
             key={index}
             onClick={() => api?.scrollTo(index)}
             aria-label={`Go to slide ${index + 1}`}
-            className={`h-3 w-6 rounded-full border-2 transition-colors cursor-pointer ${
-              current === index + 1 ? "border-primary" : "border-muted"
+            className={`h-3 w-6 rounded-full border-2 transition-all cursor-pointer ${
+              current === index + 1 ? "border-primary/50 w-10" : "border-muted"
             }`}
           />
         ))}

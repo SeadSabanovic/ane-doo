@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Container from "@/components/layout/container";
 import { Tags, ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -13,50 +13,56 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 
 const categories = [
-  { id: "majice", name: "Majice", image: "/images/product/shirt.png" },
+  {
+    id: "majice",
+    name: "Majice",
+    image: "https://images.pexels.com/photos/8148577/pexels-photo-8148577.jpeg",
+  },
   {
     id: "dukserice",
     name: "Dukserice i Trenerke",
-    image: "/images/product/shirt.png",
+    image: "https://images.pexels.com/photos/9594667/pexels-photo-9594667.jpeg",
   },
   {
     id: "donje-rublje",
     name: "Donje rublje",
-    image: "/images/product/shirt.png",
+    image: "https://images.pexels.com/photos/6303689/pexels-photo-6303689.jpeg",
   },
-  { id: "carape", name: "Čarape", image: "/images/product/shirt.png" },
+  {
+    id: "carape",
+    name: "Čarape",
+    image:
+      "https://images.pexels.com/photos/10557900/pexels-photo-10557900.jpeg",
+  },
   {
     id: "haljine",
     name: "Haljine i Tunike",
-    image: "/images/product/shirt.png",
+    image: "https://images.pexels.com/photos/8274720/pexels-photo-8274720.jpeg",
   },
   {
     id: "pidzame",
     name: "Pidžame i Spavaćice",
-    image: "/images/product/shirt.png",
+    image: "https://images.pexels.com/photos/9788969/pexels-photo-9788969.jpeg",
   },
   {
     id: "radna-odjeca",
     name: "Radna odjeća",
-    image: "/images/product/shirt.png",
+    image: "https://images.pexels.com/photos/2249248/pexels-photo-2249248.jpeg",
   },
   {
     id: "sezonska",
     name: "Sezonska ponuda",
-    image: "/images/product/shirt.png",
+    image: "https://images.pexels.com/photos/7202775/pexels-photo-7202775.jpeg",
   },
 ];
 
 export default function BrowseSection() {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
+  const [api, setApi] = useState<CarouselApi>();
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api) return;
-
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
 
     const onSelect = () => {
       setCanScrollPrev(api.canScrollPrev());
@@ -70,7 +76,7 @@ export default function BrowseSection() {
   }, [api]);
 
   return (
-    <section className="pt-10">
+    <section className="pt-20">
       <Container>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -102,7 +108,7 @@ export default function BrowseSection() {
         </div>
         <h2 className="text-3xl font-bold mt-2">Istraži po kategorijama</h2>
 
-        <div className="mt-8">
+        <div className="mt-20">
           <Carousel
             setApi={setApi}
             className="w-full"
@@ -115,15 +121,15 @@ export default function BrowseSection() {
               {categories.map((category) => (
                 <CarouselItem
                   key={category.id}
-                  className="pl-2 md:pl-4 lg:basis-1/5 md:basis-1/3 basis-1/2"
+                  className="pl-2 md:pl-4 lg:basis-1/6 md:basis-1/3 basis-1/2"
                 >
-                  <div className="group rounded-md bg-gray-50 relative aspect-square cursor-pointer flex flex-col items-center justify-center">
+                  <div className="group rounded-full bg-gray-50 relative aspect-square cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
                     <Image
                       src={category.image}
                       alt={category.name}
-                      width={200}
-                      height={200}
-                      className="object-contain size-[80%] group-hover:scale-105 transition-all duration-300"
+                      width={400}
+                      height={400}
+                      className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
                     />
                   </div>
                   <h4 className="text-2xl font-medium mt-4 text-center">
