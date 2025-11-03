@@ -1,3 +1,4 @@
+import Container from "@/components/layout/container";
 import { BadgeCheck, Tag, Truck } from "lucide-react";
 
 const featureData = [
@@ -20,22 +21,22 @@ const featureData = [
 
 const HeroFeature = () => {
   return (
-    <div className="max-w-6xl w-full mx-auto px-4 sm:px-8 py-10 bg-background rounded-t-md">
-      <div className="flex flex-wrap items-center gap-7.5 xl:gap-12.5">
+    <Container className="">
+      <div className="flex flex-wrap items-center justify-center gap-8 py-10 bg-background rounded-t-md px-4">
         {featureData.map((item, key) => (
-          <div className="flex items-center gap-4" key={key}>
+          <div className="flex items-center gap-4 flex-col" key={key}>
             <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
               {item.icon && item.icon}
             </div>
 
-            <div>
+            <div className="text-center">
               <h3 className="font-medium text-lg text-dark">{item.title}</h3>
               <p className="text-md">{item.description}</p>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };
 
