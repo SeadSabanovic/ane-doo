@@ -1,5 +1,6 @@
 import Container from "@/components/layout/container";
 import PageHeader from "@/components/layout/page-header";
+import ShopPagination from "@/components/sections/shop/shop-pagination";
 import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ProductCard from "@/components/ui/product-card";
 import Link from "next/link";
@@ -61,15 +62,20 @@ export default function ShopPage() {
           { label: "Shop", href: "/shop" },
         ]}
       />
+
       <Container className="flex flex-col lg:flex-row gap-8">
         <ShopSidebar />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 flex-1">
-          {products.map((product) => (
-            <Link key={product.id} href={`/shop/${product.slug}`}>
-              <ProductCard product={product} />
-            </Link>
-          ))}
+        <div className="flex flex-col gap-8 lg:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 flex-1">
+            {products.map((product) => (
+              <Link key={product.id} href={`/shop/${product.slug}`}>
+                <ProductCard product={product} />
+              </Link>
+            ))}
+          </div>
+
+          <ShopPagination />
         </div>
       </Container>
     </div>
