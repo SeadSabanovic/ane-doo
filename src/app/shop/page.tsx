@@ -1,6 +1,6 @@
 import Container from "@/components/layout/container";
 import PageHeader from "@/components/layout/page-header";
-import ShopSidebar from "@/components/shop/shop-sidebar";
+import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ProductCard from "@/components/ui/product-card";
 import Link from "next/link";
 
@@ -61,7 +61,7 @@ export default function ShopPage() {
           { label: "Shop", href: "/shop" },
         ]}
       />
-      <Container className="flex flex-col lg:flex-row gap-6">
+      <Container className="flex flex-col lg:flex-row gap-8">
         <ShopSidebar />
 
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 flex-1">

@@ -17,7 +17,8 @@ const Footer = () => {
             <ul className="flex flex-col gap-3">
               <li>
                 <a href="#" className="flex items-center gap-4.5">
-                  <Mail /> info@ane-doo.com
+                  <Mail size={24} className="shrink-0 text-primary" />
+                  info@ane-doo.com
                 </a>
               </li>
 

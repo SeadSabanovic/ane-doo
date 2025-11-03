@@ -8,13 +8,13 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
+import CostSlider from "@/components/ui/cost-slider";
 
 export default function ShopSidebar() {
   return (
-    <aside className="w-full max-w-[350px] space-y-3">
+    <aside className="w-full max-w-[270px] space-y-3">
       <div className="flex items-center gap-2">
         <FilterIcon size={20} />
         <h4 className="text-lg font-bold">Filteri</h4>
@@ -116,34 +116,7 @@ export default function ShopSidebar() {
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent className="flex flex-col gap-2 bg-gray-100 p-4 rounded-md">
-          <div className="flex items-center justify-between gap-4">
-            <Label
-              htmlFor="min-price-range"
-              className="shrink-0 text-sm font-medium"
-            >
-              Min
-            </Label>
-            <Input
-              id="min-price-range"
-              type="number"
-              placeholder="0"
-              className="max-w-32"
-            />
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <Label
-              htmlFor="max-price-range"
-              className="shrink-0 text-sm font-medium"
-            >
-              Max
-            </Label>
-            <Input
-              id="max-price-range"
-              type="number"
-              placeholder="1000"
-              className="max-w-32"
-            />
-          </div>
+          <CostSlider />
         </CollapsibleContent>
       </Collapsible>
     </aside>
