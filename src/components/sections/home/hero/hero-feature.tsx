@@ -1,39 +1,36 @@
-import { Badge } from "lucide-react";
+import { BadgeCheck, Tag, Truck } from "lucide-react";
 
 const featureData = [
   {
-    icon: <Badge />,
-    title: "Free Shipping",
-    description: "For all orders $200",
+    icon: <Tag />,
+    title: "Veliki izbor artikala",
+    description: "Široka ponuda odjeće i kućnog tekstila",
   },
   {
-    icon: <Badge />,
-    title: "1 & 1 Returns",
-    description: "Cancellation after 1 day",
+    icon: <Truck />,
+    title: "Brza isporuka",
+    description: "Pouzdana dostava širom BiH",
   },
   {
-    icon: <Badge />,
-    title: "100% Secure Payments",
-    description: "Gurantee secure payments",
-  },
-  {
-    icon: <Badge />,
-    title: "24/7 Dedicated Support",
-    description: "Anywhere & anytime",
+    icon: <BadgeCheck />,
+    title: "Provjeren kvalitet",
+    description: "Saradnja sa dugogodišnjim dobavljačima",
   },
 ];
 
 const HeroFeature = () => {
   return (
-    <div className="max-w-[1060px] w-full mx-auto px-4 sm:px-8 xl:px-0">
-      <div className="flex flex-wrap items-center gap-7.5 xl:gap-12.5 mt-10">
+    <div className="max-w-6xl w-full mx-auto px-4 sm:px-8 py-10 bg-background rounded-t-md">
+      <div className="flex flex-wrap items-center gap-7.5 xl:gap-12.5">
         {featureData.map((item, key) => (
           <div className="flex items-center gap-4" key={key}>
-            {item.icon && item.icon}
+            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+              {item.icon && item.icon}
+            </div>
 
             <div>
               <h3 className="font-medium text-lg text-dark">{item.title}</h3>
-              <p className="text-sm">{item.description}</p>
+              <p className="text-md">{item.description}</p>
             </div>
           </div>
         ))}

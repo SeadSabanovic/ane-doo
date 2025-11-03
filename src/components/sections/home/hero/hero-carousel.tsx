@@ -1,8 +1,9 @@
 "use client";
-import * as React from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -39,11 +40,12 @@ const slides = [
 ];
 
 export default function HeroCarousel() {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(1);
-  const [count, setCount] = React.useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(1);
+  const [count, setCount] = useState(0);
+  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!api) return;
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
@@ -55,37 +57,42 @@ export default function HeroCarousel() {
   }, [api]);
 
   return (
-    <div className="bg-background rounded-md row-span-2 lg:col-span-3 overflow-hidden relative">
-      <Carousel className="h-full" setApi={setApi}>
+    <div className="bg-background rounded-md lg:col-span-3 overflow-hidden relative lg:min-h-[50svh]">
+      <Carousel
+        className="h-full"
+        setApi={setApi}
+        opts={{ loop: true }}
+        plugins={[plugin.current]}
+      >
         <CarouselContent className="h-full">
           {slides.map((slide) => (
-            <CarouselItem key={slide.id} className="h-full ">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center h-full p-6">
-                <div className="order-2 md:order-1">
-                  <h4 className="text-2xl">
+            <CarouselItem key={slide.id} className="h-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center h-full p-6 pb-12">
+                <div className="order-2 lg:order-1 flex flex-col justify-center items-center lg:items-start min-h-full">
+                  <h4 className="text-2xl text-center lg:text-left">
                     <span className="text-primary text-5xl font-bold">
                       {slide.discount}
                     </span>
                     <br />
                     <span className="font-light">sniženje</span>
                   </h4>
-                  <h2 className="text-4xl font-bold mt-6">{slide.title}</h2>
-                  <p className="mt-2 text-muted-foreground">
+                  <h2 className="text-4xl font-bold mt-6 text-center lg:text-left">{slide.title}</h2>
+                  <p className="mt-2 text-muted-foreground text-center lg:text-left">
                     {slide.description}
                   </p>
-                  <Button className="mt-8 w-fit" size="lg" asChild>
+                  <Button className="mt-8 w-fit text-center lg:text-left" size="lg" asChild>
                     <a href={slide.ctaHref}>
                       Pogledaj <ArrowUpRight />
                     </a>
                   </Button>
                 </div>
-                <div className="relative aspect-4/3 md:aspect-3/2 w-full order-1 md:order-2">
+                <div className="relative aspect-4/3 md:aspect-3/2 w-full order-1 lg:order-2">
                   <Image
                     src={slide.image}
                     alt={slide.title}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-contain"
+                    className="object-contain absolute top-0 left-0 w-full h-full"
                     priority
                   />
                 </div>

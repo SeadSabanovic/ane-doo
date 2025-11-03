@@ -36,7 +36,7 @@ export default function DesktopMenu() {
   const isMobile = useIsMobile();
 
   return (
-    <NavigationMenu viewport={isMobile}>
+    <NavigationMenu viewport={isMobile} className="hidden lg:block">
       <NavigationMenuList className="">
         {menuData.map((item) => (
           <NavigationMenuItem key={item.id}>

@@ -17,16 +17,14 @@ const Navigation = () => {
       <div className="border-b">
         {/* <!-- header top start --> */}
         <Container className="py-4">
-          <div
-            className={`flex flex-col lg:flex-row gap-5 items-end lg:items-center xl:justify-between`}
-          >
+          <div className={`flex gap-5 items-center justify-between`}>
             {/* <!-- header top left / Logo --> */}
             <Link className="shrink-0 text-2xl font-bold" href="/">
               ANE D.O.O.
             </Link>
 
             {/* <!-- header top right --> */}
-            <div className="flex  items-center gap-3">
+            <div className="flex items-center gap-3">
               <DesktopMenu />
               {/* <!-- header top right / Search --> */}
               <InputGroup>
