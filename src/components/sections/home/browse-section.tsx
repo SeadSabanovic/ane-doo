@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import SectionBadge from "@/components/ui/section-badge";
 
 const categories = [
   {
@@ -24,8 +25,8 @@ const categories = [
     image: "https://images.pexels.com/photos/9594667/pexels-photo-9594667.jpeg",
   },
   {
-    id: "donje-rublje",
-    name: "Donje rublje",
+    id: "donji-ves",
+    name: "Donji veš",
     image: "https://images.pexels.com/photos/6303689/pexels-photo-6303689.jpeg",
   },
   {
@@ -79,10 +80,7 @@ export default function BrowseSection() {
     <section className="pt-20">
       <Container>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Tags />
-            <span className="text-md leading-none font-medium">Kategorije</span>
-          </div>
+          <SectionBadge icon={<Tags />}>Kategorije</SectionBadge>
 
           {/* Navigation buttons */}
           <div className="flex items-center gap-2">
@@ -106,7 +104,7 @@ export default function BrowseSection() {
             </Button>
           </div>
         </div>
-        <h2 className="text-3xl font-bold mt-2">Istraži po kategorijama</h2>
+        <h2 className="text-3xl font-bold mt-2">Artikli po kategorijama</h2>
 
         <div className="mt-20">
           <Carousel

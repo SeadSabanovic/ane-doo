@@ -1,5 +1,6 @@
 import Container from "@/components/layout/container";
 import ProductCard from "@/components/ui/product-card";
+import SectionBadge from "@/components/ui/section-badge";
 import { Sparkles } from "lucide-react";
 
 export default function NewSection() {
@@ -54,15 +55,12 @@ export default function NewSection() {
     },
   ];
   return (
-    <section className="py-10">
+    <section className="py-20">
       <Container>
-        <div className="flex items-center gap-3">
-          <Sparkles />
-          <span className="text-md leading-none font-medium">Novo</span>
-        </div>
+        <SectionBadge icon={<Sparkles />}>Novo</SectionBadge>
         <h2 className="text-3xl font-bold mt-2">U ponudi</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

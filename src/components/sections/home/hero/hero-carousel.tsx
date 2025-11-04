@@ -63,7 +63,7 @@ export default function HeroCarousel() {
   }, [api]);
 
   return (
-    <div className="bg-background rounded-md overflow-hidden relative lg:min-h-[50svh] border">
+    <div className="bg-background rounded-md overflow-hidden relative lg:min-h-[50svh] xl:min-h-[60svh] border">
       <Carousel
         className="h-full"
         setApi={setApi}
@@ -74,14 +74,14 @@ export default function HeroCarousel() {
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="h-full">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full pb-12 relative">
-                <div className="order-2 lg:order-1 flex flex-col justify-between  items-center lg:items-start min-h-full p-6">
+                <div className="order-2 lg:order-1 flex flex-col justify-between lg:justify-center items-center lg:items-start min-h-full p-6 pb-0">
                   {slide.discount && (
                     <Badge className="z-10 lg:left-unset right-2 absolute top-2 border-transparent bg-linear-to-r from-primary to-pink-500 bg-size-[105%] bg-center text-white font-black text-2xl rounded-sm">
                       -{slide.discount}
                     </Badge>
                   )}
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-4xl font-bold text-center lg:text-left">
+                    <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left">
                       {slide.title}
                     </h2>
                     <p className="mt-2 text-muted-foreground text-center lg:text-left">
@@ -102,8 +102,8 @@ export default function HeroCarousel() {
                   <Image
                     src={slide.image}
                     alt={slide.title}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
+                    width={800}
+                    height={800}
                     className="object-cover absolute top-0 left-0 w-full h-full"
                     priority
                   />
