@@ -63,7 +63,7 @@ export default function HeroCarousel() {
   }, [api]);
 
   return (
-    <div className="bg-background rounded-md lg:col-span-3 overflow-hidden relative lg:min-h-[50svh]">
+    <div className="bg-background rounded-md overflow-hidden relative lg:min-h-[50svh] border">
       <Carousel
         className="h-full"
         setApi={setApi}
@@ -98,7 +98,7 @@ export default function HeroCarousel() {
                     </a>
                   </Button>
                 </div>
-                <div className="relative aspect-4/3  w-full order-1 lg:order-2 lg:aspect-auto overflow-hidden lg:rounded-bl-2xl">
+                <div className="relative aspect-video w-full order-1 lg:order-2 lg:aspect-auto overflow-hidden lg:rounded-bl-2xl">
                   <Image
                     src={slide.image}
                     alt={slide.title}
