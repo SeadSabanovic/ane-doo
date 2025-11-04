@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import SectionBadge from "@/components/ui/section-badge";
 
 const testimonials = [
   {
@@ -87,10 +88,9 @@ export default function Testimonials() {
     <section className="py-10">
       <Container>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <MessageSquareHeart />
-            <span className="text-md leading-none font-medium">Povjerenje</span>
-          </div>
+          <SectionBadge variant="hot" icon={<MessageSquareHeart />}>
+            Povjerenje
+          </SectionBadge>
 
           {/* Navigation buttons */}
           <div className="flex items-center gap-2">
