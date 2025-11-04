@@ -10,6 +10,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
 
 const slides = [
   {
@@ -18,24 +19,27 @@ const slides = [
     title: "Muška majica",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-    image: "/images/product/shirt.png",
-    ctaHref: "/shop-with-sidebar",
+    image:
+      "https://images.pexels.com/photos/8217431/pexels-photo-8217431.jpeg?_gl=1*236mpj*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIyNDU2NTAkbzEkZzEkdDE3NjIyNDYwMjkkajU5JGwwJGgw",
+    ctaHref: "/shop",
   },
   {
     id: "womens-shirt",
     discount: "20%",
     title: "Ženska majica",
     description: "Ograničena ponuda na najnoviji model.",
-    image: "/images/product/shirt.png",
-    ctaHref: "/shop-with-sidebar",
+    image:
+      "https://images.pexels.com/photos/8217313/pexels-photo-8217313.jpeg?_gl=1*8sy20t*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIyNDU2NTAkbzEkZzEkdDE3NjIyNDcyNDkkajU5JGwwJGgw",
+    ctaHref: "/shop",
   },
   {
     id: "kids-shirt",
     discount: "15%",
-    title: "Dječja majica",
+    title: "Dječija majica",
     description: "Udobne i kvalitetne majice za najmlađe.",
-    image: "/images/product/shirt.png",
-    ctaHref: "/shop-with-sidebar",
+    image:
+      "https://images.pexels.com/photos/7330645/pexels-photo-7330645.jpeg?_gl=1*uz1z7w*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIyNDU2NTAkbzEkZzEkdDE3NjIyNDczMzgkajU5JGwwJGgw",
+    ctaHref: "/shop",
   },
 ];
 
@@ -43,7 +47,9 @@ export default function HeroCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(1);
   const [count, setCount] = useState(0);
-  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: false })
+  );
 
   useEffect(() => {
     if (!api) return;
@@ -67,21 +73,21 @@ export default function HeroCarousel() {
         <CarouselContent className="h-full">
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="h-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center h-full p-6 pb-12">
-                <div className="order-2 lg:order-1 flex flex-col justify-center items-center lg:items-start min-h-full">
-                  <h4 className="text-2xl text-center lg:text-left">
-                    <span className="text-primary text-5xl font-bold">
-                      {slide.discount}
-                    </span>
-                    <br />
-                    <span className="font-light">sniženje</span>
-                  </h4>
-                  <h2 className="text-4xl font-bold mt-6 text-center lg:text-left">
-                    {slide.title}
-                  </h2>
-                  <p className="mt-2 text-muted-foreground text-center lg:text-left">
-                    {slide.description}
-                  </p>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full pb-12 relative">
+                <div className="order-2 lg:order-1 flex flex-col justify-between  items-center lg:items-start min-h-full p-6">
+                  {slide.discount && (
+                    <Badge className="z-10 lg:left-unset right-2 absolute top-2 border-transparent bg-linear-to-r from-primary to-pink-500 bg-size-[105%] bg-center text-white font-black text-2xl rounded-sm">
+                      -{slide.discount}
+                    </Badge>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-4xl font-bold text-center lg:text-left">
+                      {slide.title}
+                    </h2>
+                    <p className="mt-2 text-muted-foreground text-center lg:text-left">
+                      {slide.description}
+                    </p>
+                  </div>
                   <Button
                     className="mt-8 w-fit text-center lg:text-left"
                     size="lg"
@@ -92,13 +98,13 @@ export default function HeroCarousel() {
                     </a>
                   </Button>
                 </div>
-                <div className="relative aspect-4/3 md:aspect-3/2 w-full order-1 lg:order-2">
+                <div className="relative aspect-4/3  w-full order-1 lg:order-2 lg:aspect-auto overflow-hidden lg:rounded-bl-2xl">
                   <Image
                     src={slide.image}
                     alt={slide.title}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-contain absolute top-0 left-0 w-full h-full"
+                    className="object-cover absolute top-0 left-0 w-full h-full"
                     priority
                   />
                 </div>

@@ -22,7 +22,7 @@ const featureData = [
 const HeroFeature = () => {
   return (
     <Container className="">
-      <div className="flex flex-wrap items-center justify-center gap-8 py-10 bg-background rounded-t-md px-4">
+      <div className="flex flex-wrap items-center justify-center gap-8 py-10 bg-secondary rounded-t-md px-4">
         {featureData.map((item, key) => (
           <div className="flex items-center gap-4 flex-col" key={key}>
             <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
