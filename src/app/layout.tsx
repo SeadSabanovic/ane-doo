@@ -34,7 +34,7 @@ export default function RootLayout({
     <LenisScrollProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased select-none`}
           suppressHydrationWarning
         >
           <Navigation />
