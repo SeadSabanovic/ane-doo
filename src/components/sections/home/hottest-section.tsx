@@ -41,12 +41,23 @@ export default function HottestSection() {
       price: 21.99,
       image: "/images/product/shirt.png",
     },
-    
+    {
+      id: 7,
+      name: "Product 7",
+      price: 22.99,
+      image: "/images/product/shirt.png",
+    },
+    {
+      id: 8,
+      name: "Product 8",
+      price: 23.99,
+      image: "/images/product/shirt.png",
+    },
   ];
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge variant="hot" icon={<Flame />}>Najprodavanije</SectionBadge>
+        <SectionBadge icon={<Flame />}>Najprodavanije</SectionBadge>
         <h2 className="text-3xl font-bold mt-2">Ovog mjeseca</h2>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
