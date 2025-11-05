@@ -4,6 +4,13 @@ import HottestSection from "@/components/sections/home/hottest-section";
 import NewSection from "@/components/sections/home/new-section";
 import SaleSection from "@/components/sections/home/sale-section";
 import Testimonials from "@/components/sections/home/testimonials";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ANE D.O.O.",
+  description:
+    "Dobrodošli u Ane-Doo online shop. Pregledajte najnovije kolekcije, popuste i najprodavanije proizvode.",
+};
 
 export default function Home() {
   return (

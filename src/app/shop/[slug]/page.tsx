@@ -2,6 +2,7 @@ import Container from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 // Privremeni dummy podaci za proizvode
 const products = [
@@ -145,4 +146,24 @@ export function generateStaticParams() {
   return products.map((product) => ({
     slug: product.slug,
   }));
+}
+
+// Generate metadata for each product
+export function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Metadata {
+  const product = products.find((p) => p.slug === params.slug);
+
+  if (!product) {
+    return {
+      title: "Proizvod nije pronađen",
+    };
+  }
+
+  return {
+    title: product.name,
+    description: product.description,
+  };
 }

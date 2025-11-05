@@ -4,6 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blagajna",
+  description:
+    "Završite vašu narudžbu. Unesite podatke za dostavu i odaberite način plaćanja.",
+};
 
 export default function CheckoutPage() {
   // Privremeni dummy podaci za korpu

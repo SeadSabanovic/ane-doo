@@ -4,6 +4,13 @@ import ShopPagination from "@/components/sections/shop/shop-pagination";
 import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ProductCard from "@/components/ui/product-card";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ANE D.O.O. | Shop",
+  description:
+    "Pregledajte našu kompletnu kolekciju proizvoda. Filtrirajte po kategorijama i pronađite savršen artikl za sebe.",
+};
 
 export default function ShopPage() {
   // Privremeni dummy podaci za proizvode

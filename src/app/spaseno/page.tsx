@@ -2,6 +2,13 @@ import Container from "@/components/layout/container";
 import ProductCard from "@/components/ui/product-card";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ANE D.O.O. | Spašeni proizvodi",
+  description:
+    "Vaši omiljeni proizvodi na jednom mjestu. Pregledajte sve artikle koje ste sačuvali.",
+};
 
 export default function FavoritesPage() {
   // Privremeni dummy podaci za spašene proizvode

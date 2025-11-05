@@ -119,8 +119,8 @@ export default function HeroCarousel() {
             key={index}
             onClick={() => api?.scrollTo(index)}
             aria-label={`Go to slide ${index + 1}`}
-            className={`h-3 w-6 rounded-full border-2 transition-all cursor-pointer ${
-              current === index + 1 ? "border-primary/50 w-10" : "border-muted"
+            className={`h-3 w-6 rounded-full border-2 border-primary/50 transition-all cursor-pointer ${
+              current === index + 1 ? "border-primary w-10 bg-primary/50" : null
             }`}
           />
         ))}
