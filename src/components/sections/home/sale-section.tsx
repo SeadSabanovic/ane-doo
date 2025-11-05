@@ -8,7 +8,7 @@ export default function SaleSection() {
   return (
     <section className="py-10">
       <Container className="grid gap-6 lg:grid-cols-2">
-        <div className="flex flex-col gap-2 justify-center">
+        <div className="flex flex-col gap-2 justify-center items-center text-center lg:text-left lg:items-start">
           <SectionBadge icon={<Percent />}>Akcija</SectionBadge>
           <h2 className="text-6xl font-bold">Sezonska ponuda</h2>
           <p className="text-muted-foreground mt-2">
@@ -21,7 +21,7 @@ export default function SaleSection() {
         </div>
         <div className="aspect-video overflow-hidden relative rounded-md">
           <Image
-            src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
+            src="https://images.pexels.com/photos/8532638/pexels-photo-8532638.jpeg?_gl=1*m3qnwv*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDk0NDUkajU5JGwwJGgw"
             alt="Sale"
             width={1000}
             height={1000}
