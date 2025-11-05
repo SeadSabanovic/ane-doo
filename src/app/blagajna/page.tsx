@@ -152,34 +152,6 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-
-            <Separator />
-
-            {/* Payment Method */}
-            <div>
-              <h2 className="text-2xl font-semibold mb-4">Način plaćanja</h2>
-              <div className="space-y-3">
-                <label className="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="card"
-                    defaultChecked
-                    className="w-4 h-4"
-                  />
-                  <span className="font-medium">Kreditna/Debitna kartica</span>
-                </label>
-                <label className="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="cod"
-                    className="w-4 h-4"
-                  />
-                  <span className="font-medium">Plaćanje pri preuzimanju</span>
-                </label>
-              </div>
-            </div>
           </div>
 
           {/* Order Summary */}

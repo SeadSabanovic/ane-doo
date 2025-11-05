@@ -12,7 +12,7 @@ import DesktopMenu from "./desktop-menu";
 const Navigation = () => {
   return (
     <header
-      className={`sticky left-0 top-0 w-full z-9999 backdrop-blur-sm bg-background/60 transition-all ease-in-out duration-300`}
+      className={`sticky left-0 top-0 w-full z-9999 backdrop-blur-sm bg-background/80 transition-all ease-in-out duration-300`}
     >
       <div className="border-b">
         {/* <!-- header top start --> */}

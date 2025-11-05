@@ -30,7 +30,7 @@ export default function ShopSidebar() {
             <ChevronDownIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
           </Button>
         </CollapsibleTrigger>
-        <CollapsibleContent className="flex flex-col gap-2 bg-gray-100 p-4 rounded-md">
+        <CollapsibleContent className="flex flex-col gap-2 bg-gray-50 p-4 rounded-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Checkbox id="category-men" />
@@ -115,7 +115,7 @@ export default function ShopSidebar() {
             <ChevronDownIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
           </Button>
         </CollapsibleTrigger>
-        <CollapsibleContent className="flex flex-col gap-2 bg-gray-100 p-4 rounded-md">
+        <CollapsibleContent className="flex flex-col gap-2 bg-gray-50 p-4 rounded-md">
           <CostSlider />
         </CollapsibleContent>
       </Collapsible>
