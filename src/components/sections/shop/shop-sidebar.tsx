@@ -1,4 +1,4 @@
-import { ChevronDownIcon, FilterIcon } from "lucide-react";
+import { ArrowDown01, ChevronDownIcon, FilterIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -7,17 +7,77 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import CostSlider from "@/components/ui/cost-slider";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "../../ui/badge";
-import CostSlider from "@/components/ui/cost-slider";
 
 export default function ShopSidebar() {
   return (
-    <aside className="w-full max-w-[270px] space-y-3">
+    <aside className="w-full max-w-[270px] space-y-3 hidden lg:block">
       <div className="flex items-center gap-2">
+        <ArrowDown01 size={20} />
+        <h4 className="text-lg font-bold">Sortiraj:</h4>
+      </div>
+
+      {/* Sortiranje */}
+      <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-md">
+        <RadioGroup defaultValue="popular">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <RadioGroupItem id="sort-popular" value="popular" />
+              <Label
+                htmlFor="sort-popular"
+                className="text-sm font-medium cursor-pointer"
+              >
+                Najpopularnije
+              </Label>
+            </div>
+            <span className="text-xs text-muted-foreground">Preporuka</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <RadioGroupItem id="sort-newest" value="newest" />
+              <Label
+                htmlFor="sort-newest"
+                className="text-sm font-medium cursor-pointer"
+              >
+                Najnovije
+              </Label>
+            </div>
+            <span className="text-xs text-muted-foreground">Novo</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <RadioGroupItem id="sort-price-asc" value="price-asc" />
+              <Label
+                htmlFor="sort-price-asc"
+                className="text-sm font-medium cursor-pointer"
+              >
+                Cijena: rastuća
+              </Label>
+            </div>
+            <span className="text-xs text-muted-foreground">Niže prvo</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <RadioGroupItem id="sort-price-desc" value="price-desc" />
+              <Label
+                htmlFor="sort-price-desc"
+                className="text-sm font-medium cursor-pointer"
+              >
+                Cijena: padajuća
+              </Label>
+            </div>
+            <span className="text-xs text-muted-foreground">Više prvo</span>
+          </div>
+        </RadioGroup>
+      </div>
+
+      <div className="flex items-center gap-2 mt-6">
         <FilterIcon size={20} />
-        <h4 className="text-lg font-bold">Filteri</h4>
+        <h4 className="text-lg font-bold">Filtriraj:</h4>
       </div>
       {/* Kategorije */}
       <Collapsible className="flex flex-col gap-2" defaultOpen>

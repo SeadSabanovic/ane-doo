@@ -25,33 +25,37 @@ export default function PageHeader({
   breadcrumbItems?: BreadcrumbItemType[];
 }) {
   return (
-    <Container className="pb-8 border-b mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-      <div>
-        <h1 className="font-bold text-3xl xl:text-4xl ">{title}</h1>
-        <p className="text-muted-foreground text-lg mt-2">{description}</p>
-      </div>
-      {breadcrumbItems && breadcrumbItems.length > 0 && (
-        <Breadcrumb>
-          <BreadcrumbList>
-            {breadcrumbItems.map((item, index) => (
-              <React.Fragment key={index}>
-                <BreadcrumbItem className="text-lg">
-                  {index === breadcrumbItems.length - 1 ? (
-                    <BreadcrumbPage className="text-primary">
-                      {item.label}
-                    </BreadcrumbPage>
-                  ) : (
-                    <BreadcrumbLink asChild>
-                      <Link href={item.href}>{item.label}</Link>
-                    </BreadcrumbLink>
+    <div className="py-8 lg:py-12 border-b mb-20 bg-gray-50">
+      <Container className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="font-bold text-3xl xl:text-4xl ">{title}</h1>
+          <p className="text-lg mt-2">{description}</p>
+        </div>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumb>
+            <BreadcrumbList>
+              {breadcrumbItems.map((item, index) => (
+                <React.Fragment key={index}>
+                  <BreadcrumbItem className="text-lg">
+                    {index === breadcrumbItems.length - 1 ? (
+                      <BreadcrumbPage className="text-primary">
+                        {item.label}
+                      </BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink asChild>
+                        <Link href={item.href}>{item.label}</Link>
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                  {index < breadcrumbItems.length - 1 && (
+                    <BreadcrumbSeparator />
                   )}
-                </BreadcrumbItem>
-                {index < breadcrumbItems.length - 1 && <BreadcrumbSeparator />}
-              </React.Fragment>
-            ))}
-          </BreadcrumbList>
-        </Breadcrumb>
-      )}
-    </Container>
+                </React.Fragment>
+              ))}
+            </BreadcrumbList>
+          </Breadcrumb>
+        )}
+      </Container>
+    </div>
   );
 }

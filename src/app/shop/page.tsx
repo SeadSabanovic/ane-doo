@@ -57,10 +57,81 @@ export default function ShopPage() {
       image: "/images/product/shirt.png",
       slug: "summer-dress",
     },
+    {
+      id: 7,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 8,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 9,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 10,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 11,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 12,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 13,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 14,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+
+    {
+      id: 15,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
+    {
+      id: 16,
+      name: "Summer Dress",
+      price: 69.99,
+      image: "/images/product/shirt.png",
+      slug: "summer-dress",
+    },
   ];
 
   return (
-    <div className="py-12">
+    <>
       <PageHeader
         title="Shop"
         description="Pregledajte našu kolekciju proizvoda"
@@ -73,8 +144,8 @@ export default function ShopPage() {
       <Container className="flex flex-col lg:flex-row gap-8">
         <ShopSidebar />
 
-        <div className="flex flex-col gap-8 lg:gap-12">
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 flex-1">
+        <div className="flex flex-col gap-8 lg:gap-12 pb-20">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 flex-1">
             {products.map((product) => (
               <Link key={product.id} href={`/shop/${product.slug}`}>
                 <ProductCard product={product} />
@@ -85,6 +156,6 @@ export default function ShopPage() {
           <ShopPagination />
         </div>
       </Container>
-    </div>
+    </>
   );
 }
