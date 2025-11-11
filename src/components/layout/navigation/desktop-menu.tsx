@@ -20,9 +20,12 @@ function ListItem({
 }: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
   return (
     <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link href={href}>
-          <div className="text-sm leading-none font-medium">{title}</div>
+      <NavigationMenuLink asChild decoration={false}>
+        <Link
+          href={href}
+          className="flex flex-col gap-1 rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
             {children}
           </p>
@@ -50,9 +53,7 @@ export default function DesktopMenu() {
                         key={subItem.id}
                         title={subItem.title}
                         href={subItem.path}
-                      >
-                        {/* {subItem.title} */}
-                      </ListItem>
+                      />
                     ))}
                   </ul>
                 </NavigationMenuContent>

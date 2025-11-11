@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Container from "../container";
-import { Heart, Search, ShoppingCart } from "lucide-react";
+import { Heart, MenuIcon, Search, ShoppingCart } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
@@ -24,7 +24,7 @@ const Navigation = () => {
               ANE
             </Link>
 
-            {/* <!-- header top right / Search --> */}
+            {/* <!-- header search --> */}
             <InputGroup className="bg-background/50 max-w-md hidden lg:flex">
               <InputGroupInput placeholder="Pretraga..." />
               <InputGroupAddon>
@@ -36,11 +36,7 @@ const Navigation = () => {
             <div className="flex items-center gap-3">
               {/* <!-- header top right / Wishlist and Cart --> */}
               <Link href="/spaseno">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative"
-                >
+                <Button variant="ghost" size="icon" className="relative">
                   <Heart className="text-destructive" />
                   <Badge
                     variant="outline"
@@ -50,6 +46,7 @@ const Navigation = () => {
                   </Badge>
                 </Button>
               </Link>
+
               <Link href="/blagajna">
                 <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart size={24} />
@@ -61,6 +58,10 @@ const Navigation = () => {
                   </Badge>
                 </Button>
               </Link>
+
+              <Button variant="outline" size="icon" className="ml-3 lg:hidden">
+                <MenuIcon />
+              </Button>
             </div>
           </div>
           {/* <!-- header top end --> */}
