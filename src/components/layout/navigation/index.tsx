@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import DesktopMenu from "./desktop-menu";
+import { Badge } from "@/components/ui/badge";
 
 const Navigation = () => {
   return (
@@ -20,39 +21,54 @@ const Navigation = () => {
           <div className={`flex gap-5 items-center justify-between`}>
             {/* <!-- header top left / Logo --> */}
             <Link className="shrink-0 text-2xl font-bold" href="/">
-              ANE D.O.O.
+              ANE
             </Link>
+
+            {/* <!-- header top right / Search --> */}
+            <InputGroup className="bg-background/50 max-w-md hidden lg:flex">
+              <InputGroupInput placeholder="Pretraga..." />
+              <InputGroupAddon>
+                <Search />
+              </InputGroupAddon>
+            </InputGroup>
 
             {/* <!-- header top right --> */}
             <div className="flex items-center gap-3">
-              <DesktopMenu />
-              {/* <!-- header top right / Search --> */}
-              <InputGroup>
-                <InputGroupInput placeholder="Pretraga..." />
-                <InputGroupAddon>
-                  <Search />
-                </InputGroupAddon>
-              </InputGroup>
               {/* <!-- header top right / Wishlist and Cart --> */}
               <Link href="/spaseno">
-                <Button variant="outline" size="icon" className="relative">
-                  <Heart />
-                  <small className="font-medium text-xs leading-none text-dark absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
-                    {1}
-                  </small>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative"
+                >
+                  <Heart className="text-destructive" />
+                  <Badge
+                    variant="outline"
+                    className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-white animate-bounce duration-700"
+                  >
+                    8
+                  </Badge>
                 </Button>
               </Link>
               <Link href="/blagajna">
-                <Button variant="outline" size="icon" className="relative">
+                <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart size={24} />
-                  <small className="font-medium text-xs text-dark absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
-                    {4}
-                  </small>
+                  <Badge
+                    variant="outline"
+                    className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-white animate-bounce duration-700"
+                  >
+                    8
+                  </Badge>
                 </Button>
               </Link>
             </div>
           </div>
           {/* <!-- header top end --> */}
+        </Container>
+      </div>
+      <div className="border-b lg:block hidden">
+        <Container>
+          <DesktopMenu />
         </Container>
       </div>
     </header>

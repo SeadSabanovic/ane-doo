@@ -54,6 +54,7 @@ const categories = [
     id: "sezonska",
     name: "Sezonska ponuda",
     image: "https://images.pexels.com/photos/7202775/pexels-photo-7202775.jpeg",
+    link: "/shop/sezonska-ponuda",
   },
 ];
 
