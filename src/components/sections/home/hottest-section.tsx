@@ -9,49 +9,65 @@ export default function HottestSection() {
       id: 1,
       name: "Product 1",
       price: 16.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 2,
       name: "Product 2",
       price: 17.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 3,
       name: "Product 3",
       price: 18.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 4,
       name: "Product 4",
       price: 19.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 5,
       name: "Product 5",
       price: 20.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 6,
       name: "Product 6",
       price: 21.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 7,
       name: "Product 7",
       price: 22.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
     {
       id: 8,
       name: "Product 8",
       price: 23.99,
-      image: "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+      link: "/shop/basic-t-shirt",
+      image:
+        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
     },
   ];
   return (

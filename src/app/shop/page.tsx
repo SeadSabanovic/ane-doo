@@ -3,7 +3,6 @@ import PageHeader from "@/components/layout/page-header";
 import ShopPagination from "@/components/sections/shop/shop-pagination";
 import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ProductCard from "@/components/ui/product-card";
-import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,6 +20,7 @@ export default function ShopPage() {
       price: 29.99,
       image: "/images/product/shirt.png",
       slug: "basic-t-shirt",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 2,
@@ -28,6 +28,7 @@ export default function ShopPage() {
       price: 59.99,
       image: "/images/product/shirt.png",
       slug: "classic-hoodie",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 3,
@@ -35,6 +36,7 @@ export default function ShopPage() {
       price: 89.99,
       image: "/images/product/shirt.png",
       slug: "denim-jacket",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 4,
@@ -42,6 +44,7 @@ export default function ShopPage() {
       price: 79.99,
       image: "/images/product/shirt.png",
       slug: "sport-sneakers",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 5,
@@ -49,6 +52,7 @@ export default function ShopPage() {
       price: 49.99,
       image: "/images/product/shirt.png",
       slug: "casual-pants",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 6,
@@ -56,6 +60,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 7,
@@ -63,6 +68,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 8,
@@ -70,6 +76,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 9,
@@ -77,6 +84,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 10,
@@ -84,6 +92,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 11,
@@ -91,6 +100,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 12,
@@ -98,6 +108,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 13,
@@ -105,6 +116,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 14,
@@ -112,6 +124,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
 
     {
@@ -120,6 +133,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 16,
@@ -127,6 +141,7 @@ export default function ShopPage() {
       price: 69.99,
       image: "/images/product/shirt.png",
       slug: "summer-dress",
+      link: "/shop/basic-t-shirt",
     },
   ];
 
@@ -147,9 +162,7 @@ export default function ShopPage() {
         <div className="flex flex-col gap-8 lg:gap-12 pb-20">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 flex-1">
             {products.map((product) => (
-              <Link key={product.id} href={`/shop/${product.slug}`}>
-                <ProductCard product={product} />
-              </Link>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
 

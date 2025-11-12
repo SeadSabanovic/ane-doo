@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import { menuData } from "./menuData";
+import Container from "../container";
 
 function ListItem({
   title,
@@ -39,41 +40,45 @@ export default function DesktopMenu() {
   const isMobile = useIsMobile();
 
   return (
-    <NavigationMenu viewport={isMobile} className="hidden lg:block">
-      <NavigationMenuList className="">
-        {menuData.map((item) => (
-          <NavigationMenuItem key={item.id}>
-            {item.submenu ? (
-              <>
-                <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[200px] gap-2">
-                    {item.submenu.map((subItem) => (
-                      <ListItem
-                        key={subItem.id}
-                        title={subItem.title}
-                        href={subItem.path}
-                      />
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </>
-            ) : (
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link
-                  href={item.path}
-                  target={item.newTab ? "_blank" : "_self"}
-                >
-                  {item.title}
-                </Link>
-              </NavigationMenuLink>
-            )}
-          </NavigationMenuItem>
-        ))}
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div className="border-b lg:block hidden">
+      <Container>
+        <NavigationMenu viewport={isMobile} className="hidden lg:block">
+          <NavigationMenuList className="">
+            {menuData.map((item) => (
+              <NavigationMenuItem key={item.id}>
+                {item.submenu ? (
+                  <>
+                    <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[200px] gap-2">
+                        {item.submenu.map((subItem) => (
+                          <ListItem
+                            key={subItem.id}
+                            title={subItem.title}
+                            href={subItem.path}
+                          />
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </>
+                ) : (
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link
+                      href={item.path}
+                      target={item.newTab ? "_blank" : "_self"}
+                    >
+                      {item.title}
+                    </Link>
+                  </NavigationMenuLink>
+                )}
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </Container>
+    </div>
   );
 }

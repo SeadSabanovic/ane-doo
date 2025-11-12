@@ -98,7 +98,7 @@ export default function HeroCarousel() {
                     </a>
                   </Button>
                 </div>
-                <div className="relative aspect-video w-full order-1 lg:order-2 lg:aspect-auto overflow-hidden lg:rounded-bl-2xl">
+                <div className="relative aspect-square w-full order-1 lg:order-2 lg:aspect-auto overflow-hidden lg:rounded-bl-2xl">
                   <Image
                     src={slide.image}
                     alt={slide.title}

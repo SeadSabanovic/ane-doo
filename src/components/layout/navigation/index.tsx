@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Container from "../container";
-import { Heart, MenuIcon, Search, ShoppingCart } from "lucide-react";
+import { Heart, Search, ShoppingCart } from "lucide-react";
 import {
   InputGroup,
   InputGroupAddon,
@@ -9,11 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import DesktopMenu from "./desktop-menu";
 import { Badge } from "@/components/ui/badge";
+import MobileMenu from "./mobile-menu";
 
 const Navigation = () => {
   return (
     <header
-      className={`sticky left-0 top-0 w-full z-9999 backdrop-blur-sm bg-background/80 transition-all ease-in-out duration-300`}
+      className={`sticky left-0 top-0 w-full z-50 backdrop-blur-sm bg-background/80 transition-all ease-in-out duration-300`}
     >
       <div className="border-b">
         {/* <!-- header top start --> */}
@@ -46,7 +47,6 @@ const Navigation = () => {
                   </Badge>
                 </Button>
               </Link>
-
               <Link href="/blagajna">
                 <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart size={24} />
@@ -59,19 +59,13 @@ const Navigation = () => {
                 </Button>
               </Link>
 
-              <Button variant="outline" size="icon" className="ml-3 lg:hidden">
-                <MenuIcon />
-              </Button>
+              <MobileMenu />
             </div>
           </div>
-          {/* <!-- header top end --> */}
         </Container>
       </div>
-      <div className="border-b lg:block hidden">
-        <Container>
-          <DesktopMenu />
-        </Container>
-      </div>
+
+      <DesktopMenu />
     </header>
   );
 };
