@@ -1,6 +1,5 @@
 import Container from "@/components/layout/container";
 import { Metadata } from "next";
-import { Users, Target, Award, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "ANE D.O.O. | O Nama",
@@ -20,4 +19,3 @@ export default function AboutPage() {
     </div>
   );
 }
-

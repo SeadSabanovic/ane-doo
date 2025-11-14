@@ -1,16 +1,9 @@
-"use client";
-import * as React from "react";
 import Container from "@/components/layout/container";
-import { ChevronLeft, ChevronRight, Heart, Quote } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Heart, Quote } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Marquee } from "@/components/ui/marquee";
 import SectionBadge from "@/components/ui/section-badge";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -19,7 +12,7 @@ const testimonials = [
     role: "Kupac",
     content:
       "Odlična kvaliteta majica, brza dostava i profesionalna usluga. Preporučujem svima!",
-    rating: 5,
+    img: "https://avatar.vercel.sh/amina",
   },
   {
     id: "testimonial-2",
@@ -27,7 +20,7 @@ const testimonials = [
     role: "Kupac",
     content:
       "Najbolji izbor odjeće u gradu. Cijene su pristupačne, a kvaliteta izvrsna.",
-    rating: 5,
+    img: "https://avatar.vercel.sh/emir",
   },
   {
     id: "testimonial-3",
@@ -35,14 +28,14 @@ const testimonials = [
     role: "Kupac",
     content:
       "Kupujem ovdje već godinama i nikad nisam bila razočarana. Topla preporuka!",
-    rating: 5,
+    img: "https://avatar.vercel.sh/lejla",
   },
   {
     id: "testimonial-4",
     name: "Adnan Hodžić",
     role: "Kupac",
     content: "Odličan odnos cijene i kvalitete. Dostava je uvijek na vrijeme.",
-    rating: 4,
+    img: "https://avatar.vercel.sh/adnan",
   },
   {
     id: "testimonial-5",
@@ -50,7 +43,7 @@ const testimonials = [
     role: "Kupac",
     content:
       "Veliki izbor, ljubazno osoblje i brza usluga. Definitivno ću se vratiti!",
-    rating: 5,
+    img: "https://avatar.vercel.sh/emina",
   },
   {
     id: "testimonial-6",
@@ -58,117 +51,97 @@ const testimonials = [
     role: "Kupac",
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
-    rating: 5,
+    img: "https://avatar.vercel.sh/armin",
+  },
+  {
+    id: "testimonial-7",
+    name: "Armin Bajramović",
+    role: "Kupac",
+    content:
+      "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
+    img: "https://avatar.vercel.sh/armin",
+  },
+  {
+    id: "testimonial-8",
+    name: "Armin Bajramović",
+    role: "Kupac",
+    content:
+      "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
+    img: "https://avatar.vercel.sh/armin",
   },
 ];
 
+const firstRow = testimonials.slice(0, testimonials.length / 2);
+const secondRow = testimonials.slice(testimonials.length / 2);
+
+const ReviewCard = ({
+  img,
+  name,
+  role,
+  content,
+}: {
+  img: string;
+  name: string;
+  role: string;
+  content: string;
+}) => {
+  return (
+    <figure
+      className={cn(
+        "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+        // light styles
+        "border-gray-950/10 bg-gray-950/1 hover:bg-gray-950/5",
+        // dark styles
+        "dark:border-gray-50/10 dark:bg-gray-50/10 dark:hover:bg-gray-50/15"
+      )}
+    >
+      <Quote className="absolute top-2 right-2 size-8 text-gray-200 z-10" />
+      <div className="flex flex-row items-center gap-2 mb-3 relative z-20">
+        <Image
+          className="rounded-full"
+          width={32}
+          height={32}
+          alt={name}
+          src={img}
+          unoptimized
+        />
+        <div className="flex flex-col">
+          <figcaption className="text-sm font-medium dark:text-white">
+            {name}
+          </figcaption>
+          <p className="text-xs font-medium dark:text-white/40">{role}</p>
+        </div>
+      </div>
+      <blockquote className="mt-2 text-sm text-muted-foreground italic">
+        &quot;{content}&quot;
+      </blockquote>
+    </figure>
+  );
+};
+
 export default function Testimonials() {
-  const [api, setApi] = React.useState<CarouselApi>();
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!api) return;
-
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
-
-    const onSelect = () => {
-      setCanScrollPrev(api.canScrollPrev());
-      setCanScrollNext(api.canScrollNext());
-    };
-
-    api.on("select", onSelect);
-    return () => {
-      api.off("select", onSelect);
-    };
-  }, [api]);
-
   return (
     <section className="py-10">
       <Container>
-        <div className="flex items-center justify-between">
+        <div className="mb-8">
           <SectionBadge icon={<Heart />}>Povjerenje</SectionBadge>
-
-          {/* Navigation buttons */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => api?.scrollPrev()}
-              disabled={!canScrollPrev}
-              className="size-10"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => api?.scrollNext()}
-              disabled={!canScrollNext}
-              className="size-10"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-        <h2 className="text-3xl font-bold mt-2">Naši klijenti kažu</h2>
-
-        <div className="mt-8">
-          <Carousel
-            setApi={setApi}
-            className="w-full"
-            opts={{
-              align: "start",
-              slidesToScroll: 1,
-            }}
-          >
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {testimonials.map((testimonial) => (
-                <CarouselItem
-                  key={testimonial.id}
-                  className="pl-2 md:pl-4 lg:basis-1/3 md:basis-1/2 basis-full"
-                >
-                  <div className="relative group rounded-md bg-gray-50 text-card-foreground cursor-pointer p-6 h-full flex flex-col justify-between">
-                    <Quote className="absolute top-2 right-2 size-10 text-gray-200 z-10" />
-                    <div className="flex items-center gap-1 mb-4 z-20">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={`text-lg ${
-                            i < testimonial.rating
-                              ? "text-yellow-400"
-                              : "text-gray-300"
-                          }`}
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className="text-muted-foreground mb-4 italic">
-                      &quot;{testimonial.content}&quot;
-                    </p>
-
-                    <div className="border-t pt-4 flex items-start gap-2">
-                      <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>ANE</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h4 className="font-semibold">{testimonial.name}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+          <h2 className="text-3xl font-bold mt-2">Naši klijenti kažu</h2>
         </div>
       </Container>
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          {firstRow.map((testimonial) => (
+            <ReviewCard key={testimonial.id} {...testimonial} />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:20s]">
+          {secondRow.map((testimonial) => (
+            <ReviewCard key={testimonial.id} {...testimonial} />
+          ))}
+        </Marquee>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+      </div>
     </section>
   );
 }
