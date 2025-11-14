@@ -129,7 +129,7 @@ export default function BrowseSection() {
                       alt={category.name}
                       width={400}
                       height={400}
-                      className="object-cover group-hover:scale-105 transition-all duration-100 absolute top-0 left-0 w-full h-full group-hover:brightness-75"
+                      className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full group-hover:brightness-75"
                     />
                     <SpinningText
                       reverse
