@@ -58,12 +58,12 @@ export const menuData: Array<{
     id: 4,
     title: "O Nama",
     newTab: false,
-    path: "/",
+    path: "/o-nama",
   },
   {
     id: 5,
     title: "Kontakt",
     newTab: false,
-    path: "/",
+    path: "/kontakt",
   },
 ];
