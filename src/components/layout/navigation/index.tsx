@@ -14,7 +14,7 @@ import MobileMenu from "./mobile-menu";
 const Navigation = () => {
   return (
     <header
-      className={`sticky left-0 top-0 w-full z-50 backdrop-blur-sm bg-background/80 transition-all ease-in-out duration-300`}
+      className={`sticky left-0 top-0 w-full z-50 backdrop-blur-sm bg-background/90 transition-all ease-in-out duration-300`}
     >
       <div className="border-b">
         {/* <!-- header top start --> */}

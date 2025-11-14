@@ -8,15 +8,12 @@ import { cn } from "@/lib/utils";
 function NavigationMenu({
   className,
   children,
-  viewport = true,
   ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
-  viewport?: boolean;
-}) {
+}: React.ComponentProps<typeof NavigationMenuPrimitive.Root>) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
-      data-viewport={viewport}
+      data-viewport={false}
       className={cn(
         "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center",
         className
@@ -24,7 +21,6 @@ function NavigationMenu({
       {...props}
     >
       {children}
-      {viewport && <NavigationMenuViewport />}
     </NavigationMenuPrimitive.Root>
   );
 }
@@ -82,11 +78,20 @@ function NavigationMenuTrigger({
   );
 }
 
-function NavigationMenuDecoration() {
+function NavigationMenuDecoration({
+  isActive = false,
+}: {
+  isActive?: boolean;
+}) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute top-0 left-0 h-[2px] w-0 bg-primary transition-all duration-300 group-data-[state=open]:w-full group-hover/navigation-menu-link:w-full group-focus-visible/navigation-menu-link:w-full"
+      className={cn(
+        "pointer-events-none absolute top-0 left-0 h-[2px] bg-primary transition-all duration-300",
+        isActive
+          ? "w-full"
+          : "w-0 group-data-[state=open]:w-full group-hover/navigation-menu-link:w-full group-focus-visible/navigation-menu-link:w-full"
+      )}
     />
   );
 }
@@ -108,32 +113,11 @@ function NavigationMenuContent({
   );
 }
 
-function NavigationMenuViewport({
-  className,
-  ...props
-}: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
-  return (
-    <div
-      className={cn(
-        "absolute top-full left-0 isolate z-50 flex justify-center"
-      )}
-    >
-      <NavigationMenuPrimitive.Viewport
-        data-slot="navigation-menu-viewport"
-        className={cn(
-          "origin-top-center bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border shadow md:w-[var(--radix-navigation-menu-viewport-width)]",
-          className
-        )}
-        {...props}
-      />
-    </div>
-  );
-}
-
 type NavigationMenuLinkProps = React.ComponentProps<
   typeof NavigationMenuPrimitive.Link
 > & {
   decoration?: boolean;
+  isActive?: boolean;
 };
 
 function NavigationMenuLink({
@@ -141,6 +125,7 @@ function NavigationMenuLink({
   children,
   asChild,
   decoration = true,
+  isActive = false,
   ...props
 }: NavigationMenuLinkProps) {
   type ChildWithClassName = {
@@ -171,7 +156,7 @@ function NavigationMenuLink({
           children: decoration ? (
             <>
               {child.props.children}
-              <NavigationMenuDecoration />
+              <NavigationMenuDecoration isActive={isActive} />
             </>
           ) : (
             child.props.children
@@ -193,7 +178,7 @@ function NavigationMenuLink({
       {decoration ? (
         <span className="relative flex flex-col gap-1">
           {children}
-          <NavigationMenuDecoration />
+          <NavigationMenuDecoration isActive={isActive} />
         </span>
       ) : (
         children
@@ -228,7 +213,6 @@ export {
   NavigationMenuTrigger,
   NavigationMenuLink,
   NavigationMenuIndicator,
-  NavigationMenuViewport,
   NavigationMenuDecoration,
   navigationMenuTriggerStyle,
 };

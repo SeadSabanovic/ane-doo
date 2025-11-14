@@ -19,7 +19,7 @@ export default function MobileMenu() {
           <MenuIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right">
+      <SheetContent side="right" className="w-full max-w-full!">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
           <SheetDescription className="sr-only">
