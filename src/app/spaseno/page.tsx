@@ -19,6 +19,7 @@ export default function FavoritesPage() {
       price: 29.99,
       image: "/images/product/shirt.png",
       slug: "basic-t-shirt",
+      link: "/shop/basic-t-shirt",
     },
     {
       id: 3,
@@ -26,6 +27,7 @@ export default function FavoritesPage() {
       price: 89.99,
       image: "/images/product/shirt.png",
       slug: "denim-jacket",
+      link: "/shop/basic-t-shirt",
     },
   ];
 
@@ -61,9 +63,7 @@ export default function FavoritesPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {favorites.map((product) => (
-              <Link key={product.id} href={`/shop/${product.slug}`}>
-                <ProductCard product={product} />
-              </Link>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
