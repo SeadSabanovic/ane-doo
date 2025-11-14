@@ -12,37 +12,38 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import SectionBadge from "@/components/ui/section-badge";
+import { SpinningText } from "@/components/ui/spinning-text";
 
 const categories = [
   {
     id: "majice",
-    name: "Majice",
+    name: "Muška odjeća",
     image: "https://images.pexels.com/photos/8148577/pexels-photo-8148577.jpeg",
   },
   {
     id: "dukserice",
-    name: "Dukserice i Trenerke",
+    name: "Ženska odjeća",
     image: "https://images.pexels.com/photos/9594667/pexels-photo-9594667.jpeg",
   },
   {
     id: "donji-ves",
-    name: "Donji veš",
+    name: "Dječija odjeća",
     image: "https://images.pexels.com/photos/6303689/pexels-photo-6303689.jpeg",
   },
   {
     id: "carape",
-    name: "Čarape",
+    name: "Sportska odjeća",
     image:
       "https://images.pexels.com/photos/10557900/pexels-photo-10557900.jpeg",
   },
   {
     id: "haljine",
-    name: "Haljine i Tunike",
+    name: "Pidžame",
     image: "https://images.pexels.com/photos/8274720/pexels-photo-8274720.jpeg",
   },
   {
     id: "pidzame",
-    name: "Pidžame i Spavaćice",
+    name: "Spavaćice",
     image: "https://images.pexels.com/photos/9788969/pexels-photo-9788969.jpeg",
   },
   {
@@ -128,12 +129,17 @@ export default function BrowseSection() {
                       alt={category.name}
                       width={400}
                       height={400}
-                      className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
+                      className="object-cover group-hover:scale-105 transition-all duration-100 absolute top-0 left-0 w-full h-full group-hover:brightness-75"
                     />
+                    <SpinningText
+                      reverse
+                      className="text-3xl font-bold uppercase text-white"
+                      duration={100}
+                      radius={5}
+                    >
+                      {category.name}
+                    </SpinningText>
                   </div>
-                  <h4 className="text-2xl font-medium mt-4 text-center">
-                    {category.name}
-                  </h4>
                 </CarouselItem>
               ))}
             </CarouselContent>
