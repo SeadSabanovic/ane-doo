@@ -19,8 +19,7 @@ const slides = [
     title: "Muška majica",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-    image:
-      "https://images.pexels.com/photos/8217431/pexels-photo-8217431.jpeg?_gl=1*236mpj*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIyNDU2NTAkbzEkZzEkdDE3NjIyNDYwMjkkajU5JGwwJGgw",
+    image: "https://images.pexels.com/photos/4407265/pexels-photo-4407265.jpeg",
     ctaHref: "/shop",
   },
   {
@@ -29,7 +28,7 @@ const slides = [
     title: "Ženska majica",
     description: "Ograničena ponuda na najnoviji model.",
     image:
-      "https://images.pexels.com/photos/8217313/pexels-photo-8217313.jpeg?_gl=1*8sy20t*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIyNDU2NTAkbzEkZzEkdDE3NjIyNDcyNDkkajU5JGwwJGgw",
+      "https://images.pexels.com/photos/17919087/pexels-photo-17919087.jpeg",
     ctaHref: "/shop",
   },
   {
@@ -38,7 +37,7 @@ const slides = [
     title: "Dječija majica",
     description: "Udobne i kvalitetne majice za najmlađe.",
     image:
-      "https://images.pexels.com/photos/7330645/pexels-photo-7330645.jpeg?_gl=1*uz1z7w*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIyNDU2NTAkbzEkZzEkdDE3NjIyNDczMzgkajU5JGwwJGgw",
+      "https://images.pexels.com/photos/33665695/pexels-photo-33665695.jpeg",
     ctaHref: "/shop",
   },
 ];
@@ -73,18 +72,18 @@ export default function HeroCarousel() {
         <CarouselContent className="h-full">
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="h-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full pb-12 relative">
-                <div className="order-2 lg:order-1 flex flex-col justify-between lg:justify-center items-center lg:items-start min-h-full p-6 pb-0">
-                  {slide.discount && (
-                    <Badge className="z-10 lg:left-unset right-2 absolute top-2 border-transparent bg-linear-to-r from-primary to-pink-500 bg-size-[105%] bg-center text-white font-black text-2xl rounded-sm">
-                      -{slide.discount}
-                    </Badge>
-                  )}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full w-full relative min-h-[70svh] md:min-h-0 md:aspect-3/4 lg:aspect-video overflow-hidden">
+                {slide.discount && (
+                  <Badge className="z-10 lg:left-unset right-2 absolute top-2 border-transparent bg-accent text-accent-foreground font-black text-2xl rounded-sm">
+                    -{slide.discount}
+                  </Badge>
+                )}
+                <div className="order-2 lg:order-1 flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 backdrop-blur-sm py-12 h-fit mt-auto lg:rounded-tr-lg">
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left">
+                    <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background">
                       {slide.title}
                     </h2>
-                    <p className="mt-2 text-muted-foreground text-center lg:text-left">
+                    <p className="mt-2 text-card text-center lg:text-left text-lg">
                       {slide.description}
                     </p>
                   </div>
@@ -98,16 +97,15 @@ export default function HeroCarousel() {
                     </a>
                   </Button>
                 </div>
-                <div className="relative aspect-square w-full order-1 lg:order-2 lg:aspect-auto overflow-hidden lg:rounded-bl-2xl">
-                  <Image
-                    src={slide.image}
-                    alt={slide.title}
-                    width={800}
-                    height={800}
-                    className="object-cover absolute top-0 left-0 w-full h-full"
-                    priority
-                  />
-                </div>
+
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  width={1200}
+                  height={900}
+                  className="object-cover absolute top-0 left-0 w-full h-full -z-10"
+                  priority
+                />
               </div>
             </CarouselItem>
           ))}

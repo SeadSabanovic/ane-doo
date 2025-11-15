@@ -104,7 +104,7 @@ export default function DesktopMenu() {
 
         <Link href="/shop" className="font-medium flex gap-3">
           Najprodavanije
-          <Badge>AKCIJA</Badge>
+          <Badge className="bg-accent text-accent-foreground">AKCIJA</Badge>
         </Link>
       </Container>
     </div>

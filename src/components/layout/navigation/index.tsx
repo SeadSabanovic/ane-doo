@@ -19,14 +19,14 @@ const Navigation = () => {
       <div className="border-b">
         {/* <!-- header top start --> */}
         <Container className="py-4">
-          <div className={`flex gap-5 items-center justify-between`}>
+          <div className={`flex gap-5 items-center justify-between relative`}>
             {/* <!-- header top left / Logo --> */}
-            <Link className="shrink-0 text-2xl font-bold" href="/">
-              ANE
+            <Link className="shrink-0 text-2xl font-bold text-primary" href="/">
+              ANE DOO
             </Link>
 
             {/* <!-- header search --> */}
-            <InputGroup className="bg-background/50 max-w-md hidden lg:flex">
+            <InputGroup className="bg-background max-w-md hidden lg:flex absolute left-1/2 -translate-x-1/2">
               <InputGroupInput placeholder="Pretraga..." />
               <InputGroupAddon>
                 <Search />
@@ -41,7 +41,7 @@ const Navigation = () => {
                   <Heart className="text-destructive" />
                   <Badge
                     variant="outline"
-                    className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-white animate-bounce duration-700"
+                    className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background animate-bounce duration-700"
                   >
                     8
                   </Badge>
@@ -52,7 +52,7 @@ const Navigation = () => {
                   <ShoppingCart size={24} />
                   <Badge
                     variant="outline"
-                    className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-white animate-bounce duration-700"
+                    className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background animate-bounce duration-700"
                   >
                     8
                   </Badge>

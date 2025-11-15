@@ -87,7 +87,7 @@ function NavigationMenuDecoration({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute top-0 left-0 h-[2px] bg-primary transition-all duration-300",
+        "pointer-events-none absolute top-0 left-0 h-[2px] bg-accent transition-all duration-200",
         isActive
           ? "w-full"
           : "w-0 group-data-[state=open]:w-full group-hover/navigation-menu-link:w-full group-focus-visible/navigation-menu-link:w-full"
