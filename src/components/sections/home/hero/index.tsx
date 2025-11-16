@@ -4,7 +4,7 @@ import HeroFeature from "./hero-feature";
 
 export default function HeroSection() {
   return (
-    <section className="bg-muted/40 pt-10">
+    <section className="bg-muted/50 pt-10">
       <Container className="grid grid-cols-1 mb-10">
         <HeroCarousel />
       </Container>

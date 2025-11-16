@@ -16,16 +16,17 @@ const slides = [
   {
     id: "mens-shirt",
     discount: "30%",
-    title: "Muška majica",
+    title: "Muške majice",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
-    image: "https://images.pexels.com/photos/4407265/pexels-photo-4407265.jpeg",
+    image:
+      "https://images.pexels.com/photos/4066296/pexels-photo-4066296.jpeg?_gl=1*1et4hmy*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjMzMjUxNzEkbzEkZzEkdDE3NjMzMjU4MTUkajUyJGwwJGgw",
     ctaHref: "/shop",
   },
   {
     id: "womens-shirt",
     discount: "20%",
-    title: "Ženska majica",
+    title: "Ženske majice",
     description: "Ograničena ponuda na najnoviji model.",
     image:
       "https://images.pexels.com/photos/17919087/pexels-photo-17919087.jpeg",
@@ -34,7 +35,7 @@ const slides = [
   {
     id: "kids-shirt",
     discount: "15%",
-    title: "Dječija majica",
+    title: "Dječje majice",
     description: "Udobne i kvalitetne majice za najmlađe.",
     image:
       "https://images.pexels.com/photos/33665695/pexels-photo-33665695.jpeg",
@@ -115,10 +116,13 @@ export default function HeroCarousel() {
         {Array.from({ length: count || slides.length }).map((_, index) => (
           <button
             key={index}
-            onClick={() => api?.scrollTo(index)}
+            onClick={() => {
+              api?.scrollTo(index);
+              plugin.current.reset();
+            }}
             aria-label={`Go to slide ${index + 1}`}
-            className={`h-3 w-6 rounded-full border-2 border-primary/50 transition-all cursor-pointer ${
-              current === index + 1 ? "border-primary w-10 bg-primary/50" : null
+            className={`h-3 w-3 rounded-full border-2 border-accent transition-all cursor-pointer shadow-sm ${
+              current === index + 1 ? "border-accent w-10 bg-accent" : null
             }`}
           />
         ))}
