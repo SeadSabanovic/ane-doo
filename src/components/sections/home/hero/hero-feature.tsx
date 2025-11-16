@@ -1,7 +1,12 @@
 import Container from "@/components/layout/container";
-import { BadgeCheck, Tag, Truck } from "lucide-react";
+import { Award, BadgeCheck, Boxes, Store, Tag, Truck } from "lucide-react";
 
 const featureData = [
+  {
+    icon: <Store />,
+    title: "Veleprodaja i maloprodaja",
+    description: "Mogućnost kupovine manjih količina",
+  },
   {
     icon: <Tag />,
     title: "Veliki izbor artikala",
@@ -17,21 +22,36 @@ const featureData = [
     title: "Provjeren kvalitet",
     description: "Saradnja sa dugogodišnjim dobavljačima",
   },
+  {
+    icon: <Award />,
+    title: "20+ godina tradicije",
+    description: "Porodična firma sa dugogodišnjim povjerenjem",
+  },
+  {
+    icon: <Boxes />,
+    title: "Uvijek dostupna roba",
+    description: "Stalan lager najtraženijih artikala",
+  },
 ];
 
 const HeroFeature = () => {
   return (
-    <Container className="">
-      <div className="flex flex-wrap items-center justify-center gap-8 py-10 bg-card rounded-t-md px-4">
+    <Container>
+      <div className="rounded-t-md grid sm:grid-cols-2 lg:grid-cols-3 mx-auto overflow-hidden bg-primary py-10">
         {featureData.map((item, key) => (
-          <div className="flex items-center gap-4 flex-col xl:flex-1" key={key}>
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+          <div
+            className={"flex items-center gap-4 flex-col xl:flex-1 py-6 px-5"}
+            key={key}
+          >
+            <div className="size-10 bg-accent/10 rounded-full flex items-center justify-center text-accent">
               {item.icon && item.icon}
             </div>
 
             <div className="text-center">
-              <h3 className="font-medium text-lg text-dark">{item.title}</h3>
-              <p className="text-md">{item.description}</p>
+              <h3 className="font-bold text-lg text-background">
+                {item.title}
+              </h3>
+              <p className="text-md text-muted">{item.description}</p>
             </div>
           </div>
         ))}
