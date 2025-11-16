@@ -72,82 +72,94 @@ export default function BrowseSection() {
       setCanScrollNext(api.canScrollNext());
     };
 
+    // Initialize immediately
+    onSelect();
+
+    // Listen for changes
     api.on("select", onSelect);
+    api.on("reInit", onSelect);
+
     return () => {
       api.off("select", onSelect);
+      api.off("reInit", onSelect);
     };
   }, [api]);
 
   return (
-    <section className="pt-20">
-      <Container>
-        <div className="flex items-center justify-between">
-          <SectionBadge icon={<Tags />}>Kategorije</SectionBadge>
+    <section className="py-20">
+      <Container className="relative">
+        <SectionBadge icon={<Tags />}>Kategorije</SectionBadge>
+        <h2 className="text-3xl text-primary font-bold mt-2">
+          Artikli po kategorijama
+        </h2>
 
-          {/* Navigation buttons */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => api?.scrollPrev()}
-              disabled={!canScrollPrev}
-              className="size-10"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => api?.scrollNext()}
-              disabled={!canScrollNext}
-              className="size-10"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-        <h2 className="text-3xl font-bold mt-2">Artikli po kategorijama</h2>
-
-        <div className="mt-20">
-          <Carousel
-            setApi={setApi}
-            className="w-full"
-            opts={{
-              align: "start",
-              slidesToScroll: 1,
-            }}
+        {/* Navigation buttons */}
+        <div className="flex items-center gap-2 absolute top-0 right-0">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => api?.scrollPrev()}
+            disabled={!canScrollPrev}
+            className="size-10"
           >
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {categories.map((category) => (
-                <CarouselItem
-                  key={category.id}
-                  className="pl-2 md:pl-4 lg:basis-1/6 md:basis-1/3 basis-1/2"
-                >
-                  <div className="group rounded-full bg-gray-50 relative aspect-square cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      width={400}
-                      height={400}
-                      className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full group-hover:brightness-75"
-                    />
-                    <SpinningText
-                      reverse
-                      className="text-3xl font-bold uppercase text-white"
-                      duration={100}
-                      radius={5}
-                    >
-                      {category.name}
-                    </SpinningText>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => api?.scrollNext()}
+            disabled={!canScrollNext}
+            className="size-10"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
 
-        <Separator className="mt-24" />
+        <Separator className="mt-10" />
       </Container>
+
+      <div className="mt-10 relative">
+        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+        <Carousel
+          setApi={setApi}
+          className="w-full"
+          opts={{
+            align: "center",
+            slidesToScroll: 1,
+            loop: true,
+            dragFree: true,
+          }}
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {categories.map((category) => (
+              <CarouselItem
+                key={category.id}
+                className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
+              >
+                <div className="group rounded-full bg-gray-50 relative aspect-square cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    width={400}
+                    height={400}
+                    className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
+                  />
+                  <SpinningText
+                    reverse
+                    className="text-3xl font-bold uppercase text-white"
+                    duration={100}
+                    radius={5}
+                  >
+                    {category.name}
+                  </SpinningText>
+                  <div className="absolute top-0 left-0 w-full h-full bg-secondary/50" />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
     </section>
   );
 }
