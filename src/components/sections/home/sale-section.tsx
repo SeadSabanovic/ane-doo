@@ -9,7 +9,7 @@ export default function SaleSection() {
     <section className="py-10">
       <Container className="grid gap-6 lg:grid-cols-2">
         <div className="flex flex-col gap-2 justify-center items-center text-center lg:text-left lg:items-start">
-          <SectionBadge icon={<Percent />}>Akcija</SectionBadge>
+          <SectionBadge icon={<Percent size={18} />}>Akcija</SectionBadge>
           <h2 className="text-6xl font-bold">Sezonska ponuda</h2>
           <p className="text-muted-foreground mt-2">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,

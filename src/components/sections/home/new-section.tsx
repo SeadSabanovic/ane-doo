@@ -75,7 +75,7 @@ export default function NewSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge icon={<Sparkles />}>Novo</SectionBadge>
+        <SectionBadge icon={<Sparkles size={18} />}>Novo</SectionBadge>
         <h2 className="text-3xl font-bold mt-2">U ponudi</h2>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">

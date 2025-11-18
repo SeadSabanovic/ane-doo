@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Container from "@/components/layout/container";
 import { Tags, ChevronLeft, ChevronRight } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -63,6 +64,9 @@ export default function BrowseSection() {
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: false })
+  );
 
   useEffect(() => {
     if (!api) return;
@@ -87,40 +91,48 @@ export default function BrowseSection() {
 
   return (
     <section className="py-20">
-      <Container className="relative">
-        <SectionBadge icon={<Tags />}>Kategorije</SectionBadge>
-        <h2 className="text-3xl text-primary font-bold mt-2">
-          Artikli po kategorijama
-        </h2>
+      <Container>
+        <div className="relative">
+          <SectionBadge icon={<Tags size={18} />}>Kategorije</SectionBadge>
+          <h2 className="text-3xl lg:text-4xl font-bold mt-2">
+            Artikli po kategorijama
+          </h2>
 
-        {/* Navigation buttons */}
-        <div className="flex items-center gap-2 absolute top-0 right-0">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => api?.scrollPrev()}
-            disabled={!canScrollPrev}
-            className="size-10"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => api?.scrollNext()}
-            disabled={!canScrollNext}
-            className="size-10"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+          {/* Navigation buttons */}
+          <div className="flex items-center gap-2 absolute top-0 right-0">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                api?.scrollPrev();
+                plugin.current.reset();
+              }}
+              disabled={!canScrollPrev}
+              className="size-10"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                api?.scrollNext();
+                plugin.current.reset();
+              }}
+              disabled={!canScrollNext}
+              className="size-10"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         <Separator className="mt-10" />
       </Container>
 
       <div className="mt-10 relative">
-        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background"></div>
+        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background"></div>
         <Carousel
           setApi={setApi}
           className="w-full"
@@ -130,6 +142,7 @@ export default function BrowseSection() {
             loop: true,
             dragFree: true,
           }}
+          plugins={[plugin.current]}
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {categories.map((category) => (
