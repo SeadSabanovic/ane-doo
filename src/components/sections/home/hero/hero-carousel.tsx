@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import Container from "@/components/layout/container";
+import AnimatedImage from "@/components/ui/animated-image";
 
 const slides = [
   {
@@ -65,7 +66,7 @@ export default function HeroCarousel() {
 
   return (
     <Container className="grid grid-cols-1 mb-10">
-      <div className="bg-background rounded-md overflow-hidden relative lg:min-h-[50svh] xl:min-h-[60svh] max-h-[70svh]">
+      <div className="bg-muted/20 rounded-md overflow-hidden relative lg:min-h-[50svh] xl:min-h-[60svh] max-h-[70svh]">
         <Carousel
           className="h-full"
           setApi={setApi}
@@ -101,7 +102,7 @@ export default function HeroCarousel() {
                     </Button>
                   </div>
 
-                  <Image
+                  <AnimatedImage
                     src={slide.image}
                     alt={slide.title}
                     width={1200}

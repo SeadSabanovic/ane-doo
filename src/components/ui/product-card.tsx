@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { Heart } from "lucide-react";
 import { Badge } from "./badge";
 import Link from "next/link";
+import AnimatedImage from "./animated-image";
 
 interface Product {
   id: number;
@@ -19,7 +19,7 @@ export default function ProductCard({ product }: { product: Product }) {
         href={product.link ? product.link : "#"}
         className="group rounded-md bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden"
       >
-        <Image
+        <AnimatedImage
           src={product.image}
           alt={product.name}
           width={400}
