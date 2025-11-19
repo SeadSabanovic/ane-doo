@@ -73,8 +73,12 @@ export default function HottestSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge icon={<Flame size={18} />}>Najprodavanije</SectionBadge>
-        <h2 className="text-3xl font-bold mt-2">Ovog mjeseca</h2>
+        <SectionBadge icon={<Flame size={18} />} className="mx-auto md:mx-0">
+          Najtraženije
+        </SectionBadge>
+        <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
+          Najbolje iz ponude
+        </h2>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
           {products.map((product) => (

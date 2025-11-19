@@ -75,8 +75,12 @@ export default function NewSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge icon={<Sparkles size={18} />}>Novo</SectionBadge>
-        <h2 className="text-3xl font-bold mt-2">U ponudi</h2>
+        <SectionBadge icon={<Sparkles size={18} />} className="mx-auto md:mx-0">
+          Nedavno dodano
+        </SectionBadge>
+        <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
+          Nova kolekcija
+        </h2>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
           {products.map((product) => (
