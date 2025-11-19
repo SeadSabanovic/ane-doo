@@ -17,7 +17,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <div className="group relative flex flex-col">
       <Link
         href={product.link ? product.link : "#"}
-        className="group rounded-md bg-gray-50 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden"
+        className="group rounded-md bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden"
       >
         <Image
           src={product.image}
@@ -28,7 +28,7 @@ export default function ProductCard({ product }: { product: Product }) {
         />
       </Link>
 
-      <div className="group/heart absolute top-2 right-2 z-20 p-3 bg-black/10 rounded-full cursor-pointer hover:bg-destructive/10">
+      <div className="group/heart absolute backdrop-blur-sm top-2 right-2 z-20 p-3 bg-muted/20 rounded-full cursor-pointer hover:bg-destructive/20">
         <Heart
           className="text-white group-hover/heart:text-destructive"
           size={16}
@@ -38,7 +38,7 @@ export default function ProductCard({ product }: { product: Product }) {
       {product.badge && (
         <Badge
           variant="outline"
-          className="absolute top-2 left-2 z-20 bg-white"
+          className="absolute top-2 left-2 z-20 bg-background"
         >
           {product.badge}
         </Badge>

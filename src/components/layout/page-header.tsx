@@ -1,4 +1,4 @@
-import React from "react";
+import { Fragment } from "react";
 import Link from "next/link";
 import {
   Breadcrumb,
@@ -37,7 +37,7 @@ export default function PageHeader({
           <Breadcrumb>
             <BreadcrumbList>
               {breadcrumbItems.map((item, index) => (
-                <React.Fragment key={index}>
+                <Fragment key={index}>
                   <BreadcrumbItem className="text-lg">
                     {index === breadcrumbItems.length - 1 ? (
                       <BreadcrumbPage className="text-accent">
@@ -55,7 +55,7 @@ export default function PageHeader({
                   {index < breadcrumbItems.length - 1 && (
                     <BreadcrumbSeparator />
                   )}
-                </React.Fragment>
+                </Fragment>
               ))}
             </BreadcrumbList>
           </Breadcrumb>

@@ -3,6 +3,7 @@ import ProductCard from "@/components/ui/product-card";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { Metadata } from "next";
+import PageHeader from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: "ANE D.O.O. | Spašeni proizvodi",
@@ -32,18 +33,16 @@ export default function FavoritesPage() {
   ];
 
   return (
-    <div className="py-12">
-      <Container>
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Heart className="w-8 h-8" />
-            <h1 className="text-4xl font-bold">Spašeni proizvodi</h1>
-          </div>
-          <p className="text-muted-foreground">
-            Vaši omiljeni proizvodi na jednom mjestu
-          </p>
-        </div>
-
+    <>
+      <PageHeader
+        title="Spašeni proizvodi"
+        description="Vaši omiljeni proizvodi na jednom mjestu"
+        breadcrumbItems={[
+          { label: "Početna", href: "/" },
+          { label: "Spašeni proizvodi", href: "/spaseno" },
+        ]}
+      />
+      <Container className="pb-20">
         {favorites.length === 0 ? (
           <div className="text-center py-12">
             <Heart className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
@@ -68,6 +67,6 @@ export default function FavoritesPage() {
           </div>
         )}
       </Container>
-    </div>
+    </>
   );
 }
