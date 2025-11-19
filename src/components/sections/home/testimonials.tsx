@@ -88,14 +88,12 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+        "relative h-full w-64 cursor-pointer overflow-hidden rounded-md p-4 transition",
         // light styles
-        "border-gray-950/10 bg-gray-950/1 hover:bg-gray-950/5",
-        // dark styles
-        "dark:border-gray-50/10 dark:bg-gray-50/10 dark:hover:bg-gray-50/15"
+        "bg-secondary/10 hover:bg-secondary/20"
       )}
     >
-      <Quote className="absolute top-2 right-2 size-8 text-gray-200 z-10" />
+      <Quote className="absolute top-2 right-2 size-8 text-secondary-muted/50 z-10" />
       <div className="flex flex-row items-center gap-2 mb-3 relative z-20">
         <Image
           className="rounded-full"
@@ -106,10 +104,9 @@ const ReviewCard = ({
           unoptimized
         />
         <div className="flex flex-col">
-          <figcaption className="text-sm font-medium dark:text-white">
+          <figcaption className="text-sm font-medium text-secondary-foreground">
             {name}
           </figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{role}</p>
         </div>
       </div>
       <blockquote className="mt-2 text-sm text-muted-foreground italic">
@@ -125,10 +122,10 @@ export default function Testimonials() {
       <Container>
         <div className="mb-8">
           <SectionBadge icon={<Heart size={18} />}>Povjerenje</SectionBadge>
-          <h2 className="text-3xl font-bold mt-2">Naši klijenti kažu</h2>
+          <h2 className="text-3xl font-bold mt-4">Naši klijenti kažu</h2>
         </div>
       </Container>
-      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg">
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
         <Marquee pauseOnHover className="[--duration:20s]">
           {firstRow.map((testimonial) => (
             <ReviewCard key={testimonial.id} {...testimonial} />
@@ -139,8 +136,8 @@ export default function Testimonials() {
             <ReviewCard key={testimonial.id} {...testimonial} />
           ))}
         </Marquee>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background"></div>
       </div>
     </section>
   );
