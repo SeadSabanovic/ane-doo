@@ -9,7 +9,7 @@ const testimonials = [
   {
     id: "testimonial-1",
     name: "Amina Hadžić",
-    role: "Kupac",
+
     content:
       "Odlična kvaliteta majica, brza dostava i profesionalna usluga. Preporučujem svima!",
     img: "https://avatar.vercel.sh/amina",
@@ -17,7 +17,7 @@ const testimonials = [
   {
     id: "testimonial-2",
     name: "Emir Kovačević",
-    role: "Kupac",
+
     content:
       "Najbolji izbor odjeće u gradu. Cijene su pristupačne, a kvaliteta izvrsna.",
     img: "https://avatar.vercel.sh/emir",
@@ -25,7 +25,7 @@ const testimonials = [
   {
     id: "testimonial-3",
     name: "Lejla Smajić",
-    role: "Kupac",
+
     content:
       "Kupujem ovdje već godinama i nikad nisam bila razočarana. Topla preporuka!",
     img: "https://avatar.vercel.sh/lejla",
@@ -33,14 +33,14 @@ const testimonials = [
   {
     id: "testimonial-4",
     name: "Adnan Hodžić",
-    role: "Kupac",
+
     content: "Odličan odnos cijene i kvalitete. Dostava je uvijek na vrijeme.",
     img: "https://avatar.vercel.sh/adnan",
   },
   {
     id: "testimonial-5",
     name: "Emina Dervišević",
-    role: "Kupac",
+
     content:
       "Veliki izbor, ljubazno osoblje i brza usluga. Definitivno ću se vratiti!",
     img: "https://avatar.vercel.sh/emina",
@@ -48,7 +48,7 @@ const testimonials = [
   {
     id: "testimonial-6",
     name: "Armin Bajramović",
-    role: "Kupac",
+
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
     img: "https://avatar.vercel.sh/armin",
@@ -56,7 +56,7 @@ const testimonials = [
   {
     id: "testimonial-7",
     name: "Armin Bajramović",
-    role: "Kupac",
+
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
     img: "https://avatar.vercel.sh/armin",
@@ -64,7 +64,7 @@ const testimonials = [
   {
     id: "testimonial-8",
     name: "Armin Bajramović",
-    role: "Kupac",
+
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
     img: "https://avatar.vercel.sh/armin",
@@ -77,12 +77,10 @@ const secondRow = testimonials.slice(testimonials.length / 2);
 const ReviewCard = ({
   img,
   name,
-  role,
   content,
 }: {
   img: string;
   name: string;
-  role: string;
   content: string;
 }) => {
   return (
@@ -118,11 +116,11 @@ const ReviewCard = ({
 
 export default function Testimonials() {
   return (
-    <section className="py-10">
+    <section className="py-20">
       <Container>
         <div className="mb-8">
           <SectionBadge icon={<Heart size={18} />}>Povjerenje</SectionBadge>
-          <h2 className="text-3xl font-bold mt-4">Naši klijenti kažu</h2>
+          <h2 className="text-3xl font-bold mt-4">Naši klijenti kažu...</h2>
         </div>
       </Container>
       <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
