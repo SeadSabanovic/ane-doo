@@ -15,14 +15,14 @@ import { Badge } from "../../ui/badge";
 
 export default function ShopSidebar() {
   return (
-    <aside className="w-full max-w-[270px] space-y-3 hidden lg:block">
+    <aside className="w-full max-w-[270px] space-y-3 hidden lg:block sticky top-20">
       <div className="flex items-center gap-2">
         <ArrowDown01 size={20} />
         <h4 className="text-lg font-bold">Sortiraj:</h4>
       </div>
 
       {/* Sortiranje */}
-      <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-md">
+      <div className="flex flex-col gap-4 bg-muted/20 p-4 rounded-md">
         <RadioGroup defaultValue="popular">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ export default function ShopSidebar() {
             <ChevronDownIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
           </Button>
         </CollapsibleTrigger>
-        <CollapsibleContent className="flex flex-col gap-2 bg-gray-50 p-4 rounded-md">
+        <CollapsibleContent className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Checkbox id="category-men" />
@@ -101,7 +101,7 @@ export default function ShopSidebar() {
                 Muška odjeća
               </Label>
             </div>
-            <Badge variant="outline" className="bg-white">
+            <Badge variant="outline" className="bg-background">
               12
             </Badge>
           </div>
@@ -115,7 +115,7 @@ export default function ShopSidebar() {
                 Ženska odjeća
               </Label>
             </div>
-            <Badge variant="outline" className="bg-white">
+            <Badge variant="outline" className="bg-background">
               18
             </Badge>
           </div>
@@ -129,7 +129,7 @@ export default function ShopSidebar() {
                 Dječija odjeća
               </Label>
             </div>
-            <Badge variant="outline" className="bg-white">
+            <Badge variant="outline" className="bg-background">
               25
             </Badge>
           </div>
@@ -143,7 +143,7 @@ export default function ShopSidebar() {
                 Obuća
               </Label>
             </div>
-            <Badge variant="outline" className="bg-white">
+            <Badge variant="outline" className="bg-background">
               8
             </Badge>
           </div>
@@ -157,7 +157,7 @@ export default function ShopSidebar() {
                 Dodaci
               </Label>
             </div>
-            <Badge variant="outline" className="bg-white">
+            <Badge variant="outline" className="bg-background">
               15
             </Badge>
           </div>
@@ -175,7 +175,7 @@ export default function ShopSidebar() {
             <ChevronDownIcon className="text-muted-foreground size-4 transition-transform group-data-[state=open]:rotate-180" />
           </Button>
         </CollapsibleTrigger>
-        <CollapsibleContent className="flex flex-col gap-2 bg-gray-50 p-4 rounded-md">
+        <CollapsibleContent className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
           <CostSlider />
         </CollapsibleContent>
       </Collapsible>

@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
+import PageHeader from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: "Blagajna",
@@ -43,12 +44,12 @@ export default function CheckoutPage() {
   const total = subtotal + shipping;
 
   return (
-    <div className="py-12">
-      <Container>
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Blagajna</h1>
-          <p className="text-muted-foreground">Završite vašu narudžbu</p>
-        </div>
+    <>
+      <PageHeader
+        title="Blagajna"
+        description="Završite vašu narudžbu"
+      />
+      <Container className="pb-20">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
@@ -214,6 +215,6 @@ export default function CheckoutPage() {
           </div>
         </div>
       </Container>
-    </div>
+    </>
   );
 }
