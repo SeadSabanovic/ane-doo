@@ -93,13 +93,13 @@ export default function BrowseSection() {
     <section className="py-20">
       <Container>
         <div className="relative">
-          <SectionBadge icon={<Tags size={18} />}>Kategorije</SectionBadge>
-          <h2 className="text-3xl lg:text-4xl font-bold mt-2">
+          <SectionBadge icon={<Tags size={18} />} className="mx-auto md:mx-0">Kategorije</SectionBadge>
+          <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
             Artikli po kategorijama
           </h2>
 
           {/* Navigation buttons */}
-          <div className="flex items-center gap-2 absolute top-0 right-0">
+          <div className="items-center gap-2 absolute top-0 right-0 hidden md:flex">
             <Button
               variant="outline"
               size="icon"
@@ -150,7 +150,7 @@ export default function BrowseSection() {
                 key={category.id}
                 className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
               >
-                <div className="group rounded-full bg-gray-50 relative aspect-square cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                <div className="group rounded-full bg-muted relative aspect-square cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -160,7 +160,7 @@ export default function BrowseSection() {
                   />
                   <SpinningText
                     reverse
-                    className="text-3xl font-bold uppercase text-white"
+                    className="text-3xl font-bold uppercase text-background"
                     duration={100}
                     radius={5}
                   >

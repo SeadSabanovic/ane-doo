@@ -18,7 +18,7 @@ const Navigation = () => {
     >
       <div className="border-b">
         {/* <!-- header top start --> */}
-        <Container className="py-4">
+        <Container className="py-3">
           <div className={`flex gap-5 items-center justify-between relative`}>
             {/* <!-- header top left / Logo --> */}
             <Link className="shrink-0 text-2xl font-bold text-primary" href="/">

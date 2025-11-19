@@ -36,7 +36,7 @@ const slides = [
   {
     id: "kids-shirt",
     discount: "15%",
-    title: "Dječje majice",
+    title: "Dječije majice",
     description: "Udobne i kvalitetne majice za najmlađe.",
     image:
       "https://images.pexels.com/photos/33665695/pexels-photo-33665695.jpeg",
@@ -65,7 +65,7 @@ export default function HeroCarousel() {
 
   return (
     <Container className="grid grid-cols-1 mb-10">
-      <div className="bg-background rounded-md overflow-hidden relative lg:min-h-[50svh] xl:min-h-[60svh]">
+      <div className="bg-background rounded-md overflow-hidden relative lg:min-h-[50svh] xl:min-h-[60svh] max-h-[70svh]">
         <Carousel
           className="h-full"
           setApi={setApi}
@@ -86,7 +86,7 @@ export default function HeroCarousel() {
                       <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background">
                         {slide.title}
                       </h2>
-                      <p className="mt-2 text-card text-center lg:text-left text-lg">
+                      <p className="mt-2 text-card text-center lg:text-left md:text-lg">
                         {slide.description}
                       </p>
                     </div>
