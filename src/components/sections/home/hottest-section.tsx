@@ -11,7 +11,7 @@ export default function HottestSection() {
       price: 16.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/1200x/14/9c/ae/149cae6e91936ab94e122cc1264796b6.jpg",
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ export default function HottestSection() {
       price: 17.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/1200x/ae/f9/fe/aef9fe1869d8098043de2ba7388840eb.jpg",
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ export default function HottestSection() {
       price: 18.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/736x/82/3c/fa/823cfac2a92c5e7c817b82f67dfdc854.jpg",
     },
     {
       id: 4,
@@ -35,7 +35,7 @@ export default function HottestSection() {
       price: 19.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/736x/86/d8/fe/86d8fea39b4ed205de32fd8c45d82c7f.jpg",
     },
     {
       id: 5,
@@ -43,7 +43,7 @@ export default function HottestSection() {
       price: 20.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/1200x/67/e6/e7/67e6e7e4dd988bb2a54cfe976ef356c8.jpg",
     },
     {
       id: 6,
@@ -51,7 +51,7 @@ export default function HottestSection() {
       price: 21.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/736x/3f/35/3c/3f353c38b5567d6a28592dc79efe6e1c.jpg",
     },
     {
       id: 7,
@@ -59,7 +59,7 @@ export default function HottestSection() {
       price: 22.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/1200x/27/4c/fd/274cfd022a45bda18b250c0bd6876630.jpg",
     },
     {
       id: 8,
@@ -67,7 +67,7 @@ export default function HottestSection() {
       price: 23.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://images.pexels.com/photos/9558695/pexels-photo-9558695.jpeg?_gl=1*1ucphhq*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDg1NjYkajU5JGwwJGgw",
+        "https://i.pinimg.com/1200x/05/f0/86/05f086c85e3a9acc032f94c2787927ec.jpg",
     },
   ];
   return (

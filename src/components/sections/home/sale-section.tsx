@@ -19,9 +19,9 @@ export default function SaleSection() {
             Pogledaj <ArrowUpRight />
           </Button>
         </div>
-        <div className="aspect-video overflow-hidden relative rounded-md">
+        <div className="aspect-square overflow-hidden relative rounded-md">
           <Image
-            src="https://images.pexels.com/photos/8532638/pexels-photo-8532638.jpeg?_gl=1*m3qnwv*_ga*MjU2NTE2NTYyLjE3NjIyNDU2NTE.*_ga_8JE65Q40S6*czE3NjIzNDg0MzckbzIkZzEkdDE3NjIzNDk0NDUkajU5JGwwJGgw"
+            src="https://i.pinimg.com/736x/f5/ea/49/f5ea49e3d8958eb88f5f6e8fba99a880.jpg"
             alt="Sale"
             width={1000}
             height={1000}
