@@ -17,11 +17,11 @@ type BreadcrumbItemType = {
 
 export default function PageHeader({
   title,
-  description,
+  description = "",
   breadcrumbItems,
 }: {
   title: string;
-  description: string;
+  description?: string;
   breadcrumbItems?: BreadcrumbItemType[];
 }) {
   return (
@@ -31,7 +31,11 @@ export default function PageHeader({
           <h1 className="font-bold text-3xl lg:text-4xl text-accent">
             {title}
           </h1>
-          <p className="text-lg mt-2 text-primary-foreground">{description}</p>
+          {description && description.length > 0 && (
+            <p className="text-lg mt-2 text-primary-foreground">
+              {description}
+            </p>
+          )}
         </div>
         {breadcrumbItems && breadcrumbItems.length > 0 && (
           <Breadcrumb>

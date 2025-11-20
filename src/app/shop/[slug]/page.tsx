@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import PageHeader from "@/components/layout/page-header";
+import AnimatedImage from "@/components/ui/animated-image";
 
 // Privremeni dummy podaci za proizvode
 const products = [
@@ -10,7 +12,8 @@ const products = [
     id: 1,
     name: "Basic T-Shirt",
     price: 29.99,
-    image: "/images/product/shirt.png",
+    image:
+      "https://i.pinimg.com/736x/cf/d7/09/cfd709e976e33108ea28b93587634b04.jpg",
     slug: "basic-t-shirt",
     description:
       "Udobna pamučna majica savršena za svakodnevno nošenje. Izrađena od visokokvalitetnog materijala.",
@@ -87,21 +90,32 @@ export default async function ProductPage({
   }
 
   return (
-    <div className="py-12">
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <>
+      <PageHeader
+        title={`Detalji proizvoda`}
+        breadcrumbItems={[
+          { label: "Početna", href: "/" },
+          { label: "Shop", href: "/shop" },
+          { label: product.name, href: `/shop/${product.slug}` },
+        ]}
+      />
+
+      <Container className="pb-20">
+        <div className="flex gap-8 flex-col lg:flex-row">
           {/* Product Image */}
-          <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
-            <Image
+          <div className="relative aspect-3/4 rounded-lg overflow-hidden lg:max-w-md flex-1 w-full">
+            <AnimatedImage
               src={product.image}
               alt={product.name}
-              fill
-              className="object-cover"
+              width={1000}
+              height={1000}
+              className="object-cover size-full"
+              priority={true}
             />
           </div>
 
           {/* Product Details */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 flex-1">
             <div>
               <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
               <p className="text-3xl font-semibold text-primary">
@@ -136,13 +150,13 @@ export default async function ProductPage({
             </div>
 
             {/* Add to Cart Button */}
-            <Button size="lg" className="w-full md:w-auto">
+            <Button size="lg" className="w-full md:w-fit">
               Dodaj u korpu
             </Button>
           </div>
         </div>
       </Container>
-    </div>
+    </>
   );
 }
 
