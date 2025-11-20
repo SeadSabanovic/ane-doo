@@ -11,7 +11,7 @@ export default function HottestSection() {
       price: 16.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://i.pinimg.com/1200x/14/9c/ae/149cae6e91936ab94e122cc1264796b6.jpg",
+        "https://i.pinimg.com/1200x/57/de/dd/57dedd3f780ef00be19e543781155b12.jpg",
     },
     {
       id: 2,
@@ -35,7 +35,7 @@ export default function HottestSection() {
       price: 19.99,
       link: "/shop/basic-t-shirt",
       image:
-        "https://i.pinimg.com/736x/86/d8/fe/86d8fea39b4ed205de32fd8c45d82c7f.jpg",
+        "https://i.pinimg.com/1200x/f9/8d/82/f98d82c437fc45edb977be305cf9ec22.jpg",
     },
     {
       id: 5,

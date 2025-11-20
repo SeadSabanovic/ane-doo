@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -18,29 +17,30 @@ const slides = [
   {
     id: "mens-shirt",
     discount: "30%",
-    title: "Muške majice",
+    title: "Pidžame",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.",
+      "Uživajte u udobnosti koja traje cijelu noć. Savršene za mirne večeri i lagana jutra.",
     image:
-      "https://images.pexels.com/photos/4066296/pexels-photo-4066296.jpeg?_gl=1*1et4hmy*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjMzMjUxNzEkbzEkZzEkdDE3NjMzMjU4MTUkajUyJGwwJGgw",
+      "https://images.unsplash.com/photo-1758524942070-77fcc202045d?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ctaHref: "/shop",
   },
   {
     id: "womens-shirt",
     discount: "20%",
-    title: "Ženske majice",
-    description: "Ograničena ponuda na najnoviji model.",
+    title: "Posteljine",
+    description:
+      "Osvježite svoju spavaću sobu kombinacijom modernih dezena i neodoljive udobnosti",
     image:
-      "https://images.pexels.com/photos/17919087/pexels-photo-17919087.jpeg",
+      "https://images.unsplash.com/photo-1567608614543-90a7241db08b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ctaHref: "/shop",
   },
   {
     id: "kids-shirt",
     discount: "15%",
-    title: "Dječije majice",
-    description: "Udobne i kvalitetne majice za najmlađe.",
+    title: "Zima 2025",
+    description: "Dočekajte zimu 2025 uz najmekše komade sezone.",
     image:
-      "https://images.pexels.com/photos/33665695/pexels-photo-33665695.jpeg",
+      "https://images.unsplash.com/photo-1668107423580-513ee6d9fbe2?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ctaHref: "/shop",
   },
 ];
@@ -66,7 +66,7 @@ export default function HeroCarousel() {
 
   return (
     <Container className="grid grid-cols-1 mb-10">
-      <div className="bg-muted/20 rounded-md overflow-hidden relative lg:min-h-[50svh] xl:min-h-[60svh] max-h-[70svh]">
+      <div className="bg-muted/20 rounded-md overflow-hidden relative min-h-[80svh] lg:min-h-[50svh] xl:min-h-[60svh] max-h-[80svh]">
         <Carousel
           className="h-full"
           setApi={setApi}
@@ -82,12 +82,12 @@ export default function HeroCarousel() {
                       -{slide.discount}
                     </Badge>
                   )}
-                  <div className="order-2 lg:order-1 flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 backdrop-blur-sm py-12 h-fit mt-auto lg:rounded-tr-lg">
+                  <div className="order-2 lg:order-1 flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 backdrop-blur-sm py-12 h-fit mt-auto lg:rounded-tr-lg bg-muted/10 border border-muted/20">
                     <div className="flex flex-col gap-2">
-                      <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background">
+                      <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background text-shadow-sm">
                         {slide.title}
                       </h2>
-                      <p className="mt-2 text-card text-center lg:text-left md:text-lg">
+                      <p className="mt-2 text-card text-center text-lg lg:text-left md:text-2xl text-shadow-sm ">
                         {slide.description}
                       </p>
                     </div>
@@ -105,7 +105,7 @@ export default function HeroCarousel() {
                   <AnimatedImage
                     src={slide.image}
                     alt={slide.title}
-                    width={1200}
+                    width={1600}
                     height={900}
                     className="object-cover absolute top-0 left-0 w-full h-full -z-10"
                     priority
