@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
 import Container from "./container";
+import { cn } from "@/lib/utils";
 
 type BreadcrumbItemType = {
   label: string;
@@ -20,17 +21,19 @@ export default function PageHeader({
   description = "",
   breadcrumbItems,
 }: {
-  title: string;
+  title?: string;
   description?: string;
   breadcrumbItems?: BreadcrumbItemType[];
 }) {
   return (
-    <div className="py-8 lg:py-12 border-b mb-20 bg-primary">
+    <div className={cn("py-8 lg:py-12 border-b mb-20 bg-linear-to-r from-primary to-card-foreground", !title && "py-4 lg:py-6")}>
       <Container className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="font-bold text-3xl lg:text-4xl text-accent">
-            {title}
-          </h1>
+          {title && title.length > 0 && (
+            <h1 className="font-bold text-3xl lg:text-4xl text-accent">
+              {title}
+            </h1>
+          )}
           {description && description.length > 0 && (
             <p className="text-lg mt-2 text-primary-foreground">
               {description}
