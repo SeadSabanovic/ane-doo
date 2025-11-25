@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Container from "../container";
 import { Heart, Search, ShoppingCart } from "lucide-react";
 import {
@@ -12,6 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import MobileMenu from "./mobile-menu";
 
 const Navigation = () => {
+  const pathname = usePathname();
+  const isRootRoute = pathname === "/";
   return (
     <header
       className={`sticky left-0 top-0 w-full z-50 backdrop-blur-sm bg-background/90 transition-all ease-in-out duration-300`}
@@ -26,12 +31,14 @@ const Navigation = () => {
             </Link>
 
             {/* <!-- header search --> */}
-            <InputGroup className="bg-background max-w-md hidden lg:flex absolute left-1/2 -translate-x-1/2">
-              <InputGroupInput placeholder="Pretraga..." />
-              <InputGroupAddon>
-                <Search />
-              </InputGroupAddon>
-            </InputGroup>
+            {isRootRoute && (
+              <InputGroup className="bg-background max-w-md hidden lg:flex absolute left-1/2 -translate-x-1/2">
+                <InputGroupInput placeholder="Pretraga..." />
+                <InputGroupAddon>
+                  <Search />
+                </InputGroupAddon>
+              </InputGroup>
+            )}
 
             {/* <!-- header top right --> */}
             <div className="flex items-center gap-3">

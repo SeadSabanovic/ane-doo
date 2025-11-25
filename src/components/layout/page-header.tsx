@@ -40,7 +40,7 @@ export default function PageHeader({
             </h1>
           )}
           {description && description.length > 0 && (
-            <p className="text-lg mt-2 text-primary-foreground">
+            <p className="text-lg mt-2 text-primary-foreground max-w-2xl">
               {description}
             </p>
           )}
