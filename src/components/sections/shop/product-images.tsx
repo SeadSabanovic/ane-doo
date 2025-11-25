@@ -35,6 +35,7 @@ export function ProductImages({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [isClosing, setIsClosing] = useState(false);
   const isModalOpen = selectedIndex !== -1;
 
   // Scroll to selected index when modal opens
@@ -61,7 +62,12 @@ export function ProductImages({
   }, [api]);
 
   const handleClose = useCallback(() => {
-    setSelectedIndex(-1);
+    setIsClosing(true);
+    // Use setTimeout to ensure state update happens before dialog closes
+    setTimeout(() => {
+      setSelectedIndex(-1);
+      setIsClosing(false);
+    }, 0);
   }, []);
 
   useEffect(() => {
@@ -74,6 +80,55 @@ export function ProductImages({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isModalOpen, handleClose]);
+
+  // Disable dialog animations
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const disableAnimations = () => {
+      const dialogContent = document.querySelector(
+        '[data-slot="dialog-content"]'
+      ) as HTMLElement;
+      const dialogOverlay = document.querySelector(
+        '[data-slot="dialog-overlay"]'
+      ) as HTMLElement;
+
+      if (dialogContent) {
+        dialogContent.style.setProperty(
+          "transition-duration",
+          "0ms",
+          "important"
+        );
+        dialogContent.style.setProperty(
+          "animation-duration",
+          "0ms",
+          "important"
+        );
+        dialogContent.style.setProperty("transition", "none", "important");
+        dialogContent.style.setProperty("animation", "none", "important");
+      }
+
+      if (dialogOverlay) {
+        dialogOverlay.style.setProperty(
+          "transition-duration",
+          "0ms",
+          "important"
+        );
+        dialogOverlay.style.setProperty(
+          "animation-duration",
+          "0ms",
+          "important"
+        );
+        dialogOverlay.style.setProperty("transition", "none", "important");
+        dialogOverlay.style.setProperty("animation", "none", "important");
+      }
+    };
+
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      setTimeout(disableAnimations, 0);
+    });
+  }, [isModalOpen]);
 
   return (
     <>
@@ -123,7 +178,7 @@ export function ProductImages({
         onOpenChange={(open) => !open && handleClose()}
       >
         <DialogContent
-          className="p-0 overflow-hidden bg-transparent backdrop-blur-sm border-0 max-w-[unset]! h-screen"
+          className="p-0 overflow-hidden bg-transparent backdrop-blur-sm border-0 max-w-[unset]! h-screen duration-0!"
           showCloseButton={false}
         >
           <DialogTitle className="sr-only">Galerija slika</DialogTitle>
@@ -195,11 +250,13 @@ export function ProductImages({
                   <span className="sr-only">Zatvori</span>
                 </Button>
               </div>
-              <div className="absolute bottom-[5lvh] right-4 pointer-events-none">
-                <div className="rounded-full px-4 py-2 bg-secondary/20 backdrop-blur-sm text-accent text-sm font-medium border border-secondary/40">
-                  {current + 1} / {allImages.length}
+              {!isClosing && (
+                <div className="absolute bottom-[5lvh] right-4 pointer-events-none">
+                  <div className="rounded-full px-4 py-2 bg-secondary/20 backdrop-blur-sm text-accent text-sm font-medium border border-secondary/40">
+                    {current + 1} / {allImages.length}
+                  </div>
                 </div>
-              </div>
+              )}
             </Carousel>
           </div>
         </DialogContent>
