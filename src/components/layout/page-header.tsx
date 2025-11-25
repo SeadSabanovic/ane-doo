@@ -26,7 +26,12 @@ export default function PageHeader({
   breadcrumbItems?: BreadcrumbItemType[];
 }) {
   return (
-    <div className={cn("py-8 lg:py-12 border-b mb-20 bg-linear-to-r from-primary to-card-foreground", !title && "py-4 lg:py-6")}>
+    <div
+      className={cn(
+        "py-8 lg:py-12 border-b mb-20 bg-linear-to-r from-primary to-card-foreground",
+        !title && "py-4 lg:py-6 mb-4 lg:mb-20"
+      )}
+    >
       <Container className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           {title && title.length > 0 && (

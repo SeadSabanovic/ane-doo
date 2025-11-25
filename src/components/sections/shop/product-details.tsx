@@ -75,7 +75,7 @@ export function ProductDetails({
         type="single"
         collapsible
         className="w-full rounded-md border"
-        defaultValue="item-0"
+        defaultValue="item-1"
       >
         {pricingSections.map((section, index) => {
           const isFirst = index === 0;

@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import PageHeader from "@/components/layout/page-header";
 import { ProductImages } from "@/components/sections/shop/product-images";
 import { ProductDetails } from "@/components/sections/shop/product-details";
+import MoreSuggestions from "@/components/sections/shop/more-suggestions";
 
 // Privremeni dummy podaci za proizvode
 const products = [
@@ -95,6 +96,8 @@ export default async function ProductPage({
           />
         </div>
       </Container>
+
+      <MoreSuggestions />
     </>
   );
 }
