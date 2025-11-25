@@ -1,9 +1,17 @@
+"use client";
+
 import { ProductSpecifications } from "./product-specifications";
 import { ProductOptions } from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { Heart, Box, Boxes } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface Specification {
   label: string;
@@ -63,16 +71,62 @@ export function ProductDetails({
 
       <ProductOptions sizes={sizes} colors={colors} />
 
-      {pricingSections.map((section, index) => (
-        <ProductPricingSection
-          key={index}
-          type={section.type}
-          infoText={section.infoText}
-          pricingInfo={section.pricingInfo}
-          pricePerUnit={section.pricePerUnit}
-          onAddToCart={section.onAddToCart}
-        />
-      ))}
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full rounded-md border"
+        defaultValue="item-0"
+      >
+        {pricingSections.map((section, index) => {
+          const isFirst = index === 0;
+          const isLast = index === pricingSections.length - 1;
+
+          return (
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger
+                className={cn(
+                  "px-5",
+                  isFirst && "rounded-t-md",
+                  isLast && "data-[state=closed]:rounded-b-md"
+                )}
+              >
+                <span className="flex items-center gap-4">
+                  <span
+                    className="flex size-10 shrink-0 items-center justify-center rounded-full bg-linear-to-r from-primary to-card-foreground text-accent"
+                    aria-hidden="true"
+                  >
+                    {section.type === "maloprodaja" ? (
+                      <Box className="size-4" />
+                    ) : (
+                      <Boxes className="size-4" />
+                    )}
+                  </span>
+                  <span className="flex flex-col space-y-0.5 text-lg">
+                    <h3 className="font-semibold">
+                      {section.type === "maloprodaja"
+                        ? "Maloprodaja"
+                        : "Veleprodaja"}
+                    </h3>
+                    <span className="text-muted-foreground font-semibold">
+                      {section.pricePerUnit.toFixed(2)} KM po komadu
+                    </span>
+                  </span>
+                </span>
+              </AccordionTrigger>
+              <AccordionContent
+                className={cn("px-5", isLast && "rounded-b-md")}
+              >
+                <ProductPricingSection
+                  infoText={section.infoText}
+                  pricingInfo={section.pricingInfo}
+                  pricePerUnit={section.pricePerUnit}
+                  onAddToCart={section.onAddToCart}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
     </div>
   );
 }

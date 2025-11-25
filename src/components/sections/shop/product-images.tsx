@@ -19,11 +19,11 @@ export function ProductImages({
   return (
     <div
       className={cn(
-        "lg:max-w-2xl flex-1 w-full flex flex-col gap-4 lg:h-fit lg:sticky top-36",
+        "flex-1 w-full lg:max-w-xl flex flex-col gap-4 lg:h-fit lg:sticky top-36",
         className
       )}
     >
-      <div className="relative aspect-square rounded-md overflow-hidden w-full">
+      <div className="relative aspect-square rounded-md overflow-hidden w-full max-h-[60svh]">
         <AnimatedImage
           src={mainImage}
           alt={productName}

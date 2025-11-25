@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { InputWithPlusMinus } from "@/components/ui/input-with-plus-minus";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +13,6 @@ interface PricingInfo {
 }
 
 interface ProductPricingSectionProps {
-  type: "maloprodaja" | "veleprodaja";
   infoText: string;
   pricingInfo: PricingInfo[];
   pricePerUnit: number;
@@ -23,7 +21,6 @@ interface ProductPricingSectionProps {
 }
 
 export function ProductPricingSection({
-  type,
   infoText,
   pricingInfo,
   pricePerUnit,
@@ -37,21 +34,14 @@ export function ProductPricingSection({
   };
 
   return (
-    <div className={cn("flex flex-col p-4 border rounded-md gap-4", className)}>
-      <Badge variant="outline" className="mb-4">
-        {type === "maloprodaja" ? "Maloprodaja" : "Veleprodaja"}
-      </Badge>
-
-      <div className="border flex items-start gap-6 rounded-md p-2 border-secondary bg-secondary-muted/50 text-secondary-foreground">
+    <div className={cn("flex flex-col gap-4 p-4", className)}>
+      <div className="border flex items-start gap-4 rounded-md p-2 border-secondary bg-secondary-muted/50 text-secondary-foreground">
         <Info className="shrink-0" />
         <p>{infoText}</p>
       </div>
 
       {pricingInfo.map((info, index) => (
-        <div
-          key={index}
-          className="flex gap-4 items-start justify-between"
-        >
+        <div key={index} className="flex gap-4 items-start justify-between">
           <h3 className="font-semibold">{info.label}</h3>
           <p>{info.value}</p>
         </div>
@@ -59,7 +49,9 @@ export function ProductPricingSection({
 
       <div className="flex gap-4 items-start justify-between">
         <h3 className="font-semibold">Cijena po komadu</h3>
-        <p className="text-primary font-semibold">{pricePerUnit.toFixed(2)} KM</p>
+        <p className="text-primary font-semibold">
+          {pricePerUnit.toFixed(2)} KM
+        </p>
       </div>
 
       <Separator />
@@ -81,4 +73,3 @@ export function ProductPricingSection({
     </div>
   );
 }
-
