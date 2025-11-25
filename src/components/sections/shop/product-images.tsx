@@ -10,8 +10,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -35,6 +34,7 @@ export function ProductImages({
   const allImages = [mainImage, ...images];
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
   const isModalOpen = selectedIndex !== -1;
 
   // Scroll to selected index when modal opens
@@ -42,6 +42,23 @@ export function ProductImages({
     if (!api || selectedIndex === -1) return;
     api.scrollTo(selectedIndex);
   }, [api, selectedIndex]);
+
+  // Track current slide
+  useEffect(() => {
+    if (!api) return;
+
+    const updateCurrent = () => {
+      const selected = api.selectedScrollSnap();
+      setCurrent(selected);
+    };
+
+    updateCurrent();
+    api.on("select", updateCurrent);
+
+    return () => {
+      api.off("select", updateCurrent);
+    };
+  }, [api]);
 
   const handleClose = useCallback(() => {
     setSelectedIndex(-1);
@@ -105,10 +122,13 @@ export function ProductImages({
         open={isModalOpen}
         onOpenChange={(open) => !open && handleClose()}
       >
-        <DialogContent className="p-0 overflow-hidden bg-transparent backdrop-blur-sm border-0 max-w-[unset]! h-screen">
-          <DialogTitle className="sr-only">Gallery</DialogTitle>
+        <DialogContent
+          className="p-0 overflow-hidden bg-transparent backdrop-blur-sm border-0 max-w-[unset]! h-screen"
+          showCloseButton={false}
+        >
+          <DialogTitle className="sr-only">Galerija slika</DialogTitle>
           <DialogDescription className="sr-only">
-            Image gallery viewer with navigation controls
+            Pregled slika sa navigacijskim kontrolama
           </DialogDescription>
           <div className="relative size-full">
             <Carousel
@@ -125,13 +145,20 @@ export function ProductImages({
                     key={index}
                     className="size-full pl-0 basis-full"
                   >
-                    <div className="flex items-center justify-center size-full">
+                    <div
+                      className="relative size-full"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClose();
+                      }}
+                    >
                       <AnimatedImage
                         src={image}
                         alt={`${productName} - Slika ${index + 1}`}
                         width={1200}
                         height={1200}
-                        className="max-h-[80svh] w-full object-contain max-w-[95vw]"
+                        onClick={(e) => e.stopPropagation()}
+                        className="max-h-[80svh] object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto"
                       />
                     </div>
                   </CarouselItem>
@@ -141,21 +168,37 @@ export function ProductImages({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full bg-white/20 backdrop-blur-md pointer-events-auto hover:bg-white/30"
+                  className="rounded-full size-12 bg-secondary/20 border border-secondary/40 backdrop-blur-sm pointer-events-auto hover:bg-secondary/40 text-primary"
                   onClick={() => api?.scrollPrev()}
                 >
-                  <ArrowLeft className="h-4 w-4" />
-                  <span className="sr-only">Previous</span>
+                  <ArrowLeft size={18} strokeWidth={3} />
+                  <span className="sr-only">Prethodna slika</span>
                 </Button>
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full bg-white/20 backdrop-blur-md pointer-events-auto hover:bg-white/30"
+                  className="rounded-full size-12 bg-secondary/20 border border-secondary/40 backdrop-blur-sm pointer-events-auto hover:bg-secondary/40 text-primary"
                   onClick={() => api?.scrollNext()}
                 >
-                  <ArrowRight className="h-4 w-4" />
-                  <span className="sr-only">Next</span>
+                  <ArrowRight size={18} strokeWidth={3} />
+                  <span className="sr-only">Sljedeća slika</span>
                 </Button>
+              </div>
+              <div className="absolute top-[5lvh] right-4 pointer-events-none">
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full size-12 bg-secondary/20 border border-accent/40 backdrop-blur-sm pointer-events-auto hover:bg-secondary/40 text-accent"
+                  onClick={handleClose}
+                >
+                  <X size={18} strokeWidth={3} />
+                  <span className="sr-only">Zatvori</span>
+                </Button>
+              </div>
+              <div className="absolute bottom-[5lvh] right-4 pointer-events-none">
+                <div className="rounded-full px-4 py-2 bg-secondary/20 backdrop-blur-sm text-accent text-sm font-medium border border-secondary/40">
+                  {current + 1} / {allImages.length}
+                </div>
               </div>
             </Carousel>
           </div>

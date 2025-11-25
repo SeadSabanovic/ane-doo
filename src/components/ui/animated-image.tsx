@@ -11,6 +11,7 @@ interface AnimatedImageProps {
   height?: number;
   className?: string;
   priority?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
 }
 
 export default function AnimatedImage({
@@ -20,6 +21,7 @@ export default function AnimatedImage({
   height = 400,
   className = "",
   priority = false,
+  onClick,
 }: AnimatedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -36,6 +38,7 @@ export default function AnimatedImage({
       )}
       priority={priority}
       onLoad={() => setIsLoaded(true)}
+      onClick={onClick}
     />
   );
 }
