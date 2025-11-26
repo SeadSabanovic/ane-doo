@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="border-t border-muted bg-linear-to-r from-primary to-card-foreground">
       <Container>
         {/* <!-- footer menu start --> */}
-        <div className="flex flex-wrap xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between py-12 xl:py-24">
+        <div className="flex flex-wrap flex-col md:flex-row xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between py-12 xl:py-24">
           <div className="flex-1">
             <h2 className="mb-4 text-accent font-medium text-xl">
               Informacije i podrška

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
 import {
@@ -12,27 +15,44 @@ import Link from "next/link";
 import { menuData } from "./menuData";
 
 export default function MobileMenu() {
+  const [open, setOpen] = useState(false);
+
+  const handleNavigate = () => {
+    setOpen(false);
+  };
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="ml-3 lg:hidden">
+        <Button
+          variant="outline"
+          size="icon"
+          className="ml-3 lg:hidden"
+          aria-label="Otvori mobilni meni"
+        >
           <MenuIcon />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full max-w-full!">
+      <SheetContent
+        side="right"
+        className="w-full max-w-full! bg-primary/70 backdrop-blur-sm! border-none"
+      >
         <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
+          <SheetTitle className="text-accent text-2xl font-bold">
+            ANE D.O.O.
+          </SheetTitle>
           <SheetDescription className="sr-only">
             Navigirajte kroz stranicu koristeći meni opcije
           </SheetDescription>
         </SheetHeader>
-        <nav className="flex flex-col gap-4 p-4">
+        <nav className="flex flex-col gap-4 p-4 text-primary-foreground">
           {menuData.map((item) => (
             <div key={item.id}>
               <Link
                 href={item.path}
                 target={item.newTab ? "_blank" : "_self"}
-                className="font-medium text-sm hover:underline block"
+                className="font-medium text-lg hover:underline block"
+                onClick={handleNavigate}
               >
                 {item.title}
               </Link>
@@ -43,7 +63,8 @@ export default function MobileMenu() {
                       key={subItem.id}
                       href={subItem.path}
                       target={subItem.newTab ? "_blank" : "_self"}
-                      className="font-medium text-sm hover:underline text-muted-foreground"
+                      className="font-medium text-lg hover:underline text-secondary"
+                      onClick={handleNavigate}
                     >
                       {subItem.title}
                     </Link>
