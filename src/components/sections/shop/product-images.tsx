@@ -239,7 +239,7 @@ export function ProductImages({
                   <span className="sr-only">Sljedeća slika</span>
                 </Button>
               </div>
-              <div className="absolute top-[5lvh] right-4 pointer-events-none">
+              <div className="absolute top-[10lvh] md:top-[5lvh] right-4 pointer-events-none">
                 <Button
                   variant="secondary"
                   size="icon"
@@ -251,7 +251,7 @@ export function ProductImages({
                 </Button>
               </div>
               {!isClosing && (
-                <div className="absolute bottom-[5lvh] right-4 pointer-events-none">
+                <div className="absolute bottom-[10lvh] md:bottom-[5lvh] right-4 pointer-events-none">
                   <div className="rounded-full px-4 py-2 bg-secondary/20 backdrop-blur-sm text-accent text-sm font-medium border border-secondary/40">
                     {current + 1} / {allImages.length}
                   </div>
