@@ -4,6 +4,13 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 const subjectOptions = [
@@ -17,7 +24,10 @@ const subjectOptions = [
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
     company: "",
     subject: "",
     message: "",
@@ -38,11 +48,28 @@ export default function ContactForm() {
     }
   };
 
+  const handleSelectChange = (name: keyof typeof formData, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as string]) {
+      setErrors((prev) => ({ ...prev, [name as string]: "" }));
+    }
+  };
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Ime i prezime je obavezno";
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "Ime je obavezno";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Prezime je obavezno";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email je obavezan";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Molimo unesite validan email";
     }
 
     if (!formData.subject) {
@@ -73,7 +100,10 @@ export default function ContactForm() {
       console.log("Form submitted:", formData);
       // Reset form on success
       setFormData({
-        fullName: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
         company: "",
         subject: "",
         message: "",
@@ -89,30 +119,105 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Full Name - Required */}
+      {/* First & Last Name - Required */}
+      <div className="space-y-2">
+        <div className="flex flex-col gap-3 md:flex-row">
+          <div className="flex flex-1 flex-col gap-1.5">
+            <label
+              htmlFor="firstName"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Ime <span className="text-destructive">*</span>
+            </label>
+            <Input
+              id="firstName"
+              name="firstName"
+              type="text"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="Ime"
+              aria-invalid={!!errors.firstName}
+              aria-describedby={
+                errors.firstName ? "firstName-error" : undefined
+              }
+              className={cn(errors.firstName && "border-destructive")}
+            />
+            {errors.firstName && (
+              <p id="firstName-error" className="text-sm text-destructive">
+                {errors.firstName}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-1 flex-col gap-1.5">
+            <label
+              htmlFor="lastName"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Prezime <span className="text-destructive">*</span>
+            </label>
+            <Input
+              id="lastName"
+              name="lastName"
+              type="text"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Prezime"
+              aria-invalid={!!errors.lastName}
+              aria-describedby={errors.lastName ? "lastName-error" : undefined}
+              className={cn(errors.lastName && "border-destructive")}
+            />
+            {errors.lastName && (
+              <p id="lastName-error" className="text-sm text-destructive">
+                {errors.lastName}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Email - Required */}
       <div className="space-y-2">
         <label
-          htmlFor="fullName"
+          htmlFor="email"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Ime i prezime <span className="text-destructive">*</span>
+          Email <span className="text-destructive">*</span>
         </label>
         <Input
-          id="fullName"
-          name="fullName"
-          type="text"
-          value={formData.fullName}
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
           onChange={handleChange}
-          placeholder="Unesite vaše ime i prezime"
-          aria-invalid={!!errors.fullName}
-          aria-describedby={errors.fullName ? "fullName-error" : undefined}
-          className={cn(errors.fullName && "border-destructive")}
+          placeholder="vas@email.com"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? "email-error" : undefined}
+          className={cn(errors.email && "border-destructive")}
         />
-        {errors.fullName && (
-          <p id="fullName-error" className="text-sm text-destructive">
-            {errors.fullName}
+        {errors.email && (
+          <p id="email-error" className="text-sm text-destructive">
+            {errors.email}
           </p>
         )}
+      </div>
+
+      {/* Phone - Optional */}
+      <div className="space-y-2">
+        <label
+          htmlFor="phone"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Kontakt telefon{" "}
+          <span className="text-muted-foreground text-xs">(opcionalno)</span>
+        </label>
+        <Input
+          id="phone"
+          name="phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="+387 XX XXX XXX"
+        />
       </div>
 
       {/* Company - Optional */}
@@ -142,28 +247,30 @@ export default function ContactForm() {
         >
           Predmet <span className="text-destructive">*</span>
         </label>
-        <select
-          id="subject"
-          name="subject"
+        <Select
           value={formData.subject}
-          onChange={handleChange}
-          aria-invalid={!!errors.subject}
-          aria-describedby={errors.subject ? "subject-error" : undefined}
-          className={cn(
-            "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none md:text-sm",
-            "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-            "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-            "disabled:cursor-not-allowed disabled:opacity-50",
-            errors.subject && "border-destructive"
-          )}
+          onValueChange={(value) => handleSelectChange("subject", value)}
         >
-          <option value="">Odaberite predmet</option>
-          {subjectOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger
+            id="subject"
+            aria-invalid={!!errors.subject}
+            aria-describedby={errors.subject ? "subject-error" : undefined}
+            className={cn(
+              "w-full justify-between",
+              errors.subject && "border-destructive"
+            )}
+          >
+            <SelectValue placeholder="Odaberite predmet" />
+          </SelectTrigger>
+          <SelectContent className="w-(--radix-select-trigger-width)">
+            {subjectOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <input type="hidden" name="subject" value={formData.subject} />
         {errors.subject && (
           <p id="subject-error" className="text-sm text-destructive">
             {errors.subject}
