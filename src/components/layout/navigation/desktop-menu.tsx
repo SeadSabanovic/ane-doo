@@ -8,11 +8,23 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { menuData } from "./menuData";
+import { categoryData } from "@/constants/categories";
 import Container from "../container";
 import { Badge } from "@/components/ui/badge";
+import { ChevronDownIcon, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function ListItem({
   title,
@@ -55,6 +67,87 @@ export default function DesktopMenu() {
                   ? pathname === "/"
                   : pathname === item.path ||
                     pathname.startsWith(item.path + "/");
+
+              // Use DropdownMenu for "Kategorije" item with subcategories
+              if (item.id === 3 && item.title === "Kategorije") {
+                return (
+                  <NavigationMenuItem key={item.id}>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className={cn(
+                            navigationMenuTriggerStyle(),
+                            "group relative"
+                          )}
+                        >
+                          {item.title}{" "}
+                          <ChevronDownIcon
+                            className="relative top-px ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-[280px]">
+                        {categoryData.map((category) => {
+                          const categoryIsActive =
+                            pathname === category.path ||
+                            pathname.startsWith(category.path + "/");
+                          return (
+                            <DropdownMenuSub key={category.id}>
+                              <DropdownMenuSubTrigger asChild className="group">
+                                <Link
+                                  href={category.path}
+                                  className={cn(
+                                    "flex items-center gap-2",
+                                    categoryIsActive && "bg-accent"
+                                  )}
+                                >
+                                  {category.icon}
+                                  {category.title}
+                                  <ChevronRight className="ml-auto size-4 group-hover:translate-x-1 transition-transform duration-200" />
+                                </Link>
+                              </DropdownMenuSubTrigger>
+                              {category.subcategories &&
+                                category.subcategories.length > 0 && (
+                                  <DropdownMenuSubContent className="w-[220px]">
+                                    {category.subcategories.map(
+                                      (subcategory) => {
+                                        const subIsActive =
+                                          pathname === subcategory.path ||
+                                          pathname.startsWith(
+                                            subcategory.path + "/"
+                                          );
+                                        return (
+                                          <DropdownMenuItem
+                                            key={subcategory.id}
+                                            asChild
+                                            className={
+                                              subIsActive ? "bg-accent" : ""
+                                            }
+                                          >
+                                            <Link
+                                              href={subcategory.path}
+                                              className="flex items-center gap-2"
+                                            >
+                                              {subcategory.icon}
+                                              {subcategory.title}
+                                            </Link>
+                                          </DropdownMenuItem>
+                                        );
+                                      }
+                                    )}
+                                  </DropdownMenuSubContent>
+                                )}
+                            </DropdownMenuSub>
+                          );
+                        })}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </NavigationMenuItem>
+                );
+              }
+
+              // Regular navigation items
               return (
                 <NavigationMenuItem key={item.id}>
                   {item.submenu ? (

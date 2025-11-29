@@ -1,3 +1,5 @@
+import { categoryData } from "@/constants/categories";
+
 export const menuData: Array<{
   id: number;
   title: string;
@@ -26,33 +28,13 @@ export const menuData: Array<{
     id: 3,
     title: "Kategorije",
     newTab: false,
-    path: "/",
-    submenu: [
-      {
-        id: 31,
-        title: "Muška odjeća",
-        newTab: false,
-        path: "/",
-      },
-      {
-        id: 32,
-        title: "Ženska odjeća",
-        newTab: false,
-        path: "/",
-      },
-      {
-        id: 33,
-        title: "Dječija odjeća",
-        newTab: false,
-        path: "/",
-      },
-      {
-        id: 34,
-        title: "Sportska odjeća",
-        newTab: false,
-        path: "/",
-      },
-    ],
+    path: "/shop",
+    submenu: categoryData.map((category) => ({
+      id: category.id,
+      title: category.title,
+      newTab: false,
+      path: category.path,
+    })),
   },
   {
     id: 4,
