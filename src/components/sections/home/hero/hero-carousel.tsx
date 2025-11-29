@@ -9,7 +9,6 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { Badge } from "@/components/ui/badge";
 import Container from "@/components/layout/container";
 import AnimatedImage from "@/components/ui/animated-image";
 
@@ -49,6 +48,7 @@ export default function HeroCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(1);
   const [count, setCount] = useState(0);
+  const [animationKey, setAnimationKey] = useState(0);
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: false })
   );
@@ -57,7 +57,10 @@ export default function HeroCarousel() {
     if (!api) return;
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
-    const onSelect = () => setCurrent(api.selectedScrollSnap() + 1);
+    const onSelect = () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+      setAnimationKey((prev) => prev + 1); // Reset animation on slide change
+    };
     api.on("select", onSelect);
     return () => {
       api.off("select", onSelect);
@@ -111,20 +114,33 @@ export default function HeroCarousel() {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="absolute bottom-2 right-4 w-fit flex items-center gap-2 p-2 hover:scale-105 transition-all duration-300">
-        {Array.from({ length: count || slides.length }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              api?.scrollTo(index);
-              plugin.current.reset();
-            }}
-            aria-label={`Idi na slide ${index + 1}`}
-            className={`h-4 w-4 rounded-full border-2 border-accent transition-all cursor-pointer shadow-sm ${
-              current === index + 1 ? "w-20 bg-accent" : null
-            }`}
-          />
-        ))}
+      <div className="absolute bottom-4 right-4 w-fit flex items-center gap-2 p-2 hover:scale-105 transition-all duration-300">
+        {Array.from({ length: count || slides.length }).map((_, index) => {
+          const isActive = current === index + 1;
+          return (
+            <button
+              key={index}
+              onClick={() => {
+                api?.scrollTo(index);
+                plugin.current.reset();
+              }}
+              aria-label={`Idi na slide ${index + 1}`}
+              className={`relative h-4 rounded-full border-2 border-accent transition-all cursor-pointer shadow-sm overflow-hidden ${
+                isActive ? "w-20" : "w-4"
+              }`}
+            >
+              {isActive && (
+                <div
+                  key={`progress-${animationKey}-${index}`}
+                  className="absolute top-0 left-0 h-full w-full bg-accent rounded-full"
+                  style={{
+                    animation: "progress-fill 5s linear forwards",
+                  }}
+                />
+              )}
+            </button>
+          );
+        })}
       </div>
     </section>
   );
