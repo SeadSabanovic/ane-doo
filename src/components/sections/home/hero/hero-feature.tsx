@@ -37,7 +37,7 @@ const featureData = [
 const HeroFeature = () => {
   return (
     <Container>
-      <div className="rounded-md grid sm:grid-cols-2 lg:grid-cols-3 mx-auto overflow-hidden bg-linear-to-r from-primary to-card-foreground py-10">
+      <div className="rounded-md grid sm:grid-cols-2 lg:grid-cols-3 mx-auto overflow-hidden bg-linear-to-r from-primary to-card-foreground py-10 mt-20">
         {featureData.map((item, key) => (
           <div
             className={"flex items-center gap-4 flex-col xl:flex-1 py-6 px-5"}

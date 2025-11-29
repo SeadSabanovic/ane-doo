@@ -65,72 +65,67 @@ export default function HeroCarousel() {
   }, [api]);
 
   return (
-    <Container className="grid grid-cols-1 mb-10">
-      <div className="bg-muted/20 rounded-md overflow-hidden relative min-h-[80svh] lg:min-h-[50svh] xl:min-h-[60svh] max-h-[80svh]">
-        <Carousel
-          className="h-full"
-          setApi={setApi}
-          opts={{ loop: true }}
-          plugins={[plugin.current]}
-        >
-          <CarouselContent className="h-full">
-            {slides.map((slide) => (
-              <CarouselItem key={slide.id} className="h-full">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full w-full relative min-h-[70svh] md:min-h-0 md:aspect-3/4 lg:aspect-video overflow-hidden">
-                  {slide.discount && (
-                    <Badge className="z-10 lg:left-unset right-2 absolute top-2 border-transparent bg-accent text-accent-foreground font-black text-2xl rounded-sm">
-                      -{slide.discount}
-                    </Badge>
-                  )}
-                  <div className="order-2 lg:order-1 flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 backdrop-blur-sm py-12 h-fit mt-auto lg:rounded-tr-lg bg-muted/10 border border-muted/20">
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background text-shadow-sm">
-                        {slide.title}
-                      </h2>
-                      <p className="mt-2 text-card text-center text-lg lg:text-left md:text-2xl text-shadow-sm ">
-                        {slide.description}
-                      </p>
-                    </div>
-                    <Button
-                      className="mt-8 w-fit text-center lg:text-left"
-                      size="lg"
-                      asChild
-                    >
-                      <a href={slide.ctaHref}>
-                        Pogledaj <ArrowUpRight />
-                      </a>
-                    </Button>
+    <section className="bg-muted/20 overflow-hidden relative ">
+      <Carousel
+        className="h-full"
+        setApi={setApi}
+        opts={{ loop: true }}
+        plugins={[plugin.current]}
+      >
+        <CarouselContent className="h-full">
+          {slides.map((slide) => (
+            <CarouselItem
+              key={slide.id}
+              className="h-full min-h-[calc(100svh-var(--nav-height-mobile))] lg:min-h-[calc(100svh-var(--nav-height-desktop))] flex flex-col items-center justify-center relative"
+            >
+              <Container className="flex flex-1 flex-col justify-end gap-6 h-full w-full relative">
+                <div className="flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 py-12 h-fit lg:rounded-tr-lg pb-[10svh] lg:pb-[20svh]">
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background text-shadow-sm">
+                      {slide.title}
+                    </h2>
+                    <p className="mt-2 text-card text-center text-lg lg:text-left md:text-2xl text-shadow-sm ">
+                      {slide.description}
+                    </p>
                   </div>
-
-                  <AnimatedImage
-                    src={slide.image}
-                    alt={slide.title}
-                    width={1600}
-                    height={900}
-                    className="object-cover absolute top-0 left-0 w-full h-full -z-10"
-                    priority
-                  />
+                  <Button
+                    className="mt-8 w-fit text-center lg:text-left"
+                    size="lg"
+                    asChild
+                  >
+                    <a href={slide.ctaHref}>
+                      Pogledaj <ArrowUpRight />
+                    </a>
+                  </Button>
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-        <div className="absolute bottom-2 left-0 w-full flex items-center justify-center gap-2 p-2">
-          {Array.from({ length: count || slides.length }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                api?.scrollTo(index);
-                plugin.current.reset();
-              }}
-              aria-label={`Go to slide ${index + 1}`}
-              className={`h-3 w-3 rounded-full border-2 border-accent transition-all cursor-pointer shadow-sm ${
-                current === index + 1 ? "border-accent w-10 bg-accent" : null
-              }`}
-            />
+              </Container>
+              <AnimatedImage
+                src={slide.image}
+                alt={slide.title}
+                width={1600}
+                height={900}
+                className="object-cover absolute top-0 left-0 w-full h-full -z-10"
+                priority
+              />
+            </CarouselItem>
           ))}
-        </div>
+        </CarouselContent>
+      </Carousel>
+      <div className="absolute bottom-2 right-4 w-fit flex items-center gap-2 p-2 hover:scale-105 transition-all duration-300">
+        {Array.from({ length: count || slides.length }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              api?.scrollTo(index);
+              plugin.current.reset();
+            }}
+            aria-label={`Idi na slide ${index + 1}`}
+            className={`h-4 w-4 rounded-full border-2 border-accent transition-all cursor-pointer shadow-sm ${
+              current === index + 1 ? "w-20 bg-accent" : null
+            }`}
+          />
+        ))}
       </div>
-    </Container>
+    </section>
   );
 }
