@@ -54,12 +54,12 @@ export const categoryData: Category[] = [
       },
       {
         id: 16,
-        title: "Pidzame",
+        title: "Pidžame",
         path: "/shop/odjeca/pidzame",
       },
       {
         id: 17,
-        title: "Dzemperi",
+        title: "Džemperi",
         path: "/shop/odjeca/dzemperi",
       },
       {
@@ -120,7 +120,7 @@ export const categoryData: Category[] = [
       },
       {
         id: 36,
-        title: "Peskiri",
+        title: "Peškiri",
         path: "/shop/kucni-tekstil/peskiri",
       },
     ],

@@ -77,7 +77,7 @@ export default function DesktopMenu() {
                         <button
                           className={cn(
                             navigationMenuTriggerStyle(),
-                            "group relative"
+                            "group relative focus:outline-none focus-visible:outline-none focus-visible:ring-0"
                           )}
                         >
                           {item.title}{" "}
@@ -98,7 +98,7 @@ export default function DesktopMenu() {
                                 <Link
                                   href={category.path}
                                   className={cn(
-                                    "flex items-center gap-2",
+                                    "flex items-center gap-2 focus:outline-none focus-visible:outline-none focus-visible:ring-0",
                                     categoryIsActive && "bg-accent"
                                   )}
                                 >
@@ -109,7 +109,7 @@ export default function DesktopMenu() {
                               </DropdownMenuSubTrigger>
                               {category.subcategories &&
                                 category.subcategories.length > 0 && (
-                                  <DropdownMenuSubContent className="w-[220px]">
+                                  <DropdownMenuSubContent className="w-[280px]">
                                     {category.subcategories.map(
                                       (subcategory) => {
                                         const subIsActive =
@@ -152,7 +152,7 @@ export default function DesktopMenu() {
                 <NavigationMenuItem key={item.id}>
                   {item.submenu ? (
                     <>
-                      <NavigationMenuTrigger>
+                      <NavigationMenuTrigger className="focus:outline-none focus-visible:outline-none focus-visible:ring-0">
                         {item.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
@@ -178,12 +178,16 @@ export default function DesktopMenu() {
                   ) : (
                     <NavigationMenuLink
                       asChild
-                      className={navigationMenuTriggerStyle()}
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                      )}
                       isActive={isActive}
                     >
                       <Link
                         href={item.path}
                         target={item.newTab ? "_blank" : "_self"}
+                        className="focus:outline-none focus-visible:outline-none"
                       >
                         {item.title}
                       </Link>
