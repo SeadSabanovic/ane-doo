@@ -1,5 +1,7 @@
 import Container from "@/components/layout/container";
 import { Award, BadgeCheck, Boxes, Store, Tag, Truck } from "lucide-react";
+import { Marquee } from "@/components/ui/marquee";
+import { cn } from "@/lib/utils";
 
 const featureData = [
   {
@@ -34,10 +36,50 @@ const featureData = [
   },
 ];
 
-const HeroFeature = () => {
+const FeatureCard = ({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) => {
   return (
-    <Container>
-      <div className="rounded-md grid sm:grid-cols-2 lg:grid-cols-3 mx-auto overflow-hidden bg-linear-to-r from-primary to-card-foreground py-10 mt-20">
+    <div className={cn("flex items-center gap-4 flex-col py-10 px-5 shrink-0")}>
+      <div className="size-10 bg-accent/10 rounded-full flex items-center justify-center text-accent">
+        {icon}
+      </div>
+
+      <div className="text-center">
+        <h3 className="font-bold text-lg text-background">{title}</h3>
+        <p className="text-md text-muted">{description}</p>
+      </div>
+    </div>
+  );
+};
+
+const HeroFeature = () => {
+  const firstRow = featureData;
+
+  return (
+    <>
+      {/* Mobile/Tablet - Marquee Animation */}
+      <div className="lg:hidden relative flex w-full flex-col items-center justify-center overflow-hidden bg-linear-to-r from-primary to-card-foreground">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          {firstRow.map((item, index) => (
+            <FeatureCard
+              key={`feature-1-${index}`}
+              icon={item.icon}
+              title={item.title}
+              description={item.description}
+            />
+          ))}
+        </Marquee>
+      </div>
+
+      {/* Desktop - Grid Layout */}
+      <Container className="hidden lg:grid lg:grid-cols-3 rounded-b-md mx-auto overflow-hidden bg-linear-to-r from-primary to-card-foreground py-10">
         {featureData.map((item, key) => (
           <div
             className={"flex items-center gap-4 flex-col xl:flex-1 py-6 px-5"}
@@ -55,8 +97,8 @@ const HeroFeature = () => {
             </div>
           </div>
         ))}
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 
