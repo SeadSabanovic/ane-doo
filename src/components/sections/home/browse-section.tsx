@@ -14,6 +14,7 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import SectionBadge from "@/components/ui/section-badge";
 import { SpinningText } from "@/components/ui/spinning-text";
+import { cn } from "@/lib/utils";
 
 const categories = [
   {
@@ -72,6 +73,7 @@ export default function BrowseSection() {
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [current, setCurrent] = useState(0);
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: false })
   );
@@ -82,6 +84,7 @@ export default function BrowseSection() {
     const onSelect = () => {
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
+      setCurrent(api.selectedScrollSnap());
     };
 
     // Initialize immediately
@@ -155,12 +158,17 @@ export default function BrowseSection() {
           plugins={[plugin.current]}
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {categories.map((category) => (
+            {categories.map((category, index) => (
               <CarouselItem
                 key={category.id}
                 className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
               >
-                <div className="group rounded-full bg-muted relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                <div
+                  className={cn(
+                    "scale-95 group rounded-full bg-muted relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border transition-transform duration-300 ease-out",
+                    current === index && "scale-100"
+                  )}
+                >
                   <Image
                     src={category.image}
                     alt={category.name}
