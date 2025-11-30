@@ -18,45 +18,53 @@ import { SpinningText } from "@/components/ui/spinning-text";
 const categories = [
   {
     id: "majice",
-    name: "Muška odjeća",
-    image: "https://images.pexels.com/photos/8148577/pexels-photo-8148577.jpeg",
+    name: "Majice",
+    image: "https://images.pexels.com/photos/9594677/pexels-photo-9594677.jpeg",
+    link: "/shop",
+  },
+  {
+    id: "jakne",
+    name: "Jakne",
+    image: "https://images.pexels.com/photos/7481668/pexels-photo-7481668.jpeg",
+    link: "/shop",
   },
   {
     id: "dukserice",
-    name: "Ženska odjeća",
-    image: "https://images.pexels.com/photos/9594667/pexels-photo-9594667.jpeg",
-  },
-  {
-    id: "donji-ves",
-    name: "Dječija odjeća",
-    image: "https://images.pexels.com/photos/6303689/pexels-photo-6303689.jpeg",
+    name: "Dukserice",
+    image: "https://images.pexels.com/photos/9594679/pexels-photo-9594679.jpeg",
+    link: "/shop",
   },
   {
     id: "carape",
-    name: "Sportska odjeća",
+    name: "Čarape",
     image:
       "https://images.pexels.com/photos/10557900/pexels-photo-10557900.jpeg",
+    link: "/shop",
   },
   {
-    id: "haljine",
-    name: "Pidžame",
-    image: "https://images.pexels.com/photos/8274720/pexels-photo-8274720.jpeg",
+    id: "posteljine",
+    name: "Posteljine",
+    image: "https://images.pexels.com/photos/6800946/pexels-photo-6800946.jpeg",
+    link: "/shop",
   },
   {
     id: "pidzame",
-    name: "Spavaćice",
-    image: "https://images.pexels.com/photos/9788969/pexels-photo-9788969.jpeg",
+    name: "Pidžame",
+    image: "https://images.pexels.com/photos/6976434/pexels-photo-6976434.jpeg",
+    link: "/shop",
   },
   {
-    id: "radna-odjeca",
-    name: "Radna odjeća",
-    image: "https://images.pexels.com/photos/2249248/pexels-photo-2249248.jpeg",
+    id: "jastucnice",
+    name: "Jastučnice",
+    image: "https://images.pexels.com/photos/1248583/pexels-photo-1248583.jpeg",
+    link: "/shop",
   },
   {
-    id: "sezonska",
-    name: "Sezonska ponuda",
-    image: "https://images.pexels.com/photos/7202775/pexels-photo-7202775.jpeg",
-    link: "/shop/sezonska-ponuda",
+    id: "papuce",
+    name: "Papuče",
+    image:
+      "https://images.pexels.com/photos/29636809/pexels-photo-29636809.jpeg",
+    link: "/shop",
   },
 ];
 
@@ -93,9 +101,11 @@ export default function BrowseSection() {
     <section className="py-20">
       <Container>
         <div className="relative">
-          <SectionBadge icon={<Tags size={18} />} className="mx-auto md:mx-0">Kategorije</SectionBadge>
+          <SectionBadge icon={<Tags size={18} />} className="mx-auto md:mx-0">
+            Kategorije
+          </SectionBadge>
           <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
-            Artikli po kategorijama
+            Za svakoga po nešto
           </h2>
 
           {/* Navigation buttons */}
@@ -150,7 +160,7 @@ export default function BrowseSection() {
                 key={category.id}
                 className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
               >
-                <div className="group rounded-full bg-muted relative aspect-square cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                <div className="group rounded-full bg-muted relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
                   <Image
                     src={category.image}
                     alt={category.name}
@@ -160,13 +170,13 @@ export default function BrowseSection() {
                   />
                   <SpinningText
                     reverse
-                    className="text-3xl font-bold uppercase text-background"
+                    className="text-3xl font-bold uppercase text-background text-shadow-sm"
                     duration={100}
                     radius={5}
                   >
                     {category.name}
                   </SpinningText>
-                  <div className="absolute top-0 left-0 w-full h-full bg-secondary/50" />
+                  <div className="absolute top-0 left-0 w-full h-full bg-secondary/20" />
                 </div>
               </CarouselItem>
             ))}
