@@ -170,7 +170,7 @@ export default function BrowseSection() {
                   />
                   <SpinningText
                     reverse
-                    className="text-3xl font-bold uppercase text-background text-shadow-sm -rotate-45"
+                    className="text-3xl font-bold uppercase text-background text-shadow-sm -rotate-45 scale-90 lg:scale-100"
                     duration={0}
                     radius={6}
                   >
