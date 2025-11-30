@@ -1,7 +1,5 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -11,6 +9,8 @@ import {
 } from "@/components/ui/carousel";
 import Container from "@/components/layout/container";
 import AnimatedImage from "@/components/ui/animated-image";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import Link from "next/link";
 
 const slides = [
   {
@@ -84,22 +84,18 @@ export default function HeroCarousel() {
               <Container className="flex flex-1 flex-col justify-end gap-6 h-full w-full relative">
                 <div className="flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 py-12 h-fit lg:rounded-tr-lg pb-[10svh] lg:pb-[20svh]">
                   <div className="flex flex-col gap-2">
-                    <h2 className="text-4xl font-bold text-center lg:text-7xl lg:text-left text-background text-shadow-sm">
+                    <h2 className="text-6xl font-bold text-center lg:text-8xl lg:text-left text-background text-shadow-sm">
                       {slide.title}
                     </h2>
                     <p className="mt-2 text-card text-center text-lg lg:text-left md:text-2xl text-shadow-sm ">
                       {slide.description}
                     </p>
                   </div>
-                  <Button
-                    className="mt-8 w-fit text-center lg:text-left"
-                    size="lg"
-                    asChild
-                  >
-                    <a href={slide.ctaHref}>
-                      Pogledaj <ArrowUpRight />
-                    </a>
-                  </Button>
+                  <Link href={slide.ctaHref}>
+                    <InteractiveHoverButton className="mt-8 w-fit text-center lg:text-left">
+                      Pogledaj
+                    </InteractiveHoverButton>
+                  </Link>
                 </div>
               </Container>
               <AnimatedImage
@@ -114,7 +110,7 @@ export default function HeroCarousel() {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="absolute bottom-4 right-4 w-fit flex items-center gap-2 p-2 hover:scale-105 transition-all duration-300">
+      <div className="absolute left-1/2 -translate-x-1/2 lg:left-[unset] lg:right-4 bottom-4 lg:translate-0 w-fit flex items-center gap-2 p-2 hover:scale-105 transition-all duration-300">
         {Array.from({ length: count || slides.length }).map((_, index) => {
           const isActive = current === index + 1;
           return (

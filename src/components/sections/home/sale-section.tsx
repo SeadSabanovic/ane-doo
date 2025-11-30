@@ -1,8 +1,9 @@
 import Container from "@/components/layout/container";
-import { Button } from "@/components/ui/button";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import SectionBadge from "@/components/ui/section-badge";
-import { ArrowUpRight, Percent } from "lucide-react";
+import { Percent } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SaleSection() {
   return (
@@ -15,9 +16,11 @@ export default function SaleSection() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
             quos.
           </p>
-          <Button className="mt-4 w-fit" size="lg">
-            Pogledaj <ArrowUpRight />
-          </Button>
+          <Link href="/shop">
+            <InteractiveHoverButton className="mt-8 w-fit text-center lg:text-left">
+              Pogledaj
+            </InteractiveHoverButton>
+          </Link>
         </div>
         <div className="aspect-square overflow-hidden relative rounded-md">
           <Image

@@ -46,7 +46,7 @@ const FeatureCard = ({
   description: string;
 }) => {
   return (
-    <div className={cn("flex items-center gap-4 flex-col py-10 px-5 shrink-0")}>
+    <div className={cn("flex items-center gap-4 flex-col py-20 px-5 shrink-0")}>
       <div className="size-10 bg-accent/10 rounded-full flex items-center justify-center text-accent">
         {icon}
       </div>
@@ -79,25 +79,27 @@ const HeroFeature = () => {
       </div>
 
       {/* Desktop - Grid Layout */}
-      <Container className="hidden lg:grid lg:grid-cols-3 rounded-b-md mx-auto overflow-hidden bg-linear-to-r from-primary to-card-foreground py-10">
-        {featureData.map((item, key) => (
-          <div
-            className={"flex items-center gap-4 flex-col xl:flex-1 py-6 px-5"}
-            key={key}
-          >
-            <div className="size-10 bg-accent/10 rounded-full flex items-center justify-center text-accent">
-              {item.icon && item.icon}
-            </div>
+      <div className="bg-linear-to-r from-primary to-card-foreground py-10 hidden lg:block">
+        <Container className="lg:grid lg:grid-cols-3 rounded-b-md mx-auto overflow-hidden">
+          {featureData.map((item, key) => (
+            <div
+              className={"flex items-center gap-4 flex-col xl:flex-1 py-6 px-5"}
+              key={key}
+            >
+              <div className="size-10 bg-accent/10 rounded-full flex items-center justify-center text-accent">
+                {item.icon && item.icon}
+              </div>
 
-            <div className="text-center">
-              <h3 className="font-bold text-lg text-background">
-                {item.title}
-              </h3>
-              <p className="text-md text-muted">{item.description}</p>
+              <div className="text-center">
+                <h3 className="font-bold text-lg text-background">
+                  {item.title}
+                </h3>
+                <p className="text-md text-muted">{item.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </Container>
+          ))}
+        </Container>
+      </div>
     </>
   );
 };

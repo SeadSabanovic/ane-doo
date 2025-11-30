@@ -1,7 +1,9 @@
 import Container from "@/components/layout/container";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import ProductCard from "@/components/ui/product-card";
 import SectionBadge from "@/components/ui/section-badge";
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function NewSection() {
   const products = [
@@ -93,6 +95,15 @@ export default function NewSection() {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+
+        <Link href="/shop" className="mt-10 mx-auto block w-fit">
+          <InteractiveHoverButton
+            className="w-fit text-center lg:text-left"
+            variant="light"
+          >
+            Pogledaj više
+          </InteractiveHoverButton>
+        </Link>
       </Container>
     </section>
   );
