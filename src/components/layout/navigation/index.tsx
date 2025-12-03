@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "../container";
@@ -8,10 +9,13 @@ import { Button } from "@/components/ui/button";
 import DesktopMenu from "./desktop-menu";
 import { Badge } from "@/components/ui/badge";
 import MobileMenu from "./mobile-menu";
+import { SearchDialog } from "./search/search-dialog";
 
 const Navigation = () => {
   const pathname = usePathname();
   const isRootRoute = pathname === "/";
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <header
       className={`sticky left-0 top-0 w-full z-50 backdrop-blur-sm bg-background/90 transition-all ease-in-out duration-300`}
@@ -35,9 +39,20 @@ const Navigation = () => {
             {/* <!-- header top right --> */}
             <div className="flex items-center">
               {isRootRoute && (
-                <Button variant="ghost" size="icon" className="relative">
-                  <Search />
-                </Button>
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="relative"
+                    onClick={() => setSearchOpen(true)}
+                  >
+                    <Search />
+                  </Button>
+                  <SearchDialog
+                    open={searchOpen}
+                    onOpenChange={setSearchOpen}
+                  />
+                </>
               )}
               {/* <!-- header top right / Wishlist and Cart --> */}
               <Link href="/spaseno">
