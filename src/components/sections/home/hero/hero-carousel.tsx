@@ -79,7 +79,7 @@ export default function HeroCarousel() {
           {slides.map((slide) => (
             <CarouselItem
               key={slide.id}
-              className="h-full min-h-[calc(100svh-var(--nav-height-mobile))] lg:min-h-[calc(100svh-var(--nav-height-desktop))] flex flex-col items-center justify-center relative"
+              className="h-full min-h-[calc(100svh-var(--nav-height))] lg:min-h-[calc(100svh-var(--nav-height))] flex flex-col items-center justify-center relative"
             >
               <Container className="flex flex-1 flex-col justify-end gap-6 h-full w-full relative">
                 <div className="flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 py-12 h-fit lg:rounded-tr-lg pb-[10svh] lg:pb-[20svh]">

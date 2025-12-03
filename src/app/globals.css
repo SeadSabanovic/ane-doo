@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -61,8 +59,7 @@
 
 :root {
   --radius: 0.625rem;
-  --nav-height-desktop: 118px;
-  --nav-height-mobile: 60px;
+  --nav-height: 60px;
   --background: #fffcf3;
   --foreground: #4d585b;
   --card: #faf3da;
