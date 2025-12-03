@@ -4,7 +4,7 @@ export default function ContactInfo() {
   return (
     <div className="flex flex-col p-6 rounded-md border md:grid md:grid-cols-2 lg:grid-cols-3 lg:max-w-5xl mx-auto w-full">
       {/* Mail */}
-      <div className="flex gap-6 p-6 border-b flex-col md:items-center text-center lg:flex-row lg:text-left lg:items-start lg:border-b-0">
+      <div className="flex gap-6 p-6 border-b flex-col items-center md:items-center text-center lg:flex-row lg:text-left lg:items-start lg:border-b-0">
         <Mail className="size-6" />
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-medium">Pišite nam</h3>
@@ -19,7 +19,7 @@ export default function ContactInfo() {
       </div>
 
       {/* Phone */}
-      <div className="flex gap-6 p-6 border-b flex-col md:items-center text-center lg:flex-row lg:text-left lg:items-start lg:border-b-0">
+      <div className="flex gap-6 p-6 border-b flex-col items-center md:items-center text-center lg:flex-row lg:text-left lg:items-start lg:border-b-0">
         <Phone className="size-6" />
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-medium">Pozovite nas</h3>
@@ -34,7 +34,7 @@ export default function ContactInfo() {
       </div>
 
       {/* Map */}
-      <div className="flex gap-6 p-6 flex-col md:col-span-2 md:items-center text-center lg:flex-row lg:text-left lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:items-start lg:pt-24 lg:pb-12">
+      <div className="flex gap-6 p-6 flex-col items-center md:col-span-2 md:items-center text-center lg:flex-row lg:text-left lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:items-start lg:pt-24 lg:pb-12">
         <MapPinned className="size-6" />
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-medium">Naša adresa</h3>

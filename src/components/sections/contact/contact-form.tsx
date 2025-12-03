@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import AnimatedImage from "@/components/ui/animated-image";
 
 const subjectOptions = [
   { value: "upit-o-artiklima", label: "Upit o artiklima" },
@@ -120,202 +121,224 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 border p-6 rounded-md lg:max-w-5xl mx-auto w-full"
+      className="border rounded-md lg:max-w-5xl mx-auto w-full overflow-hidden"
     >
-      {/* First & Last Name - Required */}
-      <div className="space-y-2">
-        <div className="flex flex-col gap-3 md:flex-row">
-          <div className="flex flex-1 flex-col gap-1.5">
-            <label
-              htmlFor="firstName"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Ime <span className="text-destructive">*</span>
-            </label>
-            <Input
-              id="firstName"
-              name="firstName"
-              type="text"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="Ime"
-              aria-invalid={!!errors.firstName}
-              aria-describedby={
-                errors.firstName ? "firstName-error" : undefined
-              }
-              className={cn(errors.firstName && "border-destructive")}
-            />
-            {errors.firstName && (
-              <p id="firstName-error" className="text-sm text-destructive">
-                {errors.firstName}
-              </p>
-            )}
-          </div>
-          <div className="flex flex-1 flex-col gap-1.5">
-            <label
-              htmlFor="lastName"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Prezime <span className="text-destructive">*</span>
-            </label>
-            <Input
-              id="lastName"
-              name="lastName"
-              type="text"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Prezime"
-              aria-invalid={!!errors.lastName}
-              aria-describedby={errors.lastName ? "lastName-error" : undefined}
-              className={cn(errors.lastName && "border-destructive")}
-            />
-            {errors.lastName && (
-              <p id="lastName-error" className="text-sm text-destructive">
-                {errors.lastName}
-              </p>
-            )}
+      <div className="p-6 relative aspect-video flex flex-col justify-end">
+        <h2 className="text-3xl lg:text-4xl font-bold mt-auto text-background text-shadow-sm">
+          Kontakt forma
+        </h2>
+        <p className="text-shadow-sm mt-4 max-w-md text-muted">
+          Sa više od 20 godina iskustva u veleprodaji, uvijek smo otvoreni za
+          nova partnerstva. Pišite nam za upite, ponude ili dodatne informacije.
+        </p>
+
+        <AnimatedImage
+          src="https://images.pexels.com/photos/10558185/pexels-photo-10558185.jpeg?_gl=1*10zj0ze*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjQ3NTg3MjIkbzIkZzEkdDE3NjQ3NjAxMzEkajMzJGwwJGgw"
+          alt="Kontakt forma"
+          width={1240}
+          height={700}
+          className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+        />
+      </div>
+
+      <div className="p-6 space-y-6">
+        {/* First & Last Name - Required */}
+        <div className="space-y-2">
+          <div className="flex flex-col gap-3 md:flex-row">
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label
+                htmlFor="firstName"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Ime <span className="text-destructive">*</span>
+              </label>
+              <Input
+                id="firstName"
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Ime"
+                aria-invalid={!!errors.firstName}
+                aria-describedby={
+                  errors.firstName ? "firstName-error" : undefined
+                }
+                className={cn(errors.firstName && "border-destructive")}
+              />
+              {errors.firstName && (
+                <p id="firstName-error" className="text-sm text-destructive">
+                  {errors.firstName}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label
+                htmlFor="lastName"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Prezime <span className="text-destructive">*</span>
+              </label>
+              <Input
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Prezime"
+                aria-invalid={!!errors.lastName}
+                aria-describedby={
+                  errors.lastName ? "lastName-error" : undefined
+                }
+                className={cn(errors.lastName && "border-destructive")}
+              />
+              {errors.lastName && (
+                <p id="lastName-error" className="text-sm text-destructive">
+                  {errors.lastName}
+                </p>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Email - Required */}
-      <div className="space-y-2">
-        <label
-          htmlFor="email"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Email <span className="text-destructive">*</span>
-        </label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="vas@email.com"
-          aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "email-error" : undefined}
-          className={cn(errors.email && "border-destructive")}
-        />
-        {errors.email && (
-          <p id="email-error" className="text-sm text-destructive">
-            {errors.email}
-          </p>
-        )}
-      </div>
-
-      {/* Phone - Optional */}
-      <div className="space-y-2">
-        <label
-          htmlFor="phone"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Kontakt telefon{" "}
-          <span className="text-muted-foreground text-xs">(opcionalno)</span>
-        </label>
-        <Input
-          id="phone"
-          name="phone"
-          type="tel"
-          value={formData.phone}
-          onChange={handleChange}
-          placeholder="+387 XX XXX XXX"
-        />
-      </div>
-
-      {/* Company - Optional */}
-      <div className="space-y-2">
-        <label
-          htmlFor="company"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Firma{" "}
-          <span className="text-muted-foreground text-xs">(opcionalno)</span>
-        </label>
-        <Input
-          id="company"
-          name="company"
-          type="text"
-          value={formData.company}
-          onChange={handleChange}
-          placeholder="Unesite naziv firme"
-        />
-      </div>
-
-      {/* Subject - Required */}
-      <div className="space-y-2">
-        <label
-          htmlFor="subject"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Predmet <span className="text-destructive">*</span>
-        </label>
-        <Select
-          value={formData.subject}
-          onValueChange={(value) => handleSelectChange("subject", value)}
-        >
-          <SelectTrigger
-            id="subject"
-            aria-invalid={!!errors.subject}
-            aria-describedby={errors.subject ? "subject-error" : undefined}
-            className={cn(
-              "w-full justify-between",
-              errors.subject && "border-destructive"
-            )}
+        {/* Email - Required */}
+        <div className="space-y-2">
+          <label
+            htmlFor="email"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            <SelectValue placeholder="Odaberite predmet" />
-          </SelectTrigger>
-          <SelectContent className="w-(--radix-select-trigger-width)">
-            {subjectOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <input type="hidden" name="subject" value={formData.subject} />
-        {errors.subject && (
-          <p id="subject-error" className="text-sm text-destructive">
-            {errors.subject}
-          </p>
-        )}
-      </div>
+            Email <span className="text-destructive">*</span>
+          </label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="vas@email.com"
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "email-error" : undefined}
+            className={cn(errors.email && "border-destructive")}
+          />
+          {errors.email && (
+            <p id="email-error" className="text-sm text-destructive">
+              {errors.email}
+            </p>
+          )}
+        </div>
 
-      {/* Message - Required */}
-      <div className="space-y-2">
-        <label
-          htmlFor="message"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        {/* Phone - Optional */}
+        <div className="space-y-2">
+          <label
+            htmlFor="phone"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Kontakt telefon{" "}
+            <span className="text-muted-foreground text-xs">(opcionalno)</span>
+          </label>
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="+387 XX XXX XXX"
+          />
+        </div>
+
+        {/* Company - Optional */}
+        <div className="space-y-2">
+          <label
+            htmlFor="company"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Firma{" "}
+            <span className="text-muted-foreground text-xs">(opcionalno)</span>
+          </label>
+          <Input
+            id="company"
+            name="company"
+            type="text"
+            value={formData.company}
+            onChange={handleChange}
+            placeholder="Unesite naziv firme"
+          />
+        </div>
+
+        {/* Subject - Required */}
+        <div className="space-y-2">
+          <label
+            htmlFor="subject"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Predmet <span className="text-destructive">*</span>
+          </label>
+          <Select
+            value={formData.subject}
+            onValueChange={(value) => handleSelectChange("subject", value)}
+          >
+            <SelectTrigger
+              id="subject"
+              aria-invalid={!!errors.subject}
+              aria-describedby={errors.subject ? "subject-error" : undefined}
+              className={cn(
+                "w-full justify-between",
+                errors.subject && "border-destructive"
+              )}
+            >
+              <SelectValue placeholder="Odaberite predmet" />
+            </SelectTrigger>
+            <SelectContent className="w-(--radix-select-trigger-width)">
+              {subjectOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <input type="hidden" name="subject" value={formData.subject} />
+          {errors.subject && (
+            <p id="subject-error" className="text-sm text-destructive">
+              {errors.subject}
+            </p>
+          )}
+        </div>
+
+        {/* Message - Required */}
+        <div className="space-y-2">
+          <label
+            htmlFor="message"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Poruka <span className="text-destructive">*</span>
+          </label>
+          <Textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            placeholder="Unesite vašu poruku..."
+            rows={6}
+            aria-invalid={!!errors.message}
+            aria-describedby={errors.message ? "message-error" : undefined}
+            className={cn(errors.message && "border-destructive", "min-h-36")}
+          />
+          {errors.message && (
+            <p id="message-error" className="text-sm text-destructive">
+              {errors.message}
+            </p>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full"
+          size="lg"
         >
-          Poruka <span className="text-destructive">*</span>
-        </label>
-        <Textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="Unesite vašu poruku..."
-          rows={6}
-          aria-invalid={!!errors.message}
-          aria-describedby={errors.message ? "message-error" : undefined}
-          className={cn(errors.message && "border-destructive", "min-h-36")}
-        />
-        {errors.message && (
-          <p id="message-error" className="text-sm text-destructive">
-            {errors.message}
-          </p>
-        )}
+          {isSubmitting ? "Šalje se..." : "Pošalji"}
+        </Button>
       </div>
-
-      {/* Submit Button */}
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full"
-        size="lg"
-      >
-        {isSubmitting ? "Šalje se..." : "Pošalji"}
-      </Button>
     </form>
   );
 }

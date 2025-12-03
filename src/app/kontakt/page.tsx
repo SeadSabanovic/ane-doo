@@ -22,8 +22,8 @@ export default function ContactPage() {
         ]}
       />
       <Container className="pb-20 flex flex-col gap-8 md:gap-10 lg:gap-12">
-        <ContactInfo />
         <ContactForm />
+        <ContactInfo />
       </Container>
     </>
   );
