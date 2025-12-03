@@ -118,7 +118,10 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 border p-6 rounded-md lg:max-w-5xl mx-auto w-full"
+    >
       {/* First & Last Name - Required */}
       <div className="space-y-2">
         <div className="flex flex-col gap-3 md:flex-row">
@@ -295,7 +298,7 @@ export default function ContactForm() {
           rows={6}
           aria-invalid={!!errors.message}
           aria-describedby={errors.message ? "message-error" : undefined}
-          className={cn(errors.message && "border-destructive")}
+          className={cn(errors.message && "border-destructive", "min-h-36")}
         />
         {errors.message && (
           <p id="message-error" className="text-sm text-destructive">
