@@ -47,7 +47,7 @@ export default function CheckoutPage() {
       name: "Chino hlače",
       image:
         "https://i.pinimg.com/736x/82/3c/fa/823cfac2a92c5e7c817b82f67dfdc854.jpg",
-      quantity: 1, // 1 komad
+      quantity: 4,
       size: "M",
       color: "Plava",
       pricing: {

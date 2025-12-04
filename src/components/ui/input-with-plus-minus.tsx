@@ -135,6 +135,7 @@ export function InputWithPlusMinus({
           aria-valuenow={currentValue}
           aria-label={label || "Količina"}
           className={cn(
+            "bg-background!",
             "text-2xl! font-semibold shadow-none! border-y boder-border selection:bg-primary selection:text-primary-foreground w-full h-full rounded-none grow px-3 py-2 text-center tabular-nums outline-none border-x-0",
             "focus-visible:ring-0 focus-visible:border-border focus-visible:ring-offset-0 focus-visible:outline-none",
             "[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [-moz-appearance:textfield]",

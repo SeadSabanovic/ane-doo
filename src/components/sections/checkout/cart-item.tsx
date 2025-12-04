@@ -1,6 +1,10 @@
 import AnimatedImage from "@/components/ui/animated-image";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { InputWithPlusMinus } from "@/components/ui/input-with-plus-minus";
 import { cn } from "@/lib/utils";
+import { Pencil } from "lucide-react";
+import Link from "next/link";
 
 interface CartItemProps {
   item: {
@@ -18,8 +22,9 @@ interface CartItemProps {
       };
     };
   };
+  onQuantityChange?: (itemId: number, newQuantity: number) => void;
 }
-export default function CartItem({ item }: CartItemProps) {
+export default function CartItem({ item, onQuantityChange }: CartItemProps) {
   // Ako postoji wholesale u pricing objektu, to znači da je wholesale tip
   const isWholesale = !!item.pricing.wholesale;
 
@@ -36,68 +41,64 @@ export default function CartItem({ item }: CartItemProps) {
       item.pricing.wholesale!.price
     : item.pricing.retail * item.quantity;
 
-  // Za wholesale: ukupna količina artikala = broj pakovanja × artikala po pakovanju
-  const totalItems = isWholesale
-    ? item.quantity * item.pricing.wholesale!.itemsPerPack
-    : item.quantity;
-
   return (
-    <div className="flex items-start gap-3">
-      <AnimatedImage
-        src={item.image}
-        alt={item.name}
-        width={96}
-        height={96}
-        className="size-24 object-cover rounded-md"
-      />
+    <div className="flex flex-col items-start gap-2">
+      <div className="flex items-start gap-3">
+        <Link href={`/shop/basic-t-shirt`}>
+          <AnimatedImage
+            src={item.image}
+            alt={item.name}
+            width={128}
+            height={128}
+            className="size-24 object-cover rounded-md md:size-32"
+          />
+        </Link>
 
-      {/* Details */}
-      <div className="flex-1 flex flex-col gap-3">
-        <h4 className="font-medium p-2">{item.name}</h4>
+        {/* Details */}
+        <div className="flex-1 flex flex-col gap-3">
+          <h4 className="font-medium pt-2 px-2">{item.name}</h4>
 
-        {/* Details - Size and Color */}
-        <div className="flex gap-1 flex-col px-2">
-          <div className="text-sm flex gap-2 justify-between text-foreground/80">
-            <span>Veličina</span>
-            <span>{item.size}</span>
-          </div>
-          <div className="text-sm flex gap-2 justify-between text-foreground/80">
-            <span>Boja</span>
-            <span>{item.color}</span>
+          {/* Details - Size and Color */}
+          <div className="flex gap-1 flex-wrap px-2">
+            <Badge variant="outline">Veličina: {item.size}</Badge>
+            <Badge variant="outline">Boja: {item.color}</Badge>
+            {isWholesale && (
+              <Badge
+                variant="outline"
+                className="bg-secondary-muted/50 text-secondary-foreground"
+              >
+                Veleprodaja: 1 x {item.pricing.wholesale!.itemsPerPack} kom
+              </Badge>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Price */}
-        <div
-          className={cn(
-            " flex flex-col gap-1 p-2 rounded-md",
-            isWholesale && "bg-secondary-muted/50"
-          )}
-        >
-          {isWholesale && (
-            <Badge variant="outline" className="bg-background rounded-sm mb-2">
-              Veleprodaja
-            </Badge>
-          )}
-          <span className="text-foreground/80 text-sm">Cijena</span>
-          {isWholesale &&
-            item.pricing.retail !== item.pricing.wholesale!.price && (
-              <span className="text-xs text-foreground/80 line-through text-right">
-                {item.pricing.retail.toFixed(2)} KM
-              </span>
-            )}
+      {/* Price and Quantity */}
+      <div className={cn("flex flex-col gap-3 p-2 pb-0 rounded-md w-full")}>
+        <div className="flex flex-col gap-1">
           <span className="font-medium text-right">
             {unitPrice.toFixed(2)} KM{isWholesale ? " / kom" : ""}
           </span>
-          <span className="text-sm text-foreground/80 text-right">
-            {isWholesale
-              ? `${item.quantity} × ${item.pricing.wholesale!.itemsPerPack} kom`
-              : `${item.quantity} x`}
-          </span>
-          <span className="text-sm text-muted-foreground text-right">
-            = {totalPrice.toFixed(2)} KM
-          </span>
         </div>
+        <div className="flex items-end gap-2">
+          <InputWithPlusMinus
+            value={item.quantity}
+            minValue={1}
+            onChange={(newQuantity) => {
+              onQuantityChange?.(item.id, newQuantity);
+            }}
+            label={isWholesale ? "Broj pakovanja" : "Količina"}
+            className="flex-1"
+          />
+          <Button variant="outline" size="lg">
+            <Pencil />
+            Uredi
+          </Button>
+        </div>
+        <span className="text-sm text-foreground/80 text-right">
+          = {totalPrice.toFixed(2)} KM
+        </span>
       </div>
     </div>
   );
