@@ -14,6 +14,7 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import SectionBadge from "@/components/ui/section-badge";
 import { SpinningText } from "@/components/ui/spinning-text";
+import AnimatedImage from "@/components/ui/animated-image";
 
 const categories = [
   {
@@ -160,24 +161,17 @@ export default function BrowseSection() {
                 key={category.id}
                 className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
               >
-                <div className="group rounded-full bg-muted relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
-                  <Image
+                <div className="group [border-top-left-radius:50vh] [border-top-right-radius:50vh] [border-bottom-left-radius:8px] [border-bottom-right-radius:50vh] bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                  <AnimatedImage
                     src={category.image}
                     alt={category.name}
                     width={300}
                     height={300}
                     className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
                   />
-                  <SpinningText
-                    reverse
-                    className="text-3xl font-bold uppercase text-background text-shadow-sm -rotate-45 scale-90 lg:scale-100"
-                    duration={0}
-                    radius={6}
-                  >
-                    {category.name}
-                  </SpinningText>
                   <div className="absolute top-0 left-0 w-full h-full bg-secondary/20" />
                 </div>
+                <h4 className="text-xl font-medium mt-4">{category.name}</h4>
               </CarouselItem>
             ))}
           </CarouselContent>
