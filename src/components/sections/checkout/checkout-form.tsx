@@ -105,7 +105,7 @@ export default function CheckoutForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-8 p-6 border rounded-md flex-1"
+      className="space-y-8 p-6 border rounded-md flex-1 h-fit lg:sticky lg:top-[calc(var(--nav-height)+2rem)]"
     >
       {/* Contact Information */}
       <div>

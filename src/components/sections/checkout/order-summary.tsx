@@ -4,32 +4,32 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AnimatedImage from "@/components/ui/animated-image";
 import CartItem from "./cart-item";
+import { Fragment } from "react/jsx-runtime";
 
 interface CartItem {
   id: number;
   name: string;
-  price: number;
   image: string;
-  quantity: number;
+  quantity: number; // Za retail: broj komada, za wholesale: broj pakovanja
   size: string;
   color: string;
+  pricing: {
+    retail: number;
+    wholesale?: {
+      price: number; // Cijena po artiklu
+      itemsPerPack: number; // Broj artikala po pakovanju
+    };
+  };
 }
 
 interface OrderSummaryProps {
   cartItems: CartItem[];
-  subtotal: number;
-  shipping: number;
   total: number;
 }
 
-export default function OrderSummary({
-  cartItems,
-  subtotal,
-  shipping,
-  total,
-}: OrderSummaryProps) {
+export default function OrderSummary({ cartItems, total }: OrderSummaryProps) {
   return (
-    <div className="border rounded-lg sticky top-4 flex-1 max-w-3xl overflow-hidden">
+    <div className="border rounded-lg lg:sticky lg:top-4 flex-1 max-w-2xl overflow-hidden">
       {/* Cart Header */}
       <div className="p-6 relative aspect-5/2 flex flex-col justify-end">
         <h2 className="text-2xl font-bold mt-auto text-background text-shadow-sm">
@@ -49,8 +49,13 @@ export default function OrderSummary({
       </div>
       {/* Cart Items */}
       <div className="p-6 border-b space-y-4">
-        {cartItems.map((item) => (
-          <CartItem key={item.id} item={item} />
+        {cartItems.map((item, index) => (
+          <Fragment key={item.id}>
+            <CartItem item={item} />
+            {index !== cartItems.length - 1 && (
+              <div className="h-px bg-border" />
+            )}
+          </Fragment>
         ))}
       </div>
 
