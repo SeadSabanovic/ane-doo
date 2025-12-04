@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AnimatedImage from "@/components/ui/animated-image";
+import CartItem from "./cart-item";
 
 interface CartItem {
   id: number;
@@ -48,32 +48,14 @@ export default function OrderSummary({
         />
       </div>
       {/* Cart Items */}
-      <div className="p-6 border-b">
+      <div className="p-6 border-b space-y-4">
         {cartItems.map((item) => (
-          <div key={item.id} className="flex gap-3">
-            <div className="relative w-16 h-16 bg-gray-100 rounded-md overflow-hidden shrink-0">
-              <Image
-                src={item.image}
-                alt={item.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="flex-1">
-              <h4 className="font-medium text-sm">{item.name}</h4>
-              <p className="text-xs text-muted-foreground">
-                {item.size} | {item.color}
-              </p>
-              <p className="text-sm">
-                Količina: {item.quantity} × ${item.price.toFixed(2)}
-              </p>
-            </div>
-          </div>
+          <CartItem key={item.id} item={item} />
         ))}
       </div>
 
       {/* Cart Summary */}
-      <div className="space-y-3 p-6">
+      <div className="space-y-6 p-6">
         <div className="flex justify-between text-lg font-bold">
           <span>Ukupno:</span>
           <span>{total.toFixed(2)} KM</span>

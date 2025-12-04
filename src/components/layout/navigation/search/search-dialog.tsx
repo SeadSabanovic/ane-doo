@@ -50,7 +50,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const suggestions = [
     {
       id: 1,
-      name: "Klasična majica - Crna",
+      name: "Klasična majica",
       price: 16.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -58,7 +58,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 2,
-      name: "Džemper sa V izrezom - Siva",
+      name: "Džemper sa V izrezom",
       price: 17.99,
       link: "/shop/basic-t-shirt",
       image:

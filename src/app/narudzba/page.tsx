@@ -15,21 +15,43 @@ export default function CheckoutPage() {
   const cartItems = [
     {
       id: 1,
-      name: "Basic T-Shirt",
-      price: 29.99,
-      image: "/images/product/shirt.png",
+      name: "Klasična majica - Crna",
+      price: 16.99,
+      image:
+        "https://i.pinimg.com/1200x/57/de/dd/57dedd3f780ef00be19e543781155b12.jpg",
       quantity: 2,
       size: "M",
       color: "Crna",
     },
     {
-      id: 3,
-      name: "Denim Jacket",
-      price: 89.99,
-      image: "/images/product/shirt.png",
+      id: 2,
+      name: "Džemper sa V izrezom - Siva",
+      price: 17.99,
+      image:
+        "https://i.pinimg.com/1200x/ae/f9/fe/aef9fe1869d8098043de2ba7388840eb.jpg",
       quantity: 1,
       size: "L",
-      color: "Dark Blue",
+      color: "Siva",
+    },
+    {
+      id: 3,
+      name: "Chino hlače - Plava",
+      price: 18.99,
+      image:
+        "https://i.pinimg.com/736x/82/3c/fa/823cfac2a92c5e7c817b82f67dfdc854.jpg",
+      quantity: 1,
+      size: "M",
+      color: "Plava",
+    },
+    {
+      id: 4,
+      name: "Košulja - Bijela",
+      price: 20.99,
+      image:
+        "https://i.pinimg.com/1200x/67/e6/e7/67e6e7e4dd988bb2a54cfe976ef356c8.jpg",
+      quantity: 1,
+      size: "L",
+      color: "Bijela",
     },
   ];
 
