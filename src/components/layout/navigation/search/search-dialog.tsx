@@ -66,7 +66,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 3,
-      name: "Chino hlače - Plava",
+      name: "Chino hlače",
       price: 18.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -74,7 +74,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 4,
-      name: "Trenerka - Crna",
+      name: "Trenerka",
       price: 19.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -82,7 +82,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 5,
-      name: "Košulja - Bijela",
+      name: "Košulja",
       price: 20.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -90,7 +90,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 6,
-      name: "Duks sa kapuljačom - Siva",
+      name: "Duks sa kapuljačom",
       price: 21.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -98,7 +98,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 7,
-      name: "Kaput - Bež",
+      name: "Kaput",
       price: 22.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -106,7 +106,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     },
     {
       id: 8,
-      name: "Kratke hlače - Tamno plava",
+      name: "Kratke hlače",
       price: 23.99,
       link: "/shop/basic-t-shirt",
       image:
@@ -154,25 +154,27 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         </DialogHeader>
 
         {/* Dialog Body */}
-        <div className="p-6 flex-1 overflow-scroll rounded-b-md">
-          {searchQuery && filteredSuggestions.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              Nema rezultata za &quot;{searchQuery}&quot;
-            </div>
-          ) : (
-            <div className="space-y-2 flex flex-col gap-2">
-              <h3 className="text-xl font-medium">Najprodavaniji komadi</h3>
-              {filteredSuggestions.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.link}
-                  onClick={() => handleOpenChange(false)}
-                >
-                  <SearchProduct product={item} />
-                </Link>
-              ))}
-            </div>
-          )}
+        <div className="flex-1 overflow-hidden rounded-b-md">
+          <div className="h-full overflow-auto p-6 rounded-b-md">
+            {searchQuery && filteredSuggestions.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                Nema rezultata za &quot;{searchQuery}&quot;
+              </div>
+            ) : (
+              <div className="space-y-2 flex flex-col gap-2">
+                <h3 className="text-xl font-medium">Najprodavaniji komadi</h3>
+                {filteredSuggestions.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.link}
+                    onClick={() => handleOpenChange(false)}
+                  >
+                    <SearchProduct product={item} />
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
