@@ -66,7 +66,7 @@ const Navigation = () => {
                   </Badge>
                 </Button>
               </Link>
-              <Link href="/blagajna">
+              <Link href="/narudzba">
                 <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart size={24} />
                   <Badge
