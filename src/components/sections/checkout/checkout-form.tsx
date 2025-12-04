@@ -103,7 +103,10 @@ export default function CheckoutForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 p-6 border rounded-md">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-8 p-6 border rounded-md flex-1"
+    >
       {/* Contact Information */}
       <div>
         <h2 className="text-2xl font-semibold mb-4">Kontakt informacije</h2>

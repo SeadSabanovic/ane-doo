@@ -46,11 +46,7 @@ export default function CheckoutPage() {
         title="Narudžba"
         description="Pregledajte i potvrdite svoju narudžbu. Završite proces kupovine u par koraka."
       />
-
-      <Container className="pb-20 flex flex-col gap-8">
-        {/* Checkout Form */}
-        <CheckoutForm />
-
+      <Container className="pb-20 flex flex-col lg:flex-row gap-8">
         {/* Order Summary */}
         <OrderSummary
           cartItems={cartItems}
@@ -58,6 +54,9 @@ export default function CheckoutPage() {
           shipping={shipping}
           total={total}
         />
+
+        {/* Checkout Form */}
+        <CheckoutForm />
       </Container>
     </>
   );
