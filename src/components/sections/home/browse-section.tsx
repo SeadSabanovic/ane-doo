@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import SectionBadge from "@/components/ui/section-badge";
-import { SpinningText } from "@/components/ui/spinning-text";
 import AnimatedImage from "@/components/ui/animated-image";
 
 const categories = [
