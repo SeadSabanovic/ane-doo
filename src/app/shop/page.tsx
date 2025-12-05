@@ -2,6 +2,7 @@ import Container from "@/components/layout/container";
 import PageHeader from "@/components/layout/page-header";
 import ShopPagination from "@/components/sections/shop/shop-pagination";
 import ShopSidebar from "@/components/sections/shop/shop-sidebar";
+import ShopToolbar from "@/components/sections/shop/shop-toolbar";
 import ProductCard from "@/components/ui/product-card";
 import { Metadata } from "next";
 
@@ -172,8 +173,9 @@ export default function ShopPage() {
         ]}
       />
 
-      <Container className="flex flex-col lg:flex-row gap-8">
-        <ShopSidebar />
+      <Container className="flex flex-col gap-8">
+        <ShopToolbar />
+        {/* <ShopSidebar /> */}
 
         <div className="flex flex-1 flex-col gap-8 lg:gap-12 pb-20">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 flex-1">
