@@ -46,7 +46,7 @@ export default function ShopToolbar() {
         </InputGroupAddon>
       </InputGroup>
 
-      <div className="flex items-center gap-4 w-full">
+      <div className="flex items-center gap-4 w-full xl:max-w-sm">
         {/* Sort */}
         <Select value={sortBy} onValueChange={setSortBy}>
           <SelectTrigger className="flex-1">
