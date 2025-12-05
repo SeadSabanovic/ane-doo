@@ -5,7 +5,7 @@ import CheckoutForm from "@/components/sections/checkout/checkout-form";
 import OrderSummary from "@/components/sections/checkout/order-summary";
 
 export const metadata: Metadata = {
-  title: "Narudžba",
+  title: "Korpa - ANE D.O.O.",
   description:
     "Završite vašu narudžbu. Unesite podatke za dostavu i odaberite način plaćanja.",
 };
@@ -105,11 +105,15 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <PageHeader
+      <PageHeader 
         title="Narudžba"
         description="Pregledajte i potvrdite svoju narudžbu. Završite proces kupovine u par koraka."
+        breadcrumbItems={[
+          { label: "Početna", href: "/" },
+          { label: "Narudžba", href: "/narudzba" },
+        ]}
       />
-      <Container className="pb-20 flex flex-col lg:flex-row gap-8">
+      <Container className="pb-20 flex flex-col lg:grid lg:grid-cols-5 gap-8">
         {/* Order Summary */}
         <OrderSummary cartItems={cartItems} total={total} />
 
