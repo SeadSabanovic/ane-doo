@@ -275,7 +275,7 @@ export default function ShopFilterDialog() {
           </Button>
           <Button variant="default" className="flex-1">
             <CheckIcon />
-            Primijeni filtre
+            Primjeni filtere
           </Button>
         </DialogFooter>
       </DialogContent>
