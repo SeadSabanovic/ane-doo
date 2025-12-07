@@ -136,7 +136,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           </DialogDescription>
 
           {/* Search Bar */}
-          <InputGroup className="bg-background">
+          <InputGroup className="bg-background! rounded-md h-fit">
             <InputGroupInput
               id="search-input"
               name="search"
@@ -144,11 +144,13 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
               placeholder="Pretraga..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              autoFocus
               autoComplete="off"
+              className="text-lg!"
             />
-            <InputGroupAddon>
-              <Search />
+            <InputGroupAddon className="pl-1 py-1">
+              <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-sm">
+                <Search />
+              </div>
             </InputGroupAddon>
           </InputGroup>
         </DialogHeader>

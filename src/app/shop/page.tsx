@@ -172,13 +172,12 @@ export default function ShopPage() {
           { label: "Shop", href: "/shop" },
         ]}
       />
+      <ShopToolbar />
+      <Container className="lg:flex-row lg:flex gap-8 pb-20">
+        <ShopSidebar />
 
-      <Container className="flex flex-col gap-8">
-        <ShopToolbar />
-        {/* <ShopSidebar /> */}
-
-        <div className="flex flex-1 flex-col gap-8 lg:gap-12 pb-20">
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-6 flex-1">
+        <div className="flex flex-1 flex-col gap-8 lg:gap-12">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 flex-1">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

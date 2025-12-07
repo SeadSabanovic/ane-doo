@@ -27,7 +27,9 @@ import { categoryData } from "@/constants/categories";
 
 export default function ShopFilterDialog() {
   const [open, setOpen] = useState(false);
-  const [openAccordion, setOpenAccordion] = useState<string>("categories");
+  const [openAccordion, setOpenAccordion] = useState<string | undefined>(
+    undefined
+  );
   const [selectedCategories, setSelectedCategories] = useState<Set<number>>(
     new Set()
   );
@@ -54,17 +56,6 @@ export default function ShopFilterDialog() {
       }
     };
   }, [open, lenis]);
-
-  const handleValueChange = (value: string) => {
-    // Osiguraj da uvijek jedan accordion item bude otvoren
-    // Ako korisnik pokuša zatvoriti otvoreni, automatski otvori prvi
-    if (value === "" || !value) {
-      // Ako zatvara trenutni, otvori prvi (categories)
-      setOpenAccordion("categories");
-    } else {
-      setOpenAccordion(value);
-    }
-  };
 
   // Provjeri da li su sve subkategorije odabrane
   const areAllSubcategoriesSelected = (categoryId: number) => {
@@ -160,8 +151,13 @@ export default function ShopFilterDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="xl:hidden flex flex-1">
-          <FilterIcon />
+        <Button
+          variant="outline"
+          className="xl:hidden flex flex-1 items-center justify-start p-1 h-fit hover:bg-background/80!"
+        >
+          <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-sm">
+            <FilterIcon />
+          </div>
           Filteri
         </Button>
       </DialogTrigger>
@@ -175,8 +171,9 @@ export default function ShopFilterDialog() {
 
         <Accordion
           type="single"
+          collapsible
           value={openAccordion}
-          onValueChange={handleValueChange}
+          onValueChange={setOpenAccordion}
           className="w-full p-6 flex-1 overflow-y-auto"
         >
           {/* Kategorije */}

@@ -9,7 +9,7 @@ export default function Container({
 }) {
   return (
     <section
-      className={cn("container mx-auto px-4 sm:px-8 xl:px-0", className)}
+      className={cn("container mx-auto px-4 sm:px-8 xl:px-4", className)}
     >
       {children}
     </section>

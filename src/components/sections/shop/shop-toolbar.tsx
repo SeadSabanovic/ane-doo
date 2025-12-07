@@ -15,6 +15,8 @@ import {
 import { ArrowDown01, Search } from "lucide-react";
 import { useState } from "react";
 import ShopFilterDialog from "./shop-filter-dialog";
+import Container from "@/components/layout/container";
+import { Label } from "@/components/ui/label";
 
 export default function ShopToolbar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,47 +30,75 @@ export default function ShopToolbar() {
   ];
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-between lg:flex-row p-4 rounded-md border">
-      {/* Search Bar */}
-      <InputGroup className="bg-background">
-        <InputGroupInput
-          id="search-input"
-          name="search"
-          type="text"
-          placeholder="Pretraga..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          autoFocus
-          autoComplete="off"
-        />
-        <InputGroupAddon>
-          <Search />
-        </InputGroupAddon>
-      </InputGroup>
+    <Container className="pb-8">
+      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row p-4 rounded-md border bg-secondary-muted/20 lg:items-end lg:p-6">
+        {/* Search Bar */}
+        <div className="flex flex-col items-stretch gap-2 w-full flex-1">
+          <Label
+            htmlFor="search-input"
+            className="text-sm font-medium whitespace-nowrap"
+          >
+            Pretraga:
+          </Label>
+          <InputGroup className="bg-background! rounded-md h-fit">
+            <InputGroupInput
+              id="search-input"
+              name="search"
+              type="text"
+              placeholder="Pretraga..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoComplete="off"
+              className="text-lg!"
+            />
+            <InputGroupAddon className="pl-1 py-1">
+              <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-sm">
+                <Search />
+              </div>
+            </InputGroupAddon>
+          </InputGroup>
+        </div>
 
-      <div className="flex items-center gap-4 w-full xl:max-w-sm">
-        {/* Sort */}
-        <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="flex-1">
-            <SelectValue>
-              <ArrowDown01 size={20} />
-              {sortOptions.find((opt) => opt.value === sortBy)?.label}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            {sortOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                <div className="flex items-center justify-between w-full">
-                  <span>{option.label}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex w-full flex-1 items-end gap-4 xl:max-w-sm">
+          {/* Sort */}
+          <div className="flex flex-col items-stretch gap-2 flex-1">
+            <Label
+              htmlFor="sort-select"
+              className="text-sm font-medium whitespace-nowrap"
+            >
+              Sortiraj:
+            </Label>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger
+                id="sort-select"
+                className="flex-1 bg-background! h-fit! p-1 pr-2 w-full cursor-pointer font-medium!"
+              >
+                <SelectValue className="h-fit">
+                  <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground! rounded-sm">
+                    <ArrowDown01
+                      size={20}
+                      className="text-primary-foreground"
+                    />
+                  </div>
+                  {sortOptions.find((opt) => opt.value === sortBy)?.label}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {sortOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    <div className="flex items-center justify-between w-full font-medium">
+                      <span>{option.label}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-        {/* Filter */}
-        <ShopFilterDialog />
+          {/* Filter */}
+          <ShopFilterDialog />
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }
