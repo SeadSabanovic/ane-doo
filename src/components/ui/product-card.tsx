@@ -2,6 +2,7 @@ import { Heart } from "lucide-react";
 import { Badge } from "./badge";
 import Link from "next/link";
 import AnimatedImage from "./animated-image";
+import { cn } from "@/lib/utils";
 
 interface Product {
   id: number;
@@ -10,6 +11,7 @@ interface Product {
   image: string;
   badge?: string;
   link: string;
+  saved?: boolean;
 }
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -28,11 +30,24 @@ export default function ProductCard({ product }: { product: Product }) {
         />
       </Link>
 
-      <div className="group/heart absolute backdrop-blur-sm top-2 right-2 z-20 p-3 bg-muted/20 rounded-full cursor-pointer hover:bg-destructive/20">
-        <Heart
-          className="text-white group-hover/heart:text-destructive"
-          size={16}
-        />
+      <div
+        className={cn(
+          "group/heart absolute backdrop-blur-sm top-2 right-2 z-20 p-3 bg-muted/20 rounded-full cursor-pointer hover:bg-destructive/20 transition",
+          product.saved ? "bg-destructive/20 hover:bg-destructive/10" : "bg-muted/20 hover:bg-muted/20"
+        )}
+      >
+        {product.saved ? (
+          <Heart
+            className="text-destructive group-hover/heart:text-destructive"
+            fill="currentColor"
+            size={16}
+          />
+        ) : (
+          <Heart
+            className="text-white group-hover/heart:text-destructive"
+            size={16}
+          />
+        )}
       </div>
 
       {product.badge && (

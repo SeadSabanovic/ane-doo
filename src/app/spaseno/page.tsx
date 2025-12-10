@@ -21,6 +21,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/736x/d7/5b/4f/d75b4f080a55b0500799077eb37989a3.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 2,
@@ -29,6 +30,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/1200x/82/6b/35/826b3584f6cdeb75dcbf1e2801313521.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 3,
@@ -37,6 +39,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/736x/d8/6c/a7/d86ca7b2f915885bc5ef7d3b1e6cd4ec.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 4,
@@ -45,6 +48,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/736x/7e/c1/b6/7ec1b6940782133e1a9d04f2db1e2134.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 5,
@@ -53,6 +57,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/736x/fe/bc/b4/febcb44882494610c8c4b1f5b55ea74b.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 6,
@@ -61,6 +66,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/1200x/36/83/8f/36838f6fd4d878649c5eab015f591aff.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 7,
@@ -69,6 +75,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/736x/27/1a/1d/271a1d30b5c96cf9bbeb4a9aaf861548.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
     {
       id: 8,
@@ -77,6 +84,7 @@ export default function FavoritesPage() {
       image:
         "https://i.pinimg.com/1200x/b2/4b/fc/b24bfcec26d2772701f88e06192d1d09.jpg",
       link: "/shop/basic-t-shirt",
+      saved: true,
     },
   ];
 
