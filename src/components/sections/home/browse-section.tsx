@@ -10,7 +10,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import SectionBadge from "@/components/ui/section-badge";
 import AnimatedImage from "@/components/ui/animated-image";
 
@@ -135,8 +134,6 @@ export default function BrowseSection() {
             </Button>
           </div>
         </div>
-
-        <Separator className="mt-10" />
       </Container>
 
       <div className="mt-10 relative">
