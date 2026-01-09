@@ -2,7 +2,6 @@ import Container from "@/components/layout/container";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import ProductCard from "@/components/ui/product-card";
 import SectionBadge from "@/components/ui/section-badge";
-import { Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function NewSection() {
@@ -83,9 +82,7 @@ export default function NewSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge icon={<Sparkles size={18} />} className="mx-auto md:mx-0">
-          Nedavno dodano
-        </SectionBadge>
+        <SectionBadge className="mx-auto md:mx-0">Nedavno dodano</SectionBadge>
         <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
           Nova kolekcija
         </h2>

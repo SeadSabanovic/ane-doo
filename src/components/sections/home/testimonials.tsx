@@ -119,9 +119,7 @@ export default function Testimonials() {
     <section className="py-20">
       <Container>
         <div className="mb-8">
-          <SectionBadge icon={<Heart size={18} />} className="mx-auto md:mx-0">
-            Povjerenje
-          </SectionBadge>
+          <SectionBadge className="mx-auto md:mx-0">Povjerenje</SectionBadge>
           <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
             Naši klijenti kažu...
           </h2>

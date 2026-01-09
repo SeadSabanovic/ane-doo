@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Container from "@/components/layout/container";
-import { Tags, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -99,7 +99,7 @@ export default function BrowseSection() {
     <section className="py-20">
       <Container>
         <div className="relative">
-          <SectionBadge icon={<Tags size={18} />} className="mx-auto md:mx-0">
+          <SectionBadge className="mx-auto md:mx-0">
             Kategorije
           </SectionBadge>
           <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">

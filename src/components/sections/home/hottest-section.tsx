@@ -2,7 +2,6 @@ import Container from "@/components/layout/container";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import ProductCard from "@/components/ui/product-card";
 import SectionBadge from "@/components/ui/section-badge";
-import { Flame } from "lucide-react";
 import Link from "next/link";
 
 export default function HottestSection() {
@@ -75,9 +74,7 @@ export default function HottestSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge icon={<Flame size={18} />} className="mx-auto md:mx-0">
-          Najtraženije
-        </SectionBadge>
+        <SectionBadge className="mx-auto md:mx-0">Najtraženije</SectionBadge>
         <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
           Najbolje iz ponude
         </h2>
