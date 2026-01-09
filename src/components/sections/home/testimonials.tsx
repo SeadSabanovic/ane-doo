@@ -1,5 +1,5 @@
 import Container from "@/components/layout/container";
-import { Heart, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
 import SectionBadge from "@/components/ui/section-badge";
