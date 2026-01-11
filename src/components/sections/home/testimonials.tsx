@@ -3,7 +3,6 @@ import { Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
 import SectionBadge from "@/components/ui/section-badge";
-import Image from "next/image";
 
 const testimonials = [
   {
@@ -12,7 +11,6 @@ const testimonials = [
 
     content:
       "Odlična kvaliteta majica, brza dostava i profesionalna usluga. Preporučujem svima!",
-    img: "https://avatar.vercel.sh/amina",
   },
   {
     id: "testimonial-2",
@@ -20,7 +18,6 @@ const testimonials = [
 
     content:
       "Najbolji izbor odjeće u gradu. Cijene su pristupačne, a kvaliteta izvrsna.",
-    img: "https://avatar.vercel.sh/emir",
   },
   {
     id: "testimonial-3",
@@ -28,14 +25,12 @@ const testimonials = [
 
     content:
       "Kupujem ovdje već godinama i nikad nisam bila razočarana. Topla preporuka!",
-    img: "https://avatar.vercel.sh/lejla",
   },
   {
     id: "testimonial-4",
     name: "Adnan Hodžić",
 
     content: "Odličan odnos cijene i kvalitete. Dostava je uvijek na vrijeme.",
-    img: "https://avatar.vercel.sh/adnan",
   },
   {
     id: "testimonial-5",
@@ -43,7 +38,6 @@ const testimonials = [
 
     content:
       "Veliki izbor, ljubazno osoblje i brza usluga. Definitivno ću se vratiti!",
-    img: "https://avatar.vercel.sh/emina",
   },
   {
     id: "testimonial-6",
@@ -51,7 +45,6 @@ const testimonials = [
 
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
-    img: "https://avatar.vercel.sh/armin",
   },
   {
     id: "testimonial-7",
@@ -59,7 +52,6 @@ const testimonials = [
 
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
-    img: "https://avatar.vercel.sh/armin",
   },
   {
     id: "testimonial-8",
@@ -67,22 +59,13 @@ const testimonials = [
 
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
-    img: "https://avatar.vercel.sh/armin",
   },
 ];
 
 const firstRow = testimonials.slice(0, testimonials.length / 2);
 const secondRow = testimonials.slice(testimonials.length / 2);
 
-const ReviewCard = ({
-  img,
-  name,
-  content,
-}: {
-  img: string;
-  name: string;
-  content: string;
-}) => {
+const ReviewCard = ({ name, content }: { name: string; content: string }) => {
   return (
     <figure
       className={cn(
@@ -91,14 +74,6 @@ const ReviewCard = ({
     >
       <Quote className="absolute top-2 right-2 size-8 text-primary/10 z-10" />
       <div className="flex flex-row items-center gap-2 mb-3 relative z-20">
-        <Image
-          className="rounded-full"
-          width={32}
-          height={32}
-          alt={name}
-          src={img}
-          unoptimized
-        />
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium text-secondary-foreground">
             {name}

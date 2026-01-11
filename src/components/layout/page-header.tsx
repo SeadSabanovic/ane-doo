@@ -28,19 +28,19 @@ export default function PageHeader({
   return (
     <div
       className={cn(
-        "py-8 lg:py-12 border-b mb-20 bg-linear-to-r from-primary to-card-foreground",
+        "py-8 lg:py-12 mb-20 bg-primary/20",
         !title && "py-4 lg:py-6 mb-4 lg:mb-20"
       )}
     >
       <Container className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           {title && title.length > 0 && (
-            <h1 className="font-bold text-3xl lg:text-4xl text-accent">
+            <h1 className="font-bold text-3xl lg:text-4xl text-primary">
               {title}
             </h1>
           )}
           {description && description.length > 0 && (
-            <p className="text-lg mt-2 text-primary-foreground max-w-2xl">
+            <p className="text-lg mt-2 max-w-2xl">
               {description}
             </p>
           )}
@@ -52,13 +52,13 @@ export default function PageHeader({
                 <Fragment key={index}>
                   <BreadcrumbItem className="text-lg">
                     {index === breadcrumbItems.length - 1 ? (
-                      <BreadcrumbPage className="text-accent">
+                      <BreadcrumbPage className="text-primary">
                         {item.label}
                       </BreadcrumbPage>
                     ) : (
                       <BreadcrumbLink
                         asChild
-                        className="text-secondary-muted/70"
+                        className="text-primary/70"
                       >
                         <Link href={item.href}>{item.label}</Link>
                       </BreadcrumbLink>
