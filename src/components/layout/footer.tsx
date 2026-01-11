@@ -1,4 +1,6 @@
 import Container from "@/components/layout/container";
+import { SOCIALS } from "@/constants/socials";
+import Link from "next/link";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -41,9 +43,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h2 className="mb-4 text-accent font-medium text-xl">
-              Linkovi
-            </h2>
+            <h2 className="mb-4 text-accent font-medium text-xl">Linkovi</h2>
 
             <ul className="flex flex-col gap-2 text-primary-foreground">
               <li>
@@ -70,9 +70,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h2 className="mb-4 text-accent font-medium text-xl">
-              ANE D.O.O.
-            </h2>
+            <h2 className="mb-4 text-accent font-medium text-xl">ANE D.O.O.</h2>
 
             <ul className="flex flex-col gap-2 text-primary-foreground">
               <li>
@@ -101,8 +99,18 @@ const Footer = () => {
       </Container>
 
       <div className="py-5 xl:py-7.5 bg-accent text-accent-foreground font-medium">
-        <Container>
+        <Container className="flex items-center justify-between flex-col md:flex-row gap-4">
           <p>&copy; 2000 - {year} ANE D.O.O. Sva prava zadržana.</p>
+
+          <div className="flex items-center gap-6">
+            {SOCIALS.map((social) => (
+              <Link key={social.name} href={social.url} target="_blank">
+                <div className="size-5 rounded-full flex items-center justify-center text-primary hover:scale-110 transition-all duration-200">
+                  {social.icon}
+                </div>
+              </Link>
+            ))}
+          </div>
         </Container>
       </div>
     </footer>

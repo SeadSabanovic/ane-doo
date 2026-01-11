@@ -21,13 +21,13 @@ export const AnimatedShinyText: FC<AnimatedShinyTextProps> = ({
         } as CSSProperties
       }
       className={cn(
-        "mx-auto max-w-md text-secondary-foreground/50",
+        "mx-auto max-w-md text-card/60",
 
         // Shine effect
-        "animate-shiny-text bg-size-[var(--shiny-width)_100%] bg-clip-text [bg-position:0_0] bg-no-repeat [transition:background-position_1s_cubic-bezier(.6,.6,0,1)_infinite]",
+        "animate-shiny-text bg-size-[var(--shiny-width)_100%] bg-clip-text [bg-position:0_0] bg-no-repeat [transition:background-position_1s_cubic-bezier(.6,.6,0,1)_infinite] duration-75",
 
         // Shine gradient
-        "bg-linear-to-r from-transparent via-primary via-50% to-transparent",
+        "bg-linear-to-r from-transparent via-secondary via-50% to-transparent",
 
         className
       )}

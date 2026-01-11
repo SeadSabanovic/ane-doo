@@ -86,12 +86,10 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative h-full w-64 cursor-pointer overflow-hidden rounded-md p-4 transition",
-        // light styles
-        "bg-secondary/10 hover:bg-secondary/20"
+        "relative h-full w-64 cursor-pointer overflow-hidden rounded-md p-4 transition"
       )}
     >
-      <Quote className="absolute top-2 right-2 size-8 text-secondary-muted/50 z-10" />
+      <Quote className="absolute top-2 right-2 size-8 text-primary/10 z-10" />
       <div className="flex flex-row items-center gap-2 mb-3 relative z-20">
         <Image
           className="rounded-full"
