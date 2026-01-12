@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/accordion";
 import CostSlider from "@/components/ui/cost-slider";
 import { Label } from "@/components/ui/label";
-import { Badge } from "../../ui/badge";
 import { categoryData } from "@/constants/categories";
 
 export default function ShopSidebar() {
@@ -107,9 +106,8 @@ export default function ShopSidebar() {
 
   return (
     <aside className="w-full max-w-2xs space-y-3 hidden xl:block xl:sticky xl:top-24 xl:self-start rounded-md border">
-      <div className="flex justify-between items-center gap-2 p-6 border-b bg-secondary-muted/20 mb-0">
-        <h4 className="text-lg font-medium">Filteri</h4>
-        <FilterIcon className="text-secondary" />
+      <div className="flex justify-between items-center gap-2 mb-0 p-4">
+        <h4 className="text-lg font-medium">Filteri:</h4>
       </div>
 
       <Accordion
@@ -189,7 +187,7 @@ export default function ShopSidebar() {
 
         {/* Cijena */}
         <AccordionItem value="price">
-          <AccordionTrigger className="text-lg font-semibold px-6">
+          <AccordionTrigger className="text-lg font-semibold px-6 cursor-pointer">
             Cijena
           </AccordionTrigger>
           <AccordionContent className="px-2">

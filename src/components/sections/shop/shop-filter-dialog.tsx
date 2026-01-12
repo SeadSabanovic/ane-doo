@@ -57,17 +57,6 @@ export default function ShopFilterDialog() {
     };
   }, [open, lenis]);
 
-  // Provjeri da li su sve subkategorije odabrane
-  const areAllSubcategoriesSelected = (categoryId: number) => {
-    const category = categoryData.find((cat) => cat.id === categoryId);
-    if (!category?.subcategories || category.subcategories.length === 0) {
-      return false;
-    }
-    return category.subcategories.every((sub) =>
-      selectedSubcategories.has(sub.id)
-    );
-  };
-
   // Handler za top-level kategoriju
   const handleCategoryChange = (categoryId: number, checked: boolean) => {
     const category = categoryData.find((cat) => cat.id === categoryId);
@@ -153,9 +142,9 @@ export default function ShopFilterDialog() {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="xl:hidden flex flex-1 items-center justify-start p-1 h-fit hover:bg-background/80!"
+          className="xl:hidden flex flex-1 items-center justify-start p-1 h-fit hover:bg-background/80! rounded-full"
         >
-          <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-sm">
+          <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-full">
             <FilterIcon />
           </div>
           Filteri

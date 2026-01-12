@@ -31,16 +31,16 @@ export default function ShopToolbar() {
 
   return (
     <Container className="pb-8">
-      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row p-4 rounded-md border bg-secondary-muted/20 lg:items-end lg:p-6">
+      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row lg:items-end ">
         {/* Search Bar */}
         <div className="flex flex-col items-stretch gap-2 w-full flex-1">
           <Label
             htmlFor="search-input"
-            className="text-sm font-medium whitespace-nowrap"
+            className="text-sm font-medium whitespace-nowrap sr-only"
           >
             Pretraga:
           </Label>
-          <InputGroup className="bg-background! rounded-md h-fit">
+          <InputGroup className="bg-background! rounded-full h-fit">
             <InputGroupInput
               id="search-input"
               name="search"
@@ -52,7 +52,7 @@ export default function ShopToolbar() {
               className="text-lg!"
             />
             <InputGroupAddon className="pl-1 py-1">
-              <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-sm">
+              <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-full">
                 <Search />
               </div>
             </InputGroupAddon>
@@ -64,19 +64,19 @@ export default function ShopToolbar() {
           <div className="flex flex-col items-stretch gap-2 flex-1">
             <Label
               htmlFor="sort-select"
-              className="text-sm font-medium whitespace-nowrap"
+              className="text-sm font-medium whitespace-nowrap sr-only"
             >
               Sortiraj:
             </Label>
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger
                 id="sort-select"
-                className="flex-1 bg-background! h-fit! p-1 pr-2 w-full cursor-pointer font-medium!"
+                className="flex-1 bg-background! h-fit! p-1 pr-2 w-full cursor-pointer font-medium! rounded-full"
               >
                 <SelectValue className="h-fit">
-                  <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground! rounded-sm">
+                  <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground! rounded-full">
                     <ArrowDown01
-                      size={20}
+                      size={24}
                       className="text-primary-foreground"
                     />
                   </div>
