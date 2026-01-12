@@ -1,6 +1,7 @@
 import { Award, BadgeCheck, Boxes, Store, Tag, Truck } from "lucide-react";
 import { Marquee } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
+import { NumberTicker } from "@/components/ui/number-ticker";
 
 const ICON_SIZE = 36;
 const ICON_STROKE_WIDTH = 1;
@@ -61,7 +62,6 @@ const FeatureCard = ({
     </div>
   );
 };
-
 const HeroFeature = () => {
   return (
     <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
@@ -75,6 +75,33 @@ const HeroFeature = () => {
           />
         ))}
       </Marquee>
+
+      {/* Tickers */}
+      <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto w-full mt-10 border-t border-secondary/20 pt-10">
+        {/* Year of experience */}
+        <div className="flex flex-1 items-center gap-2 flex-col">
+          <span className="flex items-center gap-2">
+            <NumberTicker
+              value={27}
+              className="text-foreground text-8xl lg:text-9xl"
+            />
+            <p className="text-2xl font-bold text-accent">+</p>
+          </span>
+          <h3 className="text-lg">Godina iskustva</h3>
+        </div>
+
+        {/* Products */}
+        <div className="flex flex-1 items-center gap-2 flex-col">
+          <span className="flex items-center gap-2">
+            <NumberTicker
+              value={988}
+              className="text-foreground text-8xl lg:text-9xl"
+            />
+            <p className="text-2xl font-bold text-accent">+</p>
+          </span>
+          <h3 className="text-lg">Proizvoda</h3>
+        </div>
+      </div>
     </div>
   );
 };

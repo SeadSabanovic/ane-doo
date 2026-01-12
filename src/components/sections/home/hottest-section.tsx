@@ -74,7 +74,7 @@ export default function HottestSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge className="mx-auto md:mx-0">Najtraženije</SectionBadge>
+        <SectionBadge className="mx-auto md:mx-0 justify-center md:justify-start">Najtraženije</SectionBadge>
         <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
           Najbolje iz ponude
         </h2>
