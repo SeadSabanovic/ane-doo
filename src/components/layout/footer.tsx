@@ -10,7 +10,7 @@ const Footer = () => {
       <Container>
         {/* <!-- footer menu start --> */}
         <div className="flex flex-wrap flex-col md:flex-row xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between py-12 xl:py-24">
-          <div className="flex-1">
+          <div className="flex-1 text-center md:text-left">
             <h2 className="mb-4 text-accent font-medium text-xl">
               Informacije i podrška
             </h2>
@@ -34,7 +34,7 @@ const Footer = () => {
                 </a>
               </li>
 
-              <li className="w-fit">
+              <li className="md:w-fit">
                 Ismeta Alajbegovića Šerbe 30,
                 <br />
                 Sarajevo 71000
@@ -42,7 +42,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="mb-4 text-accent font-medium text-xl">Linkovi</h2>
 
             <ul className="flex flex-col gap-2 text-primary-foreground">
@@ -69,7 +69,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="mb-4 text-accent font-medium text-xl">ANE D.O.O.</h2>
 
             <ul className="flex flex-col gap-2 text-primary-foreground">
