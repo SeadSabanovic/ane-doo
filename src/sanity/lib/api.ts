@@ -6,9 +6,12 @@ export interface Product {
   slug: {
     current: string;
   };
+  sku: string;
   description: string;
   price: number;
   salePrice?: number;
+  wholesalePrice: number;
+  wholesaleMinQuantity: number;
   images: {
     asset: {
       _ref: string;
@@ -33,6 +36,14 @@ export interface Product {
   inStock: boolean;
   featured: boolean;
   new: boolean;
+  tags?: string[];
+  material?: string;
+  weight?: string;
+  originCountry?: string;
+  specifications?: {
+    label: string;
+    value: string;
+  }[];
   order?: number;
 }
 
@@ -70,9 +81,12 @@ export const PRODUCTS_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
   description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -87,6 +101,11 @@ export const PRODUCTS_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -99,8 +118,12 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
+  description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -115,6 +138,11 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -127,8 +155,12 @@ export const NEW_PRODUCTS_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
+  description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -143,6 +175,11 @@ export const NEW_PRODUCTS_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -155,8 +192,12 @@ export const SALE_PRODUCTS_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
+  description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -171,6 +212,11 @@ export const SALE_PRODUCTS_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -235,9 +281,12 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
   description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -252,6 +301,11 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -264,8 +318,12 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
+  description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -280,6 +338,11 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -292,8 +355,12 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
+  description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -308,6 +375,11 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 
@@ -319,8 +391,12 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   _id,
   name,
   slug,
+  sku,
+  description,
   price,
   salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   images,
   category->{
     name,
@@ -335,6 +411,11 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   inStock,
   featured,
   new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
   order
 }`;
 

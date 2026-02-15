@@ -5,7 +5,7 @@ import AnimatedImage from "./animated-image";
 import { cn } from "@/lib/utils";
 
 interface Product {
-  id: number;
+  id: string | number;
   name: string;
   price: number;
   image: string;

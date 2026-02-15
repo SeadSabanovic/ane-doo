@@ -5,27 +5,8 @@ import PageHeader from "@/components/layout/page-header";
 import { ProductImages } from "@/components/sections/shop/product-images";
 import { ProductDetails } from "@/components/sections/shop/product-details";
 import MoreSuggestions from "@/components/sections/shop/more-suggestions";
-
-// Privremeni dummy podaci za proizvode
-const products = [
-  {
-    id: 1,
-    name: "Majica Nike",
-    price: 29.99,
-    image:
-      "https://i.pinimg.com/736x/cf/d7/09/cfd709e976e33108ea28b93587634b04.jpg",
-    images: [
-      "https://i.pinimg.com/1200x/63/d8/6d/63d86da526e349ba8f95142913a05172.jpg",
-      "https://i.pinimg.com/1200x/eb/43/3f/eb433ff60e1803ec46cd72f439888a6e.jpg",
-      "https://i.pinimg.com/1200x/c7/2a/b7/c72ab7172a0accc0c214532d7da715dd.jpg",
-    ],
-    slug: "basic-t-shirt",
-    description:
-      "Ova Nike pamučna majica dizajnirana je za one koji žele savršenu kombinaciju udobnosti, kvalitete i jednostavnog sportskog stila. Izrađena od mekane, prozračne 100% pamuk tkanine, majica nudi izuzetnu ugodnost tokom cijelog dana, bez obzira nosiš li je na poslu, treningu ili u slobodno vrijeme. Materijal omogućava prirodan osjećaj na koži, a ujedno je dovoljno izdržljiv da zadrži oblik i boju i nakon višestrukog pranja.",
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "White", "Navy", "Light Green", "Brown"],
-  },
-];
+import { getProductBySlug, getProducts } from "@/sanity/lib/api";
+import { urlFor } from "@/sanity/lib/image";
 
 export default async function ProductPage({
   params,
@@ -33,11 +14,48 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
+
+  // Convert Sanity image to URL
+  const mainImage = product.images[0]
+    ? urlFor(product.images[0]).width(800).height(800).url()
+    : "";
+  const images = product.images.map((img) =>
+    urlFor(img).width(800).height(800).url()
+  );
+
+  // Build specifications from product data
+  const specifications = [
+    { label: "Šifra", value: product.sku },
+    ...(product.material ? [{ label: "Materijal", value: product.material }] : []),
+    ...(product.weight ? [{ label: "Težina", value: product.weight }] : []),
+    ...(product.originCountry
+      ? [{ label: "Zemlja porijekla", value: product.originCountry === "turska" ? "Turska" : "Indonezija" }]
+      : []),
+    ...(product.specifications || []),
+  ];
+
+  // Convert sizes to uppercase for display
+  const displaySizes = product.sizes.map((s) => s.toUpperCase());
+
+  // Convert colors to display format
+  const colorMap: Record<string, string> = {
+    crna: "Crna",
+    bijela: "Bijela",
+    siva: "Siva",
+    plava: "Plava",
+    crvena: "Crvena",
+    zelena: "Zelena",
+    zuta: "Žuta",
+    roze: "Roze",
+    smeda: "Smeđa",
+    narandzasta: "Narandžasta",
+  };
+  const displayColors = product.colors?.map((c) => colorMap[c] || c) || [];
 
   return (
     <>
@@ -53,25 +71,19 @@ export default async function ProductPage({
         <div className="flex gap-8 flex-col lg:flex-row">
           {/* Product Images */}
           <ProductImages
-            mainImage={product.image}
-            images={product.images}
+            mainImage={mainImage}
+            images={images}
             productName={product.name}
           />
 
           {/* Product Details */}
           <ProductDetails
             name={product.name}
-            price={product.price}
+            price={product.salePrice || product.price}
             description={product.description}
-            specifications={[
-              { label: "Šifra", value: "NK-TSH-001" },
-              { label: "Materijal", value: "100% pamuk" },
-              { label: "Težina", value: "100g po komadu" },
-              { label: "Tip rukava", value: "Kratki rukav" },
-              { label: "Zemlja porijekla", value: "Turska" },
-            ]}
-            sizes={product.sizes}
-            colors={product.colors}
+            specifications={specifications}
+            sizes={displaySizes}
+            colors={displayColors}
             pricingSections={[
               {
                 type: "maloprodaja",
@@ -80,17 +92,17 @@ export default async function ProductPage({
                 pricingInfo: [
                   { label: "Rok isporuke", value: "7 radnih dana" },
                 ],
-                pricePerUnit: 29.99,
+                pricePerUnit: product.salePrice || product.price,
               },
               {
                 type: "veleprodaja",
                 infoText:
                   "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Popusti se obračunavaju po količinskim rangovima, a minimalna količina za ostvarivanje veleprodajne cijene navodi se uz svaki artikal.",
                 pricingInfo: [
-                  { label: "Pakovanje", value: "12 komada" },
+                  { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
                   { label: "Rok isporuke", value: "12 radnih dana" },
                 ],
-                pricePerUnit: 19.99,
+                pricePerUnit: product.wholesalePrice,
               },
             ]}
           />
@@ -103,9 +115,11 @@ export default async function ProductPage({
 }
 
 // Generate static params for all products
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const products = await getProducts();
+
   return products.map((product) => ({
-    slug: product.slug,
+    slug: product.slug.current,
   }));
 }
 
@@ -116,7 +130,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
