@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Accordion,
@@ -10,10 +10,14 @@ import {
 } from "@/components/ui/accordion";
 import CostSlider from "@/components/ui/cost-slider";
 import { Label } from "@/components/ui/label";
-import { getParentCategories, type Category } from "@/sanity/lib/api";
+import { type Category } from "@/sanity/lib/api";
+import { COLORS, SIZES } from "@/constants/colors";
 
-export default function ShopSidebar() {
-  const [categories, setCategories] = useState<Category[]>([]);
+interface ShopSidebarProps {
+  categories: Category[];
+}
+
+export default function ShopSidebar({ categories }: ShopSidebarProps) {
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     undefined
   );
@@ -23,14 +27,8 @@ export default function ShopSidebar() {
   const [selectedSubcategories, setSelectedSubcategories] = useState<
     Set<string>
   >(new Set());
-
-  useEffect(() => {
-    async function fetchCategories() {
-      const data = await getParentCategories();
-      setCategories(data);
-    }
-    fetchCategories();
-  }, []);
+  const [selectedColors, setSelectedColors] = useState<Set<string>>(new Set());
+  const [selectedSizes, setSelectedSizes] = useState<Set<string>>(new Set());
 
   // Handler za top-level kategoriju
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
@@ -112,6 +110,32 @@ export default function ShopSidebar() {
     }
   };
 
+  // Handler za boje
+  const handleColorChange = (colorKey: string, checked: boolean) => {
+    if (checked) {
+      setSelectedColors((prev) => new Set(prev).add(colorKey));
+    } else {
+      setSelectedColors((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(colorKey);
+        return newSet;
+      });
+    }
+  };
+
+  // Handler za veličine
+  const handleSizeChange = (sizeKey: string, checked: boolean) => {
+    if (checked) {
+      setSelectedSizes((prev) => new Set(prev).add(sizeKey));
+    } else {
+      setSelectedSizes((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(sizeKey);
+        return newSet;
+      });
+    }
+  };
+
   return (
     <aside className="w-full max-w-2xs space-y-3 hidden xl:block xl:sticky xl:top-24 xl:self-start rounded-md border">
       <div className="flex justify-between items-center gap-2 mb-0 p-4">
@@ -124,7 +148,6 @@ export default function ShopSidebar() {
         value={openAccordion}
         onValueChange={setOpenAccordion}
         className="w-full"
-        defaultValue="categories"
       >
         {/* Kategorije */}
         <AccordionItem value="categories">
@@ -187,6 +210,67 @@ export default function ShopSidebar() {
                         ))}
                       </div>
                     )}
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Boje */}
+        <AccordionItem value="colors">
+          <AccordionTrigger className="text-lg font-semibold px-6 cursor-pointer">
+            Boje
+          </AccordionTrigger>
+          <AccordionContent className="px-3">
+            <div className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
+              {COLORS.map((color) => (
+                <div key={color.key} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`sidebar-color-${color.key}`}
+                    checked={selectedColors.has(color.key)}
+                    onCheckedChange={(checked) =>
+                      handleColorChange(color.key, checked === true)
+                    }
+                  />
+                  <Label
+                    htmlFor={`sidebar-color-${color.key}`}
+                    className="flex items-center gap-2 text-sm font-medium cursor-pointer"
+                  >
+                    <span
+                      className="size-4 rounded-full border border-border"
+                      style={{ backgroundColor: color.value }}
+                      aria-hidden="true"
+                    />
+                    {color.name}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Veličine */}
+        <AccordionItem value="sizes">
+          <AccordionTrigger className="text-lg font-semibold px-6 cursor-pointer">
+            Veličine
+          </AccordionTrigger>
+          <AccordionContent className="px-3">
+            <div className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
+              {SIZES.map((size) => (
+                <div key={size.key} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`sidebar-size-${size.key}`}
+                    checked={selectedSizes.has(size.key)}
+                    onCheckedChange={(checked) =>
+                      handleSizeChange(size.key, checked === true)
+                    }
+                  />
+                  <Label
+                    htmlFor={`sidebar-size-${size.key}`}
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    {size.name}
+                  </Label>
                 </div>
               ))}
             </div>

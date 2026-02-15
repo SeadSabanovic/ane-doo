@@ -62,3 +62,13 @@ export const getColorHex = (key: string): string => {
   const color = COLORS.find((c) => c.key === key);
   return color?.value || "#000000";
 };
+
+// Sizes configuration
+export const SIZES = [
+  { key: "xs", name: "XS" },
+  { key: "s", name: "S" },
+  { key: "m", name: "M" },
+  { key: "l", name: "L" },
+  { key: "xl", name: "XL" },
+  { key: "xxl", name: "XXL" },
+];

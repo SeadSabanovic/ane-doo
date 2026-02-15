@@ -5,7 +5,7 @@ import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ShopToolbar from "@/components/sections/shop/shop-toolbar";
 import ProductCard from "@/components/ui/product-card";
 import { Metadata } from "next";
-import { getProducts } from "@/sanity/lib/api";
+import { getProducts, getParentCategories } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
@@ -18,7 +18,10 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ShopPage() {
-  const sanityProducts = await getProducts();
+  const [sanityProducts, categories] = await Promise.all([
+    getProducts(),
+    getParentCategories(),
+  ]);
 
   // Transform Sanity products to ProductCard format
   const products = sanityProducts.map((product) => ({
@@ -42,7 +45,7 @@ export default async function ShopPage() {
       />
       <ShopToolbar />
       <Container className="lg:flex-row lg:flex gap-8 pb-20">
-        <ShopSidebar />
+        <ShopSidebar categories={categories} />
 
         <div className="flex flex-1 flex-col gap-8 lg:gap-12">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 flex-1">
