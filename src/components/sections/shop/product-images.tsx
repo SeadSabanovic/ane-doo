@@ -19,19 +19,16 @@ import {
 } from "@/components/ui/carousel";
 
 interface ProductImagesProps {
-  mainImage: string;
   images?: string[];
   productName: string;
   className?: string;
 }
 
 export function ProductImages({
-  mainImage,
   images = [],
   productName,
   className,
 }: ProductImagesProps) {
-  const allImages = [mainImage, ...images];
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -143,18 +140,18 @@ export function ProductImages({
           onClick={() => setSelectedIndex(0)}
         >
           <AnimatedImage
-            src={mainImage}
+            src={images[0]}
             alt={productName}
             width={1000}
             height={1000}
-            className="object-cover size-full transition-transform duration-300 group-hover:scale-105"
+            className="object-cover size-full transition-all duration-300 group-hover:scale-105"
             priority={true}
           />
         </div>
 
-        {allImages.length > 1 && (
+        {images.length > 1 && (
           <div className="grid grid-cols-4 gap-4">
-            {allImages.map((image, index) => (
+            {images.map((image, index) => (
               <div
                 key={index}
                 className="relative aspect-square rounded-md overflow-hidden w-full cursor-pointer group"
@@ -195,7 +192,7 @@ export function ProductImages({
               className="size-full"
             >
               <CarouselContent className="size-full ml-0">
-                {allImages.map((image, index) => (
+                {images.map((image, index) => (
                   <CarouselItem
                     key={index}
                     className="size-full pl-0 basis-full"
@@ -253,7 +250,7 @@ export function ProductImages({
               {!isClosing && (
                 <div className="absolute bottom-[10lvh] md:bottom-[5lvh] right-4 pointer-events-none">
                   <div className="rounded-full px-4 py-2 bg-secondary/20 backdrop-blur-sm text-accent text-sm font-medium border border-secondary/40">
-                    {current + 1} / {allImages.length}
+                    {current + 1} / {images.length}
                   </div>
                 </div>
               )}

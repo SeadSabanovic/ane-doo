@@ -5,8 +5,38 @@ import PageHeader from "@/components/layout/page-header";
 import { ProductImages } from "@/components/sections/shop/product-images";
 import { ProductDetails } from "@/components/sections/shop/product-details";
 import MoreSuggestions from "@/components/sections/shop/more-suggestions";
-import { getProductBySlug, getProducts } from "@/sanity/lib/api";
+import { getProductBySlug, getProducts, Product } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
+import { getColorName } from "@/constants/colors";
+
+// Enable ISR - revalidate every 60 seconds
+export const revalidate = 60;
+
+// Generate all product pages at build time
+export const dynamicParams = true; // Allow new products to be generated on-demand
+
+// Helper function to generate pricing sections from product data
+function getPricingSections(product: Product) {
+  return [
+    {
+      type: "maloprodaja" as const,
+      infoText:
+        "Maloprodaja je način kupnje proizvoda u malim količinama, obično od 1 do 99 komada. Cijena po komadu je fiksna i ne varira ovisno o količini.",
+      pricingInfo: [{ label: "Rok isporuke", value: "7 radnih dana" }],
+      pricePerUnit: product.salePrice || product.price,
+    },
+    {
+      type: "veleprodaja" as const,
+      infoText:
+        "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Popusti se obračunavaju po količinskim rangovima, a minimalna količina za ostvarivanje veleprodajne cijene navodi se uz svaki artikal.",
+      pricingInfo: [
+        { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
+        { label: "Rok isporuke", value: "12 radnih dana" },
+      ],
+      pricePerUnit: product.wholesalePrice,
+    },
+  ];
+}
 
 export default async function ProductPage({
   params,
@@ -14,16 +44,16 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+
   const product = await getProductBySlug(slug);
+
+
 
   if (!product) {
     notFound();
   }
 
-  // Convert Sanity image to URL
-  const mainImage = product.images[0]
-    ? urlFor(product.images[0]).width(800).height(800).url()
-    : "";
   const images = product.images.map((img) =>
     urlFor(img).width(800).height(800).url()
   );
@@ -42,20 +72,8 @@ export default async function ProductPage({
   // Convert sizes to uppercase for display
   const displaySizes = product.sizes.map((s) => s.toUpperCase());
 
-  // Convert colors to display format
-  const colorMap: Record<string, string> = {
-    crna: "Crna",
-    bijela: "Bijela",
-    siva: "Siva",
-    plava: "Plava",
-    crvena: "Crvena",
-    zelena: "Zelena",
-    zuta: "Žuta",
-    roze: "Roze",
-    smeda: "Smeđa",
-    narandzasta: "Narandžasta",
-  };
-  const displayColors = product.colors?.map((c) => colorMap[c] || c) || [];
+  // Convert colors to display format using centralized color mapping
+  const displayColors = product.colors?.map((c) => getColorName(c)) || [];
 
   return (
     <>
@@ -71,7 +89,6 @@ export default async function ProductPage({
         <div className="flex gap-8 flex-col lg:flex-row">
           {/* Product Images */}
           <ProductImages
-            mainImage={mainImage}
             images={images}
             productName={product.name}
           />
@@ -84,27 +101,7 @@ export default async function ProductPage({
             specifications={specifications}
             sizes={displaySizes}
             colors={displayColors}
-            pricingSections={[
-              {
-                type: "maloprodaja",
-                infoText:
-                  "Maloprodaja je način kupnje proizvoda u malim količinama, obično od 1 do 99 komada. Cijena po komadu je fiksna i ne varira ovisno o količini.",
-                pricingInfo: [
-                  { label: "Rok isporuke", value: "7 radnih dana" },
-                ],
-                pricePerUnit: product.salePrice || product.price,
-              },
-              {
-                type: "veleprodaja",
-                infoText:
-                  "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Popusti se obračunavaju po količinskim rangovima, a minimalna količina za ostvarivanje veleprodajne cijene navodi se uz svaki artikal.",
-                pricingInfo: [
-                  { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
-                  { label: "Rok isporuke", value: "12 radnih dana" },
-                ],
-                pricePerUnit: product.wholesalePrice,
-              },
-            ]}
+            pricingSections={getPricingSections(product)}
           />
         </div>
       </Container>
@@ -112,6 +109,7 @@ export default async function ProductPage({
       <MoreSuggestions />
     </>
   );
+
 }
 
 // Generate static params for all products
@@ -130,6 +128,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+
   const product = await getProductBySlug(slug);
 
   if (!product) {

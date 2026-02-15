@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ProductSpecifications } from "./product-specifications";
 import { ProductOptions } from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
@@ -52,6 +53,17 @@ export function ProductDetails({
   pricingSections,
   className,
 }: ProductDetailsProps) {
+  const [openItem, setOpenItem] = useState<string>("");
+
+  useEffect(() => {
+    // Open second accordion item after 500ms
+    const timer = setTimeout(() => {
+      setOpenItem("item-1");
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className={cn("flex flex-col gap-6 flex-1", className)}>
       <div className="flex justify-between items-start">
@@ -73,9 +85,9 @@ export function ProductDetails({
 
       <Accordion
         type="single"
-        collapsible
         className="w-full rounded-md border"
-        defaultValue="item-1"
+        value={openItem}
+        onValueChange={setOpenItem}
       >
         {pricingSections.map((section, index) => {
           const isFirst = index === 0;
