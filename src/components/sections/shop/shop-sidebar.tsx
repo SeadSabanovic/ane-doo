@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Accordion,
@@ -10,22 +10,31 @@ import {
 } from "@/components/ui/accordion";
 import CostSlider from "@/components/ui/cost-slider";
 import { Label } from "@/components/ui/label";
-import { categoryData } from "@/constants/categories";
+import { getParentCategories, type Category } from "@/sanity/lib/api";
 
 export default function ShopSidebar() {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     undefined
   );
-  const [selectedCategories, setSelectedCategories] = useState<Set<number>>(
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
     new Set()
   );
   const [selectedSubcategories, setSelectedSubcategories] = useState<
-    Set<number>
+    Set<string>
   >(new Set());
 
+  useEffect(() => {
+    async function fetchCategories() {
+      const data = await getParentCategories();
+      setCategories(data);
+    }
+    fetchCategories();
+  }, []);
+
   // Handler za top-level kategoriju
-  const handleCategoryChange = (categoryId: number, checked: boolean) => {
-    const category = categoryData.find((cat) => cat.id === categoryId);
+  const handleCategoryChange = (categoryId: string, checked: boolean) => {
+    const category = categories.find((cat) => cat._id === categoryId);
 
     if (checked) {
       // Dodaj kategoriju i sve subkategorije
@@ -34,7 +43,7 @@ export default function ShopSidebar() {
         setSelectedSubcategories((prev) => {
           const newSet = new Set(prev);
           category.subcategories!.forEach((sub) => {
-            newSet.add(sub.id);
+            newSet.add(sub._id);
           });
           return newSet;
         });
@@ -50,7 +59,7 @@ export default function ShopSidebar() {
         setSelectedSubcategories((prev) => {
           const newSet = new Set(prev);
           category.subcategories!.forEach((sub) => {
-            newSet.delete(sub.id);
+            newSet.delete(sub._id);
           });
           return newSet;
         });
@@ -60,11 +69,11 @@ export default function ShopSidebar() {
 
   // Handler za subkategoriju
   const handleSubcategoryChange = (
-    categoryId: number,
-    subcategoryId: number,
+    categoryId: string,
+    subcategoryId: string,
     checked: boolean
   ) => {
-    const category = categoryData.find((cat) => cat.id === categoryId);
+    const category = categories.find((cat) => cat._id === categoryId);
 
     if (checked) {
       // Dodaj subkategoriju
@@ -75,7 +84,7 @@ export default function ShopSidebar() {
         // Ako jesu, automatski odaberi i top-level kategoriju
         if (category?.subcategories) {
           const allSelected = category.subcategories.every((sub) =>
-            newSet.has(sub.id)
+            newSet.has(sub._id)
           );
           if (allSelected) {
             setSelectedCategories((prevCat) =>
@@ -124,23 +133,23 @@ export default function ShopSidebar() {
           </AccordionTrigger>
           <AccordionContent className="px-3">
             <div className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
-              {categoryData.map((category) => (
-                <div key={category.id} className="flex flex-col gap-2">
+              {categories.map((category) => (
+                <div key={category._id} className="flex flex-col gap-2">
                   {/* Main Category */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Checkbox
-                        id={`sidebar-category-${category.id}`}
-                        checked={selectedCategories.has(category.id)}
+                        id={`sidebar-category-${category._id}`}
+                        checked={selectedCategories.has(category._id)}
                         onCheckedChange={(checked) =>
-                          handleCategoryChange(category.id, checked === true)
+                          handleCategoryChange(category._id, checked === true)
                         }
                       />
                       <Label
-                        htmlFor={`sidebar-category-${category.id}`}
+                        htmlFor={`sidebar-category-${category._id}`}
                         className="shrink-0 text-sm font-medium cursor-pointer"
                       >
-                        {category.title}
+                        {category.name}
                       </Label>
                     </div>
                   </div>
@@ -150,28 +159,28 @@ export default function ShopSidebar() {
                       <div className="flex flex-col gap-2 pl-6">
                         {category.subcategories.map((subcategory) => (
                           <div
-                            key={subcategory.id}
+                            key={subcategory._id}
                             className="flex items-center justify-between"
                           >
                             <div className="flex items-center gap-2">
                               <Checkbox
-                                id={`sidebar-subcategory-${subcategory.id}`}
+                                id={`sidebar-subcategory-${subcategory._id}`}
                                 checked={selectedSubcategories.has(
-                                  subcategory.id
+                                  subcategory._id
                                 )}
                                 onCheckedChange={(checked) =>
                                   handleSubcategoryChange(
-                                    category.id,
-                                    subcategory.id,
+                                    category._id,
+                                    subcategory._id,
                                     checked === true
                                   )
                                 }
                               />
                               <Label
-                                htmlFor={`sidebar-subcategory-${subcategory.id}`}
+                                htmlFor={`sidebar-subcategory-${subcategory._id}`}
                                 className="shrink-0 text-sm font-medium cursor-pointer"
                               >
-                                {subcategory.title}
+                                {subcategory.name}
                               </Label>
                             </div>
                           </div>

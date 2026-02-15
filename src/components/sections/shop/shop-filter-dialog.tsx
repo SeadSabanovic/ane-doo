@@ -23,20 +23,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { categoryData } from "@/constants/categories";
+import { getParentCategories, type Category } from "@/sanity/lib/api";
 
 export default function ShopFilterDialog() {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     undefined
   );
-  const [selectedCategories, setSelectedCategories] = useState<Set<number>>(
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
     new Set()
   );
   const [selectedSubcategories, setSelectedSubcategories] = useState<
-    Set<number>
+    Set<string>
   >(new Set());
   const lenis = useLenis();
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const data = await getParentCategories();
+      setCategories(data);
+    }
+    fetchCategories();
+  }, []);
 
   // Disable/enable Lenis scroll when dialog opens/closes
   useEffect(() => {
@@ -58,8 +67,8 @@ export default function ShopFilterDialog() {
   }, [open, lenis]);
 
   // Handler za top-level kategoriju
-  const handleCategoryChange = (categoryId: number, checked: boolean) => {
-    const category = categoryData.find((cat) => cat.id === categoryId);
+  const handleCategoryChange = (categoryId: string, checked: boolean) => {
+    const category = categories.find((cat) => cat._id === categoryId);
 
     if (checked) {
       // Dodaj kategoriju i sve subkategorije
@@ -68,7 +77,7 @@ export default function ShopFilterDialog() {
         setSelectedSubcategories((prev) => {
           const newSet = new Set(prev);
           category.subcategories!.forEach((sub) => {
-            newSet.add(sub.id);
+            newSet.add(sub._id);
           });
           return newSet;
         });
@@ -84,7 +93,7 @@ export default function ShopFilterDialog() {
         setSelectedSubcategories((prev) => {
           const newSet = new Set(prev);
           category.subcategories!.forEach((sub) => {
-            newSet.delete(sub.id);
+            newSet.delete(sub._id);
           });
           return newSet;
         });
@@ -94,11 +103,11 @@ export default function ShopFilterDialog() {
 
   // Handler za subkategoriju
   const handleSubcategoryChange = (
-    categoryId: number,
-    subcategoryId: number,
+    categoryId: string,
+    subcategoryId: string,
     checked: boolean
   ) => {
-    const category = categoryData.find((cat) => cat.id === categoryId);
+    const category = categories.find((cat) => cat._id === categoryId);
 
     if (checked) {
       // Dodaj subkategoriju
@@ -109,7 +118,7 @@ export default function ShopFilterDialog() {
         // Ako jesu, automatski odaberi i top-level kategoriju
         if (category?.subcategories) {
           const allSelected = category.subcategories.every((sub) =>
-            newSet.has(sub.id)
+            newSet.has(sub._id)
           );
           if (allSelected) {
             setSelectedCategories((prevCat) =>
@@ -172,23 +181,23 @@ export default function ShopFilterDialog() {
             </AccordionTrigger>
             <AccordionContent>
               <div className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
-                {categoryData.map((category) => (
-                  <div key={category.id} className="flex flex-col gap-2">
+                {categories.map((category) => (
+                  <div key={category._id} className="flex flex-col gap-2">
                     {/* Main Category */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Checkbox
-                          id={`dialog-category-${category.id}`}
-                          checked={selectedCategories.has(category.id)}
+                          id={`dialog-category-${category._id}`}
+                          checked={selectedCategories.has(category._id)}
                           onCheckedChange={(checked) =>
-                            handleCategoryChange(category.id, checked === true)
+                            handleCategoryChange(category._id, checked === true)
                           }
                         />
                         <Label
-                          htmlFor={`dialog-category-${category.id}`}
+                          htmlFor={`dialog-category-${category._id}`}
                           className="shrink-0 text-sm font-medium cursor-pointer"
                         >
-                          {category.title}
+                          {category.name}
                         </Label>
                       </div>
                       <Badge variant="outline" className="bg-background">
@@ -201,28 +210,28 @@ export default function ShopFilterDialog() {
                         <div className="flex flex-col gap-2 pl-6">
                           {category.subcategories.map((subcategory) => (
                             <div
-                              key={subcategory.id}
+                              key={subcategory._id}
                               className="flex items-center justify-between"
                             >
                               <div className="flex items-center gap-2">
                                 <Checkbox
-                                  id={`dialog-subcategory-${subcategory.id}`}
+                                  id={`dialog-subcategory-${subcategory._id}`}
                                   checked={selectedSubcategories.has(
-                                    subcategory.id
+                                    subcategory._id
                                   )}
                                   onCheckedChange={(checked) =>
                                     handleSubcategoryChange(
-                                      category.id,
-                                      subcategory.id,
+                                      category._id,
+                                      subcategory._id,
                                       checked === true
                                     )
                                   }
                                 />
                                 <Label
-                                  htmlFor={`dialog-subcategory-${subcategory.id}`}
+                                  htmlFor={`dialog-subcategory-${subcategory._id}`}
                                   className="shrink-0 text-sm font-medium cursor-pointer"
                                 >
-                                  {subcategory.title}
+                                  {subcategory.name}
                                 </Label>
                               </div>
                               <Badge
