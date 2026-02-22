@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "../container";
@@ -12,11 +12,23 @@ import MobileMenu from "./mobile-menu";
 import { SearchDialog } from "./search/search-dialog";
 import { SOCIALS } from "@/constants/socials";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+import { useCartStore, useWishlistStore } from "@/stores";
 
 const Navigation = () => {
   const pathname = usePathname();
   const isRootRoute = pathname === "/";
   const [searchOpen, setSearchOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  const cartItems = useCartStore((state) => state.items);
+  const wishlistItems = useWishlistStore((state) => state.items);
+
+  const cartCount = cartItems.length;
+  const wishlistCount = wishlistItems.length;
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   return (
     <>
@@ -81,23 +93,27 @@ const Navigation = () => {
                 <Link href="/spaseno">
                   <Button variant="ghost" size="icon" className="relative">
                     <Heart className="text-destructive" />
-                    <Badge
-                      variant="outline"
-                      className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background animate-bounce duration-700"
-                    >
-                      8
-                    </Badge>
+                    {isHydrated && wishlistCount > 0 && (
+                      <Badge
+                        variant="outline"
+                        className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background"
+                      >
+                        {wishlistCount}
+                      </Badge>
+                    )}
                   </Button>
                 </Link>
                 <Link href="/narudzba">
                   <Button variant="ghost" size="icon" className="relative">
                     <ShoppingCart size={24} />
-                    <Badge
-                      variant="outline"
-                      className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background animate-bounce duration-700"
-                    >
-                      8
-                    </Badge>
+                    {isHydrated && cartCount > 0 && (
+                      <Badge
+                        variant="outline"
+                        className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background"
+                      >
+                        {cartCount}
+                      </Badge>
+                    )}
                   </Button>
                 </Link>
 

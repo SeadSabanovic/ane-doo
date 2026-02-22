@@ -95,8 +95,14 @@ export default async function ProductPage({
 
           {/* Product Details */}
           <ProductDetails
+            productId={product._id}
+            slug={product.slug.current}
+            image={images[0]}
             name={product.name}
-            price={product.salePrice || product.price}
+            price={product.price}
+            salePrice={product.salePrice}
+            wholesalePrice={product.wholesalePrice}
+            wholesaleMinQuantity={product.wholesaleMinQuantity}
             description={product.description}
             specifications={specifications}
             sizes={displaySizes}

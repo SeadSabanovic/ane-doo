@@ -1,8 +1,12 @@
+"use client";
+
 import { Heart } from "lucide-react";
 import { Badge } from "./badge";
 import Link from "next/link";
 import AnimatedImage from "./animated-image";
 import { cn } from "@/lib/utils";
+import { useWishlistStore } from "@/stores";
+import { toast } from "sonner";
 
 interface Product {
   id: string | number;
@@ -15,6 +19,47 @@ interface Product {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const { toggleItem, isInWishlist } = useWishlistStore();
+
+  // Izvuci slug iz linka (npr. "/shop/nike-majica" -> "nike-majica")
+  const slug = product.link.replace("/shop/", "");
+  const isSaved = isInWishlist(String(product.id));
+
+  const handleHeartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    toggleItem({
+      productId: String(product.id),
+      name: product.name,
+      slug: slug,
+      image: product.image,
+      price: product.price,
+    });
+
+    if (isSaved) {
+      toast.success("Uklonjeno iz liste želja", {
+        icon: (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="size-10 rounded-md object-cover"
+          />
+        ),
+      });
+    } else {
+      toast.success("Dodano u listu želja", {
+        icon: (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="size-10 rounded-md object-cover"
+          />
+        ),
+      });
+    }
+  };
+
   return (
     <div className="group relative flex flex-col">
       <Link
@@ -31,12 +76,13 @@ export default function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div
+        onClick={handleHeartClick}
         className={cn(
           "group/heart absolute backdrop-blur-sm top-2 right-2 z-20 p-3 bg-muted/20 rounded-full cursor-pointer hover:bg-destructive/20 transition",
-          product.saved ? "bg-destructive/20 hover:bg-destructive/10" : "bg-muted/20 hover:bg-muted/20"
+          isSaved ? "bg-destructive/20 hover:bg-destructive/10" : "bg-muted/20 hover:bg-muted/20"
         )}
       >
-        {product.saved ? (
+        {isSaved ? (
           <Heart
             className="text-destructive group-hover/heart:text-destructive"
             fill="currentColor"

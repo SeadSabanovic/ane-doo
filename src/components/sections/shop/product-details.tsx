@@ -13,6 +13,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useCartStore, useWishlistStore } from "@/stores";
+import { toast } from "sonner";
 
 interface Specification {
   label: string;
@@ -29,12 +31,17 @@ interface PricingSection {
   infoText: string;
   pricingInfo: PricingInfo[];
   pricePerUnit: number;
-  onAddToCart?: (quantity: number) => void;
 }
 
 interface ProductDetailsProps {
+  productId: string;
+  slug: string;
+  image: string;
   name: string;
   price: number;
+  salePrice?: number;
+  wholesalePrice: number;
+  wholesaleMinQuantity: number;
   description: string;
   specifications: Specification[];
   sizes: string[];
@@ -44,8 +51,14 @@ interface ProductDetailsProps {
 }
 
 export function ProductDetails({
+  productId,
+  slug,
+  image,
   name,
   price,
+  salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
   description,
   specifications,
   sizes,
@@ -54,6 +67,87 @@ export function ProductDetails({
   className,
 }: ProductDetailsProps) {
   const [openItem, setOpenItem] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>(sizes[0] || "");
+  const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
+
+  const addToCart = useCartStore((state) => state.addItem);
+  const { toggleItem, isInWishlist } = useWishlistStore();
+
+  const isWishlisted = isInWishlist(productId);
+
+  const handleAddToCart = (
+    quantity: number,
+    purchaseType: "retail" | "wholesale"
+  ) => {
+    if (!selectedSize) {
+      toast.error("Molimo odaberite veličinu");
+      return;
+    }
+    if (!selectedColor && colors.length > 0) {
+      toast.error("Molimo odaberite boju");
+      return;
+    }
+
+    addToCart({
+      productId,
+      name,
+      slug,
+      image,
+      size: selectedSize,
+      color: selectedColor,
+      quantity,
+      purchaseType,
+      pricing: {
+        retailPrice: salePrice || price,
+        wholesalePrice,
+        wholesaleMinQuantity,
+      },
+    });
+
+    toast.success(`${name} dodano u korpu`, {
+      description: `${selectedSize}${selectedColor ? ` • ${selectedColor}` : ""} • ${purchaseType === "wholesale" ? "Veleprodaja" : "Maloprodaja"}`,
+      icon: (
+        <img
+          src={image}
+          alt={name}
+          className="size-10 rounded-md object-cover"
+        />
+      ),
+    });
+  };
+
+  const handleToggleWishlist = () => {
+    toggleItem({
+      productId,
+      name,
+      slug,
+      image,
+      price,
+      salePrice,
+    });
+
+    if (isWishlisted) {
+      toast.success("Uklonjeno iz liste želja", {
+        icon: (
+          <img
+            src={image}
+            alt={name}
+            className="size-10 rounded-md object-cover"
+          />
+        ),
+      });
+    } else {
+      toast.success("Dodano u listu želja", {
+        icon: (
+          <img
+            src={image}
+            alt={name}
+            className="size-10 rounded-md object-cover"
+          />
+        ),
+      });
+    }
+  };
 
   useEffect(() => {
     // Open second accordion item after 500ms
@@ -71,9 +165,14 @@ export function ProductDetails({
           <h1 className="text-4xl font-bold mb-2">{name}</h1>
           <p className="text-3xl font-semibold text-primary">{price} KM</p>
         </div>
-        <Button variant="outline" size="lg" className="hover:bg-muted/20">
-          <Heart className="text-destructive" />
-          <span className="hidden md:block">Spasi</span>
+        <Button
+          variant="outline"
+          size="lg"
+          className="hover:bg-muted/20"
+          onClick={handleToggleWishlist}
+        >
+          <Heart className={cn("text-destructive", isWishlisted && "fill-destructive")} />
+          <span className="hidden md:block">{isWishlisted ? "Spašeno" : "Spasi"}</span>
         </Button>
       </div>
 
@@ -81,7 +180,14 @@ export function ProductDetails({
 
       <ProductSpecifications specifications={specifications} />
 
-      <ProductOptions sizes={sizes} colors={colors} />
+      <ProductOptions
+        sizes={sizes}
+        colors={colors}
+        selectedSize={selectedSize}
+        selectedColor={selectedColor}
+        onSizeChange={setSelectedSize}
+        onColorChange={setSelectedColor}
+      />
 
       <Accordion
         type="single"
@@ -132,7 +238,12 @@ export function ProductDetails({
                   infoText={section.infoText}
                   pricingInfo={section.pricingInfo}
                   pricePerUnit={section.pricePerUnit}
-                  onAddToCart={section.onAddToCart}
+                  onAddToCart={(quantity) =>
+                    handleAddToCart(
+                      quantity,
+                      section.type === "maloprodaja" ? "retail" : "wholesale"
+                    )
+                  }
                 />
               </AccordionContent>
             </AccordionItem>

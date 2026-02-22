@@ -1,50 +1,52 @@
+"use client";
+
 import AnimatedImage from "@/components/ui/animated-image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { InputWithPlusMinus } from "@/components/ui/input-with-plus-minus";
 import { cn } from "@/lib/utils";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { CartItem, useCartStore } from "@/stores";
 
 interface CartItemProps {
-  item: {
-    id: number;
-    name: string;
-    image: string;
-    quantity: number; // Za retail: broj komada, za wholesale: broj pakovanja
-    size: string;
-    color: string;
-    pricing: {
-      retail: number;
-      wholesale?: {
-        price: number; // Cijena po artiklu
-        itemsPerPack: number; // Broj artikala po pakovanju
-      };
-    };
-  };
-  onQuantityChange?: (itemId: number, newQuantity: number) => void;
+  item: CartItem;
 }
-export default function CartItem({ item, onQuantityChange }: CartItemProps) {
-  // Ako postoji wholesale u pricing objektu, to znači da je wholesale tip
-  const isWholesale = !!item.pricing.wholesale;
 
-  // Za wholesale: quantity = broj pakovanja, cijena je po artiklu
-  // Ukupna cijena = broj pakovanja × artikala po pakovanju × cijena po artiklu
-  // Za retail: quantity = broj komada, cijena je po komadu
+export default function CartItemComponent({ item }: CartItemProps) {
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeItem = useCartStore((state) => state.removeItem);
+
+  const isWholesale = item.purchaseType === "wholesale";
+
   const unitPrice = isWholesale
-    ? item.pricing.wholesale!.price
-    : item.pricing.retail;
+    ? item.pricing.wholesalePrice
+    : item.pricing.retailPrice;
 
   const totalPrice = isWholesale
     ? item.quantity *
-      item.pricing.wholesale!.itemsPerPack *
-      item.pricing.wholesale!.price
-    : item.pricing.retail * item.quantity;
+    item.pricing.wholesaleMinQuantity *
+    item.pricing.wholesalePrice
+    : item.pricing.retailPrice * item.quantity;
+
+  const handleQuantityChange = (newQuantity: number) => {
+    updateQuantity(
+      item.productId,
+      item.size,
+      item.color,
+      item.purchaseType,
+      newQuantity
+    );
+  };
+
+  const handleRemove = () => {
+    removeItem(item.productId, item.size, item.color, item.purchaseType);
+  };
 
   return (
     <div className="flex flex-col items-start gap-2">
       <div className="flex items-start gap-3">
-        <Link href={`/shop/basic-t-shirt`}>
+        <Link href={`/shop/${item.slug}`}>
           <AnimatedImage
             src={item.image}
             alt={item.name}
@@ -67,7 +69,7 @@ export default function CartItem({ item, onQuantityChange }: CartItemProps) {
                 variant="outline"
                 className="bg-secondary-muted/50 text-secondary-foreground"
               >
-                Veleprodaja: 1 x {item.pricing.wholesale!.itemsPerPack} kom
+                Veleprodaja: 1 x {item.pricing.wholesaleMinQuantity} kom
               </Badge>
             )}
           </div>
@@ -85,15 +87,13 @@ export default function CartItem({ item, onQuantityChange }: CartItemProps) {
           <InputWithPlusMinus
             value={item.quantity}
             minValue={1}
-            onChange={(newQuantity) => {
-              onQuantityChange?.(item.id, newQuantity);
-            }}
+            onChange={handleQuantityChange}
             label={isWholesale ? "Broj pakovanja" : "Količina"}
             className="flex-1"
           />
-          <Button variant="outline" size="lg">
-            <Pencil />
-            Uredi
+          <Button variant="outline" size="lg" onClick={handleRemove}>
+            <Trash2 />
+            Ukloni
           </Button>
         </div>
         <span className="text-sm text-foreground/80 text-right">
