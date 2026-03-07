@@ -65,7 +65,7 @@ export default function DesktopMenu() {
               item.path === "/"
                 ? pathname === "/"
                 : pathname === item.path ||
-                  pathname.startsWith(item.path + "/");
+                pathname.startsWith(item.path + "/");
 
             // Use DropdownMenu for "Kategorije" item with subcategories
             if (item.id === 3 && item.title === "Kategorije") {
@@ -101,7 +101,6 @@ export default function DesktopMenu() {
                                   categoryIsActive && "bg-accent"
                                 )}
                               >
-                                {category.icon}
                                 {category.title}
                                 <ChevronRight className="ml-auto size-4 group-hover:translate-x-1 transition-transform duration-200" />
                               </Link>
@@ -127,7 +126,6 @@ export default function DesktopMenu() {
                                           href={subcategory.path}
                                           className="flex items-center gap-2"
                                         >
-                                          {subcategory.icon}
                                           {subcategory.title}
                                         </Link>
                                       </DropdownMenuItem>
@@ -159,7 +157,7 @@ export default function DesktopMenu() {
                             subItem.path === "/"
                               ? pathname === "/"
                               : pathname === subItem.path ||
-                                pathname.startsWith(subItem.path + "/");
+                              pathname.startsWith(subItem.path + "/");
                           return (
                             <ListItem
                               key={subItem.id}

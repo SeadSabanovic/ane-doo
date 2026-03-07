@@ -43,7 +43,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between gap-6">
             {SOCIALS.map((social) => (
               <Link key={social.name} href={social.url} target="_blank">
-                <div className="size-5 rounded-full flex items-center justify-center text-accent hover:scale-110 transition-all duration-200">
+                <div className="size-5 rounded-full flex items-center justify-center text-primary-foreground hover:scale-110 transition-all duration-200">
                   {social.icon}
                 </div>
               </Link>

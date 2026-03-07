@@ -14,13 +14,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <>
       <HeroSection />
       <BrowseSection />
       <NewSection />
       <SaleSection />
       <HottestSection />
       <Testimonials />
-    </main>
+    </>
   );
 }

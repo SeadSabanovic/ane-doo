@@ -19,7 +19,7 @@ export default function ConditionalLayout({
   return (
     <>
       <Navigation />
-      {children}
+      <main className='flex-1'>{children}</main>
       <Footer />
     </>
   )

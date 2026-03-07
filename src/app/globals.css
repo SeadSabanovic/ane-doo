@@ -94,7 +94,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-screen flex flex-col;
   }
 }
 
@@ -124,4 +124,15 @@
     transform: scaleX(1);
     transform-origin: left;
   }
+}
+
+/* Sonner icon container override */
+[data-sonner-toaster] [data-sonner-toast][data-styled="true"] [data-icon] {
+  width: 40px;
+  height: 40px;
+}
+
+[data-sonner-toast][data-styled="true"] [data-icon] {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }

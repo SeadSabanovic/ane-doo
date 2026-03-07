@@ -5,7 +5,7 @@ import { Home } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-[60svh] items-center justify-center py-16">
+    <div className="flex min-h-[60svh] items-center justify-center py-16">
       <Container>
         <div className="text-center space-y-6">
           <div className="space-y-2">
@@ -26,6 +26,6 @@ export default function NotFound() {
           </Link>
         </div>
       </Container>
-    </main>
+    </div>
   );
 }

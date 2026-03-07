@@ -1,15 +1,7 @@
-import { MajicaDugih } from "@/components/icons";
-import AccessoriesIcon from "@/components/icons/dodaci";
-import DonjiVes from "@/components/icons/donji-ves";
-import TableIcon from "@/components/icons/table";
-import { Bed } from "lucide-react";
-import { ReactNode } from "react";
-
 export interface Category {
   id: number;
   title: string;
   path: string;
-  icon?: ReactNode;
   subcategories?: Subcategory[];
 }
 
@@ -17,7 +9,6 @@ export interface Subcategory {
   id: number;
   title: string;
   path: string;
-  icon?: ReactNode;
 }
 
 export const categoryData: Category[] = [
@@ -25,7 +16,6 @@ export const categoryData: Category[] = [
     id: 1,
     title: "Odjeća",
     path: "/shop/odjeca",
-    icon: <MajicaDugih className="size-6" />,
     subcategories: [
       {
         id: 11,
@@ -73,7 +63,6 @@ export const categoryData: Category[] = [
     id: 2,
     title: "Donji veš",
     path: "/shop/donji-ves",
-    icon: <DonjiVes className="size-6" />,
     subcategories: [
       {
         id: 21,
@@ -91,7 +80,6 @@ export const categoryData: Category[] = [
     id: 3,
     title: "Kućni tekstil",
     path: "/shop/kucni-tekstil",
-    icon: <Bed className="size-6" strokeWidth={1} />,
     subcategories: [
       {
         id: 31,
@@ -129,7 +117,6 @@ export const categoryData: Category[] = [
     id: 4,
     title: "Stolnjaci i mušeme",
     path: "/shop/stolnjaci-i-museme",
-    icon: <TableIcon className="size-6" />,
     subcategories: [
       {
         id: 41,
@@ -147,7 +134,6 @@ export const categoryData: Category[] = [
     id: 5,
     title: "Dodaci",
     path: "/shop/dodaci",
-    icon: <AccessoriesIcon className="size-6" />,
     subcategories: [
       {
         id: 51,

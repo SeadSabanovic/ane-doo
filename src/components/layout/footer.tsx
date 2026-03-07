@@ -6,7 +6,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-linear-to-r from-primary to-card-foreground text-secondary-foreground lg:max-w-[calc(100%-4rem)] lg:mx-auto lg:mb-8 lg:rounded-lg lg:overflow-hidden">
+    <footer className="bg-linear-to-r from-primary to-card-foreground text-secondary-foreground lg:max-w-[calc(100%-4rem)] lg:mx-auto lg:mb-8 lg:rounded-lg lg:overflow-hidden w-full">
       <Container>
         {/* <!-- footer menu start --> */}
         <div className="flex flex-wrap flex-col md:flex-row xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between py-12 xl:py-24">
