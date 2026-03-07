@@ -32,7 +32,7 @@ export default function CheckoutContent() {
         icon={ShoppingBag}
         title="Vaša korpa je prazna"
         description="Dodajte proizvode u korpu da biste nastavili s narudžbom."
-        actionLabel="Pregledaj proizvode"
+        actionLabel="Istraži Shop"
         actionHref="/shop"
       />
     );

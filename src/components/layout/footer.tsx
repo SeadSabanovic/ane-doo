@@ -6,7 +6,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-linear-to-r from-primary to-card-foreground text-secondary-foreground">
+    <footer className="bg-linear-to-r from-primary to-card-foreground text-secondary-foreground lg:max-w-[calc(100%-4rem)] lg:mx-auto lg:mb-8 lg:rounded-lg lg:overflow-hidden">
       <Container>
         {/* <!-- footer menu start --> */}
         <div className="flex flex-wrap flex-col md:flex-row xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between py-12 xl:py-24">
@@ -98,14 +98,14 @@ const Footer = () => {
         </div>
       </Container>
 
-      <div className="py-5 xl:py-7.5 bg-accent text-accent-foreground font-medium">
+      <div className="py-5 xl:py-7.5 bg-primary text-primary-foreground font-medium">
         <Container className="flex items-center justify-between flex-col md:flex-row gap-4">
           <p>&copy; 2000 - {year} ANE D.O.O. Sva prava zadržana.</p>
 
           <div className="flex items-center gap-6">
             {SOCIALS.map((social) => (
               <Link key={social.name} href={social.url} target="_blank">
-                <div className="size-5 rounded-full flex items-center justify-center text-primary hover:scale-110 transition-all duration-200">
+                <div className="size-5 rounded-full flex items-center justify-center text-primary-foreground hover:scale-110 transition-all duration-200">
                   {social.icon}
                 </div>
               </Link>
