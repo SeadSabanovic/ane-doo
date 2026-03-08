@@ -220,7 +220,7 @@ export function ProductImages({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full size-12 bg-secondary/20 border border-secondary/40 backdrop-blur-sm pointer-events-auto hover:bg-secondary/40 text-primary"
+                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary"
                   onClick={() => api?.scrollPrev()}
                 >
                   <ArrowLeft size={18} strokeWidth={3} />
@@ -229,7 +229,7 @@ export function ProductImages({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full size-12 bg-secondary/20 border border-secondary/40 backdrop-blur-sm pointer-events-auto hover:bg-secondary/40 text-primary"
+                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary"
                   onClick={() => api?.scrollNext()}
                 >
                   <ArrowRight size={18} strokeWidth={3} />
@@ -240,7 +240,7 @@ export function ProductImages({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full size-12 bg-secondary/20 border border-accent/40 backdrop-blur-sm pointer-events-auto hover:bg-secondary/40 text-accent"
+                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary"
                   onClick={handleClose}
                 >
                   <X size={18} strokeWidth={3} />
