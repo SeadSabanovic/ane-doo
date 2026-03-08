@@ -57,6 +57,7 @@ export default async function ProductPage({
   const images = product.images.map((img) =>
     urlFor(img).width(800).height(800).url()
   );
+  const galleryImages = product.images.map((img) => urlFor(img).url());
 
   // Build specifications from product data
   const specifications = [
@@ -90,6 +91,7 @@ export default async function ProductPage({
           {/* Product Images */}
           <ProductImages
             images={images}
+            galleryImages={galleryImages}
             productName={product.name}
           />
 

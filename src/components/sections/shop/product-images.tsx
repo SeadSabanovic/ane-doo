@@ -20,19 +20,26 @@ import {
 
 interface ProductImagesProps {
   images?: string[];
+  galleryImages?: string[];
   productName: string;
   className?: string;
 }
 
 export function ProductImages({
   images = [],
+  galleryImages,
   productName,
   className,
 }: ProductImagesProps) {
+  const modalImages = galleryImages && galleryImages.length > 0
+    ? galleryImages
+    : images;
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
+  const [canGoPrev, setCanGoPrev] = useState(false);
+  const [canGoNext, setCanGoNext] = useState(false);
   const isModalOpen = selectedIndex !== -1;
 
   // Scroll to selected index when modal opens
@@ -48,13 +55,17 @@ export function ProductImages({
     const updateCurrent = () => {
       const selected = api.selectedScrollSnap();
       setCurrent(selected);
+      setCanGoPrev(api.canScrollPrev());
+      setCanGoNext(api.canScrollNext());
     };
 
     updateCurrent();
     api.on("select", updateCurrent);
+    api.on("reInit", updateCurrent);
 
     return () => {
       api.off("select", updateCurrent);
+      api.off("reInit", updateCurrent);
     };
   }, [api]);
 
@@ -192,7 +203,7 @@ export function ProductImages({
               className="size-full"
             >
               <CarouselContent className="size-full ml-0">
-                {images.map((image, index) => (
+                {modalImages.map((image, index) => (
                   <CarouselItem
                     key={index}
                     className="size-full pl-0 basis-full"
@@ -209,6 +220,7 @@ export function ProductImages({
                         alt={`${productName} - Slika ${index + 1}`}
                         width={1200}
                         height={1200}
+                        unoptimized
                         onClick={(e) => e.stopPropagation()}
                         className="max-h-[80svh] object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto"
                       />
@@ -220,7 +232,8 @@ export function ProductImages({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary"
+                  disabled={!canGoPrev}
+                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary disabled:opacity-35 disabled:pointer-events-none"
                   onClick={() => api?.scrollPrev()}
                 >
                   <ArrowLeft size={18} strokeWidth={3} />
@@ -229,7 +242,8 @@ export function ProductImages({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary"
+                  disabled={!canGoNext}
+                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary disabled:opacity-35 disabled:pointer-events-none"
                   onClick={() => api?.scrollNext()}
                 >
                   <ArrowRight size={18} strokeWidth={3} />
@@ -249,8 +263,8 @@ export function ProductImages({
               </div>
               {!isClosing && (
                 <div className="absolute bottom-[10lvh] md:bottom-[5lvh] right-4 pointer-events-none">
-                  <div className="rounded-full px-4 py-2 bg-secondary/20 backdrop-blur-sm text-accent text-sm font-medium border border-secondary/40">
-                    {current + 1} / {images.length}
+                  <div className="rounded-full px-4 py-2 bg-primary/10 backdrop-blur-sm text-primary text-sm font-medium border border-primary/40">
+                    {current + 1} / {modalImages.length}
                   </div>
                 </div>
               )}

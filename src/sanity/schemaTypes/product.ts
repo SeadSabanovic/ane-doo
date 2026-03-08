@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { SelectAllArrayInput } from "../components/select-all-array-input";
 
 export default defineType({
   name: "product",
@@ -141,6 +142,9 @@ export default defineType({
       title: "Veličine",
       type: "array",
       group: "variants",
+      components: {
+        input: SelectAllArrayInput,
+      },
       of: [{ type: "string" }],
       options: {
         list: [
@@ -159,6 +163,9 @@ export default defineType({
       title: "Boje",
       type: "array",
       group: "variants",
+      components: {
+        input: SelectAllArrayInput,
+      },
       of: [{ type: "string" }],
       options: {
         list: [
@@ -285,13 +292,14 @@ export default defineType({
     select: {
       title: "name",
       subtitle: "price",
-      media: "images.0",
+      firstImage: "images.0",
+      firstImageAsset: "images.0.asset",
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, subtitle, firstImage, firstImageAsset }) {
       return {
         title,
         subtitle: `${subtitle} BAM`,
-        media,
+        media: firstImage ?? firstImageAsset,
       };
     },
   },

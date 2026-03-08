@@ -104,7 +104,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.badge}
         </Badge>
       )}
-      <div className="flex flex-col mt-4">
+      <div className="flex flex-col mt-4 flex-1">
         <Link href={product.link ? product.link : "#"} className="w-fit">
           <h4 className="text-xl font-medium w-fit">{product.name}</h4>
         </Link>

@@ -4,7 +4,9 @@ import ShopPagination from "@/components/sections/shop/shop-pagination";
 import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ShopToolbar from "@/components/sections/shop/shop-toolbar";
 import ProductCard from "@/components/ui/product-card";
+import EmptyState from "@/components/ui/empty-state";
 import { Metadata } from "next";
+import { SearchX } from "lucide-react";
 import {
   getParentCategories,
   getProductsByCategorySlugsCount,
@@ -103,11 +105,21 @@ export default async function ShopPage({
         <ShopSidebar categories={categories} />
 
         <div className="flex flex-1 flex-col gap-8 lg:gap-12">
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 flex-1">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {products.length === 0 ? (
+            <EmptyState
+              icon={SearchX}
+              title="Nema proizvoda za odabrani filter"
+              description="Promijenite ili očistite filtere kako biste vidjeli dostupne artikle."
+              actionLabel="Očisti filtre"
+              actionHref="/shop"
+            />
+          ) : (
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 flex-1">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
 
           <ShopPagination
             currentPage={effectivePage}
