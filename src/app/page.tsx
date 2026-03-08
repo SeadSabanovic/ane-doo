@@ -7,9 +7,9 @@ import Testimonials from "@/components/sections/home/testimonials";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ANE D.O.O.",
+  title: "Početna | ANE D.O.O.",
   description:
-    "Dobrodošli u Ane-Doo online shop. Pregledajte najnovije kolekcije, popuste i najprodavanije proizvode.",
+    "Dobrodošli u ANE D.O.O. online shop. Pregledajte najnovije kolekcije, popuste i najprodavanije proizvode.",
 };
 
 export default function Home() {

@@ -63,10 +63,11 @@ const Navigation = () => {
               <div className="flex items-center gap-8">
                 {/* <!-- header top left / Logo --> */}
                 <Link
-                  className="shrink-0 text-2xl font-bold text-primary"
+                  className="shrink-0 text-2xl font-bold text-primary flex items-center gap-2"
                   href="/"
                 >
-                  ANE DOO
+                  <img src="/ANE-logo.svg" alt="ANE D.O.O. Logo" loading="eager" className="size-8" />
+                  <h1 className="text-xl font-bold sr-only sm:not-sr-only">ANE D.O.O.</h1>
                 </Link>
 
                 <Suspense fallback={null}>

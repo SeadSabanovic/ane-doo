@@ -2,7 +2,7 @@ import Container from "@/components/layout/container";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ANE D.O.O. | O Nama",
+  title: "O nama",
   description:
     "Saznajte više o ANE D.O.O. - našoj misiji, vrijednostima i timu koji stoji iza našeg uspjeha.",
 };

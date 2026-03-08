@@ -4,7 +4,7 @@ import PageHeader from "@/components/layout/page-header";
 import WishlistContent from "@/components/sections/wishlist/wishlist-content";
 
 export const metadata: Metadata = {
-  title: "ANE D.O.O. | Spašeni proizvodi",
+  title: "Spašeni proizvodi",
   description:
     "Vaši omiljeni proizvodi na jednom mjestu. Pregledajte sve artikle koje ste sačuvali.",
 };

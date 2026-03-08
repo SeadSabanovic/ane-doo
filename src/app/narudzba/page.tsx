@@ -4,7 +4,7 @@ import PageHeader from "@/components/layout/page-header";
 import CheckoutContent from "@/components/sections/checkout/checkout-content";
 
 export const metadata: Metadata = {
-  title: "Korpa - ANE D.O.O.",
+  title: "Narudžba",
   description:
     "Završite vašu narudžbu. Unesite podatke za dostavu i odaberite način plaćanja.",
 };

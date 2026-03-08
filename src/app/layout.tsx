@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Ane-Doo | Online Shop",
-    template: "%s | Ane-Doo",
+    default: "ANE D.O.O.",
+    template: "%s | ANE D.O.O.",
   },
   description:
     "Pronađite sve što vam treba na jednom mjestu. Kvalitetna odjeća i obuća po povoljnim cijenama.",
@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="bs">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased select-none`}
         suppressHydrationWarning

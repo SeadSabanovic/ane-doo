@@ -5,7 +5,7 @@ import ContactForm from "@/components/sections/contact/contact-form";
 import ContactInfo from "@/components/sections/contact/contact-info";
 
 export const metadata: Metadata = {
-  title: "ANE D.O.O. | Kontakt",
+  title: "Kontakt",
   description:
     "Kontaktirajte nas za sve vaše pitanja. Mi smo ovdje da vam pomognemo.",
 };

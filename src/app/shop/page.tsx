@@ -17,7 +17,7 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
-  title: "ANE D.O.O. | Shop",
+  title: "Shop",
   description:
     "Pregledajte našu kompletnu kolekciju proizvoda. Filtrirajte po kategorijama i pronađite savršen artikl za sebe.",
 };
