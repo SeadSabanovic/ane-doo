@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "../container";
@@ -68,7 +69,9 @@ const Navigation = () => {
                   ANE DOO
                 </Link>
 
-                <DesktopMenu />
+                <Suspense fallback={null}>
+                  <DesktopMenu />
+                </Suspense>
               </div>
 
               {/* <!-- header top right --> */}
@@ -117,7 +120,9 @@ const Navigation = () => {
                   </Button>
                 </Link>
 
-                <MobileMenu />
+                <Suspense fallback={null}>
+                  <MobileMenu />
+                </Suspense>
               </div>
             </div>
           </Container>
