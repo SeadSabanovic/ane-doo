@@ -24,8 +24,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { getParentCategories, type Category } from "@/sanity/lib/api";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function ShopFilterDialog() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
@@ -46,6 +50,107 @@ export default function ShopFilterDialog() {
     }
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    const rawCategoryParam = searchParams.get("kategorija");
+
+    if (!rawCategoryParam) {
+      setSelectedCategories(new Set());
+      setSelectedSubcategories(new Set());
+      return;
+    }
+
+    const selectedSlugs = new Set(
+      rawCategoryParam
+        .split(",")
+        .map((value) => value.trim())
+        .filter(Boolean)
+    );
+
+    const nextSelectedSubcategories = new Set<string>();
+
+    categories.forEach((category) => {
+      const subcategories = category.subcategories ?? [];
+      const parentSelected = selectedSlugs.has(category.slug.current);
+
+      if (parentSelected) {
+        subcategories.forEach((subcategory) => {
+          nextSelectedSubcategories.add(subcategory._id);
+        });
+      }
+
+      category.subcategories?.forEach((subcategory) => {
+        if (selectedSlugs.has(subcategory.slug.current)) {
+          nextSelectedSubcategories.add(subcategory._id);
+        }
+      });
+    });
+
+    const nextSelectedCategories = new Set<string>();
+    categories.forEach((category) => {
+      const parentSelected = selectedSlugs.has(category.slug.current);
+      const allSubcategoriesSelected =
+        (category.subcategories?.length ?? 0) > 0 &&
+        category.subcategories!.every((subcategory) =>
+          nextSelectedSubcategories.has(subcategory._id)
+        );
+
+      if (parentSelected || allSubcategoriesSelected) {
+        nextSelectedCategories.add(category._id);
+      }
+    });
+
+    setSelectedCategories(nextSelectedCategories);
+    setSelectedSubcategories(nextSelectedSubcategories);
+  }, [categories, searchParams]);
+
+  const applyCategoryFilter = () => {
+    const selectedSlugs = new Set<string>();
+
+    categories.forEach((category) => {
+      const subcategories = category.subcategories ?? [];
+      const allSubcategoriesSelected =
+        subcategories.length > 0 &&
+        subcategories.every((subcategory) =>
+          selectedSubcategories.has(subcategory._id)
+        );
+      const parentSelected = selectedCategories.has(category._id);
+
+      // Keep URL compact: if whole group is selected, store only parent slug.
+      if (parentSelected || allSubcategoriesSelected) {
+        selectedSlugs.add(category.slug.current);
+        return;
+      }
+
+      subcategories.forEach((subcategory) => {
+        if (selectedSubcategories.has(subcategory._id)) {
+          selectedSlugs.add(subcategory.slug.current);
+        }
+      });
+    });
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (selectedSlugs.size > 0) {
+      params.set("kategorija", [...selectedSlugs].join(","));
+    } else {
+      params.delete("kategorija");
+    }
+
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    setOpen(false);
+  };
+
+  const clearCategoryFilter = () => {
+    setSelectedCategories(new Set());
+    setSelectedSubcategories(new Set());
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("kategorija");
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
 
   // Disable/enable Lenis scroll when dialog opens/closes
   useEffect(() => {
@@ -264,11 +369,15 @@ export default function ShopFilterDialog() {
         </Accordion>
 
         <DialogFooter className="p-6 border-t flex">
-          <Button variant="outline" className="flex-1">
+          <Button
+            variant="outline"
+            className="flex-1"
+            onClick={clearCategoryFilter}
+          >
             <XIcon />
             Očisti filtre
           </Button>
-          <Button variant="default" className="flex-1">
+          <Button variant="default" className="flex-1" onClick={applyCategoryFilter}>
             <CheckIcon />
             Primjeni filtere
           </Button>

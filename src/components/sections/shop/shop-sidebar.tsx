@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Accordion,
@@ -18,6 +19,9 @@ interface ShopSidebarProps {
 }
 
 export default function ShopSidebar({ categories }: ShopSidebarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     undefined
   );
@@ -30,39 +34,133 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   const [selectedColors, setSelectedColors] = useState<Set<string>>(new Set());
   const [selectedSizes, setSelectedSizes] = useState<Set<string>>(new Set());
 
+  const buildSelectedSlugs = (
+    categoryIds: Set<string>,
+    subcategoryIds: Set<string>
+  ) => {
+    const selectedSlugs = new Set<string>();
+
+    categories.forEach((category) => {
+      const subcategories = category.subcategories ?? [];
+      const allSubcategoriesSelected =
+        subcategories.length > 0 &&
+        subcategories.every((subcategory) => subcategoryIds.has(subcategory._id));
+      const parentSelected = categoryIds.has(category._id);
+
+      // Keep URL compact: if whole group is selected, store only parent slug.
+      if (parentSelected || allSubcategoriesSelected) {
+        selectedSlugs.add(category.slug.current);
+        return;
+      }
+
+      subcategories.forEach((subcategory) => {
+        if (subcategoryIds.has(subcategory._id)) {
+          selectedSlugs.add(subcategory.slug.current);
+        }
+      });
+    });
+
+    return [...selectedSlugs];
+  };
+
+  const updateCategoryQuery = (
+    categoryIds: Set<string>,
+    subcategoryIds: Set<string>
+  ) => {
+    const selectedSlugs = buildSelectedSlugs(categoryIds, subcategoryIds);
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (selectedSlugs.length > 0) {
+      params.set("kategorija", selectedSlugs.join(","));
+    } else {
+      params.delete("kategorija");
+    }
+
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
+
+  useEffect(() => {
+    const rawCategoryParam = searchParams.get("kategorija");
+
+    if (!rawCategoryParam) {
+      setSelectedCategories(new Set());
+      setSelectedSubcategories(new Set());
+      return;
+    }
+
+    const selectedSlugs = new Set(
+      rawCategoryParam
+        .split(",")
+        .map((value) => value.trim())
+        .filter(Boolean)
+    );
+
+    const nextSelectedSubcategories = new Set<string>();
+
+    categories.forEach((category) => {
+      const subcategories = category.subcategories ?? [];
+      const parentSelected = selectedSlugs.has(category.slug.current);
+
+      if (parentSelected) {
+        subcategories.forEach((subcategory) => {
+          nextSelectedSubcategories.add(subcategory._id);
+        });
+      }
+
+      category.subcategories?.forEach((subcategory) => {
+        if (selectedSlugs.has(subcategory.slug.current)) {
+          nextSelectedSubcategories.add(subcategory._id);
+        }
+      });
+    });
+
+    const nextSelectedCategories = new Set<string>();
+    categories.forEach((category) => {
+      const parentSelected = selectedSlugs.has(category.slug.current);
+      const allSubcategoriesSelected =
+        (category.subcategories?.length ?? 0) > 0 &&
+        category.subcategories!.every((subcategory) =>
+          nextSelectedSubcategories.has(subcategory._id)
+        );
+
+      if (parentSelected || allSubcategoriesSelected) {
+        nextSelectedCategories.add(category._id);
+      }
+    });
+
+    setSelectedCategories(nextSelectedCategories);
+    setSelectedSubcategories(nextSelectedSubcategories);
+  }, [categories, searchParams]);
+
   // Handler za top-level kategoriju
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     const category = categories.find((cat) => cat._id === categoryId);
+    const nextSelectedCategories = new Set(selectedCategories);
+    const nextSelectedSubcategories = new Set(selectedSubcategories);
 
     if (checked) {
       // Dodaj kategoriju i sve subkategorije
-      setSelectedCategories((prev) => new Set(prev).add(categoryId));
+      nextSelectedCategories.add(categoryId);
       if (category?.subcategories) {
-        setSelectedSubcategories((prev) => {
-          const newSet = new Set(prev);
-          category.subcategories!.forEach((sub) => {
-            newSet.add(sub._id);
-          });
-          return newSet;
+        category.subcategories.forEach((sub) => {
+          nextSelectedSubcategories.add(sub._id);
         });
       }
     } else {
       // Ukloni kategoriju i sve subkategorije
-      setSelectedCategories((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(categoryId);
-        return newSet;
-      });
+      nextSelectedCategories.delete(categoryId);
       if (category?.subcategories) {
-        setSelectedSubcategories((prev) => {
-          const newSet = new Set(prev);
-          category.subcategories!.forEach((sub) => {
-            newSet.delete(sub._id);
-          });
-          return newSet;
+        category.subcategories.forEach((sub) => {
+          nextSelectedSubcategories.delete(sub._id);
         });
       }
     }
+
+    setSelectedCategories(nextSelectedCategories);
+    setSelectedSubcategories(nextSelectedSubcategories);
+    updateCategoryQuery(nextSelectedCategories, nextSelectedSubcategories);
   };
 
   // Handler za subkategoriju
@@ -72,42 +170,26 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
     checked: boolean
   ) => {
     const category = categories.find((cat) => cat._id === categoryId);
+    const nextSelectedCategories = new Set(selectedCategories);
+    const nextSelectedSubcategories = new Set(selectedSubcategories);
 
     if (checked) {
-      // Dodaj subkategoriju
-      setSelectedSubcategories((prev) => {
-        const newSet = new Set(prev).add(subcategoryId);
-
-        // Provjeri da li su sve subkategorije sada odabrane
-        // Ako jesu, automatski odaberi i top-level kategoriju
-        if (category?.subcategories) {
-          const allSelected = category.subcategories.every((sub) =>
-            newSet.has(sub._id)
-          );
-          if (allSelected) {
-            setSelectedCategories((prevCat) =>
-              new Set(prevCat).add(categoryId)
-            );
-          }
-        }
-
-        return newSet;
-      });
+      nextSelectedSubcategories.add(subcategoryId);
+      if (
+        category?.subcategories?.every((sub) =>
+          nextSelectedSubcategories.has(sub._id)
+        )
+      ) {
+        nextSelectedCategories.add(categoryId);
+      }
     } else {
-      // Ukloni subkategoriju
-      setSelectedSubcategories((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(subcategoryId);
-        return newSet;
-      });
-
-      // Uvijek de-selektuj top-level kategoriju kada se de-selektuje bilo koja subkategorija
-      setSelectedCategories((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(categoryId);
-        return newSet;
-      });
+      nextSelectedSubcategories.delete(subcategoryId);
+      nextSelectedCategories.delete(categoryId);
     }
+
+    setSelectedSubcategories(nextSelectedSubcategories);
+    setSelectedCategories(nextSelectedCategories);
+    updateCategoryQuery(nextSelectedCategories, nextSelectedSubcategories);
   };
 
   // Handler za boje

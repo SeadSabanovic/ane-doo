@@ -5,7 +5,13 @@ import ShopSidebar from "@/components/sections/shop/shop-sidebar";
 import ShopToolbar from "@/components/sections/shop/shop-toolbar";
 import ProductCard from "@/components/ui/product-card";
 import { Metadata } from "next";
-import { getProducts, getParentCategories } from "@/sanity/lib/api";
+import {
+  getParentCategories,
+  getProductsByCategorySlugsCount,
+  getProductsByCategorySlugsPaginated,
+  getProductsCount,
+  getProductsPaginated,
+} from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
@@ -16,12 +22,61 @@ export const metadata: Metadata = {
 
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;
+const PRODUCTS_PER_PAGE = 12;
 
-export default async function ShopPage() {
-  const [sanityProducts, categories] = await Promise.all([
-    getProducts(),
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const normalizedSearchParams = new URLSearchParams();
+
+  Object.entries(resolvedSearchParams).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((entry) => {
+        if (entry) normalizedSearchParams.append(key, entry);
+      });
+      return;
+    }
+
+    if (value) {
+      normalizedSearchParams.set(key, value);
+    }
+  });
+
+  const kategorija = normalizedSearchParams.getAll("kategorija");
+  const selectedCategorySlugs = new Set(
+    kategorija
+      .join(",")
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean)
+  );
+
+  const currentPageParam = normalizedSearchParams.get("stranica");
+  const parsedPage = Number.parseInt(currentPageParam ?? "1", 10);
+  const currentPage =
+    Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+
+  const [categories, totalProducts] = await Promise.all([
     getParentCategories(),
+    selectedCategorySlugs.size > 0
+      ? getProductsByCategorySlugsCount([...selectedCategorySlugs])
+      : getProductsCount(),
   ]);
+  const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
+  const effectivePage = totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
+  const start = (effectivePage - 1) * PRODUCTS_PER_PAGE;
+  const end = start + PRODUCTS_PER_PAGE;
+  const sanityProducts =
+    selectedCategorySlugs.size > 0
+      ? await getProductsByCategorySlugsPaginated(
+          [...selectedCategorySlugs],
+          start,
+          end
+        )
+      : await getProductsPaginated(start, end);
 
   // Transform Sanity products to ProductCard format
   const products = sanityProducts.map((product) => ({
@@ -54,7 +109,11 @@ export default async function ShopPage() {
             ))}
           </div>
 
-          <ShopPagination />
+          <ShopPagination
+            currentPage={effectivePage}
+            totalPages={totalPages}
+            searchParamsString={normalizedSearchParams.toString()}
+          />
         </div>
       </Container>
     </>

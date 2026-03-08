@@ -383,6 +383,138 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   order
 }`;
 
+export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && (
+    category->slug.current in $categorySlugs
+    || category->parent->slug.current in $categorySlugs
+  )
+]|order(order asc, name asc){
+  _id,
+  name,
+  slug,
+  sku,
+  description,
+  price,
+  salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
+  images,
+  category->{
+    name,
+    slug,
+    parent->{
+      name,
+      slug
+    }
+  },
+  sizes,
+  colors,
+  inStock,
+  featured,
+  new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
+  order
+}`;
+
+export const PRODUCTS_PAGINATED_QUERY = `*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+]|order(order asc, name asc)[$start...$end]{
+  _id,
+  name,
+  slug,
+  sku,
+  description,
+  price,
+  salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
+  images,
+  category->{
+    name,
+    slug,
+    parent->{
+      name,
+      slug
+    }
+  },
+  sizes,
+  colors,
+  inStock,
+  featured,
+  new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
+  order
+}`;
+
+export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && (
+    category->slug.current in $categorySlugs
+    || category->parent->slug.current in $categorySlugs
+  )
+]|order(order asc, name asc)[$start...$end]{
+  _id,
+  name,
+  slug,
+  sku,
+  description,
+  price,
+  salePrice,
+  wholesalePrice,
+  wholesaleMinQuantity,
+  images,
+  category->{
+    name,
+    slug,
+    parent->{
+      name,
+      slug
+    }
+  },
+  sizes,
+  colors,
+  inStock,
+  featured,
+  new,
+  tags,
+  material,
+  weight,
+  originCountry,
+  specifications,
+  order
+}`;
+
+export const PRODUCTS_COUNT_QUERY = `count(*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+])`;
+
+export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && (
+    category->slug.current in $categorySlugs
+    || category->parent->slug.current in $categorySlugs
+  )
+])`;
+
 export const SEARCH_PRODUCTS_QUERY = `*[
   _type == "product"
   && inStock == true
@@ -498,6 +630,57 @@ export async function getProductsByParentCategory(
   return await client.fetch(
     PRODUCTS_BY_PARENT_CATEGORY_QUERY,
     { parentSlug },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsByCategorySlugs(
+  categorySlugs: string[],
+): Promise<Product[]> {
+  return await client.fetch(
+    PRODUCTS_BY_CATEGORY_SLUGS_QUERY,
+    { categorySlugs },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsPaginated(
+  start: number,
+  end: number,
+): Promise<Product[]> {
+  return await client.fetch(
+    PRODUCTS_PAGINATED_QUERY,
+    { start, end },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsByCategorySlugsPaginated(
+  categorySlugs: string[],
+  start: number,
+  end: number,
+): Promise<Product[]> {
+  return await client.fetch(
+    PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY,
+    { categorySlugs, start, end },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsCount(): Promise<number> {
+  return await client.fetch(
+    PRODUCTS_COUNT_QUERY,
+    {},
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsByCategorySlugsCount(
+  categorySlugs: string[],
+): Promise<number> {
+  return await client.fetch(
+    PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY,
+    { categorySlugs },
     { next: { revalidate: 60 } },
   );
 }
