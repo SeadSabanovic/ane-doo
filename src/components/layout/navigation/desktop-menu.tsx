@@ -18,11 +18,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { menuData } from "./menuData";
 import { categoryData } from "@/constants/categories";
-import Container from "../container";
-import { Badge } from "@/components/ui/badge";
 import { ChevronDownIcon, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -55,6 +53,19 @@ function ListItem({
 
 export default function DesktopMenu() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const selectedCategorySlugs = new Set(
+    searchParams
+      .getAll("kategorija")
+      .join(",")
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean)
+  );
+
+  const getCategorySlugFromPath = (path: string) => path.split("/").pop() ?? "";
+  const getShopFilterHref = (slug: string) =>
+    `/shop?kategorija=${encodeURIComponent(slug)}`;
 
   return (
     <div className="lg:block hidden">
@@ -76,7 +87,7 @@ export default function DesktopMenu() {
                       <button
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "group relative focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                          "group relative cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-0"
                         )}
                       >
                         {item.title}{" "}
@@ -88,14 +99,17 @@ export default function DesktopMenu() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-[280px]">
                       {categoryData.map((category) => {
+                        const categorySlug = getCategorySlugFromPath(
+                          category.path
+                        );
                         const categoryIsActive =
-                          pathname === category.path ||
-                          pathname.startsWith(category.path + "/");
+                          pathname === "/shop" &&
+                          selectedCategorySlugs.has(categorySlug);
                         return (
                           <DropdownMenuSub key={category.id}>
                             <DropdownMenuSubTrigger asChild className="group">
                               <Link
-                                href={category.path}
+                                href={getShopFilterHref(categorySlug)}
                                 className={cn(
                                   "flex items-center gap-2 focus:outline-none focus-visible:outline-none focus-visible:ring-0",
                                   categoryIsActive && "bg-accent"
@@ -109,10 +123,14 @@ export default function DesktopMenu() {
                               category.subcategories.length > 0 && (
                                 <DropdownMenuSubContent className="w-[280px]">
                                   {category.subcategories.map((subcategory) => {
+                                    const subcategorySlug =
+                                      getCategorySlugFromPath(
+                                        subcategory.path
+                                      );
                                     const subIsActive =
-                                      pathname === subcategory.path ||
-                                      pathname.startsWith(
-                                        subcategory.path + "/"
+                                      pathname === "/shop" &&
+                                      selectedCategorySlugs.has(
+                                        subcategorySlug
                                       );
                                     return (
                                       <DropdownMenuItem
@@ -123,7 +141,9 @@ export default function DesktopMenu() {
                                         }
                                       >
                                         <Link
-                                          href={subcategory.path}
+                                          href={getShopFilterHref(
+                                            subcategorySlug
+                                          )}
                                           className="flex items-center gap-2"
                                         >
                                           {subcategory.title}

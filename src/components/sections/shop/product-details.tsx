@@ -5,6 +5,7 @@ import { ProductSpecifications } from "./product-specifications";
 import { ProductOptions } from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format-price";
 import { Button } from "@/components/ui/button";
 import { Heart, Box, Boxes } from "lucide-react";
 import {
@@ -163,7 +164,7 @@ export function ProductDetails({
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-4xl font-bold mb-2">{name}</h1>
-          <p className="text-3xl font-semibold text-primary">{price} KM</p>
+          <p className="text-3xl font-semibold text-primary">{formatPrice(price)}</p>
         </div>
         <Button
           variant="outline"
@@ -226,7 +227,7 @@ export function ProductDetails({
                         : "Veleprodaja"}
                     </h3>
                     <span className="text-muted-foreground font-semibold">
-                      {section.pricePerUnit.toFixed(2)} KM po komadu
+                      {formatPrice(section.pricePerUnit)} po komadu
                     </span>
                   </span>
                 </span>

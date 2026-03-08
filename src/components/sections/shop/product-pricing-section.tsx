@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Info, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format-price";
 
 interface PricingInfo {
   label: string;
@@ -49,9 +50,7 @@ export function ProductPricingSection({
 
       <div className="flex gap-4 items-start justify-between">
         <h3 className="font-semibold">Cijena po komadu</h3>
-        <p className="text-primary font-semibold">
-          {pricePerUnit.toFixed(2)} KM
-        </p>
+        <p className="text-primary font-semibold">{formatPrice(pricePerUnit)}</p>
       </div>
 
       <Separator />

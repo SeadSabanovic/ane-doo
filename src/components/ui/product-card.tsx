@@ -5,6 +5,7 @@ import { Badge } from "./badge";
 import Link from "next/link";
 import AnimatedImage from "./animated-image";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format-price";
 import { useWishlistStore } from "@/stores";
 import { toast } from "sonner";
 
@@ -105,12 +106,12 @@ export default function ProductCard({ product }: { product: Product }) {
         </Badge>
       )}
       <div className="flex flex-col mt-4 flex-1">
-        <Link href={product.link ? product.link : "#"} className="w-fit">
-          <h4 className="text-xl font-medium w-fit">{product.name}</h4>
+        <Link href={product.link ? product.link : "#"} className="block w-full">
+          <h4 className="text-xl font-medium line-clamp-2">{product.name}</h4>
         </Link>
 
         <small className="text-sm pt-1 mt-auto flex items-end justify-between gap-2">
-          {product.price} KM
+          {formatPrice(product.price)}
         </small>
       </div>
     </div>

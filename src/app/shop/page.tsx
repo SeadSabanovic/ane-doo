@@ -114,7 +114,7 @@ export default async function ShopPage({
               actionHref="/shop"
             />
           ) : (
-            <div className="grid grid-cols-2 xl:grid-cols-4 gap-8 flex-1">
+            <div className="grid grid-cols-2 xl:grid-cols-4 gap-8">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

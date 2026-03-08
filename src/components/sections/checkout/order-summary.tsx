@@ -3,6 +3,7 @@
 import CartItemComponent from "./cart-item";
 import { Fragment } from "react/jsx-runtime";
 import { CartItem } from "@/stores";
+import { formatPrice } from "@/lib/format-price";
 
 interface OrderSummaryProps {
   cartItems: CartItem[];
@@ -29,7 +30,7 @@ export default function OrderSummary({ cartItems, total }: OrderSummaryProps) {
       <div className="space-y-6 p-6">
         <div className="flex justify-between text-lg font-bold">
           <span>Ukupno:</span>
-          <span>{total.toFixed(2)} KM</span>
+          <span>{formatPrice(total)}</span>
         </div>
       </div>
     </div>

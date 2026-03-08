@@ -21,12 +21,24 @@ import {
 import Link from "next/link";
 import { menuData } from "./menuData";
 import { categoryData } from "@/constants/categories";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const selectedCategorySlugs = new Set(
+    searchParams
+      .getAll("kategorija")
+      .join(",")
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean)
+  );
+  const getCategorySlugFromPath = (path: string) => path.split("/").pop() ?? "";
+  const getShopFilterHref = (slug: string) =>
+    `/shop?kategorija=${encodeURIComponent(slug)}`;
 
   const handleNavigate = () => {
     setOpen(false);
@@ -86,9 +98,12 @@ export default function MobileMenu() {
                     <AccordionContent className="pt-2 pl-4">
                       <Accordion type="single" collapsible className="w-full">
                         {categoryData.map((category) => {
+                          const categorySlug = getCategorySlugFromPath(
+                            category.path
+                          );
                           const categoryIsActive =
-                            pathname === category.path ||
-                            pathname.startsWith(category.path + "/");
+                            pathname === "/shop" &&
+                            selectedCategorySlugs.has(categorySlug);
                           const hasSubcategories =
                             category.subcategories &&
                             category.subcategories.length > 0;
@@ -103,7 +118,7 @@ export default function MobileMenu() {
                                 <div className="flex items-center gap-2 flex-1">
                                   {hasSubcategories ? (
                                     <Link
-                                      href={category.path}
+                                      href={getShopFilterHref(categorySlug)}
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         handleNavigate();
@@ -116,7 +131,7 @@ export default function MobileMenu() {
                                     </Link>
                                   ) : (
                                     <Link
-                                      href={category.path}
+                                      href={getShopFilterHref(categorySlug)}
                                       onClick={handleNavigate}
                                       className={cn(
                                         categoryIsActive && "font-bold"
@@ -132,13 +147,25 @@ export default function MobileMenu() {
                                   <div className="flex flex-col gap-2">
                                     {category.subcategories?.map(
                                       (subcategory) => {
+                                        const subcategorySlug =
+                                          getCategorySlugFromPath(
+                                            subcategory.path
+                                          );
+                                        const subIsActive =
+                                          pathname === "/shop" &&
+                                          selectedCategorySlugs.has(
+                                            subcategorySlug
+                                          );
                                         return (
                                           <Link
                                             key={subcategory.id}
-                                            href={subcategory.path}
+                                            href={getShopFilterHref(
+                                              subcategorySlug
+                                            )}
                                             onClick={handleNavigate}
                                             className={cn(
-                                              "text-lg font-medium text-secondary hover:underline py-1"
+                                              "text-lg font-medium text-secondary hover:underline py-1",
+                                              subIsActive && "font-bold"
                                             )}
                                           >
                                             {subcategory.title}

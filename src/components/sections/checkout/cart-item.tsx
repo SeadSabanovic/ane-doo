@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { InputWithPlusMinus } from "@/components/ui/input-with-plus-minus";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format-price";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { CartItem, useCartStore } from "@/stores";
@@ -80,7 +81,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
       <div className={cn("flex flex-col gap-3 p-2 pb-0 rounded-md w-full")}>
         <div className="flex flex-col gap-1">
           <span className="font-medium text-right">
-            {unitPrice.toFixed(2)} KM{isWholesale ? " / kom" : ""}
+            {formatPrice(unitPrice)}{isWholesale ? " / kom" : ""}
           </span>
         </div>
         <div className="flex items-end gap-2">
@@ -97,7 +98,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
           </Button>
         </div>
         <span className="text-sm text-foreground/80 text-right">
-          = {totalPrice.toFixed(2)} KM
+          = {formatPrice(totalPrice)}
         </span>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import AnimatedImage from "@/components/ui/animated-image";
+import { formatPrice } from "@/lib/format-price";
 import { ArrowRight } from "lucide-react";
 
 interface Product {
@@ -19,7 +20,7 @@ export default function SearchProduct({ product }: { product: Product }) {
       />
       <div className="flex flex-col gap-1 py-2 flex-1">
         <span className="font-medium text-xl">{product.name}</span>
-        <span className="text-sm">{product.price} KM</span>
+        <span className="text-sm">{formatPrice(product.price)}</span>
       </div>
 
       <div className="p-2 bg-muted/20 rounded-md self-center hover:bg-muted/30 transition-colors">
