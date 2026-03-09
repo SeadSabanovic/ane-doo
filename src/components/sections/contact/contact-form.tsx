@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -13,18 +12,42 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import AnimatedImage from "@/components/ui/animated-image";
+import { z } from "zod";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const subjectOptions = [
-  { value: "upit-o-artiklima", label: "Upit o artiklima" },
-  { value: "ponuda", label: "Ponuda" },
-  { value: "partnerstvo", label: "Partnerstvo" },
-  { value: "tehnicka-podrska", label: "Tehnička podrška" },
+  { value: "upit-o-proizvodima", label: "Upit o proizvodima" },
+  { value: "veleprodaja-i-saradnja", label: "Veleprodaja i saradnja" },
+  { value: "zahtjev-za-ponudu", label: "Zahtjev za ponudu" },
+  { value: "reklamacije-i-povrati", label: "Reklamacije i povrati" },
   { value: "opsti-upit", label: "Opšti upit" },
-  { value: "reklamacija", label: "Reklamacija" },
 ];
 
+const contactFormSchema = z.object({
+  firstName: z.string().trim().min(1, "Ime je obavezno"),
+  lastName: z.string().trim().min(1, "Prezime je obavezno"),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email je obavezan")
+    .email("Molimo unesite validan email"),
+  phone: z.string().trim().min(1, "Kontakt telefon je obavezan"),
+  company: z.string().trim(),
+  subject: z
+    .string()
+    .min(1, "Molimo odaberite predmet")
+    .refine(
+      (value) => subjectOptions.some((option) => option.value === value),
+      "Molimo odaberite predmet"
+    ),
+  message: z.string().trim().min(1, "Poruka je obavezna"),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
+
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
+  const defaultValues: ContactFormValues = {
     firstName: "",
     lastName: "",
     email: "",
@@ -32,95 +55,40 @@ export default function ContactForm() {
     company: "",
     subject: "",
     message: "",
+  };
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues,
+    mode: "onSubmit",
+    reValidateMode: "onChange",
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-  };
-
-  const handleSelectChange = (name: keyof typeof formData, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as string]) {
-      setErrors((prev) => ({ ...prev, [name as string]: "" }));
-    }
-  };
-
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "Ime je obavezno";
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Prezime je obavezno";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email je obavezan";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Molimo unesite validan email";
-    }
-
-    if (!formData.subject) {
-      newErrors.subject = "Molimo odaberite predmet";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Poruka je obavezna";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validate()) {
-      return;
-    }
-
-    setIsSubmitting(true);
-
+  const onSubmit: SubmitHandler<ContactFormValues> = async (formData) => {
     // TODO: Implement actual form submission
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log("Form submitted:", formData);
       // Reset form on success
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        company: "",
-        subject: "",
-        message: "",
-      });
+      reset(defaultValues);
       alert("Poruka je uspješno poslana! Kontaktirat ćemo vas uskoro.");
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Došlo je do greške. Molimo pokušajte ponovo.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
       className="border rounded-md lg:max-w-5xl mx-auto w-full overflow-hidden"
     >
       <div className="p-6 relative aspect-video flex flex-col justify-end">
@@ -154,11 +122,9 @@ export default function ContactForm() {
               </label>
               <Input
                 id="firstName"
-                name="firstName"
                 type="text"
-                value={formData.firstName}
-                onChange={handleChange}
                 placeholder="Ime"
+                {...register("firstName")}
                 aria-invalid={!!errors.firstName}
                 aria-describedby={
                   errors.firstName ? "firstName-error" : undefined
@@ -167,7 +133,7 @@ export default function ContactForm() {
               />
               {errors.firstName && (
                 <p id="firstName-error" className="text-sm text-destructive">
-                  {errors.firstName}
+                  {errors.firstName.message}
                 </p>
               )}
             </div>
@@ -180,11 +146,9 @@ export default function ContactForm() {
               </label>
               <Input
                 id="lastName"
-                name="lastName"
                 type="text"
-                value={formData.lastName}
-                onChange={handleChange}
                 placeholder="Prezime"
+                {...register("lastName")}
                 aria-invalid={!!errors.lastName}
                 aria-describedby={
                   errors.lastName ? "lastName-error" : undefined
@@ -193,7 +157,7 @@ export default function ContactForm() {
               />
               {errors.lastName && (
                 <p id="lastName-error" className="text-sm text-destructive">
-                  {errors.lastName}
+                  {errors.lastName.message}
                 </p>
               )}
             </div>
@@ -210,39 +174,44 @@ export default function ContactForm() {
           </label>
           <Input
             id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
+            type="text"
+            inputMode="email"
+            autoComplete="email"
             placeholder="vas@email.com"
+            {...register("email")}
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
             className={cn(errors.email && "border-destructive")}
           />
           {errors.email && (
             <p id="email-error" className="text-sm text-destructive">
-              {errors.email}
+              {errors.email.message}
             </p>
           )}
         </div>
 
-        {/* Phone - Optional */}
+        {/* Phone - Required */}
         <div className="space-y-2">
           <label
             htmlFor="phone"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            Kontakt telefon{" "}
-            <span className="text-muted-foreground text-xs">(opcionalno)</span>
+            Kontakt telefon <span className="text-destructive">*</span>
           </label>
           <Input
             id="phone"
-            name="phone"
             type="tel"
-            value={formData.phone}
-            onChange={handleChange}
             placeholder="+387 XX XXX XXX"
+            {...register("phone")}
+            aria-invalid={!!errors.phone}
+            aria-describedby={errors.phone ? "phone-error" : undefined}
+            className={cn(errors.phone && "border-destructive")}
           />
+          {errors.phone && (
+            <p id="phone-error" className="text-sm text-destructive">
+              {errors.phone.message}
+            </p>
+          )}
         </div>
 
         {/* Company - Optional */}
@@ -256,11 +225,9 @@ export default function ContactForm() {
           </label>
           <Input
             id="company"
-            name="company"
             type="text"
-            value={formData.company}
-            onChange={handleChange}
             placeholder="Unesite naziv firme"
+            {...register("company")}
           />
         </div>
 
@@ -272,33 +239,35 @@ export default function ContactForm() {
           >
             Predmet <span className="text-destructive">*</span>
           </label>
-          <Select
-            value={formData.subject}
-            onValueChange={(value) => handleSelectChange("subject", value)}
-          >
-            <SelectTrigger
-              id="subject"
-              aria-invalid={!!errors.subject}
-              aria-describedby={errors.subject ? "subject-error" : undefined}
-              className={cn(
-                "w-full justify-between",
-                errors.subject && "border-destructive"
-              )}
-            >
-              <SelectValue placeholder="Odaberite predmet" />
-            </SelectTrigger>
-            <SelectContent className="w-(--radix-select-trigger-width)">
-              {subjectOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <input type="hidden" name="subject" value={formData.subject} />
+          <Controller
+            name="subject"
+            control={control}
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger
+                  id="subject"
+                  aria-invalid={!!errors.subject}
+                  aria-describedby={errors.subject ? "subject-error" : undefined}
+                  className={cn(
+                    "w-full justify-between",
+                    errors.subject && "border-destructive"
+                  )}
+                >
+                  <SelectValue placeholder="Odaberite predmet" />
+                </SelectTrigger>
+                <SelectContent className="w-(--radix-select-trigger-width)">
+                  {subjectOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
           {errors.subject && (
             <p id="subject-error" className="text-sm text-destructive">
-              {errors.subject}
+              {errors.subject.message}
             </p>
           )}
         </div>
@@ -313,18 +282,16 @@ export default function ContactForm() {
           </label>
           <Textarea
             id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
             placeholder="Unesite vašu poruku..."
             rows={6}
+            {...register("message")}
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
             className={cn(errors.message && "border-destructive", "min-h-36")}
           />
           {errors.message && (
             <p id="message-error" className="text-sm text-destructive">
-              {errors.message}
+              {errors.message.message}
             </p>
           )}
         </div>
