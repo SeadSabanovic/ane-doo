@@ -26,6 +26,59 @@ import {
 import { getParentCategories, type Category } from "@/sanity/lib/api";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+function getSelectedFromQuery(rawCategoryParam: string | null, categories: Category[]) {
+  if (!rawCategoryParam) {
+    return {
+      selectedCategories: new Set<string>(),
+      selectedSubcategories: new Set<string>(),
+    };
+  }
+
+  const selectedSlugs = new Set(
+    rawCategoryParam
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean)
+  );
+
+  const selectedSubcategories = new Set<string>();
+  categories.forEach((category) => {
+    const subcategories = category.subcategories ?? [];
+    const parentSelected = selectedSlugs.has(category.slug.current);
+
+    if (parentSelected) {
+      subcategories.forEach((subcategory) => {
+        selectedSubcategories.add(subcategory._id);
+      });
+    }
+
+    subcategories.forEach((subcategory) => {
+      if (selectedSlugs.has(subcategory.slug.current)) {
+        selectedSubcategories.add(subcategory._id);
+      }
+    });
+  });
+
+  const selectedCategories = new Set<string>();
+  categories.forEach((category) => {
+    const parentSelected = selectedSlugs.has(category.slug.current);
+    const allSubcategoriesSelected =
+      (category.subcategories?.length ?? 0) > 0 &&
+      category.subcategories!.every((subcategory) =>
+        selectedSubcategories.has(subcategory._id)
+      );
+
+    if (parentSelected || allSubcategoriesSelected) {
+      selectedCategories.add(category._id);
+    }
+  });
+
+  return {
+    selectedCategories,
+    selectedSubcategories,
+  };
+}
+
 export default function ShopFilterDialog() {
   const router = useRouter();
   const pathname = usePathname();
@@ -51,58 +104,12 @@ export default function ShopFilterDialog() {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const rawCategoryParam = searchParams.get("kategorija");
-
-    if (!rawCategoryParam) {
-      setSelectedCategories(new Set());
-      setSelectedSubcategories(new Set());
-      return;
-    }
-
-    const selectedSlugs = new Set(
-      rawCategoryParam
-        .split(",")
-        .map((value) => value.trim())
-        .filter(Boolean)
-    );
-
-    const nextSelectedSubcategories = new Set<string>();
-
-    categories.forEach((category) => {
-      const subcategories = category.subcategories ?? [];
-      const parentSelected = selectedSlugs.has(category.slug.current);
-
-      if (parentSelected) {
-        subcategories.forEach((subcategory) => {
-          nextSelectedSubcategories.add(subcategory._id);
-        });
-      }
-
-      category.subcategories?.forEach((subcategory) => {
-        if (selectedSlugs.has(subcategory.slug.current)) {
-          nextSelectedSubcategories.add(subcategory._id);
-        }
-      });
-    });
-
-    const nextSelectedCategories = new Set<string>();
-    categories.forEach((category) => {
-      const parentSelected = selectedSlugs.has(category.slug.current);
-      const allSubcategoriesSelected =
-        (category.subcategories?.length ?? 0) > 0 &&
-        category.subcategories!.every((subcategory) =>
-          nextSelectedSubcategories.has(subcategory._id)
-        );
-
-      if (parentSelected || allSubcategoriesSelected) {
-        nextSelectedCategories.add(category._id);
-      }
-    });
-
+  const syncSelectionWithQuery = () => {
+    const { selectedCategories: nextSelectedCategories, selectedSubcategories: nextSelectedSubcategories } =
+      getSelectedFromQuery(searchParams.get("kategorija"), categories);
     setSelectedCategories(nextSelectedCategories);
     setSelectedSubcategories(nextSelectedSubcategories);
-  }, [categories, searchParams]);
+  };
 
   const applyCategoryFilter = () => {
     const selectedSlugs = new Set<string>();
@@ -252,7 +259,15 @@ export default function ShopFilterDialog() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        if (nextOpen) {
+          syncSelectionWithQuery();
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button
           variant="outline"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { ProductSpecifications } from "./product-specifications";
 import { ProductOptions } from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
@@ -108,9 +109,11 @@ export function ProductDetails({
     toast.success(`${name} dodano u korpu`, {
       description: `${selectedSize}${selectedColor ? ` • ${selectedColor}` : ""} • ${purchaseType === "wholesale" ? "Veleprodaja" : "Maloprodaja"}`,
       icon: (
-        <img
+        <Image
           src={image}
           alt={name}
+          width={40}
+          height={40}
           className="size-10 rounded-md object-cover"
         />
       ),
@@ -130,9 +133,11 @@ export function ProductDetails({
     if (isWishlisted) {
       toast.success("Uklonjeno iz liste želja", {
         icon: (
-          <img
+          <Image
             src={image}
             alt={name}
+            width={40}
+            height={40}
             className="size-10 rounded-md object-cover"
           />
         ),
@@ -140,9 +145,11 @@ export function ProductDetails({
     } else {
       toast.success("Dodano u listu želja", {
         icon: (
-          <img
+          <Image
             src={image}
             alt={name}
+            width={40}
+            height={40}
             className="size-10 rounded-md object-cover"
           />
         ),

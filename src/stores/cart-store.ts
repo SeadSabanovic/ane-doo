@@ -40,13 +40,6 @@ interface CartStore {
   getTotalPrice: () => number;
 }
 
-const getItemKey = (
-  productId: string,
-  size: string,
-  color: string,
-  purchaseType: "retail" | "wholesale"
-) => `${productId}-${size}-${color}-${purchaseType}`;
-
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({

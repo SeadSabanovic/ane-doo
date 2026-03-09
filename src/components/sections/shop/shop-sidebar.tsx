@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -25,14 +25,62 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     undefined
   );
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set()
-  );
-  const [selectedSubcategories, setSelectedSubcategories] = useState<
-    Set<string>
-  >(new Set());
   const [selectedColors, setSelectedColors] = useState<Set<string>>(new Set());
   const [selectedSizes, setSelectedSizes] = useState<Set<string>>(new Set());
+  const { selectedCategories, selectedSubcategories } = useMemo(() => {
+    const rawCategoryParam = searchParams.get("kategorija");
+
+    if (!rawCategoryParam) {
+      return {
+        selectedCategories: new Set<string>(),
+        selectedSubcategories: new Set<string>(),
+      };
+    }
+
+    const selectedSlugs = new Set(
+      rawCategoryParam
+        .split(",")
+        .map((value) => value.trim())
+        .filter(Boolean)
+    );
+    const nextSelectedSubcategories = new Set<string>();
+
+    categories.forEach((category) => {
+      const subcategories = category.subcategories ?? [];
+      const parentSelected = selectedSlugs.has(category.slug.current);
+
+      if (parentSelected) {
+        subcategories.forEach((subcategory) => {
+          nextSelectedSubcategories.add(subcategory._id);
+        });
+      }
+
+      subcategories.forEach((subcategory) => {
+        if (selectedSlugs.has(subcategory.slug.current)) {
+          nextSelectedSubcategories.add(subcategory._id);
+        }
+      });
+    });
+
+    const nextSelectedCategories = new Set<string>();
+    categories.forEach((category) => {
+      const parentSelected = selectedSlugs.has(category.slug.current);
+      const allSubcategoriesSelected =
+        (category.subcategories?.length ?? 0) > 0 &&
+        category.subcategories!.every((subcategory) =>
+          nextSelectedSubcategories.has(subcategory._id)
+        );
+
+      if (parentSelected || allSubcategoriesSelected) {
+        nextSelectedCategories.add(category._id);
+      }
+    });
+
+    return {
+      selectedCategories: nextSelectedCategories,
+      selectedSubcategories: nextSelectedSubcategories,
+    };
+  }, [categories, searchParams]);
 
   const buildSelectedSlugs = (
     categoryIds: Set<string>,
@@ -81,59 +129,6 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
     router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
   };
 
-  useEffect(() => {
-    const rawCategoryParam = searchParams.get("kategorija");
-
-    if (!rawCategoryParam) {
-      setSelectedCategories(new Set());
-      setSelectedSubcategories(new Set());
-      return;
-    }
-
-    const selectedSlugs = new Set(
-      rawCategoryParam
-        .split(",")
-        .map((value) => value.trim())
-        .filter(Boolean)
-    );
-
-    const nextSelectedSubcategories = new Set<string>();
-
-    categories.forEach((category) => {
-      const subcategories = category.subcategories ?? [];
-      const parentSelected = selectedSlugs.has(category.slug.current);
-
-      if (parentSelected) {
-        subcategories.forEach((subcategory) => {
-          nextSelectedSubcategories.add(subcategory._id);
-        });
-      }
-
-      category.subcategories?.forEach((subcategory) => {
-        if (selectedSlugs.has(subcategory.slug.current)) {
-          nextSelectedSubcategories.add(subcategory._id);
-        }
-      });
-    });
-
-    const nextSelectedCategories = new Set<string>();
-    categories.forEach((category) => {
-      const parentSelected = selectedSlugs.has(category.slug.current);
-      const allSubcategoriesSelected =
-        (category.subcategories?.length ?? 0) > 0 &&
-        category.subcategories!.every((subcategory) =>
-          nextSelectedSubcategories.has(subcategory._id)
-        );
-
-      if (parentSelected || allSubcategoriesSelected) {
-        nextSelectedCategories.add(category._id);
-      }
-    });
-
-    setSelectedCategories(nextSelectedCategories);
-    setSelectedSubcategories(nextSelectedSubcategories);
-  }, [categories, searchParams]);
-
   // Handler za top-level kategoriju
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     const category = categories.find((cat) => cat._id === categoryId);
@@ -158,8 +153,6 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       }
     }
 
-    setSelectedCategories(nextSelectedCategories);
-    setSelectedSubcategories(nextSelectedSubcategories);
     updateCategoryQuery(nextSelectedCategories, nextSelectedSubcategories);
   };
 
@@ -187,8 +180,6 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       nextSelectedCategories.delete(categoryId);
     }
 
-    setSelectedSubcategories(nextSelectedSubcategories);
-    setSelectedCategories(nextSelectedCategories);
     updateCategoryQuery(nextSelectedCategories, nextSelectedSubcategories);
   };
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Container from "../container";
 import { Heart, Search, ShoppingCart } from "lucide-react";
@@ -19,17 +20,17 @@ const Navigation = () => {
   const pathname = usePathname();
   const isRootRoute = pathname === "/";
   const [searchOpen, setSearchOpen] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   const cartItems = useCartStore((state) => state.items);
   const wishlistItems = useWishlistStore((state) => state.items);
 
   const cartCount = cartItems.length;
   const wishlistCount = wishlistItems.length;
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   return (
     <>
@@ -66,7 +67,14 @@ const Navigation = () => {
                   className="shrink-0 text-2xl font-bold text-primary flex items-center gap-2"
                   href="/"
                 >
-                  <img src="/ANE-logo.svg" alt="ANE D.O.O. Logo" loading="eager" className="size-8" />
+                  <Image
+                    src="/ANE-logo.svg"
+                    alt="ANE D.O.O. Logo"
+                    width={32}
+                    height={32}
+                    priority
+                    className="size-8"
+                  />
                   <h1 className="text-xl font-bold sr-only sm:not-sr-only">ANE D.O.O.</h1>
                 </Link>
 

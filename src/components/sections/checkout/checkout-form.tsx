@@ -6,7 +6,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function CheckoutForm() {
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">(
@@ -23,7 +22,6 @@ export default function CheckoutForm() {
     country: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,8 +83,6 @@ export default function CheckoutForm() {
       return;
     }
 
-    setIsSubmitting(true);
-
     // TODO: Implement actual form submission
     try {
       // Simulate API call
@@ -107,8 +103,6 @@ export default function CheckoutForm() {
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Došlo je do greške. Molimo pokušajte ponovo.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

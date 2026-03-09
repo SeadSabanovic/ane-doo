@@ -39,21 +39,25 @@ export default function ProductCard({ product }: { product: Product }) {
     });
 
     if (isSaved) {
-      toast.success("Uklonjeno iz liste želja", {
+      toast.success("Uklonjeno iz spašenih proizvoda", {
         icon: (
-          <img
+          <AnimatedImage
             src={product.image}
             alt={product.name}
+            width={40}
+            height={40}
             className="size-10 rounded-md object-cover"
           />
         ),
       });
     } else {
-      toast.success("Dodano u listu želja", {
+      toast.success("Dodano u spašene proizvode", {
         icon: (
-          <img
+          <AnimatedImage
             src={product.image}
             alt={product.name}
+            width={40}
+            height={40}
             className="size-10 rounded-md object-cover"
           />
         ),

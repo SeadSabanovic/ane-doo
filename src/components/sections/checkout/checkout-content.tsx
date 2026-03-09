@@ -4,19 +4,19 @@ import { useCartStore } from "@/stores";
 import OrderSummary from "./order-summary";
 import CheckoutForm from "./checkout-form";
 import { ShoppingBag, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import EmptyState from "@/components/ui/empty-state";
 
 export default function CheckoutContent() {
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const items = useCartStore((state) => state.items);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
 
   const total = getTotalPrice();
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   if (!isHydrated) {
     return (

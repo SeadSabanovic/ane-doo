@@ -43,7 +43,8 @@ export default defineType({
       hidden: ({ document }) => document?.isParent === true,
       validation: (Rule) =>
         Rule.custom((parent, context) => {
-          const isParent = (context.document as any)?.isParent;
+          const isParent = (context.document as { isParent?: boolean } | undefined)
+            ?.isParent;
           if (!isParent && !parent) {
             return "Podkategorija mora imati nadređenu kategoriju";
           }

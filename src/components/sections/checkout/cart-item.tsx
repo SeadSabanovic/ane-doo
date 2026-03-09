@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { InputWithPlusMinus } from "@/components/ui/input-with-plus-minus";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { CartItem, useCartStore } from "@/stores";
 

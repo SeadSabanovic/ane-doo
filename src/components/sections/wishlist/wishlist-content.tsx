@@ -3,16 +3,16 @@
 import { useWishlistStore } from "@/stores";
 import ProductCard from "@/components/ui/product-card";
 import { Heart, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import EmptyState from "@/components/ui/empty-state";
 
 export default function WishlistContent() {
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const items = useWishlistStore((state) => state.items);
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   if (!isHydrated) {
     return (
