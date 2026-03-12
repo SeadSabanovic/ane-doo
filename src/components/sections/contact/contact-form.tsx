@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,7 @@ import AnimatedImage from "@/components/ui/animated-image";
 import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import PhoneInputWithCountryCode from "@/components/ui/phone-input-with-country-code";
 
 const subjectOptions = [
   { value: "upit-o-proizvodima", label: "Upit o proizvodima" },
@@ -32,7 +33,14 @@ const contactFormSchema = z.object({
     .trim()
     .min(1, "Email je obavezan")
     .email("Molimo unesite validan email"),
-  phone: z.string().trim().min(1, "Kontakt telefon je obavezan"),
+  phoneCountryCode: z.enum(["+387", "+381", "+385", "+382"]),
+  phone: z
+    .string()
+    .trim()
+    .min(1, "Kontakt telefon je obavezan")
+    .regex(/^\d+$/, "Telefon može sadržavati samo brojeve")
+    .min(6, "Kontakt telefon mora imati između 6 i 12 cifara")
+    .max(12, "Kontakt telefon mora imati između 6 i 12 cifara"),
   company: z.string().trim(),
   subject: z
     .string()
@@ -51,6 +59,7 @@ export default function ContactForm() {
     firstName: "",
     lastName: "",
     email: "",
+    phoneCountryCode: "+387",
     phone: "",
     company: "",
     subject: "",
@@ -71,11 +80,22 @@ export default function ContactForm() {
   });
 
   const onSubmit: SubmitHandler<ContactFormValues> = async (formData) => {
+    const normalizedPhone = formData.phone.replace(/\D/g, "");
+    const payload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: `${formData.phoneCountryCode} ${normalizedPhone}`.trim(),
+      company: formData.company,
+      subject: formData.subject,
+      message: formData.message,
+    };
+
     // TODO: Implement actual form submission
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Form submitted:", formData);
+      console.log("Form submitted:", payload);
       // Reset form on success
       reset(defaultValues);
       alert("Poruka je uspješno poslana! Kontaktirat ćemo vas uskoro.");
@@ -164,112 +184,127 @@ export default function ContactForm() {
           </div>
         </div>
 
-        {/* Email - Required */}
+        {/* Email & Phone - Required */}
         <div className="space-y-2">
-          <label
-            htmlFor="email"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Email <span className="text-destructive">*</span>
-          </label>
-          <Input
-            id="email"
-            type="text"
-            inputMode="email"
-            autoComplete="email"
-            placeholder="vas@email.com"
-            {...register("email")}
-            aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? "email-error" : undefined}
-            className={cn(errors.email && "border-destructive")}
-          />
-          {errors.email && (
-            <p id="email-error" className="text-sm text-destructive">
-              {errors.email.message}
-            </p>
-          )}
+          <div className="flex flex-col gap-3 md:flex-row">
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Email <span className="text-destructive">*</span>
+              </label>
+              <Input
+                id="email"
+                type="text"
+                inputMode="email"
+                autoComplete="email"
+                placeholder="vas@email.com"
+                {...register("email")}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                className={cn(errors.email && "border-destructive")}
+              />
+              {errors.email && (
+                <p id="email-error" className="text-sm text-destructive">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label
+                htmlFor="phone"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Kontakt telefon <span className="text-destructive">*</span>
+              </label>
+              <Controller
+                name="phoneCountryCode"
+                control={control}
+                render={({ field: phoneCodeField }) => (
+                  <Controller
+                    name="phone"
+                    control={control}
+                    render={({ field: phoneField }) => (
+                      <PhoneInputWithCountryCode
+                        id="phone"
+                        phoneValue={phoneField.value}
+                        onPhoneChange={phoneField.onChange}
+                        countryCodeValue={phoneCodeField.value}
+                        onCountryCodeChange={phoneCodeField.onChange}
+                        hasError={!!errors.phone}
+                        describedBy={errors.phone ? "phone-error" : undefined}
+                      />
+                    )}
+                  />
+                )}
+              />
+              {errors.phone && (
+                <p id="phone-error" className="text-sm text-destructive">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Phone - Required */}
+        {/* Company & Subject */}
         <div className="space-y-2">
-          <label
-            htmlFor="phone"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Kontakt telefon <span className="text-destructive">*</span>
-          </label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="+387 XX XXX XXX"
-            {...register("phone")}
-            aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
-            className={cn(errors.phone && "border-destructive")}
-          />
-          {errors.phone && (
-            <p id="phone-error" className="text-sm text-destructive">
-              {errors.phone.message}
-            </p>
-          )}
-        </div>
-
-        {/* Company - Optional */}
-        <div className="space-y-2">
-          <label
-            htmlFor="company"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Firma{" "}
-            <span className="text-muted-foreground text-xs">(opcionalno)</span>
-          </label>
-          <Input
-            id="company"
-            type="text"
-            placeholder="Unesite naziv firme"
-            {...register("company")}
-          />
-        </div>
-
-        {/* Subject - Required */}
-        <div className="space-y-2">
-          <label
-            htmlFor="subject"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Predmet <span className="text-destructive">*</span>
-          </label>
-          <Controller
-            name="subject"
-            control={control}
-            render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger
-                  id="subject"
-                  aria-invalid={!!errors.subject}
-                  aria-describedby={errors.subject ? "subject-error" : undefined}
-                  className={cn(
-                    "w-full justify-between",
-                    errors.subject && "border-destructive"
-                  )}
-                >
-                  <SelectValue placeholder="Odaberite predmet" />
-                </SelectTrigger>
-                <SelectContent className="w-(--radix-select-trigger-width)">
-                  {subjectOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-          {errors.subject && (
-            <p id="subject-error" className="text-sm text-destructive">
-              {errors.subject.message}
-            </p>
-          )}
+          <div className="flex flex-col gap-3 md:flex-row">
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label
+                htmlFor="company"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Firma
+              </label>
+              <Input
+                id="company"
+                type="text"
+                placeholder="Unesite naziv firme"
+                {...register("company")}
+              />
+            </div>
+            <div className="flex flex-1 flex-col gap-1.5">
+              <label
+                htmlFor="subject"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Predmet <span className="text-destructive">*</span>
+              </label>
+              <Controller
+                name="subject"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger
+                      id="subject"
+                      aria-invalid={!!errors.subject}
+                      aria-describedby={errors.subject ? "subject-error" : undefined}
+                      className={cn(
+                        "w-full justify-between",
+                        errors.subject && "border-destructive"
+                      )}
+                    >
+                      <SelectValue placeholder="Odaberite predmet" />
+                    </SelectTrigger>
+                    <SelectContent className="w-(--radix-select-trigger-width)">
+                      {subjectOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.subject && (
+                <p id="subject-error" className="text-sm text-destructive">
+                  {errors.subject.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Message - Required */}
@@ -287,7 +322,7 @@ export default function ContactForm() {
             {...register("message")}
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
-            className={cn(errors.message && "border-destructive", "min-h-36")}
+            className={cn(errors.message && "border-destructive", "min-h-36 max-h-36 resize-none")}
           />
           {errors.message && (
             <p id="message-error" className="text-sm text-destructive">
@@ -297,14 +332,13 @@ export default function ContactForm() {
         </div>
 
         {/* Submit Button */}
-        <Button
+        <InteractiveHoverButton
           type="submit"
           disabled={isSubmitting}
-          className="w-full"
-          size="lg"
+          className="disabled:opacity-60 ml-auto"
         >
           {isSubmitting ? "Šalje se..." : "Pošalji"}
-        </Button>
+        </InteractiveHoverButton>
       </div>
     </form>
   );
