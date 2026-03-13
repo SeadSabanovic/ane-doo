@@ -50,6 +50,7 @@ const contactFormSchema = z.object({
       "Molimo odaberite predmet"
     ),
   message: z.string().trim().min(1, "Poruka je obavezna"),
+  website: z.string().trim(),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -64,6 +65,7 @@ export default function ContactForm() {
     company: "",
     subject: "",
     message: "",
+    website: "",
   };
 
   const {
@@ -89,14 +91,22 @@ export default function ContactForm() {
       company: formData.company,
       subject: formData.subject,
       message: formData.message,
+      website: formData.website,
     };
 
-    // TODO: Implement actual form submission
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log("Form submitted:", payload);
-      // Reset form on success
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
       reset(defaultValues);
       alert("Poruka je uspješno poslana! Kontaktirat ćemo vas uskoro.");
     } catch (error) {
@@ -130,6 +140,18 @@ export default function ContactForm() {
       </div>
 
       <div className="p-6 space-y-6">
+        {/* Honeypot field (anti-spam) */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="website">Website</label>
+          <Input
+            id="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            {...register("website")}
+          />
+        </div>
+
         {/* First & Last Name - Required */}
         <div className="space-y-2">
           <div className="flex flex-col gap-3 md:flex-row">
