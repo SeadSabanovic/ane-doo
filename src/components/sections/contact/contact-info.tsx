@@ -1,11 +1,17 @@
 import { Mail, MapPinned, Phone } from "lucide-react";
 
+const ICON_SIZE = 36;
+const ICON_STROKE_WIDTH = 1;
+
 export default function ContactInfo() {
   return (
     <div className="flex flex-col p-6 rounded-md border md:grid md:grid-cols-2 lg:grid-cols-3 lg:max-w-5xl mx-auto w-full">
       {/* Mail */}
       <div className="flex gap-6 p-6 border-b flex-col items-center md:items-center text-center lg:flex-row lg:text-left lg:items-start lg:border-b-0">
-        <Mail className="size-6" />
+        <div className="size-16 flex items-center justify-center text-card-foreground relative shrink-0">
+          <Mail size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 size-[60%] bg-accent/40 rounded-full -z-10" />
+        </div>
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-medium">Pišite nam</h3>
           <p>Javit ćemo vam se što prije.</p>
@@ -20,7 +26,10 @@ export default function ContactInfo() {
 
       {/* Phone */}
       <div className="flex gap-6 p-6 border-b flex-col items-center md:items-center text-center lg:flex-row lg:text-left lg:items-start lg:border-b-0">
-        <Phone className="size-6" />
+        <div className="size-16 flex items-center justify-center text-card-foreground relative shrink-0">
+          <Phone size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 size-[60%] bg-accent/40 rounded-full -z-10" />
+        </div>
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-medium">Pozovite nas</h3>
           <p>Pon-Pet od 08:00 do 16:00.</p>
@@ -35,7 +44,10 @@ export default function ContactInfo() {
 
       {/* Map */}
       <div className="flex gap-6 p-6 flex-col items-center md:col-span-2 md:items-center text-center lg:flex-row lg:text-left lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:items-start lg:pt-24 lg:pb-12">
-        <MapPinned className="size-6" />
+        <div className="size-16 flex items-center justify-center text-card-foreground relative shrink-0">
+          <MapPinned size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 size-[60%] bg-accent/40 rounded-full -z-10" />
+        </div>
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-medium">Naša adresa</h3>
           <p>Dođite i uvjerite se sami.</p>

@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import {
+  allowedSubjects,
+  buildContactEmailHtml,
+  buildContactEmailText,
+  formatContactSubjectLabel,
+} from "@/lib/contact-email-template";
 
 const allowedPhoneCodes = ["+387", "+381", "+385", "+382"] as const;
-const allowedSubjects = [
-  "upit-o-proizvodima",
-  "veleprodaja-i-saradnja",
-  "zahtjev-za-ponudu",
-  "reklamacije-i-povrati",
-  "opsti-upit",
-] as const;
 
 const contactRequestSchema = z.object({
   firstName: z.string().trim().min(1),
@@ -28,21 +27,6 @@ const contactRequestSchema = z.object({
   website: z.string().trim().optional().default(""),
 });
 
-const subjectLabels: Record<string, string> = {
-  "upit-o-proizvodima": "Upit o proizvodima",
-  "veleprodaja-i-saradnja": "Veleprodaja i saradnja",
-  "zahtjev-za-ponudu": "Zahtjev za ponudu",
-  "reklamacije-i-povrati": "Reklamacije i povrati",
-  "opsti-upit": "Opšti upit",
-};
-
-const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -92,24 +76,17 @@ export async function POST(request: Request) {
   }
 
   const resend = new Resend(apiKey);
-  const readableSubject = subjectLabels[data.subject] ?? data.subject;
+  const readableSubject = formatContactSubjectLabel(data.subject);
+  const html = buildContactEmailHtml(data);
+  const text = buildContactEmailText(data);
 
   const { error } = await resend.emails.send({
     from,
     to,
     replyTo: data.email,
     subject: `Kontakt forma: ${readableSubject}`,
-    html: `
-      <h2>Novi upit sa kontakt forme</h2>
-      <p><strong>Ime:</strong> ${escapeHtml(data.firstName)}</p>
-      <p><strong>Prezime:</strong> ${escapeHtml(data.lastName)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
-      <p><strong>Telefon:</strong> ${escapeHtml(data.phone)}</p>
-      <p><strong>Firma:</strong> ${escapeHtml(data.company || "-")}</p>
-      <p><strong>Predmet:</strong> ${escapeHtml(readableSubject)}</p>
-      <p><strong>Poruka:</strong></p>
-      <p>${escapeHtml(data.message).replace(/\n/g, "<br />")}</p>
-    `,
+    html,
+    text,
   });
 
   if (error) {

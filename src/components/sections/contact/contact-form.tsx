@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import AnimatedImage from "@/components/ui/animated-image";
 import { z } from "zod";
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PhoneInputWithCountryCode from "@/components/ui/phone-input-with-country-code";
@@ -56,6 +57,9 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function ContactForm() {
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
+
   const defaultValues: ContactFormValues = {
     firstName: "",
     lastName: "",
@@ -82,6 +86,8 @@ export default function ContactForm() {
   });
 
   const onSubmit: SubmitHandler<ContactFormValues> = async (formData) => {
+    setSubmitError(null);
+
     const normalizedPhone = formData.phone.replace(/\D/g, "");
     const payload = {
       firstName: formData.firstName,
@@ -104,24 +110,34 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Request failed");
+        let errorMessage = "Došlo je do greške. Molimo pokušajte ponovo.";
+        try {
+          const errorBody = (await response.json()) as { error?: string };
+          if (errorBody?.error) {
+            errorMessage = errorBody.error;
+          }
+        } catch {
+          // Ignore JSON parsing errors and keep default message.
+        }
+
+        throw new Error(errorMessage);
       }
 
       reset(defaultValues);
-      alert("Poruka je uspješno poslana! Kontaktirat ćemo vas uskoro.");
+      setIsSubmittedSuccessfully(true);
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Došlo je do greške. Molimo pokušajte ponovo.");
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Došlo je do greške. Molimo pokušajte ponovo.";
+      setSubmitError(message);
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-      className="border rounded-md lg:max-w-5xl mx-auto w-full overflow-hidden"
-    >
-      <div className="p-6 relative aspect-video flex flex-col justify-end">
+    <section className="border rounded-md lg:max-w-5xl mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
+      <div className="p-6 relative aspect-video lg:aspect-auto lg:min-h-full flex flex-col justify-end">
         <h2 className="text-3xl lg:text-4xl font-bold mt-auto text-background text-shadow-sm">
           Kontakt forma
         </h2>
@@ -139,229 +155,264 @@ export default function ContactForm() {
         />
       </div>
 
-      <div className="p-6 space-y-6">
-        {/* Honeypot field (anti-spam) */}
-        <div className="hidden" aria-hidden="true">
-          <label htmlFor="website">Website</label>
-          <Input
-            id="website"
-            type="text"
-            tabIndex={-1}
-            autoComplete="off"
-            {...register("website")}
-          />
-        </div>
-
-        {/* First & Last Name - Required */}
-        <div className="space-y-2">
-          <div className="flex flex-col gap-3 md:flex-row">
-            <div className="flex flex-1 flex-col gap-1.5">
-              <label
-                htmlFor="firstName"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Ime <span className="text-destructive">*</span>
-              </label>
-              <Input
-                id="firstName"
-                type="text"
-                placeholder="Ime"
-                {...register("firstName")}
-                aria-invalid={!!errors.firstName}
-                aria-describedby={
-                  errors.firstName ? "firstName-error" : undefined
-                }
-                className={cn(errors.firstName && "border-destructive")}
-              />
-              {errors.firstName && (
-                <p id="firstName-error" className="text-sm text-destructive">
-                  {errors.firstName.message}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-1 flex-col gap-1.5">
-              <label
-                htmlFor="lastName"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Prezime <span className="text-destructive">*</span>
-              </label>
-              <Input
-                id="lastName"
-                type="text"
-                placeholder="Prezime"
-                {...register("lastName")}
-                aria-invalid={!!errors.lastName}
-                aria-describedby={
-                  errors.lastName ? "lastName-error" : undefined
-                }
-                className={cn(errors.lastName && "border-destructive")}
-              />
-              {errors.lastName && (
-                <p id="lastName-error" className="text-sm text-destructive">
-                  {errors.lastName.message}
-                </p>
-              )}
-            </div>
+      <div className="p-6">
+        {isSubmittedSuccessfully ? (
+          <div className="h-full flex flex-col justify-center">
+            <h2 className="text-2xl md:text-3xl font-semibold">
+              Poruka je uspješno poslana
+            </h2>
+            <p className="mt-3 text-muted-foreground max-w-2xl">
+              Hvala vam na upitu. Naš tim će vas kontaktirati u najkraćem roku.
+            </p>
+            <InteractiveHoverButton
+              type="button"
+              className="mt-6 w-fit"
+              onClick={() => {
+                setIsSubmittedSuccessfully(false);
+                setSubmitError(null);
+              }}
+            >
+              Pošalji novu poruku
+            </InteractiveHoverButton>
           </div>
-        </div>
-
-        {/* Email & Phone - Required */}
-        <div className="space-y-2">
-          <div className="flex flex-col gap-3 md:flex-row">
-            <div className="flex flex-1 flex-col gap-1.5">
-              <label
-                htmlFor="email"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Email <span className="text-destructive">*</span>
-              </label>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+            {/* Honeypot field (anti-spam) */}
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="website">Website</label>
               <Input
-                id="email"
+                id="website"
                 type="text"
-                inputMode="email"
-                autoComplete="email"
-                placeholder="vas@email.com"
-                {...register("email")}
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? "email-error" : undefined}
-                className={cn(errors.email && "border-destructive")}
+                tabIndex={-1}
+                autoComplete="off"
+                {...register("website")}
               />
-              {errors.email && (
-                <p id="email-error" className="text-sm text-destructive">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
-            <div className="flex flex-1 flex-col gap-1.5">
-              <label
-                htmlFor="phone"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Kontakt telefon <span className="text-destructive">*</span>
-              </label>
-              <Controller
-                name="phoneCountryCode"
-                control={control}
-                render={({ field: phoneCodeField }) => (
+
+            {/* First & Last Name - Required */}
+            <div className="space-y-2">
+              <div className="flex flex-col gap-3 md:flex-row">
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <label
+                    htmlFor="firstName"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Ime <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    placeholder="Ime"
+                    {...register("firstName")}
+                    aria-invalid={!!errors.firstName}
+                    aria-describedby={
+                      errors.firstName ? "firstName-error" : undefined
+                    }
+                    className={cn(errors.firstName && "border-destructive")}
+                  />
+                  {errors.firstName && (
+                    <p id="firstName-error" className="text-sm text-destructive">
+                      {errors.firstName.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <label
+                    htmlFor="lastName"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Prezime <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    placeholder="Prezime"
+                    {...register("lastName")}
+                    aria-invalid={!!errors.lastName}
+                    aria-describedby={
+                      errors.lastName ? "lastName-error" : undefined
+                    }
+                    className={cn(errors.lastName && "border-destructive")}
+                  />
+                  {errors.lastName && (
+                    <p id="lastName-error" className="text-sm text-destructive">
+                      {errors.lastName.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Email & Phone - Required */}
+            <div className="space-y-2">
+              <div className="flex flex-col gap-3 md:flex-row">
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Email <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="email"
+                    type="text"
+                    inputMode="email"
+                    autoComplete="email"
+                    placeholder="vas@email.com"
+                    {...register("email")}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    className={cn(errors.email && "border-destructive")}
+                  />
+                  {errors.email && (
+                    <p id="email-error" className="text-sm text-destructive">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <label
+                    htmlFor="phone"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Kontakt telefon <span className="text-destructive">*</span>
+                  </label>
                   <Controller
-                    name="phone"
+                    name="phoneCountryCode"
                     control={control}
-                    render={({ field: phoneField }) => (
-                      <PhoneInputWithCountryCode
-                        id="phone"
-                        phoneValue={phoneField.value}
-                        onPhoneChange={phoneField.onChange}
-                        countryCodeValue={phoneCodeField.value}
-                        onCountryCodeChange={phoneCodeField.onChange}
-                        hasError={!!errors.phone}
-                        describedBy={errors.phone ? "phone-error" : undefined}
+                    render={({ field: phoneCodeField }) => (
+                      <Controller
+                        name="phone"
+                        control={control}
+                        render={({ field: phoneField }) => (
+                          <PhoneInputWithCountryCode
+                            id="phone"
+                            phoneValue={phoneField.value}
+                            onPhoneChange={phoneField.onChange}
+                            countryCodeValue={phoneCodeField.value}
+                            onCountryCodeChange={phoneCodeField.onChange}
+                            hasError={!!errors.phone}
+                            describedBy={errors.phone ? "phone-error" : undefined}
+                            placeholder="61486300"
+                          />
+                        )}
                       />
                     )}
                   />
+                  {errors.phone && (
+                    <p id="phone-error" className="text-sm text-destructive">
+                      {errors.phone.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Company & Subject */}
+            <div className="space-y-2">
+              <div className="flex flex-col gap-3 md:flex-row">
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <label
+                    htmlFor="company"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Firma
+                  </label>
+                  <Input
+                    id="company"
+                    type="text"
+                    placeholder="Unesite naziv firme"
+                    {...register("company")}
+                  />
+                </div>
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <label
+                    htmlFor="subject"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Predmet <span className="text-destructive">*</span>
+                  </label>
+                  <Controller
+                    name="subject"
+                    control={control}
+                    render={({ field }) => (
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger
+                          id="subject"
+                          aria-invalid={!!errors.subject}
+                          aria-describedby={
+                            errors.subject ? "subject-error" : undefined
+                          }
+                          className={cn(
+                            "w-full justify-between",
+                            errors.subject && "border-destructive"
+                          )}
+                        >
+                          <SelectValue placeholder="Odaberite predmet" />
+                        </SelectTrigger>
+                        <SelectContent className="w-(--radix-select-trigger-width)">
+                          {subjectOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.subject && (
+                    <p id="subject-error" className="text-sm text-destructive">
+                      {errors.subject.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Message - Required */}
+            <div className="space-y-2">
+              <label
+                htmlFor="message"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Poruka <span className="text-destructive">*</span>
+              </label>
+              <Textarea
+                id="message"
+                placeholder="Unesite vašu poruku..."
+                rows={6}
+                {...register("message")}
+                aria-invalid={!!errors.message}
+                aria-describedby={errors.message ? "message-error" : undefined}
+                className={cn(
+                  errors.message && "border-destructive",
+                  "min-h-36 max-h-36 resize-none"
                 )}
               />
-              {errors.phone && (
-                <p id="phone-error" className="text-sm text-destructive">
-                  {errors.phone.message}
+              {errors.message && (
+                <p id="message-error" className="text-sm text-destructive">
+                  {errors.message.message}
                 </p>
               )}
             </div>
-          </div>
-        </div>
 
-        {/* Company & Subject */}
-        <div className="space-y-2">
-          <div className="flex flex-col gap-3 md:flex-row">
-            <div className="flex flex-1 flex-col gap-1.5">
-              <label
-                htmlFor="company"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Firma
-              </label>
-              <Input
-                id="company"
-                type="text"
-                placeholder="Unesite naziv firme"
-                {...register("company")}
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-1.5">
-              <label
-                htmlFor="subject"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Predmet <span className="text-destructive">*</span>
-              </label>
-              <Controller
-                name="subject"
-                control={control}
-                render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger
-                      id="subject"
-                      aria-invalid={!!errors.subject}
-                      aria-describedby={errors.subject ? "subject-error" : undefined}
-                      className={cn(
-                        "w-full justify-between",
-                        errors.subject && "border-destructive"
-                      )}
-                    >
-                      <SelectValue placeholder="Odaberite predmet" />
-                    </SelectTrigger>
-                    <SelectContent className="w-(--radix-select-trigger-width)">
-                      {subjectOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              {errors.subject && (
-                <p id="subject-error" className="text-sm text-destructive">
-                  {errors.subject.message}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
+            {/* Submit Button */}
+            <InteractiveHoverButton
+              type="submit"
+              disabled={isSubmitting}
+              className="disabled:opacity-60 ml-auto"
+            >
+              {isSubmitting ? "Šalje se..." : "Pošalji"}
+            </InteractiveHoverButton>
 
-        {/* Message - Required */}
-        <div className="space-y-2">
-          <label
-            htmlFor="message"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Poruka <span className="text-destructive">*</span>
-          </label>
-          <Textarea
-            id="message"
-            placeholder="Unesite vašu poruku..."
-            rows={6}
-            {...register("message")}
-            aria-invalid={!!errors.message}
-            aria-describedby={errors.message ? "message-error" : undefined}
-            className={cn(errors.message && "border-destructive", "min-h-36 max-h-36 resize-none")}
-          />
-          {errors.message && (
-            <p id="message-error" className="text-sm text-destructive">
-              {errors.message.message}
-            </p>
-          )}
-        </div>
-
-        {/* Submit Button */}
-        <InteractiveHoverButton
-          type="submit"
-          disabled={isSubmitting}
-          className="disabled:opacity-60 ml-auto"
-        >
-          {isSubmitting ? "Šalje se..." : "Pošalji"}
-        </InteractiveHoverButton>
+            {submitError && (
+              <p className="text-sm text-destructive" role="alert">
+                {submitError}
+              </p>
+            )}
+          </form>
+        )}
       </div>
-    </form>
+    </section>
   );
 }
