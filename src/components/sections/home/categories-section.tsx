@@ -172,10 +172,9 @@ export default function CategoriesSection() {
                       height={400}
                       className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
                     />
-                    <div className="absolute top-0 left-0 w-full h-full bg-secondary/20" />
                     <div className="absolute bottom-2 left-2 size-4 bg-accent rounded-t-full rounded-r-full" />
                   </div>
-                  <h4 className="text-xl font-medium mt-4">{category.name}</h4>
+                  <h3 className="text-xl font-medium mt-4">{category.name}</h3>
                 </Link>
               </CarouselItem>
             ))}

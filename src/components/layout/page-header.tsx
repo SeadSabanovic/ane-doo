@@ -28,11 +28,27 @@ export default function PageHeader({
   return (
     <div
       className={cn(
-        "py-8 lg:py-12 mb-20 bg-primary/20",
+        "relative overflow-hidden py-8 lg:py-12 mb-20 bg-primary/20",
         !title && "py-4 lg:py-6 mb-4 lg:mb-20"
       )}
     >
-      <Container className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #e7e5e4 1px, transparent 1px), linear-gradient(to bottom, #e7e5e4 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+          backgroundPosition: "0 0, 0 0",
+          maskImage:
+            "repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px), repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px), radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+          WebkitMaskImage:
+            "repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px), repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px), radial-gradient(ellipse 70% 60% at 50% 0%, #000 60%, transparent 100%)",
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      />
+
+      <Container className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           {title && title.length > 0 && (
             <h1 className="font-bold text-3xl lg:text-4xl text-primary">

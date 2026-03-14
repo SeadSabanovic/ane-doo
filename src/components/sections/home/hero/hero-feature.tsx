@@ -20,7 +20,7 @@ const featureData = [
   {
     icon: <Truck size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
     title: "Brza isporuka",
-    description: "Pouzdana dostava širom BiH",
+    description: "Pouzdana dostava u BiH i regionu",
   },
   {
     icon: <BadgeCheck size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,

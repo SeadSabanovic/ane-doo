@@ -7,56 +7,48 @@ import SectionBadge from "@/components/ui/section-badge";
 const testimonials = [
   {
     id: "testimonial-1",
-    name: "Amina Hadžić",
-
+    name: "Samir Hanusic",
     content:
-      "Odlična kvaliteta majica, brza dostava i profesionalna usluga. Preporučujem svima!",
+      "Rade k’o singerica",
   },
   {
     id: "testimonial-2",
-    name: "Emir Kovačević",
-
+    name: "BAYA GmbH",
     content:
-      "Najbolji izbor odjeće u gradu. Cijene su pristupačne, a kvaliteta izvrsna.",
+      "Odlična ekipa! Sve pohvale!",
   },
   {
     id: "testimonial-3",
-    name: "Lejla Smajić",
-
+    name: "Kemal Softic",
     content:
-      "Kupujem ovdje već godinama i nikad nisam bila razočarana. Topla preporuka!",
+      "Odlična usluga, divno osoblje! Sve preporuke!",
   },
   {
     id: "testimonial-4",
-    name: "Adnan Hodžić",
-
-    content: "Odličan odnos cijene i kvalitete. Dostava je uvijek na vrijeme.",
+    name: "Anabella Bambi",
+    content: "Veoma ljubazne dame rade, izuzetno su susretljive.",
   },
   {
     id: "testimonial-5",
-    name: "Emina Dervišević",
-
+    name: "Ozkayam Murat",
     content:
-      "Veliki izbor, ljubazno osoblje i brza usluga. Definitivno ću se vratiti!",
+      "Pristupačna destinacija za kupovinu tekstila iz Turske.",
   },
   {
     id: "testimonial-6",
     name: "Armin Bajramović",
-
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
   },
   {
     id: "testimonial-7",
     name: "Armin Bajramović",
-
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
   },
   {
     id: "testimonial-8",
     name: "Armin Bajramović",
-
     content:
       "Kvalitetna odjeća po pristupačnim cijenama. Preporučujem svima koji traže kvalitet.",
   },

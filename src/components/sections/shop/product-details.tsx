@@ -168,7 +168,7 @@ export function ProductDetails({
 
   return (
     <div className={cn("flex flex-col gap-6 flex-1", className)}>
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start gap-4">
         <div>
           <h1 className="text-4xl font-bold mb-2">{name}</h1>
           <p className="text-3xl font-semibold text-primary">{formatPrice(price)}</p>
@@ -180,7 +180,7 @@ export function ProductDetails({
           onClick={handleToggleWishlist}
         >
           <Heart className={cn("text-destructive", isWishlisted && "fill-destructive")} />
-          <span className="hidden md:block">{isWishlisted ? "Spašeno" : "Spasi"}</span>
+          <span className="hidden md:block">{isWishlisted ? "Sačuvano" : "Sačuvaj"}</span>
         </Button>
       </div>
 

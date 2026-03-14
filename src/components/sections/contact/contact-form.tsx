@@ -136,7 +136,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="border rounded-md lg:max-w-5xl mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
+    <section className="border rounded-md mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
       <div className="p-6 relative aspect-video lg:aspect-auto lg:min-h-full flex flex-col justify-end">
         <h2 className="text-3xl lg:text-4xl font-bold mt-auto text-background text-shadow-sm">
           Kontakt forma
@@ -293,7 +293,7 @@ export default function ContactForm() {
                             onCountryCodeChange={phoneCodeField.onChange}
                             hasError={!!errors.phone}
                             describedBy={errors.phone ? "phone-error" : undefined}
-                            placeholder="61486300"
+                            placeholder="123-456"
                           />
                         )}
                       />

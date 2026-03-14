@@ -40,6 +40,7 @@ export default function HeroCarousel() {
           height={900}
           className="object-cover absolute top-0 left-0 w-full h-full z-10"
           priority
+          fetchPriority="high"
         />
         <div className="absolute bottom-0 left-0 w-full h-full z-20 bg-linear-to-t from-primary/50 to-primary/0" />
       </Container>

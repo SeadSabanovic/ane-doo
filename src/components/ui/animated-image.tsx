@@ -11,6 +11,7 @@ interface AnimatedImageProps {
   height?: number;
   className?: string;
   priority?: boolean;
+  fetchPriority?: "high" | "low" | "auto";
   unoptimized?: boolean;
   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
 }
@@ -22,6 +23,7 @@ export default function AnimatedImage({
   height = 400,
   className = "",
   priority = false,
+  fetchPriority,
   unoptimized = false,
   onClick,
 }: AnimatedImageProps) {
@@ -39,6 +41,7 @@ export default function AnimatedImage({
         className
       )}
       priority={priority}
+      fetchPriority={fetchPriority}
       unoptimized={unoptimized}
       onLoad={() => setIsLoaded(true)}
       onClick={onClick}
