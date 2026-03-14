@@ -18,7 +18,7 @@ export default function HeroCarousel() {
         <div className="flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 py-12 h-fit lg:rounded-tr-lg pb-[10svh] z-30">
           <div className="flex flex-col gap-2 items-center w-full">
             <h1 className="text-lg font-bold text-center text-background text-shadow-sm">
-              ANE D.O.O.
+              ANE D.O.O. Sarajevo
             </h1>
             <h2 className="text-5xl font-bold lg:text-6xl text-background text-shadow-sm text-center">
               {heroData.title}
@@ -28,7 +28,7 @@ export default function HeroCarousel() {
             </p>
             <Link href={heroData.ctaHref}>
               <InteractiveHoverButton className="mt-8 w-fit text-center">
-                Pogledaj
+                Shop
               </InteractiveHoverButton>
             </Link>
           </div>

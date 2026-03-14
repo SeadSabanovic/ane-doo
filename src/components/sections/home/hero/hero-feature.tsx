@@ -29,7 +29,7 @@ const featureData = [
   },
   {
     icon: <Award size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-    title: "20+ godina tradicije",
+    title: "12+ godina tradicije",
     description: "Porodična firma sa dugogodišnjim povjerenjem",
   },
   {

@@ -18,20 +18,23 @@ const categories = [
   {
     id: "majice",
     name: "Majice",
-    image: "https://images.pexels.com/photos/9594677/pexels-photo-9594677.jpeg",
-    link: "/shop",
+    image: "/images/categories/ane-doo-majice.jpg",
+    link: "/shop?kategorija=majice",
+    alt: "Kategorija majice - ANE D.O.O.",
   },
   {
     id: "jakne",
     name: "Jakne",
-    image: "https://images.pexels.com/photos/7481668/pexels-photo-7481668.jpeg",
-    link: "/shop",
+    image: "/images/categories/ane-doo-jakne.jpg",
+    link: "/shop?kategorija=jakne",
+    alt: "Kategorija jakne - ANE D.O.O.",
   },
   {
     id: "dukserice",
     name: "Dukserice",
     image: "https://images.pexels.com/photos/9594679/pexels-photo-9594679.jpeg",
-    link: "/shop",
+    link: "/shop?kategorija=dukserice",
+    alt: "Kategorija dukserice - ANE D.O.O.",
   },
   {
     id: "carape",
@@ -39,31 +42,36 @@ const categories = [
     image:
       "/images/categories/ane-doo-carape.jpg",
     link: "/shop?kategorija=carape",
+    alt: "Kategorija čarape - ANE D.O.O.",
   },
   {
     id: "posteljine",
     name: "Posteljine",
     image: "/images/categories/ane-doo-posteljine.jpg",
     link: "/shop?kategorija=posteljine",
+    alt: "Kategorija posteljine - ANE D.O.O.",
   },
   {
     id: "pidzame",
     name: "Pidžame",
     image: "/images/categories/ane-doo-pidzame.jpg",
     link: "/shop?kategorija=pidzame",
+    alt: "Kategorija pidžame - ANE D.O.O.",
   },
   {
     id: "jastucnice",
     name: "Jastučnice",
     image: "/images/categories/ane-doo-jastucnice.jpg",
     link: "/shop?kategorija=jastucnice",
+    alt: "Kategorija jastučnice - ANE D.O.O.",
   },
   {
     id: "papuce",
     name: "Papuče",
     image:
-      "https://images.pexels.com/photos/29636809/pexels-photo-29636809.jpeg",
-    link: "/shop",
+      "/images/categories/ane-doo-papuce.jpg",
+    link: "/shop?kategorija=papuce",
+    alt: "Kategorija papuče - ANE D.O.O.",
   },
 ];
 
@@ -159,7 +167,7 @@ export default function CategoriesSection() {
                   <div className="group rounded-t-[50vw] rounded-bl-[8px] rounded-br-[50vw] bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
                     <AnimatedImage
                       src={category.image}
-                      alt={category.name}
+                      alt={category.alt}
                       width={400}
                       height={400}
                       className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"

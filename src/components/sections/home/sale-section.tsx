@@ -9,15 +9,14 @@ export default function SaleSection() {
     <section className="py-10">
       <Container className="grid gap-6 lg:grid-cols-2">
         <div className="flex flex-col gap-2 justify-center items-center text-center lg:text-left lg:items-start">
-          <SectionBadge>Akcija</SectionBadge>
-          <h2 className="text-6xl font-bold">Sezonska ponuda</h2>
-          <p className="text-muted-foreground mt-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-            quos.
+          <SectionBadge>Do isteka zaliha</SectionBadge>
+          <h2 className="text-6xl font-bold">AKCIJA</h2>
+          <p className="text-muted-foreground mt-2 text-xl">
+            Naš asortiman na akciji nikada nije isti. Svake sedmice pažljivo biramo nove artikle koji postaju dio naše posebne ponude, dok se drugi vraćaju u redovnu prodaju.
           </p>
           <Link href="/shop">
             <InteractiveHoverButton className="mt-8 w-fit text-center lg:text-left">
-              Pogledaj
+              Istraži ponudu
             </InteractiveHoverButton>
           </Link>
         </div>
