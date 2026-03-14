@@ -1,4 +1,4 @@
-import BrowseSection from "@/components/sections/home/browse-section";
+import CategoriesSection from "@/components/sections/home/categories-section";
 import HeroSection from "@/components/sections/home/hero";
 import HottestSection from "@/components/sections/home/hottest-section";
 import NewSection from "@/components/sections/home/new-section";
@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <BrowseSection />
+      <CategoriesSection />
       <NewSection />
       <SaleSection />
       <HottestSection />

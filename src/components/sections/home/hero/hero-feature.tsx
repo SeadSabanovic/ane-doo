@@ -82,7 +82,7 @@ const HeroFeature = () => {
         <div className="flex flex-1 items-center gap-2 flex-col">
           <span className="flex items-center gap-2">
             <NumberTicker
-              value={27}
+              value={12}
               className="text-foreground text-8xl lg:text-9xl"
             />
             <p className="text-2xl font-bold text-accent">+</p>

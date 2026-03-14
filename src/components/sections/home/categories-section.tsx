@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import SectionBadge from "@/components/ui/section-badge";
 import AnimatedImage from "@/components/ui/animated-image";
+import Link from "next/link";
 
 const categories = [
   {
@@ -36,26 +37,26 @@ const categories = [
     id: "carape",
     name: "Čarape",
     image:
-      "https://images.pexels.com/photos/10557900/pexels-photo-10557900.jpeg",
-    link: "/shop",
+      "/images/categories/ane-doo-carape.jpg",
+    link: "/shop?kategorija=carape",
   },
   {
     id: "posteljine",
     name: "Posteljine",
-    image: "https://images.pexels.com/photos/6800946/pexels-photo-6800946.jpeg",
-    link: "/shop",
+    image: "/images/categories/ane-doo-posteljine.jpg",
+    link: "/shop?kategorija=posteljine",
   },
   {
     id: "pidzame",
     name: "Pidžame",
-    image: "https://images.pexels.com/photos/6976434/pexels-photo-6976434.jpeg",
-    link: "/shop",
+    image: "/images/categories/ane-doo-pidzame.jpg",
+    link: "/shop?kategorija=pidzame",
   },
   {
     id: "jastucnice",
     name: "Jastučnice",
-    image: "https://images.pexels.com/photos/1248583/pexels-photo-1248583.jpeg",
-    link: "/shop",
+    image: "/images/categories/ane-doo-jastucnice.jpg",
+    link: "/shop?kategorija=jastucnice",
   },
   {
     id: "papuce",
@@ -66,7 +67,7 @@ const categories = [
   },
 ];
 
-export default function BrowseSection() {
+export default function CategoriesSection() {
   const [api, setApi] = useState<CarouselApi>();
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -137,8 +138,6 @@ export default function BrowseSection() {
       </Container>
 
       <div className="mt-10 relative">
-        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background"></div>
-        <div className="hidden md:block z-10 pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background"></div>
         <Carousel
           setApi={setApi}
           className="w-full"
@@ -156,23 +155,25 @@ export default function BrowseSection() {
                 key={category.id}
                 className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
               >
-                <div className="group rounded-t-[50vw] rounded-bl-[8px] rounded-br-[50vw] bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
-                  <AnimatedImage
-                    src={category.image}
-                    alt={category.name}
-                    width={300}
-                    height={300}
-                    className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
-                  />
-                  <div className="absolute top-0 left-0 w-full h-full bg-secondary/20" />
-                  <div className="absolute bottom-2 left-2 size-4 bg-accent rounded-t-full rounded-r-full" />
-                </div>
-                <h4 className="text-xl font-medium mt-4">{category.name}</h4>
+                <Link href={category.link} key={category.id}>
+                  <div className="group rounded-t-[50vw] rounded-bl-[8px] rounded-br-[50vw] bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                    <AnimatedImage
+                      src={category.image}
+                      alt={category.name}
+                      width={400}
+                      height={400}
+                      className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
+                    />
+                    <div className="absolute top-0 left-0 w-full h-full bg-secondary/20" />
+                    <div className="absolute bottom-2 left-2 size-4 bg-accent rounded-t-full rounded-r-full" />
+                  </div>
+                  <h4 className="text-xl font-medium mt-4">{category.name}</h4>
+                </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
       </div>
-    </section>
+    </section >
   );
 }
