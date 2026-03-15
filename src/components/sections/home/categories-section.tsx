@@ -23,18 +23,18 @@ const categories = [
     alt: "Kategorija majice - ANE D.O.O.",
   },
   {
+    id: "dukserice",
+    name: "Dukserice",
+    image: "/images/categories/ane-doo-dukserice.jpg",
+    link: "/shop?kategorija=dukserice",
+    alt: "Kategorija dukserice - ANE D.O.O.",
+  },
+  {
     id: "jakne",
     name: "Jakne",
     image: "/images/categories/ane-doo-jakne.jpg",
     link: "/shop?kategorija=jakne",
     alt: "Kategorija jakne - ANE D.O.O.",
-  },
-  {
-    id: "dukserice",
-    name: "Dukserice",
-    image: "https://images.pexels.com/photos/9594679/pexels-photo-9594679.jpeg",
-    link: "/shop?kategorija=dukserice",
-    alt: "Kategorija dukserice - ANE D.O.O.",
   },
   {
     id: "carape",
@@ -72,6 +72,13 @@ const categories = [
       "/images/categories/ane-doo-papuce.jpg",
     link: "/shop?kategorija=papuce",
     alt: "Kategorija papuče - ANE D.O.O.",
+  },
+  {
+    id: "peskiri",
+    name: "Peškiri",
+    image: "/images/categories/ane-doo-peskiri.jpg",
+    link: "/shop?kategorija=peskiri",
+    alt: "Kategorija peškiri - ANE D.O.O.",
   },
 ];
 
@@ -172,7 +179,7 @@ export default function CategoriesSection() {
                       height={400}
                       className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
                     />
-                    <div className="absolute bottom-2 left-2 size-4 bg-accent rounded-t-full rounded-r-full" />
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-accent" />
                   </div>
                   <h3 className="text-xl font-medium mt-4">{category.name}</h3>
                 </Link>
