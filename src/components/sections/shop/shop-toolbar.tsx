@@ -31,9 +31,9 @@ export default function ShopToolbar() {
 
   return (
     <Container className="pb-8">
-      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row lg:items-end ">
+      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row lg:items-end lg:justify-end">
         {/* Search Bar */}
-        <div className="flex flex-col items-stretch gap-2 w-full flex-1">
+        <div className="flex flex-col items-stretch gap-2 w-full flex-1 lg:max-w-sm! xl:max-w-lg!">
           <Label
             htmlFor="search-input"
             className="text-sm font-medium whitespace-nowrap sr-only"

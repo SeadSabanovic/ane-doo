@@ -137,21 +137,14 @@ export default function ContactForm() {
 
   return (
     <section className="border rounded-md mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
-      <div className="p-6 relative aspect-video lg:aspect-auto lg:min-h-full flex flex-col justify-end">
-        <h2 className="text-3xl lg:text-4xl font-bold mt-auto text-background text-shadow-sm">
-          Kontakt forma
-        </h2>
-        <p className="text-shadow-sm mt-4 max-w-md text-muted">
-          Sa više od 20 godina iskustva u veleprodaji, uvijek smo otvoreni za
-          nova partnerstva. Pišite nam za upite, ponude ili dodatne informacije.
-        </p>
-
+      <div className="p-6 relative aspect-video lg:aspect-auto lg:min-h-full">
         <AnimatedImage
           src="https://images.pexels.com/photos/10558185/pexels-photo-10558185.jpeg?_gl=1*10zj0ze*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjQ3NTg3MjIkbzIkZzEkdDE3NjQ3NjAxMzEkajMzJGwwJGgw"
           alt="Kontakt forma"
           width={1240}
           height={700}
           className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+          loading="eager"
         />
       </div>
 
@@ -177,6 +170,13 @@ export default function ContactForm() {
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+            <div>
+              <h2 className="text-3xl lg:text-4xl font-bold">Kontakt forma</h2>
+              <p className="mt-4 text-muted-foreground">
+                Ispunite kontakt formu ispod i odgovoriti ćemo na vaš upit u najkraćem mogućem roku. Izgradimo uspješno partnerstvo zajedno.
+              </p>
+            </div>
+
             {/* Honeypot field (anti-spam) */}
             <div className="hidden" aria-hidden="true">
               <label htmlFor="website">Website</label>

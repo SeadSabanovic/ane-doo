@@ -15,7 +15,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         title="Kontakt"
-        description="Sa više od 20 godina iskustva u veleprodaji, uvijek smo otvoreni za nova partnerstva. Pišite nam za upite, ponude ili dodatne informacije."
+        description="Planirate unaprijediti svoju ponudu našim asortimanom? Naš tim je tu da vam pruži sve informacije o veleprodajnim cijenama, uslovima saradnje i dostupnosti artikala."
         breadcrumbItems={[
           { label: "Početna", href: "/" },
           { label: "Kontakt", href: "/kontakt" },

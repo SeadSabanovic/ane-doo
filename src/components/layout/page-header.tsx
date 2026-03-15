@@ -56,7 +56,7 @@ export default function PageHeader({
             </h1>
           )}
           {description && description.length > 0 && (
-            <p className="text-lg mt-2 max-w-2xl">
+            <p className="text-lg mt-2 max-w-2xl italic">
               {description}
             </p>
           )}
