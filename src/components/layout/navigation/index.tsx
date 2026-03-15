@@ -21,7 +21,7 @@ const Navigation = () => {
   const isRootRoute = pathname === "/";
   const [searchOpen, setSearchOpen] = useState(false);
   const isHydrated = useSyncExternalStore(
-    () => () => {},
+    () => () => { },
     () => true,
     () => false
   );
@@ -68,7 +68,7 @@ const Navigation = () => {
                   href="/"
                 >
                   <Image
-                    src="/ANE-logo.svg"
+                    src="/icons/ANE-logo.svg"
                     alt="ANE D.O.O. Logo"
                     width={32}
                     height={32}
