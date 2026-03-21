@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "ANE D.O.O.",
-    template: "%s | ANE D.O.O.",
+    default: "ANE d.o.o.",
+    template: "%s | ANE d.o.o.",
   },
   description:
     "Pronađite sve što vam treba na jednom mjestu. Kvalitetna odjeća i obuća po povoljnim cijenama.",

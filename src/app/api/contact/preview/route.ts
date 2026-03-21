@@ -1,4 +1,7 @@
-import { buildContactEmailHtml, type ContactEmailPayload } from "@/lib/contact-email-template";
+import {
+  buildContactEmailHtml,
+  type ContactEmailPayload,
+} from "@/lib/contact-email-template";
 
 export async function GET() {
   const previewData: ContactEmailPayload = {
@@ -6,7 +9,7 @@ export async function GET() {
     lastName: "Sabanovic",
     email: "sead@example.com",
     phone: "+387 61486300",
-    company: "ANE D.O.O.",
+    company: "ANE d.o.o.",
     subject: "upit-o-proizvodima",
     message:
       "Pozdrav,\n\nzanima me dostupnost proizvoda i uslovi veleprodaje.\n\nHvala!",

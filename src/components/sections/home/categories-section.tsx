@@ -20,21 +20,21 @@ const categories = [
     name: "Majice",
     image: "/images/categories/ane-doo-majice.jpg",
     link: "/shop?kategorija=majice",
-    alt: "Kategorija majice - ANE D.O.O.",
+    alt: "Kategorija majice - ANE d.o.o.",
   },
   {
     id: "dukserice",
     name: "Dukserice",
     image: "/images/categories/ane-doo-dukserice.jpg",
     link: "/shop?kategorija=dukserice",
-    alt: "Kategorija dukserice - ANE D.O.O.",
+    alt: "Kategorija dukserice - ANE d.o.o.",
   },
   {
     id: "jakne",
     name: "Jakne",
     image: "/images/categories/ane-doo-jakne.jpg",
     link: "/shop?kategorija=jakne",
-    alt: "Kategorija jakne - ANE D.O.O.",
+    alt: "Kategorija jakne - ANE d.o.o.",
   },
   {
     id: "carape",
@@ -42,28 +42,28 @@ const categories = [
     image:
       "/images/categories/ane-doo-carape.jpg",
     link: "/shop?kategorija=carape",
-    alt: "Kategorija čarape - ANE D.O.O.",
+    alt: "Kategorija čarape - ANE d.o.o.",
   },
   {
     id: "posteljine",
     name: "Posteljine",
     image: "/images/categories/ane-doo-posteljine.jpg",
     link: "/shop?kategorija=posteljine",
-    alt: "Kategorija posteljine - ANE D.O.O.",
+    alt: "Kategorija posteljine - ANE d.o.o.",
   },
   {
     id: "pidzame",
     name: "Pidžame",
     image: "/images/categories/ane-doo-pidzame.jpg",
     link: "/shop?kategorija=pidzame",
-    alt: "Kategorija pidžame - ANE D.O.O.",
+    alt: "Kategorija pidžame - ANE d.o.o.",
   },
   {
     id: "jastucnice",
     name: "Jastučnice",
     image: "/images/categories/ane-doo-jastucnice.jpg",
     link: "/shop?kategorija=jastucnice",
-    alt: "Kategorija jastučnice - ANE D.O.O.",
+    alt: "Kategorija jastučnice - ANE d.o.o.",
   },
   {
     id: "papuce",
@@ -71,14 +71,14 @@ const categories = [
     image:
       "/images/categories/ane-doo-papuce.jpg",
     link: "/shop?kategorija=papuce",
-    alt: "Kategorija papuče - ANE D.O.O.",
+    alt: "Kategorija papuče - ANE d.o.o.",
   },
   {
     id: "peskiri",
     name: "Peškiri",
     image: "/images/categories/ane-doo-peskiri.jpg",
     link: "/shop?kategorija=peskiri",
-    alt: "Kategorija peškiri - ANE D.O.O.",
+    alt: "Kategorija peškiri - ANE d.o.o.",
   },
 ];
 

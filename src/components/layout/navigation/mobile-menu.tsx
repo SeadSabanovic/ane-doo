@@ -74,7 +74,7 @@ export default function MobileMenu() {
             </Button>
           </SheetClose>
           <SheetTitle className="text-accent text-2xl font-bold">
-            ANE D.O.O.
+            ANE d.o.o.
           </SheetTitle>
           <SheetDescription className="sr-only">
             Navigirajte kroz stranicu koristeći meni opcije

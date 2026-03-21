@@ -60,7 +60,7 @@ export const buildContactEmailHtml = ({
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
         <tr>
           <td style="padding:20px 24px;background:#23695e;color:#ffffff;">
-            <h1 style="margin:0;font-size:20px;line-height:1.3;">ANE D.O.O. - Novi upit sa kontakt forme</h1>
+            <h1 style="margin:0;font-size:20px;line-height:1.3;">ANE d.o.o. - Novi upit sa kontakt forme</h1>
             <p style="margin:8px 0 0 0;font-size:13px;opacity:0.85;">Zaprimljeno: ${receivedAt}</p>
           </td>
         </tr>
@@ -105,7 +105,7 @@ export const buildContactEmailText = ({
   message,
 }: ContactEmailPayload) =>
   [
-    "ANE D.O.O. - Novi upit sa kontakt forme",
+    "ANE d.o.o. - Novi upit sa kontakt forme",
     `Zaprimljeno: ${new Date().toLocaleString("bs-BA")}`,
     "",
     `Ime i prezime: ${firstName} ${lastName}`,

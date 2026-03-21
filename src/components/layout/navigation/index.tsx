@@ -69,13 +69,13 @@ const Navigation = () => {
                 >
                   <Image
                     src="/icons/ANE-logo.svg"
-                    alt="ANE D.O.O. Logo"
+                    alt="ANE d.o.o. Logo"
                     width={32}
                     height={32}
                     priority
                     className="size-8"
                   />
-                  <h1 className="text-xl font-bold sr-only sm:not-sr-only">ANE D.O.O.</h1>
+                  <h1 className="text-xl font-bold sr-only sm:not-sr-only">ANE d.o.o.</h1>
                 </Link>
 
                 <Suspense fallback={null}>
