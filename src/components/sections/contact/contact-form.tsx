@@ -136,7 +136,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="border rounded-md mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
+    <section className="border rounded-2xl mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
       <div className="p-6 relative aspect-video lg:aspect-auto lg:min-h-full">
         <AnimatedImage
           src="https://images.pexels.com/photos/10558185/pexels-photo-10558185.jpeg?_gl=1*10zj0ze*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjQ3NTg3MjIkbzIkZzEkdDE3NjQ3NjAxMzEkajMzJGwwJGgw"
