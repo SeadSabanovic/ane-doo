@@ -77,29 +77,58 @@ const HeroFeature = () => {
       </Marquee>
 
       {/* Tickers */}
-      <div className="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto w-full mt-10 border-t border-secondary/20 pt-10">
+      <div className="mx-auto mt-10 grid w-full max-w-6xl grid-cols-1 gap-8 border-t border-secondary/20 pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-2">
         {/* Year of experience */}
-        <div className="flex flex-1 items-center gap-2 flex-col">
+        <div className="flex flex-col items-center gap-2">
           <span className="flex items-center gap-2">
             <NumberTicker
               value={12}
-              className="text-foreground text-8xl lg:text-9xl"
+              seoLabel="12+"
+              className="text-8xl text-foreground"
             />
             <p className="text-2xl font-bold text-accent">+</p>
           </span>
-          <h3 className="text-lg">Godina iskustva</h3>
+          <h3 className="text-center text-lg font-semibold">Godina iskustva</h3>
         </div>
 
         {/* Products */}
-        <div className="flex flex-1 items-center gap-2 flex-col">
+        <div className="flex flex-col items-center gap-2">
           <span className="flex items-center gap-2">
             <NumberTicker
               value={988}
-              className="text-foreground text-8xl lg:text-9xl"
+              seoLabel="988+"
+              className="text-8xl text-foreground"
             />
             <p className="text-2xl font-bold text-accent">+</p>
           </span>
-          <h3 className="text-lg">Proizvoda</h3>
+          <h3 className="text-center text-lg font-semibold">Proizvoda</h3>
+        </div>
+
+        {/* Regional markets */}
+        <div className="flex flex-col items-center gap-2">
+          <span className="flex items-center gap-2">
+            <NumberTicker
+              value={4}
+              seoLabel="4"
+              className="text-8xl text-foreground"
+            />
+          </span>
+          <h3 className="text-center text-lg font-semibold">Regionalna tržišta</h3>
+        </div>
+
+        {/* Tons imported */}
+        <div className="flex flex-col items-center gap-2">
+          <span className="flex items-center gap-2">
+            <NumberTicker
+              value={300}
+              seoLabel="300+"
+              className="text-8xl text-foreground"
+            />
+            <p className="text-2xl font-bold text-accent">+</p>
+          </span>
+          <h3 className="text-center text-lg leading-snug font-semibold">
+            Tona robe uvezeno
+          </h3>
         </div>
       </div>
     </div>

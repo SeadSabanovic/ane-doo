@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Lora, Nunito } from "next/font/google";
 import "./globals.css";
 import LenisScrollProvider from "@/providers/lenis-provider";
 import ConditionalLayout from "@/components/layout/conditional-layout";
 import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+/** Body — Nunito (variable), subset latin + latin-ext za bs/hr */
+const nunito = Nunito({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-nunito",
+  display: "swap",
+  adjustFontFallback: true,
+});
+
+/** Naslovi — Lora (variable) */
+const lora = Lora({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-lora",
+  display: "swap",
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
@@ -31,9 +42,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bs">
+    <html
+      lang="bs"
+      className={`${nunito.variable} ${lora.variable} ${geistMono.variable}`}
+    >
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased select-none`}
+        className="font-sans antialiased select-none"
         suppressHydrationWarning
       >
         <LenisScrollProvider>
