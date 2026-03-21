@@ -1,5 +1,6 @@
 import PageHeader from "@/components/layout/page-header";
 import AboutBentoSection from "@/components/sections/about/about-bento-section";
+import AboutCtaSection from "@/components/sections/about/about-cta-section";
 import AboutHeroSection from "@/components/sections/about/about-hero";
 import { Metadata } from "next";
 
@@ -22,6 +23,7 @@ export default function AboutPage() {
       />
       <AboutHeroSection />
       <AboutBentoSection />
+      <AboutCtaSection />
     </>
   );
 }
