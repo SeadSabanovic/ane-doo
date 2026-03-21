@@ -84,7 +84,8 @@ export default async function ShopPage({
   const products = sanityProducts.map((product) => ({
     id: product._id,
     name: product.name,
-    price: product.salePrice || product.price,
+    price: product.price,
+    salePrice: product.salePrice,
     image: product.images[0]
       ? urlFor(product.images[0]).width(400).height(400).url()
       : "",

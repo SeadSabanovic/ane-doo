@@ -178,10 +178,25 @@ export function ProductDetails({
     <div className={cn("flex flex-1 flex-col gap-6", className)}>
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="mb-2 text-4xl font-bold">{name}</h1>
-          <p className="text-primary text-3xl font-semibold">
-            {formatPrice(price)}
-          </p>
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            <h1 className="text-4xl font-bold">{name}</h1>
+          </div>
+          <div className="flex flex-wrap items-baseline gap-2">
+            {salePrice ? (
+              <>
+                <span className="text-muted-foreground text-2xl line-through">
+                  {formatPrice(price)}
+                </span>
+                <span className="text-destructive text-3xl font-semibold">
+                  {formatPrice(salePrice)}
+                </span>
+              </>
+            ) : (
+              <p className="text-primary text-3xl font-semibold">
+                {formatPrice(price)}
+              </p>
+            )}
+          </div>
         </div>
         <Button
           variant="outline"

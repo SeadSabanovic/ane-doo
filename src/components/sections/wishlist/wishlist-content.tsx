@@ -42,7 +42,8 @@ export default function WishlistContent() {
           product={{
             id: item.productId,
             name: item.name,
-            price: item.salePrice || item.price,
+            price: item.price,
+            salePrice: item.salePrice,
             image: item.image,
             link: `/shop/${item.slug}`,
             saved: true,

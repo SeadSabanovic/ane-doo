@@ -14,6 +14,7 @@ interface Product {
   id: string | number;
   name: string;
   price: number;
+  salePrice?: number;
   image: string;
   badge?: string;
   link: string;
@@ -42,6 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
       slug: slug,
       image: product.image,
       price: product.price,
+      salePrice: product.salePrice,
     });
 
     if (isSaved) {
@@ -109,12 +111,16 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
       </div>
 
-      {product.badge && (
+      {(product.salePrice ?? product.badge) && (
         <Badge
           variant="outline"
-          className="bg-background absolute top-2 left-2 z-20"
+          className={
+            product.salePrice
+              ? "border-destructive/20 bg-destructive/20 text-destructive absolute top-2 left-2 z-20"
+              : "bg-background absolute top-2 left-2 z-20"
+          }
         >
-          {product.badge}
+          {product.salePrice ? "Akcija" : product.badge}
         </Badge>
       )}
       <div className="mt-4 flex flex-1 flex-col">
@@ -122,8 +128,17 @@ export default function ProductCard({ product }: { product: Product }) {
           <h4 className="line-clamp-2 text-xl font-medium">{product.name}</h4>
         </Link>
 
-        <small className="mt-auto flex items-end justify-between gap-2 pt-1 text-sm">
-          {formatPrice(product.price)}
+        <small className="mt-auto flex flex-wrap items-end gap-x-2 gap-y-0 pt-1 text-sm">
+          {product.salePrice ? (
+            <>
+              <span className="line-through">{formatPrice(product.price)}</span>
+              <span className="text-destructive font-semibold">
+                {formatPrice(product.salePrice)}
+              </span>
+            </>
+          ) : (
+            formatPrice(product.price)
+          )}
         </small>
       </div>
     </div>
