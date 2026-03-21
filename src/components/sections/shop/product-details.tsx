@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ProductSpecifications } from "./product-specifications";
 import { ProductOptions } from "./product-options";
@@ -75,7 +75,12 @@ export function ProductDetails({
   const addToCart = useCartStore((state) => state.addItem);
   const { toggleItem, isInWishlist } = useWishlistStore();
 
-  const isWishlisted = isInWishlist(productId);
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const isWishlisted = isHydrated && isInWishlist(productId);
 
   const handleAddToCart = (
     quantity: number,

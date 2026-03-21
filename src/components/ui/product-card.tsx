@@ -1,5 +1,6 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { Heart } from "lucide-react";
 import { Badge } from "./badge";
 import Link from "next/link";
@@ -22,9 +23,14 @@ interface Product {
 export default function ProductCard({ product }: { product: Product }) {
   const { toggleItem, isInWishlist } = useWishlistStore();
 
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   // Izvuci slug iz linka (npr. "/shop/nike-majica" -> "nike-majica")
   const slug = product.link.replace("/shop/", "");
-  const isSaved = isInWishlist(String(product.id));
+  const isSaved = isHydrated && isInWishlist(String(product.id));
 
   const handleHeartClick = (e: React.MouseEvent) => {
     e.preventDefault();
