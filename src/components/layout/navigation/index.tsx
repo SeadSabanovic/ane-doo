@@ -75,7 +75,7 @@ const Navigation = () => {
                     priority
                     className="size-8"
                   />
-                  <h1 className="text-xl font-bold sr-only sm:not-sr-only">ANE d.o.o.</h1>
+                  <span className="text-xl font-bold sr-only sm:not-sr-only font-heading">ANE d.o.o.</span>
                 </Link>
 
                 <Suspense fallback={null}>
