@@ -12,7 +12,7 @@ export default function AboutHeroSection() {
             Tradicija, Povjerenje, Kvalitet
           </h2>
           <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg leading-relaxed">
-            Korijeni firme Ane d.o.o. sežu u decenije iskustva porodice Adžajlić u svijetu tekstila. Ono što je započelo kao strast prema kvalitetnim materijalima, krunisano je osnivanjem firme pod vodstvom Alije Adžajlića. Danas, sa više od 12 godina samostalnog rada, ponosni smo na stabilnost i integritet koji gradimo sa našim partnerima.
+            Korijeni firme ANE d.o.o. sežu u decenije iskustva porodice Adžajlić u svijetu tekstila. Ono što je započelo kao strast prema kvalitetnim materijalima, krunisano je osnivanjem firme pod vodstvom Alije Adžajlića. Danas, sa više od 12 godina samostalnog rada, ponosni smo na stabilnost i integritet koji gradimo sa našim partnerima.
           </p>
         </div>
 
