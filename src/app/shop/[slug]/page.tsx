@@ -148,6 +148,7 @@ export default async function ProductPage({
             specifications={specifications}
             sizes={displaySizes}
             colors={displayColors}
+            tags={product.tags}
             pricingSections={getPricingSections(product)}
           />
         </div>

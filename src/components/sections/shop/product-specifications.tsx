@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface Specification {
   label: string;
-  value: string;
+  value?: string;
 }
 
 interface ProductSpecificationsProps {
@@ -22,9 +22,16 @@ export function ProductSpecifications({
       </Badge>
 
       {specifications.map((spec, index) => (
-        <div key={index} className="flex items-start justify-between gap-4">
+        <div
+          key={index}
+          className={
+            spec.value
+              ? "flex items-start justify-between gap-4"
+              : "flex items-start"
+          }
+        >
           <h3 className="font-semibold">{spec.label}</h3>
-          <p>{spec.value}</p>
+          {spec.value ? <p>{spec.value}</p> : null}
         </div>
       ))}
     </div>

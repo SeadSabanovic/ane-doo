@@ -42,7 +42,7 @@ export interface Product {
   originCountry?: string;
   specifications?: {
     label: string;
-    value: string;
+    value?: string;
   }[];
   order?: number;
 }

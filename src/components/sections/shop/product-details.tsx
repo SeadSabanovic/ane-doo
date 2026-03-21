@@ -7,6 +7,7 @@ import { ProductOptions } from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, Box, Boxes } from "lucide-react";
 import {
@@ -20,7 +21,7 @@ import { toast } from "sonner";
 
 interface Specification {
   label: string;
-  value: string;
+  value?: string;
 }
 
 interface PricingInfo {
@@ -48,6 +49,7 @@ interface ProductDetailsProps {
   specifications: Specification[];
   sizes: string[];
   colors: string[];
+  tags?: string[];
   pricingSections: PricingSection[];
   className?: string;
 }
@@ -65,6 +67,7 @@ export function ProductDetails({
   specifications,
   sizes,
   colors,
+  tags,
   pricingSections,
   className,
 }: ProductDetailsProps) {
@@ -199,6 +202,16 @@ export function ProductDetails({
       </div>
 
       <p className="text-base leading-relaxed">{description}</p>
+
+      {tags && tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <Badge key={tag} variant="outline">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
 
       <ProductSpecifications specifications={specifications} />
 

@@ -1,5 +1,6 @@
 import { defineType, defineField } from "sanity";
 import { SelectAllArrayInput } from "../components/select-all-array-input";
+import { TagsInput } from "../components/tags-input";
 
 export default defineType({
   name: "product",
@@ -31,12 +32,45 @@ export default defineType({
       title: "Detalji",
     },
   ],
+  fieldsets: [
+    {
+      name: "basic",
+      title: "Osnovni podaci",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "pricing",
+      title: "Cijene",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "media",
+      title: "Slike",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "variants",
+      title: "Varijante",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "inventory",
+      title: "Zalihe",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "details",
+      title: "Detalji",
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     defineField({
       name: "name",
       title: "Naziv proizvoda",
       type: "string",
       group: "basic",
+      fieldset: "basic",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -44,6 +78,7 @@ export default defineType({
       title: "Slug",
       type: "slug",
       group: "basic",
+      fieldset: "basic",
       options: {
         source: "name",
         maxLength: 96,
@@ -55,6 +90,7 @@ export default defineType({
       title: "Šifra proizvoda",
       type: "string",
       group: "basic",
+      fieldset: "basic",
       description: "Jedinstvena šifra proizvoda",
       validation: (Rule) => Rule.required(),
     }),
@@ -63,6 +99,7 @@ export default defineType({
       title: "Opis proizvoda",
       type: "text",
       group: "basic",
+      fieldset: "basic",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -70,6 +107,7 @@ export default defineType({
       title: "Kategorija",
       type: "reference",
       group: "basic",
+      fieldset: "basic",
       to: [{ type: "category" }],
       validation: (Rule) => Rule.required(),
     }),
@@ -78,9 +116,10 @@ export default defineType({
       title: "Oznake",
       type: "array",
       group: "basic",
+      fieldset: "basic",
       of: [{ type: "string" }],
-      options: {
-        layout: "tags",
+      components: {
+        input: TagsInput,
       },
       description: "Ključne riječi za pretragu i filtriranje",
     }),
@@ -89,6 +128,7 @@ export default defineType({
       title: "Maloprodajna cijena",
       type: "number",
       group: "pricing",
+      fieldset: "pricing",
       validation: (Rule) => Rule.required().min(0),
     }),
     defineField({
@@ -96,6 +136,7 @@ export default defineType({
       title: "Cijena na popustu",
       type: "number",
       group: "pricing",
+      fieldset: "pricing",
       description: "Ako postoji, prikazuje se umjesto regularne cijene",
     }),
     defineField({
@@ -103,6 +144,7 @@ export default defineType({
       title: "Veleprodajna cijena",
       type: "number",
       group: "pricing",
+      fieldset: "pricing",
       description: "Cijena za veleprodaju",
       validation: (Rule) => Rule.required().min(0),
     }),
@@ -111,6 +153,7 @@ export default defineType({
       title: "Minimalna količina za veleprodaju",
       type: "number",
       group: "pricing",
+      fieldset: "pricing",
       description: "Minimalan broj komada za veleprodajnu cijenu",
       validation: (Rule) => Rule.required().min(1),
       initialValue: 12,
@@ -120,6 +163,7 @@ export default defineType({
       title: "Slike",
       type: "array",
       group: "media",
+      fieldset: "media",
       of: [
         {
           type: "image",
@@ -142,6 +186,7 @@ export default defineType({
       title: "Veličine",
       type: "array",
       group: "variants",
+      fieldset: "variants",
       components: {
         input: SelectAllArrayInput,
       },
@@ -163,6 +208,7 @@ export default defineType({
       title: "Boje",
       type: "array",
       group: "variants",
+      fieldset: "variants",
       components: {
         input: SelectAllArrayInput,
       },
@@ -187,6 +233,7 @@ export default defineType({
       title: "Na stanju",
       type: "boolean",
       group: "inventory",
+      fieldset: "inventory",
       initialValue: true,
     }),
     defineField({
@@ -195,6 +242,7 @@ export default defineType({
       description: 'Prikazuje se u "Najprodavaniji" sekciji',
       type: "boolean",
       group: "inventory",
+      fieldset: "inventory",
       initialValue: false,
     }),
     defineField({
@@ -203,6 +251,7 @@ export default defineType({
       description: 'Prikazuje se u "Novo" sekciji',
       type: "boolean",
       group: "inventory",
+      fieldset: "inventory",
       initialValue: false,
     }),
     defineField({
@@ -210,6 +259,7 @@ export default defineType({
       title: "Materijal",
       type: "string",
       group: "details",
+      fieldset: "details",
       description: "Npr. 100% pamuk, Poliester, itd.",
     }),
     defineField({
@@ -217,6 +267,7 @@ export default defineType({
       title: "Težina",
       type: "string",
       group: "details",
+      fieldset: "details",
       description: "Npr. 100g po komadu",
     }),
     defineField({
@@ -224,6 +275,7 @@ export default defineType({
       title: "Zemlja porijekla",
       type: "string",
       group: "details",
+      fieldset: "details",
       options: {
         list: [
           { title: "Turska", value: "turska" },
@@ -236,6 +288,7 @@ export default defineType({
       title: "Dodatne specifikacije",
       type: "array",
       group: "details",
+      fieldset: "details",
       of: [
         {
           type: "object",
@@ -250,7 +303,7 @@ export default defineType({
               name: "value",
               title: "Vrijednost",
               type: "string",
-              validation: (Rule) => Rule.required(),
+              description: "Opciono – npr. za „Vodootporna” ostavi prazno",
             },
           ],
           preview: {
@@ -268,6 +321,7 @@ export default defineType({
       title: "Redoslijed",
       type: "number",
       group: "basic",
+      fieldset: "basic",
       description: "Broj za sortiranje (manji = prvi)",
     }),
   ],
