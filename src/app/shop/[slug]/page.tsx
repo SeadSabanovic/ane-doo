@@ -45,27 +45,31 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
 
-
   const product = await getProductBySlug(slug);
-
-
 
   if (!product) {
     notFound();
   }
 
   const images = product.images.map((img) =>
-    urlFor(img).width(800).height(800).url()
+    urlFor(img).width(800).height(800).url(),
   );
   const galleryImages = product.images.map((img) => urlFor(img).url());
 
   // Build specifications from product data
   const specifications = [
     { label: "Šifra", value: product.sku },
-    ...(product.material ? [{ label: "Materijal", value: product.material }] : []),
+    ...(product.material
+      ? [{ label: "Materijal", value: product.material }]
+      : []),
     ...(product.weight ? [{ label: "Težina", value: product.weight }] : []),
     ...(product.originCountry
-      ? [{ label: "Zemlja porijekla", value: product.originCountry === "turska" ? "Turska" : "Indonezija" }]
+      ? [
+          {
+            label: "Zemlja porijekla",
+            value: product.originCountry === "turska" ? "Turska" : "Indonezija",
+          },
+        ]
       : []),
     ...(product.specifications || []),
   ];
@@ -87,7 +91,7 @@ export default async function ProductPage({
       />
 
       <Container className="pb-20">
-        <div className="flex gap-8 flex-col lg:flex-row">
+        <div className="flex flex-col gap-8 lg:flex-row">
           {/* Product Images */}
           <ProductImages
             images={images}
@@ -117,7 +121,6 @@ export default async function ProductPage({
       <MoreSuggestions />
     </>
   );
-
 }
 
 // Generate static params for all products

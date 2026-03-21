@@ -10,14 +10,14 @@ export default function WishlistContent() {
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
   const items = useWishlistStore((state) => state.items);
 
   if (!isHydrated) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
       </div>
     );
   }
@@ -35,7 +35,7 @@ export default function WishlistContent() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {items.map((item) => (
         <ProductCard
           key={item.productId}

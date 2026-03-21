@@ -53,7 +53,7 @@ export default async function ShopPage({
       .join(",")
       .split(",")
       .map((value) => value.trim())
-      .filter(Boolean)
+      .filter(Boolean),
   );
 
   const currentPageParam = normalizedSearchParams.get("stranica");
@@ -76,7 +76,7 @@ export default async function ShopPage({
       ? await getProductsByCategorySlugsPaginated(
           [...selectedCategorySlugs],
           start,
-          end
+          end,
         )
       : await getProductsPaginated(start, end);
 
@@ -85,7 +85,9 @@ export default async function ShopPage({
     id: product._id,
     name: product.name,
     price: product.salePrice || product.price,
-    image: product.images[0] ? urlFor(product.images[0]).width(400).height(400).url() : "",
+    image: product.images[0]
+      ? urlFor(product.images[0]).width(400).height(400).url()
+      : "",
     slug: product.slug.current,
     link: `/shop/${product.slug.current}`,
   }));
@@ -101,7 +103,7 @@ export default async function ShopPage({
         ]}
       />
       <ShopToolbar />
-      <Container className="lg:flex-row lg:flex gap-8 pb-20">
+      <Container className="gap-8 pb-20 lg:flex lg:flex-row">
         <ShopSidebar categories={categories} />
 
         <div className="flex flex-1 flex-col gap-8 lg:gap-12">
@@ -114,7 +116,7 @@ export default async function ShopPage({
               actionHref="/shop"
             />
           ) : (
-            <div className="grid grid-cols-2 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 gap-8 xl:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

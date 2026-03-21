@@ -15,5 +15,5 @@ export const SOCIALS = [
     name: "LinkedIn",
     url: "https://www.linkedin.com/company/ane-doo",
     icon: <Linkedin />,
-  }
+  },
 ];

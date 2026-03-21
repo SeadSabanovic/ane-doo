@@ -11,8 +11,10 @@ interface Position {
   y: number;
 }
 
-interface InteractiveHoverButtonProps
-  extends Omit<HTMLMotionProps<"button">, "children"> {
+interface InteractiveHoverButtonProps extends Omit<
+  HTMLMotionProps<"button">,
+  "children"
+> {
   children: React.ReactNode;
   variant?: "dark" | "light";
 }
@@ -56,15 +58,15 @@ export function InteractiveHoverButton({
         "group bg-primary text-primary-foreground relative w-auto cursor-pointer overflow-hidden rounded-md px-6 py-2 text-center font-semibold transition-none",
         variant === "dark" && "bg-primary text-primary-foreground",
         variant === "light" && "bg-background text-primary border",
-        className
+        className,
       )}
       {...props}
     >
       <div className="flex items-center gap-2">
         <div
           className={cn(
-            "bg-accent size-2 rounded-full transition-all duration-300 group-hover:scale-[100.8] not-group-hover:animate-pulse",
-            variant === "light" && "bg-primary"
+            "bg-accent size-2 rounded-full transition-all duration-300 not-group-hover:animate-pulse group-hover:scale-[100.8]",
+            variant === "light" && "bg-primary",
           )}
         ></div>
         <span className="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0">

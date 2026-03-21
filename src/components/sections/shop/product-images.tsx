@@ -31,9 +31,8 @@ export function ProductImages({
   productName,
   className,
 }: ProductImagesProps) {
-  const modalImages = galleryImages && galleryImages.length > 0
-    ? galleryImages
-    : images;
+  const modalImages =
+    galleryImages && galleryImages.length > 0 ? galleryImages : images;
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -95,22 +94,22 @@ export function ProductImages({
 
     const disableAnimations = () => {
       const dialogContent = document.querySelector(
-        '[data-slot="dialog-content"]'
+        '[data-slot="dialog-content"]',
       ) as HTMLElement;
       const dialogOverlay = document.querySelector(
-        '[data-slot="dialog-overlay"]'
+        '[data-slot="dialog-overlay"]',
       ) as HTMLElement;
 
       if (dialogContent) {
         dialogContent.style.setProperty(
           "transition-duration",
           "0ms",
-          "important"
+          "important",
         );
         dialogContent.style.setProperty(
           "animation-duration",
           "0ms",
-          "important"
+          "important",
         );
         dialogContent.style.setProperty("transition", "none", "important");
         dialogContent.style.setProperty("animation", "none", "important");
@@ -120,12 +119,12 @@ export function ProductImages({
         dialogOverlay.style.setProperty(
           "transition-duration",
           "0ms",
-          "important"
+          "important",
         );
         dialogOverlay.style.setProperty(
           "animation-duration",
           "0ms",
-          "important"
+          "important",
         );
         dialogOverlay.style.setProperty("transition", "none", "important");
         dialogOverlay.style.setProperty("animation", "none", "important");
@@ -142,12 +141,12 @@ export function ProductImages({
     <>
       <div
         className={cn(
-          "flex-1 w-full lg:max-w-xl flex flex-col gap-4 lg:h-fit lg:sticky top-36",
-          className
+          "top-36 flex w-full flex-1 flex-col gap-4 lg:sticky lg:h-fit lg:max-w-xl",
+          className,
         )}
       >
         <div
-          className="relative aspect-square rounded-md overflow-hidden w-full max-h-[60svh] cursor-pointer group"
+          className="group relative aspect-square max-h-[60svh] w-full cursor-pointer overflow-hidden rounded-md"
           onClick={() => setSelectedIndex(0)}
         >
           <AnimatedImage
@@ -155,7 +154,7 @@ export function ProductImages({
             alt={productName}
             width={1000}
             height={1000}
-            className="object-cover size-full transition-all duration-300 group-hover:scale-105"
+            className="size-full object-cover transition-all duration-300 group-hover:scale-105"
             priority={true}
           />
         </div>
@@ -165,7 +164,7 @@ export function ProductImages({
             {images.map((image, index) => (
               <div
                 key={index}
-                className="relative aspect-square rounded-md overflow-hidden w-full cursor-pointer group"
+                className="group relative aspect-square w-full cursor-pointer overflow-hidden rounded-md"
                 onClick={() => setSelectedIndex(index)}
               >
                 <AnimatedImage
@@ -173,7 +172,7 @@ export function ProductImages({
                   alt={`${productName} - Slika ${index + 1}`}
                   width={1000}
                   height={1000}
-                  className="object-cover size-full transition-transform duration-300 group-hover:scale-105"
+                  className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
             ))}
@@ -186,7 +185,7 @@ export function ProductImages({
         onOpenChange={(open) => !open && handleClose()}
       >
         <DialogContent
-          className="p-0 overflow-hidden bg-transparent backdrop-blur-sm border-0 max-w-[unset]! h-screen duration-0!"
+          className="h-screen max-w-[unset]! overflow-hidden border-0 bg-transparent p-0 backdrop-blur-sm duration-0!"
           showCloseButton={false}
         >
           <DialogTitle className="sr-only">Galerija slika</DialogTitle>
@@ -202,11 +201,11 @@ export function ProductImages({
               }}
               className="size-full"
             >
-              <CarouselContent className="size-full ml-0">
+              <CarouselContent className="ml-0 size-full">
                 {modalImages.map((image, index) => (
                   <CarouselItem
                     key={index}
-                    className="size-full pl-0 basis-full"
+                    className="size-full basis-full pl-0"
                   >
                     <div
                       className="relative size-full"
@@ -222,18 +221,18 @@ export function ProductImages({
                         height={1200}
                         unoptimized
                         onClick={(e) => e.stopPropagation()}
-                        className="max-h-[80svh] object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-auto"
+                        className="absolute top-1/2 left-1/2 h-auto max-h-[80svh] w-auto -translate-x-1/2 -translate-y-1/2 object-contain"
                       />
                     </div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-4">
                 <Button
                   variant="secondary"
                   size="icon"
                   disabled={!canGoPrev}
-                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary disabled:opacity-35 disabled:pointer-events-none"
+                  className="bg-primary/10 border-primary/40 hover:bg-primary/20 text-primary pointer-events-auto size-12 rounded-full border backdrop-blur-sm disabled:pointer-events-none disabled:opacity-35"
                   onClick={() => api?.scrollPrev()}
                 >
                   <ArrowLeft size={18} strokeWidth={3} />
@@ -243,18 +242,18 @@ export function ProductImages({
                   variant="secondary"
                   size="icon"
                   disabled={!canGoNext}
-                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary disabled:opacity-35 disabled:pointer-events-none"
+                  className="bg-primary/10 border-primary/40 hover:bg-primary/20 text-primary pointer-events-auto size-12 rounded-full border backdrop-blur-sm disabled:pointer-events-none disabled:opacity-35"
                   onClick={() => api?.scrollNext()}
                 >
                   <ArrowRight size={18} strokeWidth={3} />
                   <span className="sr-only">Sljedeća slika</span>
                 </Button>
               </div>
-              <div className="absolute top-[10lvh] md:top-[5lvh] right-4 pointer-events-none">
+              <div className="pointer-events-none absolute top-[10lvh] right-4 md:top-[5lvh]">
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="rounded-full size-12 bg-primary/10 border border-primary/40 backdrop-blur-sm pointer-events-auto hover:bg-primary/20 text-primary"
+                  className="bg-primary/10 border-primary/40 hover:bg-primary/20 text-primary pointer-events-auto size-12 rounded-full border backdrop-blur-sm"
                   onClick={handleClose}
                 >
                   <X size={18} strokeWidth={3} />
@@ -262,8 +261,8 @@ export function ProductImages({
                 </Button>
               </div>
               {!isClosing && (
-                <div className="absolute bottom-[10lvh] md:bottom-[5lvh] right-4 pointer-events-none">
-                  <div className="rounded-full px-4 py-2 bg-primary/10 backdrop-blur-sm text-primary text-sm font-medium border border-primary/40">
+                <div className="pointer-events-none absolute right-4 bottom-[10lvh] md:bottom-[5lvh]">
+                  <div className="bg-primary/10 text-primary border-primary/40 rounded-full border px-4 py-2 text-sm font-medium backdrop-blur-sm">
                     {current + 1} / {modalImages.length}
                   </div>
                 </div>

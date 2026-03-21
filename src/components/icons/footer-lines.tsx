@@ -2,7 +2,7 @@ export default function FooterLines() {
   return (
     <svg
       aria-hidden="true"
-      className="z-10 pointer-events-none absolute left-1/2 top-1/2 w-full h-[200%] -translate-x-1/2 -translate-y-1/2 text-primary/30"
+      className="text-primary/30 pointer-events-none absolute top-1/2 left-1/2 z-10 h-[200%] w-full -translate-x-1/2 -translate-y-1/2"
       width="2745"
       height="488"
       viewBox="0 0 2745 488"

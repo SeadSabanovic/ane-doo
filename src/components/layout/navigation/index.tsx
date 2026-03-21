@@ -21,9 +21,9 @@ const Navigation = () => {
   const isRootRoute = pathname === "/";
   const [searchOpen, setSearchOpen] = useState(false);
   const isHydrated = useSyncExternalStore(
-    () => () => { },
+    () => () => {},
     () => true,
-    () => false
+    () => false,
   );
 
   const cartItems = useCartStore((state) => state.items);
@@ -35,8 +35,8 @@ const Navigation = () => {
   return (
     <>
       {/* Social Links Bar */}
-      <div className="w-full bg-card-foreground text-primary-foreground hidden lg:block">
-        <Container className="py-2 flex items-center justify-between">
+      <div className="bg-card-foreground text-primary-foreground hidden w-full lg:block">
+        <Container className="flex items-center justify-between py-2">
           <a href="tel:+38761123456" className="flex items-center gap-2">
             <AnimatedShinyText className="text-sm">
               Pozovite nas: (+387) 61 101 871
@@ -45,7 +45,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between gap-6">
             {SOCIALS.map((social) => (
               <Link key={social.name} href={social.url} target="_blank">
-                <div className="size-5 rounded-full flex items-center justify-center text-primary-foreground hover:scale-110 transition-all duration-200">
+                <div className="text-primary-foreground flex size-5 items-center justify-center rounded-full transition-all duration-200 hover:scale-110">
                   {social.icon}
                 </div>
               </Link>
@@ -55,16 +55,16 @@ const Navigation = () => {
       </div>
 
       <header
-        className={`sticky left-0 top-0 w-full z-50 backdrop-blur-sm bg-background/90 transition-all ease-in-out duration-300`}
+        className={`bg-background/90 sticky top-0 left-0 z-50 w-full backdrop-blur-sm transition-all duration-300 ease-in-out`}
       >
         <div className="border-b">
           {/* <!-- header top start --> */}
           <Container className="py-3">
-            <div className={`flex gap-5 items-center justify-between relative`}>
+            <div className={`relative flex items-center justify-between gap-5`}>
               <div className="flex items-center gap-8">
                 {/* <!-- header top left / Logo --> */}
                 <Link
-                  className="shrink-0 text-2xl font-bold text-primary flex items-center gap-2"
+                  className="text-primary flex shrink-0 items-center gap-2 text-2xl font-bold"
                   href="/"
                 >
                   <Image
@@ -75,7 +75,9 @@ const Navigation = () => {
                     priority
                     className="size-8"
                   />
-                  <span className="text-xl font-bold sr-only sm:not-sr-only font-heading">ANE d.o.o.</span>
+                  <span className="font-heading sr-only text-xl font-bold sm:not-sr-only">
+                    ANE d.o.o.
+                  </span>
                 </Link>
 
                 <Suspense fallback={null}>
@@ -108,7 +110,7 @@ const Navigation = () => {
                     {isHydrated && wishlistCount > 0 && (
                       <Badge
                         variant="outline"
-                        className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background"
+                        className="bg-background absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums"
                       >
                         {wishlistCount}
                       </Badge>
@@ -121,7 +123,7 @@ const Navigation = () => {
                     {isHydrated && cartCount > 0 && (
                       <Badge
                         variant="outline"
-                        className="absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums bg-background"
+                        className="bg-background absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums"
                       >
                         {cartCount}
                       </Badge>

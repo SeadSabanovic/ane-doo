@@ -78,13 +78,13 @@ export function ProductDetails({
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
   const isWishlisted = isHydrated && isInWishlist(productId);
 
   const handleAddToCart = (
     quantity: number,
-    purchaseType: "retail" | "wholesale"
+    purchaseType: "retail" | "wholesale",
   ) => {
     if (!selectedSize) {
       toast.error("Molimo odaberite veličinu");
@@ -172,11 +172,13 @@ export function ProductDetails({
   }, []);
 
   return (
-    <div className={cn("flex flex-col gap-6 flex-1", className)}>
-      <div className="flex justify-between items-start gap-4">
+    <div className={cn("flex flex-1 flex-col gap-6", className)}>
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold mb-2">{name}</h1>
-          <p className="text-3xl font-semibold text-primary">{formatPrice(price)}</p>
+          <h1 className="mb-2 text-4xl font-bold">{name}</h1>
+          <p className="text-primary text-3xl font-semibold">
+            {formatPrice(price)}
+          </p>
         </div>
         <Button
           variant="outline"
@@ -184,8 +186,15 @@ export function ProductDetails({
           className="hover:bg-muted/20"
           onClick={handleToggleWishlist}
         >
-          <Heart className={cn("text-destructive", isWishlisted && "fill-destructive")} />
-          <span className="hidden md:block">{isWishlisted ? "Sačuvano" : "Sačuvaj"}</span>
+          <Heart
+            className={cn(
+              "text-destructive",
+              isWishlisted && "fill-destructive",
+            )}
+          />
+          <span className="hidden md:block">
+            {isWishlisted ? "Sačuvano" : "Sačuvaj"}
+          </span>
         </Button>
       </div>
 
@@ -218,12 +227,12 @@ export function ProductDetails({
                 className={cn(
                   "px-5",
                   isFirst && "rounded-t-md",
-                  isLast && "data-[state=closed]:rounded-b-md"
+                  isLast && "data-[state=closed]:rounded-b-md",
                 )}
               >
                 <span className="flex items-center gap-4">
                   <span
-                    className="flex size-10 shrink-0 items-center justify-center rounded-full bg-linear-to-r from-primary to-card-foreground text-accent"
+                    className="from-primary to-card-foreground text-accent flex size-10 shrink-0 items-center justify-center rounded-full bg-linear-to-r"
                     aria-hidden="true"
                   >
                     {section.type === "maloprodaja" ? (
@@ -254,7 +263,7 @@ export function ProductDetails({
                   onAddToCart={(quantity) =>
                     handleAddToCart(
                       quantity,
-                      section.type === "maloprodaja" ? "retail" : "wholesale"
+                      section.type === "maloprodaja" ? "retail" : "wholesale",
                     )
                   }
                 />

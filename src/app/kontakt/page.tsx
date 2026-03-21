@@ -21,7 +21,7 @@ export default function ContactPage() {
           { label: "Kontakt", href: "/kontakt" },
         ]}
       />
-      <Container className="pb-20 flex flex-col gap-8 md:gap-10 lg:gap-12">
+      <Container className="flex flex-col gap-8 pb-20 md:gap-10 lg:gap-12">
         <ContactForm />
         <ContactInfo />
       </Container>

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 export default function CheckoutForm() {
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">(
-    "pickup"
+    "pickup",
   );
   const [formData, setFormData] = useState({
     email: "",
@@ -109,17 +109,17 @@ export default function CheckoutForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-8 p-6 border rounded-md lg:col-span-2 h-fit"
+      className="h-fit space-y-8 rounded-md border p-6 lg:col-span-2"
     >
       {/* Contact Information */}
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Kontakt informacije</h2>
+        <h2 className="mb-4 text-2xl font-semibold">Kontakt informacije</h2>
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label
                 htmlFor="firstName"
-                className="block text-sm font-medium mb-2"
+                className="mb-2 block text-sm font-medium"
               >
                 Ime <span className="text-destructive">*</span>
               </label>
@@ -138,7 +138,7 @@ export default function CheckoutForm() {
               {errors.firstName && (
                 <p
                   id="firstName-error"
-                  className="text-sm text-destructive mt-1"
+                  className="text-destructive mt-1 text-sm"
                 >
                   {errors.firstName}
                 </p>
@@ -147,7 +147,7 @@ export default function CheckoutForm() {
             <div>
               <label
                 htmlFor="lastName"
-                className="block text-sm font-medium mb-2"
+                className="mb-2 block text-sm font-medium"
               >
                 Prezime <span className="text-destructive">*</span>
               </label>
@@ -166,7 +166,7 @@ export default function CheckoutForm() {
               {errors.lastName && (
                 <p
                   id="lastName-error"
-                  className="text-sm text-destructive mt-1"
+                  className="text-destructive mt-1 text-sm"
                 >
                   {errors.lastName}
                 </p>
@@ -174,7 +174,7 @@ export default function CheckoutForm() {
             </div>
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
+            <label htmlFor="email" className="mb-2 block text-sm font-medium">
               Email <span className="text-destructive">*</span>
             </label>
             <Input
@@ -189,13 +189,13 @@ export default function CheckoutForm() {
               className={cn(errors.email && "border-destructive")}
             />
             {errors.email && (
-              <p id="email-error" className="text-sm text-destructive mt-1">
+              <p id="email-error" className="text-destructive mt-1 text-sm">
                 {errors.email}
               </p>
             )}
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium mb-2">
+            <label htmlFor="phone" className="mb-2 block text-sm font-medium">
               Broj telefona <span className="text-destructive">*</span>
             </label>
             <Input
@@ -210,7 +210,7 @@ export default function CheckoutForm() {
               className={cn(errors.phone && "border-destructive")}
             />
             {errors.phone && (
-              <p id="phone-error" className="text-sm text-destructive mt-1">
+              <p id="phone-error" className="text-destructive mt-1 text-sm">
                 {errors.phone}
               </p>
             )}
@@ -220,13 +220,13 @@ export default function CheckoutForm() {
 
       {/* Delivery Method */}
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Način preuzimanja</h2>
+        <h2 className="mb-4 text-2xl font-semibold">Način preuzimanja</h2>
         <div className="space-y-2">
           <Label
             htmlFor="pickup"
             className={cn(
-              "hover:bg-primary/20 hover:border-primary/20 flex items-start gap-2 rounded-lg border p-3 cursor-pointer transition-colors",
-              deliveryMethod === "pickup" && "border-primary bg-primary/10"
+              "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-2 rounded-lg border p-3 transition-colors",
+              deliveryMethod === "pickup" && "border-primary bg-primary/10",
             )}
           >
             <Checkbox
@@ -252,7 +252,7 @@ export default function CheckoutForm() {
               }}
               className="data-[state=checked]:border-primary data-[state=checked]:bg-primary"
             />
-            <div className="grid gap-1.5 font-normal flex-1">
+            <div className="grid flex-1 gap-1.5 font-normal">
               <p className="text-sm leading-none font-medium">
                 Lično preuzimanje
               </p>
@@ -264,8 +264,8 @@ export default function CheckoutForm() {
           <Label
             htmlFor="delivery"
             className={cn(
-              "hover:bg-primary/20 hover:border-primary/20 flex items-start gap-2 rounded-lg border p-3 cursor-pointer transition-colors",
-              deliveryMethod === "delivery" && "border-primary bg-primary/10"
+              "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-2 rounded-lg border p-3 transition-colors",
+              deliveryMethod === "delivery" && "border-primary bg-primary/10",
             )}
           >
             <Checkbox
@@ -274,7 +274,7 @@ export default function CheckoutForm() {
               onCheckedChange={() => setDeliveryMethod("delivery")}
               className="data-[state=checked]:border-primary data-[state=checked]:bg-primary"
             />
-            <div className="grid gap-1.5 font-normal flex-1">
+            <div className="grid flex-1 gap-1.5 font-normal">
               <p className="text-sm leading-none font-medium">Dostava</p>
               <p className="text-muted-foreground text-sm">
                 Dostavljamo na vašu adresu
@@ -287,12 +287,12 @@ export default function CheckoutForm() {
       {/* Shipping Address - Only show if delivery is selected */}
       {deliveryMethod === "delivery" && (
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Adresa dostave</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Adresa dostave</h2>
           <div className="space-y-4">
             <div>
               <label
                 htmlFor="address"
-                className="block text-sm font-medium mb-2"
+                className="mb-2 block text-sm font-medium"
               >
                 Adresa <span className="text-destructive">*</span>
               </label>
@@ -307,17 +307,17 @@ export default function CheckoutForm() {
                 className={cn(errors.address && "border-destructive")}
               />
               {errors.address && (
-                <p id="address-error" className="text-sm text-destructive mt-1">
+                <p id="address-error" className="text-destructive mt-1 text-sm">
                   {errors.address}
                 </p>
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
                 <label
                   htmlFor="city"
-                  className="block text-sm font-medium mb-2"
+                  className="mb-2 block text-sm font-medium"
                 >
                   Grad <span className="text-destructive">*</span>
                 </label>
@@ -332,13 +332,13 @@ export default function CheckoutForm() {
                   className={cn(errors.city && "border-destructive")}
                 />
                 {errors.city && (
-                  <p id="city-error" className="text-sm text-destructive mt-1">
+                  <p id="city-error" className="text-destructive mt-1 text-sm">
                     {errors.city}
                   </p>
                 )}
               </div>
               <div>
-                <label htmlFor="zip" className="block text-sm font-medium mb-2">
+                <label htmlFor="zip" className="mb-2 block text-sm font-medium">
                   Poštanski broj <span className="text-destructive">*</span>
                 </label>
                 <Input
@@ -352,7 +352,7 @@ export default function CheckoutForm() {
                   className={cn(errors.zip && "border-destructive")}
                 />
                 {errors.zip && (
-                  <p id="zip-error" className="text-sm text-destructive mt-1">
+                  <p id="zip-error" className="text-destructive mt-1 text-sm">
                     {errors.zip}
                   </p>
                 )}
@@ -360,7 +360,7 @@ export default function CheckoutForm() {
               <div>
                 <label
                   htmlFor="country"
-                  className="block text-sm font-medium mb-2"
+                  className="mb-2 block text-sm font-medium"
                 >
                   Država <span className="text-destructive">*</span>
                 </label>
@@ -379,7 +379,7 @@ export default function CheckoutForm() {
                 {errors.country && (
                   <p
                     id="country-error"
-                    className="text-sm text-destructive mt-1"
+                    className="text-destructive mt-1 text-sm"
                   >
                     {errors.country}
                   </p>

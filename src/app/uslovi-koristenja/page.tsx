@@ -21,8 +21,8 @@ export default function UsloviKoristenjaPage() {
           { label: "Uslovi korištenja", href: "/uslovi-koristenja" },
         ]}
       />
-      <Container className="pb-20 max-w-3xl">
-        <article className="mx-auto text-foreground">
+      <Container className="max-w-3xl pb-20">
+        <article className="text-foreground mx-auto">
           <p>
             <strong>ANE d.o.o.</strong> Sarajevo pruža uslugu putem internet
             stranice na domeni www.ane-doo.com (u daljem tekstu: &quot;Online
@@ -37,18 +37,22 @@ export default function UsloviKoristenjaPage() {
           </p>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">1. Opšte odredbe</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              1. Opšte odredbe
+            </h2>
             <p>
               Korištenjem ove online trgovine, svaki korisnik potvrđuje da je
-              pročitao uslove korištenja te da iste prihvata. Ukoliko se korisnik
-              ne slaže sa uslovima, treba se suzdržati od korištenja stranice.
-              Online trgovina je dostupna 24h dnevno, osim u slučajevima
-              tehničkog održavanja ili ažuriranja podataka.
+              pročitao uslove korištenja te da iste prihvata. Ukoliko se
+              korisnik ne slaže sa uslovima, treba se suzdržati od korištenja
+              stranice. Online trgovina je dostupna 24h dnevno, osim u
+              slučajevima tehničkog održavanja ili ažuriranja podataka.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">2. Cijene i valuta</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              2. Cijene i valuta
+            </h2>
             <p>
               Sve cijene navedene na stranici izražene su u BAM (Konvertibilna
               marka) valuti sa uračunatim PDV-om. Cijene vrijede u trenutku
@@ -58,12 +62,14 @@ export default function UsloviKoristenjaPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">3. Način plaćanja i dostava</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              3. Način plaćanja i dostava
+            </h2>
             <p>
               Budući da stranica ne podržava direktno online plaćanje karticama,
               plaćanje se vrši na sljedeće načine:
             </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>
                 <strong>Gotovinski (Pouzećem):</strong> Plaćanje kuriru prilikom
                 preuzimanja pošiljke.
@@ -81,7 +87,9 @@ export default function UsloviKoristenjaPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">4. Tačnost podataka i fotografije</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              4. Tačnost podataka i fotografije
+            </h2>
             <p>
               Nastojimo pružiti što tačnije informacije i precizne opise
               proizvoda. Ipak, fotografije artikala mogu biti ilustrativne
@@ -93,7 +101,9 @@ export default function UsloviKoristenjaPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">5. Intelektualno vlasništvo</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              5. Intelektualno vlasništvo
+            </h2>
             <p>
               Sav sadržaj na domeni www.ane-doo.com, uključujući logotipe,
               tekstove, fotografije i dizajn, privatno je vlasništvo firme ANE
@@ -104,17 +114,19 @@ export default function UsloviKoristenjaPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">6. Odgovornost</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">6. Odgovornost</h2>
             <p>
               ANE d.o.o. nije odgovoran za bilo kakvu štetu na opremi korisnika
-              nastalu prilikom korištenja stranice, niti za greške nastale usljed
-              prekida internet konekcije, računarskih virusa ili neovlaštenog
-              pristupa podacima.
+              nastalu prilikom korištenja stranice, niti za greške nastale
+              usljed prekida internet konekcije, računarskih virusa ili
+              neovlaštenog pristupa podacima.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">7. Privatnost (Bez kolačića)</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              7. Privatnost (Bez kolačića)
+            </h2>
             <p>
               Vaša privatnost nam je prioritet. Ova web stranica ne koristi
               kolačiće (cookies) za praćenje korisnika. Prikupljamo isključivo
@@ -125,12 +137,14 @@ export default function UsloviKoristenjaPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">8. Kontakt i podrška</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
+              8. Kontakt i podrška
+            </h2>
             <p>
               Za sve dodatne informacije, reklamacije ili pitanja, možete nas
               kontaktirati putem:
             </p>
-            <ul className="list-none pl-0 space-y-2 mt-3">
+            <ul className="mt-3 list-none space-y-2 pl-0">
               <li>
                 <strong>Email:</strong>{" "}
                 <a
@@ -157,10 +171,8 @@ export default function UsloviKoristenjaPage() {
           </section>
         </article>
 
-        <Link href="/" className="mt-12 text-center block">
-          <InteractiveHoverButton>
-            Nazad na Početnu
-          </InteractiveHoverButton>
+        <Link href="/" className="mt-12 block text-center">
+          <InteractiveHoverButton>Nazad na Početnu</InteractiveHoverButton>
         </Link>
       </Container>
     </>

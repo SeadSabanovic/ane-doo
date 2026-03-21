@@ -11,7 +11,7 @@ export default function CheckoutContent() {
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
   const items = useCartStore((state) => state.items);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
@@ -21,7 +21,7 @@ export default function CheckoutContent() {
   if (!isHydrated) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
       </div>
     );
   }
@@ -39,7 +39,7 @@ export default function CheckoutContent() {
   }
 
   return (
-    <div className="flex flex-col lg:grid lg:grid-cols-5 gap-8">
+    <div className="flex flex-col gap-8 lg:grid lg:grid-cols-5">
       <OrderSummary cartItems={items} total={total} />
       <CheckoutForm />
     </div>

@@ -21,8 +21,8 @@ export default function PolitikaPrivatnostiPage() {
           { label: "Politika privatnosti", href: "/politika-privatnosti" },
         ]}
       />
-      <Container className="pb-20 max-w-3xl">
-        <article className="mx-auto text-foreground">
+      <Container className="max-w-3xl pb-20">
+        <article className="text-foreground mx-auto">
           <p>
             Firma <strong>ANE d.o.o.</strong> Sarajevo (u daljem tekstu:
             &quot;mi&quot;, &quot;naša trgovina&quot;) posvećena je zaštiti vaše
@@ -31,14 +31,14 @@ export default function PolitikaPrivatnostiPage() {
           </p>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               1. Prikupljanje ličnih podataka
             </h2>
             <p>
               Prikupljamo samo minimalne podatke koji su nam neophodni da bismo
               vam isporučili naručenu robu. To su:
             </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>
                 <strong>Identifikacioni podaci:</strong> Ime i prezime.
               </li>
@@ -49,19 +49,17 @@ export default function PolitikaPrivatnostiPage() {
               </li>
             </ul>
             <p className="mt-3">
-              Ove podatke nam dajete isključivo svojom voljom prilikom popunjavanja
-              forme za narudžbu.
+              Ove podatke nam dajete isključivo svojom voljom prilikom
+              popunjavanja forme za narudžbu.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               2. Svrha korištenja podataka
             </h2>
-            <p>
-              Vaše podatke koristimo isključivo u sljedeće svrhe:
-            </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <p>Vaše podatke koristimo isključivo u sljedeće svrhe:</p>
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>Obrada i potvrda vaše narudžbe.</li>
               <li>
                 Dostava kupljenih artikala na vašu adresu putem kurirske službe.
@@ -78,14 +76,14 @@ export default function PolitikaPrivatnostiPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               3. Analitika i praćenje (Vercel Analytics)
             </h2>
             <p>
               Naša stranica koristi Vercel Web Analytics kako bismo razumjeli
               kako posjetioci koriste sajt i poboljšali korisničko iskustvo.
             </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>
                 <strong>Bez kolačića (Cookie-free):</strong> Ovaj alat ne
                 postavlja nikakve kolačiće u vaš pretraživač.
@@ -103,19 +101,19 @@ export default function PolitikaPrivatnostiPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               4. Kolačići (Cookies)
             </h2>
             <p>
               Osim gore navedene anonimne analitike, naša stranica ne koristi
               kolačiće za profilisanje ili praćenje vaših aktivnosti na drugim
-              sajtovima. Možemo koristiti samo osnovne tehničke sesije
-              neophodne za funkcionisanje korpe tokom vaše posjete.
+              sajtovima. Možemo koristiti samo osnovne tehničke sesije neophodne
+              za funkcionisanje korpe tokom vaše posjete.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               5. Dijeljenje podataka sa trećim licima
             </h2>
             <p>
@@ -127,7 +125,7 @@ export default function PolitikaPrivatnostiPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               6. Sigurnost podataka
             </h2>
             <p>
@@ -140,28 +138,22 @@ export default function PolitikaPrivatnostiPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
-              7. Vaša prava
-            </h2>
-            <p>
-              U skladu sa zakonom, imate pravo da od nas zatražite:
-            </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">7. Vaša prava</h2>
+            <p>U skladu sa zakonom, imate pravo da od nas zatražite:</p>
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>Informaciju o tome koje vaše podatke posjedujemo.</li>
               <li>Ispravku ili dopunu vaših podataka.</li>
-              <li>
-                Trajno brisanje vaših podataka iz naših operativnih baza.
-              </li>
+              <li>Trajno brisanje vaših podataka iz naših operativnih baza.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">8. Kontakt</h2>
+            <h2 className="mt-8 mb-3 text-xl font-semibold">8. Kontakt</h2>
             <p>
               Za sva pitanja vezana za privatnost i zaštitu podataka, možete nas
               kontaktirati na:
             </p>
-            <ul className="list-none pl-0 space-y-2 mt-3">
+            <ul className="mt-3 list-none space-y-2 pl-0">
               <li>
                 <strong>Email:</strong>{" "}
                 <a
@@ -188,10 +180,8 @@ export default function PolitikaPrivatnostiPage() {
           </section>
         </article>
 
-        <Link href="/" className="mt-12 text-center block">
-          <InteractiveHoverButton>
-            Nazad na Početnu
-          </InteractiveHoverButton>
+        <Link href="/" className="mt-12 block text-center">
+          <InteractiveHoverButton>Nazad na Početnu</InteractiveHoverButton>
         </Link>
       </Container>
     </>

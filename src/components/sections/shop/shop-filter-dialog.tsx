@@ -26,7 +26,10 @@ import {
 import { getParentCategories, type Category } from "@/sanity/lib/api";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-function getSelectedFromQuery(rawCategoryParam: string | null, categories: Category[]) {
+function getSelectedFromQuery(
+  rawCategoryParam: string | null,
+  categories: Category[],
+) {
   if (!rawCategoryParam) {
     return {
       selectedCategories: new Set<string>(),
@@ -38,7 +41,7 @@ function getSelectedFromQuery(rawCategoryParam: string | null, categories: Categ
     rawCategoryParam
       .split(",")
       .map((value) => value.trim())
-      .filter(Boolean)
+      .filter(Boolean),
   );
 
   const selectedSubcategories = new Set<string>();
@@ -65,7 +68,7 @@ function getSelectedFromQuery(rawCategoryParam: string | null, categories: Categ
     const allSubcategoriesSelected =
       (category.subcategories?.length ?? 0) > 0 &&
       category.subcategories!.every((subcategory) =>
-        selectedSubcategories.has(subcategory._id)
+        selectedSubcategories.has(subcategory._id),
       );
 
     if (parentSelected || allSubcategoriesSelected) {
@@ -86,10 +89,10 @@ export default function ShopFilterDialog() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [selectedSubcategories, setSelectedSubcategories] = useState<
     Set<string>
@@ -105,8 +108,10 @@ export default function ShopFilterDialog() {
   }, []);
 
   const syncSelectionWithQuery = () => {
-    const { selectedCategories: nextSelectedCategories, selectedSubcategories: nextSelectedSubcategories } =
-      getSelectedFromQuery(searchParams.get("kategorija"), categories);
+    const {
+      selectedCategories: nextSelectedCategories,
+      selectedSubcategories: nextSelectedSubcategories,
+    } = getSelectedFromQuery(searchParams.get("kategorija"), categories);
     setSelectedCategories(nextSelectedCategories);
     setSelectedSubcategories(nextSelectedSubcategories);
   };
@@ -119,7 +124,7 @@ export default function ShopFilterDialog() {
       const allSubcategoriesSelected =
         subcategories.length > 0 &&
         subcategories.every((subcategory) =>
-          selectedSubcategories.has(subcategory._id)
+          selectedSubcategories.has(subcategory._id),
         );
       const parentSelected = selectedCategories.has(category._id);
 
@@ -217,7 +222,7 @@ export default function ShopFilterDialog() {
   const handleSubcategoryChange = (
     categoryId: string,
     subcategoryId: string,
-    checked: boolean
+    checked: boolean,
   ) => {
     const category = categories.find((cat) => cat._id === categoryId);
 
@@ -230,11 +235,11 @@ export default function ShopFilterDialog() {
         // Ako jesu, automatski odaberi i top-level kategoriju
         if (category?.subcategories) {
           const allSelected = category.subcategories.every((sub) =>
-            newSet.has(sub._id)
+            newSet.has(sub._id),
           );
           if (allSelected) {
             setSelectedCategories((prevCat) =>
-              new Set(prevCat).add(categoryId)
+              new Set(prevCat).add(categoryId),
             );
           }
         }
@@ -271,16 +276,16 @@ export default function ShopFilterDialog() {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="xl:hidden flex flex-1 items-center justify-start p-1 h-fit hover:bg-background/80! rounded-full"
+          className="hover:bg-background/80! flex h-fit flex-1 items-center justify-start rounded-full p-1 xl:hidden"
         >
-          <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-full">
+          <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-full">
             <FilterIcon />
           </div>
           Filteri
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md h-[70svh] p-0 flex flex-col gap-0 overflow-hidden">
-        <DialogHeader className="p-6 h-fit border-b flex flex-col gap-6">
+      <DialogContent className="flex h-[70svh] max-w-md flex-col gap-0 overflow-hidden p-0">
+        <DialogHeader className="flex h-fit flex-col gap-6 border-b p-6">
           <DialogTitle>Filtriraj proizvode</DialogTitle>
           <DialogDescription>
             Odaberite kategorije i cijenu za filtriranje proizvoda
@@ -292,7 +297,7 @@ export default function ShopFilterDialog() {
           collapsible
           value={openAccordion}
           onValueChange={setOpenAccordion}
-          className="w-full p-6 flex-1 overflow-y-auto"
+          className="w-full flex-1 overflow-y-auto p-6"
         >
           {/* Kategorije */}
           <AccordionItem value="categories">
@@ -300,7 +305,7 @@ export default function ShopFilterDialog() {
               Kategorije
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
+              <div className="bg-muted/20 flex flex-col gap-2 rounded-md p-4">
                 {categories.map((category) => (
                   <div key={category._id} className="flex flex-col gap-2">
                     {/* Main Category */}
@@ -315,7 +320,7 @@ export default function ShopFilterDialog() {
                         />
                         <Label
                           htmlFor={`dialog-category-${category._id}`}
-                          className="shrink-0 text-sm font-medium cursor-pointer"
+                          className="shrink-0 cursor-pointer text-sm font-medium"
                         >
                           {category.name}
                         </Label>
@@ -337,19 +342,19 @@ export default function ShopFilterDialog() {
                                 <Checkbox
                                   id={`dialog-subcategory-${subcategory._id}`}
                                   checked={selectedSubcategories.has(
-                                    subcategory._id
+                                    subcategory._id,
                                   )}
                                   onCheckedChange={(checked) =>
                                     handleSubcategoryChange(
                                       category._id,
                                       subcategory._id,
-                                      checked === true
+                                      checked === true,
                                     )
                                   }
                                 />
                                 <Label
                                   htmlFor={`dialog-subcategory-${subcategory._id}`}
-                                  className="shrink-0 text-sm font-medium cursor-pointer"
+                                  className="shrink-0 cursor-pointer text-sm font-medium"
                                 >
                                   {subcategory.name}
                                 </Label>
@@ -376,14 +381,14 @@ export default function ShopFilterDialog() {
               Cijena
             </AccordionTrigger>
             <AccordionContent>
-              <div className="bg-muted/20 p-4 rounded-md">
+              <div className="bg-muted/20 rounded-md p-4">
                 <CostSlider />
               </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
 
-        <DialogFooter className="p-6 border-t flex">
+        <DialogFooter className="flex border-t p-6">
           <Button
             variant="outline"
             className="flex-1"
@@ -392,7 +397,11 @@ export default function ShopFilterDialog() {
             <XIcon />
             Očisti filtre
           </Button>
-          <Button variant="default" className="flex-1" onClick={applyCategoryFilter}>
+          <Button
+            variant="default"
+            className="flex-1"
+            onClick={applyCategoryFilter}
+          >
             <CheckIcon />
             Primjeni filtere
           </Button>

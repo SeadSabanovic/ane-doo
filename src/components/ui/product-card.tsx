@@ -26,7 +26,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
   // Izvuci slug iz linka (npr. "/shop/nike-majica" -> "nike-majica")
   const slug = product.link.replace("/shop/", "");
@@ -75,22 +75,24 @@ export default function ProductCard({ product }: { product: Product }) {
     <div className="group relative flex flex-col">
       <Link
         href={product.link ? product.link : "#"}
-        className="group rounded-md bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden"
+        className="group bg-muted/20 relative flex aspect-3/4 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md"
       >
         <AnimatedImage
           src={product.image}
           alt={product.name}
           width={400}
           height={400}
-          className="object-cover size-full group-hover:scale-105 transition-all duration-300"
+          className="size-full object-cover transition-all duration-300 group-hover:scale-105"
         />
       </Link>
 
       <div
         onClick={handleHeartClick}
         className={cn(
-          "group/heart absolute backdrop-blur-sm top-2 right-2 z-20 p-3 bg-muted/20 rounded-full cursor-pointer hover:bg-destructive/20 transition",
-          isSaved ? "bg-destructive/20 hover:bg-destructive/10" : "bg-muted/20 hover:bg-muted/20"
+          "group/heart bg-muted/20 hover:bg-destructive/20 absolute top-2 right-2 z-20 cursor-pointer rounded-full p-3 backdrop-blur-sm transition",
+          isSaved
+            ? "bg-destructive/20 hover:bg-destructive/10"
+            : "bg-muted/20 hover:bg-muted/20",
         )}
       >
         {isSaved ? (
@@ -101,7 +103,7 @@ export default function ProductCard({ product }: { product: Product }) {
           />
         ) : (
           <Heart
-            className="text-white group-hover/heart:text-destructive"
+            className="group-hover/heart:text-destructive text-white"
             size={16}
           />
         )}
@@ -110,17 +112,17 @@ export default function ProductCard({ product }: { product: Product }) {
       {product.badge && (
         <Badge
           variant="outline"
-          className="absolute top-2 left-2 z-20 bg-background"
+          className="bg-background absolute top-2 left-2 z-20"
         >
           {product.badge}
         </Badge>
       )}
-      <div className="flex flex-col mt-4 flex-1">
+      <div className="mt-4 flex flex-1 flex-col">
         <Link href={product.link ? product.link : "#"} className="block w-full">
-          <h4 className="text-xl font-medium line-clamp-2">{product.name}</h4>
+          <h4 className="line-clamp-2 text-xl font-medium">{product.name}</h4>
         </Link>
 
-        <small className="text-sm pt-1 mt-auto flex items-end justify-between gap-2">
+        <small className="mt-auto flex items-end justify-between gap-2 pt-1 text-sm">
           {formatPrice(product.price)}
         </small>
       </div>

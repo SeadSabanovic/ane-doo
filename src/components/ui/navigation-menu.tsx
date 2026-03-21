@@ -16,7 +16,7 @@ function NavigationMenu({
       data-viewport={false}
       className={cn(
         "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center",
-        className
+        className,
       )}
       {...props}
     >
@@ -34,7 +34,7 @@ function NavigationMenuList({
       data-slot="navigation-menu-list"
       className={cn(
         "group flex flex-1 list-none items-center justify-center gap-6",
-        className
+        className,
       )}
       {...props}
     />
@@ -55,7 +55,7 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex w-max items-center justify-center bg-transparent px-0 text-md font-medium focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
+  "group inline-flex w-max items-center justify-center bg-transparent px-0 text-md font-medium focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1",
 );
 
 function NavigationMenuTrigger({
@@ -87,10 +87,10 @@ function NavigationMenuDecoration({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute bottom-0 -left-2 h-[10px] bg-accent transition-all duration-200 -z-10",
+        "bg-accent pointer-events-none absolute bottom-0 -left-2 -z-10 h-[10px] transition-all duration-200",
         isActive
           ? "w-[calc(100%+16px)]"
-          : "w-0 group-data-[state=open]:w-full group-hover/navigation-menu-link:w-full group-focus-visible/navigation-menu-link:w-full"
+          : "w-0 group-hover/navigation-menu-link:w-full group-focus-visible/navigation-menu-link:w-full group-data-[state=open]:w-full",
       )}
     />
   );
@@ -106,7 +106,7 @@ function NavigationMenuContent({
       className={cn(
         "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 top-0 left-0 w-full p-2 pr-2.5 md:absolute md:w-auto",
         "group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:data-[state=open]:animate-in group-data-[viewport=false]/navigation-menu:data-[state=closed]:animate-out group-data-[viewport=false]/navigation-menu:data-[state=closed]:zoom-out-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:zoom-in-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:fade-in-0 group-data-[viewport=false]/navigation-menu:data-[state=closed]:fade-out-0 group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden group-data-[viewport=false]/navigation-menu:rounded-md group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:shadow group-data-[viewport=false]/navigation-menu:duration-200 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
-        className
+        className,
       )}
       {...props}
     />
@@ -135,7 +135,7 @@ function NavigationMenuLink({
 
   if (asChild && React.isValidElement(children)) {
     const child = React.Children.only(
-      children
+      children,
     ) as React.ReactElement<ChildWithClassName>;
 
     return (
@@ -144,14 +144,14 @@ function NavigationMenuLink({
         asChild
         className={cn(
           "group/navigation-menu-link focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground rounded-sm text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4",
-          className
+          className,
         )}
         {...props}
       >
         {React.cloneElement(child, {
           className: cn(
             decoration ? "relative" : undefined,
-            child.props.className
+            child.props.className,
           ),
           children: decoration ? (
             <>
@@ -171,7 +171,7 @@ function NavigationMenuLink({
       data-slot="navigation-menu-link"
       className={cn(
         "group/navigation-menu-link data-[active=true]:text-accent-foreground hover:text-accent-foreground focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4",
-        className
+        className,
       )}
       {...props}
     >
@@ -196,7 +196,7 @@ function NavigationMenuIndicator({
       data-slot="navigation-menu-indicator"
       className={cn(
         "data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-1 flex h-1.5 items-end justify-center overflow-hidden",
-        className
+        className,
       )}
       {...props}
     >

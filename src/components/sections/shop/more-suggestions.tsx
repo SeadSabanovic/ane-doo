@@ -71,10 +71,10 @@ export default function MoreSuggestions() {
   return (
     <section className="py-20">
       <Container>
-        <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
+        <h2 className="mt-4 text-center text-3xl font-bold md:text-left lg:text-4xl">
           Više sugestija - Najtraženije
         </h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+        <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

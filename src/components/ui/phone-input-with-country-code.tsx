@@ -45,7 +45,7 @@ export default function PhoneInputWithCountryCode({
           id={`${id}-country-code`}
           className={cn(
             "w-[150px] rounded-r-none shadow-none focus-visible:z-10",
-            hasError && "border-destructive"
+            hasError && "border-destructive",
           )}
         >
           <SelectValue />
@@ -75,7 +75,7 @@ export default function PhoneInputWithCountryCode({
         aria-describedby={describedBy}
         className={cn(
           "-ms-px rounded-l-none shadow-none",
-          hasError && "border-destructive"
+          hasError && "border-destructive",
         )}
       />
     </div>

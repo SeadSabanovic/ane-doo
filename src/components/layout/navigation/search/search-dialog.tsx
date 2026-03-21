@@ -115,7 +115,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   ];
 
   const filteredSuggestions = suggestions.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Reset search query when dialog closes
@@ -128,15 +128,15 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-3xl! p-0 h-[70svh] flex flex-col gap-0">
-        <DialogHeader className="p-6 h-fit border-b flex flex-col gap-6">
+      <DialogContent className="flex h-[70svh] max-w-3xl! flex-col gap-0 p-0">
+        <DialogHeader className="flex h-fit flex-col gap-6 border-b p-6">
           <DialogTitle>Pretražite proizvode</DialogTitle>
           <DialogDescription className="sr-only">
             Pretražite proizvode i kategorije
           </DialogDescription>
 
           {/* Search Bar */}
-          <InputGroup className="bg-background! rounded-md h-fit">
+          <InputGroup className="bg-background! h-fit rounded-md">
             <InputGroupInput
               id="search-input"
               name="search"
@@ -147,8 +147,8 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
               autoComplete="off"
               className="text-lg!"
             />
-            <InputGroupAddon className="pl-1 py-1">
-              <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-sm">
+            <InputGroupAddon className="py-1 pl-1">
+              <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-sm">
                 <Search />
               </div>
             </InputGroupAddon>
@@ -157,13 +157,13 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
         {/* Dialog Body */}
         <div className="flex-1 overflow-hidden rounded-b-md">
-          <div className="h-full overflow-auto p-6 rounded-b-md">
+          <div className="h-full overflow-auto rounded-b-md p-6">
             {searchQuery && filteredSuggestions.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-muted-foreground py-8 text-center">
                 Nema rezultata za &quot;{searchQuery}&quot;
               </div>
             ) : (
-              <div className="space-y-2 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 space-y-2">
                 <h3 className="text-xl font-medium">Najprodavaniji komadi</h3>
                 {filteredSuggestions.map((item) => (
                   <Link

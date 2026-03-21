@@ -2,8 +2,7 @@ import { ComponentPropsWithoutRef, CSSProperties, FC } from "react";
 
 import { cn } from "@/lib/utils";
 
-export interface AnimatedShinyTextProps
-  extends ComponentPropsWithoutRef<"span"> {
+export interface AnimatedShinyTextProps extends ComponentPropsWithoutRef<"span"> {
   shimmerWidth?: number;
 }
 
@@ -21,15 +20,15 @@ export const AnimatedShinyText: FC<AnimatedShinyTextProps> = ({
         } as CSSProperties
       }
       className={cn(
-        "mx-auto max-w-md text-card/60",
+        "text-card/60 mx-auto max-w-md",
 
         // Shine effect
-        "animate-shiny-text bg-size-[var(--shiny-width)_100%] bg-clip-text [bg-position:0_0] bg-no-repeat [transition:background-position_1s_cubic-bezier(.6,.6,0,1)_infinite] duration-75",
+        "animate-shiny-text bg-size-[var(--shiny-width)_100%] bg-clip-text bg-no-repeat duration-75 [bg-position:0_0] [transition:background-position_1s_cubic-bezier(.6,.6,0,1)_infinite]",
 
         // Shine gradient
-        "bg-linear-to-r from-transparent via-secondary via-50% to-transparent",
+        "via-secondary bg-linear-to-r from-transparent via-50% to-transparent",
 
-        className
+        className,
       )}
       {...props}
     >

@@ -53,7 +53,7 @@ export function InputWithPlusMinus({
       }
       onChange?.(clampedValue);
     },
-    [isControlled, minValue, maxValue, onChange]
+    [isControlled, minValue, maxValue, onChange],
   );
 
   const handleDecrement = () => {
@@ -98,7 +98,7 @@ export function InputWithPlusMinus({
         className={cn(
           "relative inline-flex h-10 w-full min-w-0 items-center rounded-md bg-transparent text-base whitespace-nowrap shadow-none! transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           "focus-within:ring-ring/50! focus-within:ring-2",
-          disabled && "opacity-50 pointer-events-none"
+          disabled && "pointer-events-none opacity-50",
         )}
       >
         <Button
@@ -106,9 +106,9 @@ export function InputWithPlusMinus({
           variant="outline"
           size="icon"
           className={cn(
-            "shadow-none! border flex aspect-square size-10 rounded-l-md rounded-r-none items-center justify-center border-r disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-100!",
+            "flex aspect-square size-10 items-center justify-center rounded-l-md rounded-r-none border border-r shadow-none! disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-100!",
             "border-input bg-background text-muted-foreground hover:bg-border/50 hover:text-foreground",
-            "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-input focus-visible:bg-border/50 focus-visible:text-foreground"
+            "focus-visible:border-input focus-visible:bg-border/50 focus-visible:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
           )}
           disabled={!canDecrement || disabled}
           onClick={handleDecrement}
@@ -136,10 +136,10 @@ export function InputWithPlusMinus({
           aria-label={label || "Količina"}
           className={cn(
             "bg-background!",
-            "text-2xl! font-semibold shadow-none! border-y boder-border selection:bg-primary selection:text-primary-foreground w-full h-full rounded-none grow px-3 py-2 text-center tabular-nums outline-none border-x-0",
-            "focus-visible:ring-0 focus-visible:border-border focus-visible:ring-offset-0 focus-visible:outline-none",
-            "[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [-moz-appearance:textfield]",
-            inputClassName
+            "boder-border selection:bg-primary selection:text-primary-foreground h-full w-full grow rounded-none border-x-0 border-y px-3 py-2 text-center text-2xl! font-semibold tabular-nums shadow-none! outline-none",
+            "focus-visible:border-border focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
+            "[-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+            inputClassName,
           )}
         />
         <Button
@@ -147,9 +147,9 @@ export function InputWithPlusMinus({
           variant="outline"
           size="icon"
           className={cn(
-            "shadow-none! flex border aspect-square size-10 rounded-r-md rounded-l-none items-center justify-center disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-100!",
+            "flex aspect-square size-10 items-center justify-center rounded-l-none rounded-r-md border shadow-none! disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-100!",
             "border-input bg-background text-muted-foreground hover:bg-border/50 hover:text-foreground transition-colors",
-            "focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-input focus-visible:bg-border/50 focus-visible:text-foreground"
+            "focus-visible:border-input focus-visible:bg-border/50 focus-visible:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
           )}
           disabled={!canIncrement || disabled}
           onClick={handleIncrement}

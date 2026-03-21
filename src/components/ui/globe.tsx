@@ -12,7 +12,11 @@ const countries = countriesData as { features: object[] };
 const OPACITY_EPS = 0.001;
 
 function disposeMaterial(m: object | null) {
-  if (m && "dispose" in m && typeof (m as { dispose: () => void }).dispose === "function") {
+  if (
+    m &&
+    "dispose" in m &&
+    typeof (m as { dispose: () => void }).dispose === "function"
+  ) {
     (m as { dispose: () => void }).dispose();
   }
 }
@@ -31,7 +35,7 @@ function applyGlobeSurfaceMaterial(
     emissiveIntensity: number;
     specular: string;
     shininess: number;
-  }
+  },
 ) {
   const {
     baseColor,
@@ -174,7 +178,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
       maxRings: 3,
       ...globeConfig,
     }),
-    [globeConfig]
+    [globeConfig],
   );
 
   useEffect(() => {
@@ -190,10 +194,8 @@ export function Globe({ globeConfig, data }: WorldProps) {
   useEffect(() => {
     if (!globeRef.current || !isInitialized) return;
 
-    const base =
-      globeConfig.globeColor ?? defaultProps.globeColor ?? "#ffffff";
-    const unlit =
-      globeConfig.globeUnlit ?? defaultProps.globeUnlit ?? false;
+    const base = globeConfig.globeColor ?? defaultProps.globeColor ?? "#ffffff";
+    const unlit = globeConfig.globeUnlit ?? defaultProps.globeUnlit ?? false;
     const surfaceOpacity =
       globeConfig.globeSurfaceOpacity ?? defaultProps.globeSurfaceOpacity ?? 1;
 
@@ -271,9 +273,9 @@ export function Globe({ globeConfig, data }: WorldProps) {
       (v, i, a) =>
         a.findIndex((v2) =>
           ["lat", "lng"].every(
-            (k) => v2[k as "lat" | "lng"] === v[k as "lat" | "lng"]
-          )
-        ) === i
+            (k) => v2[k as "lat" | "lng"] === v[k as "lat" | "lng"],
+          ),
+        ) === i,
     );
 
     globeRef.current
@@ -312,17 +314,18 @@ export function Globe({ globeConfig, data }: WorldProps) {
       .ringMaxRadius(defaultProps.maxRings)
       .ringPropagationSpeed(RING_PROPAGATION_SPEED)
       .ringRepeatPeriod(
-        (defaultProps.arcTime * defaultProps.arcLength) / defaultProps.rings
+        (defaultProps.arcTime * defaultProps.arcLength) / defaultProps.rings,
       );
 
     /* Nakon chain-a three-globe može triggerovati interni update materijala */
     if (globeRef.current) {
       const base =
         globeConfig.globeColor ?? defaultProps.globeColor ?? "#ffffff";
-      const unlit =
-        globeConfig.globeUnlit ?? defaultProps.globeUnlit ?? false;
+      const unlit = globeConfig.globeUnlit ?? defaultProps.globeUnlit ?? false;
       const surfaceOpacity =
-        globeConfig.globeSurfaceOpacity ?? defaultProps.globeSurfaceOpacity ?? 1;
+        globeConfig.globeSurfaceOpacity ??
+        defaultProps.globeSurfaceOpacity ??
+        1;
       const emissiveRaw =
         globeConfig.emissive ?? defaultProps.emissive ?? "#000000";
       const emissiveStr =
@@ -410,7 +413,7 @@ export function WebGLRendererConfig() {
 export function World({ globeConfig, data }: WorldProps) {
   return (
     <Canvas
-      className="h-full w-full min-h-[350px] aspect-video"
+      className="aspect-video h-full min-h-[350px] w-full"
       dpr={[1, 2]}
       gl={{ alpha: true, antialias: true }}
       camera={{ position: [0, 0, cameraZ], fov: 45, near: 180, far: 1800 }}

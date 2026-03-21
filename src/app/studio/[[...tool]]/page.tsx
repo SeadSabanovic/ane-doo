@@ -8,10 +8,10 @@
  */
 
 import type { Metadata } from "next";
-import { NextStudio } from 'next-sanity/studio'
-import config from '../../../../sanity.config'
+import { NextStudio } from "next-sanity/studio";
+import config from "../../../../sanity.config";
 
-export const dynamic = 'force-static'
+export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "Studio",
   robots: {
@@ -21,5 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function StudioPage() {
-  return <NextStudio config={config} />
+  return <NextStudio config={config} />;
 }

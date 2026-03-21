@@ -49,14 +49,14 @@ const FeatureCard = ({
   description: string;
 }) => {
   return (
-    <div className={cn("flex items-center gap-4 flex-col py-10 px-5 shrink-0")}>
-      <div className="size-16 flex items-center justify-center text-card-foreground relative">
+    <div className={cn("flex shrink-0 flex-col items-center gap-4 px-5 py-10")}>
+      <div className="text-card-foreground relative flex size-16 items-center justify-center">
         {icon}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 size-[60%] bg-accent/40 rounded-full -z-10" />
+        <div className="bg-accent/40 absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full" />
       </div>
 
       <div className="text-center">
-        <h3 className="font-bold text-lg">{title}</h3>
+        <h3 className="text-lg font-bold">{title}</h3>
         <p className="text-md">{description}</p>
       </div>
     </div>
@@ -77,16 +77,16 @@ const HeroFeature = () => {
       </Marquee>
 
       {/* Tickers */}
-      <div className="mx-auto mt-10 grid w-full max-w-6xl grid-cols-1 gap-8 border-t border-secondary/20 pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-2">
+      <div className="border-secondary/20 mx-auto mt-10 grid w-full max-w-6xl grid-cols-1 gap-8 border-t pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-2">
         {/* Year of experience */}
         <div className="flex flex-col items-center gap-2">
           <span className="flex items-center gap-2">
             <NumberTicker
               value={12}
               seoLabel="12+"
-              className="text-8xl text-foreground"
+              className="text-foreground text-8xl"
             />
-            <p className="text-2xl font-bold text-accent">+</p>
+            <p className="text-accent text-2xl font-bold">+</p>
           </span>
           <h3 className="text-center text-lg font-semibold">Godina iskustva</h3>
         </div>
@@ -97,9 +97,9 @@ const HeroFeature = () => {
             <NumberTicker
               value={988}
               seoLabel="988+"
-              className="text-8xl text-foreground"
+              className="text-foreground text-8xl"
             />
-            <p className="text-2xl font-bold text-accent">+</p>
+            <p className="text-accent text-2xl font-bold">+</p>
           </span>
           <h3 className="text-center text-lg font-semibold">Proizvoda</h3>
         </div>
@@ -110,10 +110,12 @@ const HeroFeature = () => {
             <NumberTicker
               value={4}
               seoLabel="4"
-              className="text-8xl text-foreground"
+              className="text-foreground text-8xl"
             />
           </span>
-          <h3 className="text-center text-lg font-semibold">Regionalna tržišta</h3>
+          <h3 className="text-center text-lg font-semibold">
+            Regionalna tržišta
+          </h3>
         </div>
 
         {/* Tons imported */}
@@ -122,9 +124,9 @@ const HeroFeature = () => {
             <NumberTicker
               value={300}
               seoLabel="300+"
-              className="text-8xl text-foreground"
+              className="text-foreground text-8xl"
             />
-            <p className="text-2xl font-bold text-accent">+</p>
+            <p className="text-accent text-2xl font-bold">+</p>
           </span>
           <h3 className="text-center text-lg leading-snug font-semibold">
             Tona robe uvezeno

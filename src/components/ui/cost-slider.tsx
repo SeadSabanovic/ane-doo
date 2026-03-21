@@ -14,7 +14,7 @@ export default function CostSlider() {
         onValueChange={setValue}
         value={value}
       />
-      <div className="flex items-center justify-between text-muted-foreground text-sm">
+      <div className="text-muted-foreground flex items-center justify-between text-sm">
         <span>${value[0]}</span>
         <span>${value[1]}</span>
       </div>

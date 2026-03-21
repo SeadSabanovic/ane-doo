@@ -26,14 +26,16 @@ export default function PageHeader({
   description?: string;
   breadcrumbItems?: BreadcrumbItemType[];
 }) {
-  const hasIntro = Boolean((title && title.length > 0) || (description && description.length > 0));
+  const hasIntro = Boolean(
+    (title && title.length > 0) || (description && description.length > 0),
+  );
   const hasBreadcrumbs = Boolean(breadcrumbItems && breadcrumbItems.length > 0);
 
   return (
     <header
       className={cn(
-        "relative overflow-hidden mb-20 bg-secondary/10",
-        !hasIntro && "mb-4 lg:mb-20"
+        "bg-secondary/10 relative mb-20 overflow-hidden",
+        !hasIntro && "mb-4 lg:mb-20",
       )}
     >
       {hasIntro && (
@@ -42,12 +44,12 @@ export default function PageHeader({
           <Container className="relative z-10 py-8 lg:py-12">
             <div>
               {title && title.length > 0 && (
-                <h1 className="font-bold text-3xl lg:text-4xl text-primary text-center">
+                <h1 className="text-primary text-center text-3xl font-bold lg:text-4xl">
                   {title}
                 </h1>
               )}
               {description && description.length > 0 && (
-                <p className="text-lg mt-2 mx-auto max-w-2xl italic text-center">
+                <p className="mx-auto mt-2 max-w-2xl text-center text-lg italic">
                   {description}
                 </p>
               )}
@@ -57,7 +59,7 @@ export default function PageHeader({
       )}
 
       {hasBreadcrumbs && (
-        <div className="relative z-10 backdrop-blur-sm bg-secondary/5">
+        <div className="bg-secondary/5 relative z-10 backdrop-blur-sm">
           <Container className="py-4">
             <Breadcrumb>
               <BreadcrumbList className="justify-end">
@@ -71,13 +73,15 @@ export default function PageHeader({
                       ) : (
                         <BreadcrumbLink
                           asChild
-                          className="text-primary/70 transition-colors hover:text-primary"
+                          className="text-primary/70 hover:text-primary transition-colors"
                         >
                           <Link href={item.href}>{item.label}</Link>
                         </BreadcrumbLink>
                       )}
                     </BreadcrumbItem>
-                    {index < breadcrumbItems.length - 1 && <BreadcrumbSeparator />}
+                    {index < breadcrumbItems.length - 1 && (
+                      <BreadcrumbSeparator />
+                    )}
                   </Fragment>
                 ))}
               </BreadcrumbList>

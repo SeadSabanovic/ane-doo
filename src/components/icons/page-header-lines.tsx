@@ -2,7 +2,7 @@ export default function PageHeaderLines() {
   return (
     <svg
       aria-hidden="true"
-      className="absolute -bottom-20 start-1/2 w-full -translate-x-1/2 text-secondary/30"
+      className="text-secondary/30 absolute start-1/2 -bottom-20 w-full -translate-x-1/2"
       width="2745"
       height="488"
       viewBox="0 0 2745 488"

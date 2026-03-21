@@ -22,7 +22,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const { selectedCategories, selectedSubcategories } = useMemo(() => {
     const rawCategoryParam = searchParams.get("kategorija");
@@ -38,7 +38,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       rawCategoryParam
         .split(",")
         .map((value) => value.trim())
-        .filter(Boolean)
+        .filter(Boolean),
     );
     const nextSelectedSubcategories = new Set<string>();
 
@@ -65,7 +65,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       const allSubcategoriesSelected =
         (category.subcategories?.length ?? 0) > 0 &&
         category.subcategories!.every((subcategory) =>
-          nextSelectedSubcategories.has(subcategory._id)
+          nextSelectedSubcategories.has(subcategory._id),
         );
 
       if (parentSelected || allSubcategoriesSelected) {
@@ -81,7 +81,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
 
   const buildSelectedSlugs = (
     categoryIds: Set<string>,
-    subcategoryIds: Set<string>
+    subcategoryIds: Set<string>,
   ) => {
     const selectedSlugs = new Set<string>();
 
@@ -89,7 +89,9 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       const subcategories = category.subcategories ?? [];
       const allSubcategoriesSelected =
         subcategories.length > 0 &&
-        subcategories.every((subcategory) => subcategoryIds.has(subcategory._id));
+        subcategories.every((subcategory) =>
+          subcategoryIds.has(subcategory._id),
+        );
       const parentSelected = categoryIds.has(category._id);
 
       // Keep URL compact: if whole group is selected, store only parent slug.
@@ -110,7 +112,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
 
   const updateCategoryQuery = (
     categoryIds: Set<string>,
-    subcategoryIds: Set<string>
+    subcategoryIds: Set<string>,
   ) => {
     const selectedSlugs = buildSelectedSlugs(categoryIds, subcategoryIds);
 
@@ -157,7 +159,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   const handleSubcategoryChange = (
     categoryId: string,
     subcategoryId: string,
-    checked: boolean
+    checked: boolean,
   ) => {
     const category = categories.find((cat) => cat._id === categoryId);
     const nextSelectedCategories = new Set(selectedCategories);
@@ -167,7 +169,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       nextSelectedSubcategories.add(subcategoryId);
       if (
         category?.subcategories?.every((sub) =>
-          nextSelectedSubcategories.has(sub._id)
+          nextSelectedSubcategories.has(sub._id),
         )
       ) {
         nextSelectedCategories.add(categoryId);
@@ -181,8 +183,8 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   };
 
   return (
-    <aside className="w-full max-w-2xs space-y-3 hidden xl:block xl:sticky xl:top-24 xl:self-start rounded-md border">
-      <div className="flex justify-between items-center gap-2 mb-0 p-4">
+    <aside className="hidden w-full max-w-2xs space-y-3 rounded-md border xl:sticky xl:top-24 xl:block xl:self-start">
+      <div className="mb-0 flex items-center justify-between gap-2 p-4">
         <h4 className="text-lg font-medium">Filteri:</h4>
       </div>
 
@@ -195,11 +197,11 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       >
         {/* Kategorije */}
         <AccordionItem value="categories">
-          <AccordionTrigger className="text-lg font-semibold px-6 cursor-pointer">
+          <AccordionTrigger className="cursor-pointer px-6 text-lg font-semibold">
             Kategorije
           </AccordionTrigger>
           <AccordionContent className="px-3">
-            <div className="flex flex-col gap-2 bg-muted/20 p-4 rounded-md">
+            <div className="bg-muted/20 flex flex-col gap-2 rounded-md p-4">
               {categories.map((category) => (
                 <div key={category._id} className="flex flex-col gap-2">
                   {/* Main Category */}
@@ -214,7 +216,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
                       />
                       <Label
                         htmlFor={`sidebar-category-${category._id}`}
-                        className="shrink-0 text-sm font-medium cursor-pointer"
+                        className="shrink-0 cursor-pointer text-sm font-medium"
                       >
                         {category.name}
                       </Label>
@@ -233,19 +235,19 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
                               <Checkbox
                                 id={`sidebar-subcategory-${subcategory._id}`}
                                 checked={selectedSubcategories.has(
-                                  subcategory._id
+                                  subcategory._id,
                                 )}
                                 onCheckedChange={(checked) =>
                                   handleSubcategoryChange(
                                     category._id,
                                     subcategory._id,
-                                    checked === true
+                                    checked === true,
                                   )
                                 }
                               />
                               <Label
                                 htmlFor={`sidebar-subcategory-${subcategory._id}`}
-                                className="shrink-0 text-sm font-medium cursor-pointer"
+                                className="shrink-0 cursor-pointer text-sm font-medium"
                               >
                                 {subcategory.name}
                               </Label>
@@ -262,11 +264,11 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
 
         {/* Cijena */}
         <AccordionItem value="price">
-          <AccordionTrigger className="text-lg font-semibold px-6 cursor-pointer">
+          <AccordionTrigger className="cursor-pointer px-6 text-lg font-semibold">
             Cijena
           </AccordionTrigger>
           <AccordionContent className="px-2">
-            <div className="bg-muted/20 p-4 rounded-md">
+            <div className="bg-muted/20 rounded-md p-4">
               <CostSlider />
             </div>
           </AccordionContent>

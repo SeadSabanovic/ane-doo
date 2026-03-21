@@ -25,14 +25,14 @@ interface CartStore {
     productId: string,
     size: string,
     color: string,
-    purchaseType: "retail" | "wholesale"
+    purchaseType: "retail" | "wholesale",
   ) => void;
   updateQuantity: (
     productId: string,
     size: string,
     color: string,
     purchaseType: "retail" | "wholesale",
-    quantity: number
+    quantity: number,
   ) => void;
   clearCart: () => void;
 
@@ -52,7 +52,7 @@ export const useCartStore = create<CartStore>()(
               i.productId === item.productId &&
               i.size === item.size &&
               i.color === item.color &&
-              i.purchaseType === item.purchaseType
+              i.purchaseType === item.purchaseType,
           );
 
           if (existingIndex !== -1) {
@@ -77,7 +77,7 @@ export const useCartStore = create<CartStore>()(
                 item.size === size &&
                 item.color === color &&
                 item.purchaseType === purchaseType
-              )
+              ),
           ),
         }));
       },
@@ -93,7 +93,7 @@ export const useCartStore = create<CartStore>()(
                     item.size === size &&
                     item.color === color &&
                     item.purchaseType === purchaseType
-                  )
+                  ),
               ),
             };
           }
@@ -105,7 +105,7 @@ export const useCartStore = create<CartStore>()(
               item.color === color &&
               item.purchaseType === purchaseType
                 ? { ...item, quantity }
-                : item
+                : item,
             ),
           };
         });
@@ -142,6 +142,6 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: "ane-doo-cart",
-    }
-  )
+    },
+  ),
 );

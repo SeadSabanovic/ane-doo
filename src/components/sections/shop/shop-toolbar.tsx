@@ -31,16 +31,16 @@ export default function ShopToolbar() {
 
   return (
     <Container className="pb-8">
-      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row lg:items-end lg:justify-end">
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-end lg:justify-end">
         {/* Search Bar */}
-        <div className="flex flex-col items-stretch gap-2 w-full flex-1 lg:max-w-sm! xl:max-w-lg!">
+        <div className="flex w-full flex-1 flex-col items-stretch gap-2 lg:max-w-sm! xl:max-w-lg!">
           <Label
             htmlFor="search-input"
-            className="text-sm font-medium whitespace-nowrap sr-only"
+            className="sr-only text-sm font-medium whitespace-nowrap"
           >
             Pretraga:
           </Label>
-          <InputGroup className="bg-background! rounded-full h-fit">
+          <InputGroup className="bg-background! h-fit rounded-full">
             <InputGroupInput
               id="search-input"
               name="search"
@@ -51,8 +51,8 @@ export default function ShopToolbar() {
               autoComplete="off"
               className="text-lg!"
             />
-            <InputGroupAddon className="pl-1 py-1">
-              <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground rounded-full">
+            <InputGroupAddon className="py-1 pl-1">
+              <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-full">
                 <Search />
               </div>
             </InputGroupAddon>
@@ -61,20 +61,20 @@ export default function ShopToolbar() {
 
         <div className="flex w-full flex-1 items-end gap-4 xl:max-w-sm">
           {/* Sort */}
-          <div className="flex flex-col items-stretch gap-2 flex-1">
+          <div className="flex flex-1 flex-col items-stretch gap-2">
             <Label
               htmlFor="sort-select"
-              className="text-sm font-medium whitespace-nowrap sr-only"
+              className="sr-only text-sm font-medium whitespace-nowrap"
             >
               Sortiraj:
             </Label>
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger
                 id="sort-select"
-                className="flex-1 bg-background! h-fit! p-1 pr-2 w-full cursor-pointer font-medium! rounded-full"
+                className="bg-background! h-fit! w-full flex-1 cursor-pointer rounded-full p-1 pr-2 font-medium!"
               >
                 <SelectValue className="h-fit">
-                  <div className="flex items-center justify-center size-10 bg-primary text-primary-foreground! rounded-full">
+                  <div className="bg-primary text-primary-foreground! flex size-10 items-center justify-center rounded-full">
                     <ArrowDown01
                       size={24}
                       className="text-primary-foreground"
@@ -86,7 +86,7 @@ export default function ShopToolbar() {
               <SelectContent>
                 {sortOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
-                    <div className="flex items-center justify-between w-full font-medium">
+                    <div className="flex w-full items-center justify-between font-medium">
                       <span>{option.label}</span>
                     </div>
                   </SelectItem>

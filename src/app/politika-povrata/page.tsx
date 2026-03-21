@@ -21,8 +21,8 @@ export default function PolitikaPovrataPage() {
           { label: "Politika povrata", href: "/politika-povrata" },
         ]}
       />
-      <Container className="pb-20 max-w-3xl">
-        <article className="mx-auto text-foreground">
+      <Container className="max-w-3xl pb-20">
+        <article className="text-foreground mx-auto">
           <p>
             U firmi <strong>ANE d.o.o.</strong> Sarajevo, zadovoljstvo naših
             kupaca je prioritet. Ukoliko iz bilo kojeg razloga niste zadovoljni
@@ -31,14 +31,14 @@ export default function PolitikaPovrataPage() {
           </p>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               1. Pravo na povrat (Odustajanje od kupovine)
             </h2>
             <p>
               Kupac ima pravo da odustane od kupovine u roku od 15 dana od dana
               preuzimanja pošiljke, bez navođenja posebnog razloga.
             </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>
                 <strong>Uslov za povrat:</strong> Artikli moraju biti u
                 originalnom stanju — nenošeni, neoprani, neoštećeni i sa svim
@@ -52,14 +52,14 @@ export default function PolitikaPovrataPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               2. Postupak povrata novca
             </h2>
             <p>
               Budući da se plaćanje vrši isključivo gotovinom (pouzećem) ili
               žiralno, povrat sredstava vršimo na sljedeći način:
             </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>
                 <strong>Transakcijski račun:</strong> Povrat novca vrši se
                 isključivo uplatom na vaš bankovni račun (tekući ili žiro
@@ -74,18 +74,18 @@ export default function PolitikaPovrataPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               3. Reklamacije na oštećenja
             </h2>
             <p>
               Iako detaljno provjeravamo svaki artikal prije slanja, molimo vas
               da pošiljku pregledate odmah po preuzimanju.
             </p>
-            <ul className="list-disc pl-6 space-y-1 mt-3">
+            <ul className="mt-3 list-disc space-y-1 pl-6">
               <li>
                 <strong>Oštećenja u transportu:</strong> Ukoliko primijetite da
-                je paket fizički oštećen ili otvoren prilikom dostave, savjetujemo
-                da odbijete prijem i odmah nas kontaktirate.
+                je paket fizički oštećen ili otvoren prilikom dostave,
+                savjetujemo da odbijete prijem i odmah nas kontaktirate.
               </li>
               <li>
                 <strong>Skriveni nedostaci:</strong> Ukoliko nakon otvaranja
@@ -97,10 +97,10 @@ export default function PolitikaPovrataPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               4. Troškovi dostave prilikom povrata
             </h2>
-            <ul className="list-disc pl-6 space-y-1">
+            <ul className="list-disc space-y-1 pl-6">
               <li>
                 <strong>Redovan povrat:</strong> U slučaju da kupac odustane od
                 kupovine jer mu artikal ne odgovara (npr. pogrešna veličina),
@@ -115,14 +115,14 @@ export default function PolitikaPovrataPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold mt-8 mb-3">
+            <h2 className="mt-8 mb-3 text-xl font-semibold">
               5. Kako izvršiti povrat?
             </h2>
             <p>
               Prije nego što pošaljete paket nazad, obavezno nas kontaktirajte
               putem:
             </p>
-            <ul className="list-none pl-0 space-y-2 mt-3">
+            <ul className="mt-3 list-none space-y-2 pl-0">
               <li>
                 <strong>Email:</strong>{" "}
                 <a
@@ -149,10 +149,8 @@ export default function PolitikaPovrataPage() {
           </section>
         </article>
 
-        <Link href="/" className="mt-12 text-center block">
-          <InteractiveHoverButton>
-            Nazad na Početnu
-          </InteractiveHoverButton>
+        <Link href="/" className="mt-12 block text-center">
+          <InteractiveHoverButton>Nazad na Početnu</InteractiveHoverButton>
         </Link>
       </Container>
     </>

@@ -26,8 +26,8 @@ export default function CartItemComponent({ item }: CartItemProps) {
 
   const totalPrice = isWholesale
     ? item.quantity *
-    item.pricing.wholesaleMinQuantity *
-    item.pricing.wholesalePrice
+      item.pricing.wholesaleMinQuantity *
+      item.pricing.wholesalePrice
     : item.pricing.retailPrice * item.quantity;
 
   const handleQuantityChange = (newQuantity: number) => {
@@ -36,7 +36,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
       item.size,
       item.color,
       item.purchaseType,
-      newQuantity
+      newQuantity,
     );
   };
 
@@ -53,16 +53,16 @@ export default function CartItemComponent({ item }: CartItemProps) {
             alt={item.name}
             width={128}
             height={128}
-            className="size-24 object-cover rounded-md md:size-32"
+            className="size-24 rounded-md object-cover md:size-32"
           />
         </Link>
 
         {/* Details */}
-        <div className="flex-1 flex flex-col gap-3">
-          <h4 className="font-medium pt-2 px-2">{item.name}</h4>
+        <div className="flex flex-1 flex-col gap-3">
+          <h4 className="px-2 pt-2 font-medium">{item.name}</h4>
 
           {/* Details - Size and Color */}
-          <div className="flex gap-1 flex-wrap px-2">
+          <div className="flex flex-wrap gap-1 px-2">
             <Badge variant="outline">Veličina: {item.size}</Badge>
             <Badge variant="outline">Boja: {item.color}</Badge>
             {isWholesale && (
@@ -78,10 +78,11 @@ export default function CartItemComponent({ item }: CartItemProps) {
       </div>
 
       {/* Price and Quantity */}
-      <div className={cn("flex flex-col gap-3 p-2 pb-0 rounded-md w-full")}>
+      <div className={cn("flex w-full flex-col gap-3 rounded-md p-2 pb-0")}>
         <div className="flex flex-col gap-1">
-          <span className="font-medium text-right">
-            {formatPrice(unitPrice)}{isWholesale ? " / kom" : ""}
+          <span className="text-right font-medium">
+            {formatPrice(unitPrice)}
+            {isWholesale ? " / kom" : ""}
           </span>
         </div>
         <div className="flex items-end gap-2">
@@ -97,7 +98,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
             Ukloni
           </Button>
         </div>
-        <span className="text-sm text-foreground/80 text-right">
+        <span className="text-foreground/80 text-right text-sm">
           = {formatPrice(totalPrice)}
         </span>
       </div>

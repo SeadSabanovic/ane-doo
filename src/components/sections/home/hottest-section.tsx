@@ -74,18 +74,20 @@ export default function HottestSection() {
   return (
     <section className="py-20">
       <Container>
-        <SectionBadge className="mx-auto md:mx-0 justify-center md:justify-start">Najtraženije</SectionBadge>
-        <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
+        <SectionBadge className="mx-auto justify-center md:mx-0 md:justify-start">
+          Najtraženije
+        </SectionBadge>
+        <h2 className="mt-4 text-center text-3xl font-bold md:text-left lg:text-4xl">
           Najbolje iz ponude
         </h2>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+        <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
-        <Link href="/shop" className="mt-10 mx-auto block w-fit">
+        <Link href="/shop" className="mx-auto mt-10 block w-fit">
           <InteractiveHoverButton
             className="w-fit text-center lg:text-left"
             variant="light"

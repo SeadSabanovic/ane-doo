@@ -7,7 +7,5 @@ import {
 } from "@/components/ui/globe";
 
 export default function AboutGlobeEmbed() {
-  return (
-    <World globeConfig={defaultGlobeConfig} data={defaultGlobeArcs} />
-  );
+  return <World globeConfig={defaultGlobeConfig} data={defaultGlobeArcs} />;
 }

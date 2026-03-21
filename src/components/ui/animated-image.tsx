@@ -40,7 +40,7 @@ export default function AnimatedImage({
       className={cn(
         "transition-opacity duration-300",
         isLoaded ? "opacity-100" : "opacity-0",
-        className
+        className,
       )}
       priority={priority}
       fetchPriority={fetchPriority}

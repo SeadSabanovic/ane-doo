@@ -14,22 +14,25 @@ const heroData = {
 
 export default function HeroCarousel() {
   return (
-    <section className="overflow-hidden h-full min-h-[calc(85svh-var(--nav-height))] lg:min-h-[calc(75svh-var(--nav-height))] flex flex-col items-center justify-center relative sm:py-4">
-      <Container className="flex flex-1 flex-col justify-end gap-6 h-full w-full z-30 relative sm:rounded-lg overflow-hidden">
-        <div className="flex flex-col justify-between lg:justify-center items-center lg:items-start p-6 pt-4 lg:pt-6 py-12 h-fit lg:rounded-tr-lg pb-[10svh] z-30">
-          <div className="flex flex-col gap-2 items-center w-full">
+    <section className="relative flex h-full min-h-[calc(85svh-var(--nav-height))] flex-col items-center justify-center overflow-hidden sm:py-4 lg:min-h-[calc(75svh-var(--nav-height))]">
+      <Container className="relative z-30 flex h-full w-full flex-1 flex-col justify-end gap-6 overflow-hidden sm:rounded-lg">
+        <div className="z-30 flex h-fit flex-col items-center justify-between p-6 py-12 pt-4 pb-[10svh] lg:items-start lg:justify-center lg:rounded-tr-lg lg:pt-6">
+          <div className="flex w-full flex-col items-center gap-2">
             <AneDooIcon className="size-12" animated />
-            <h1 className="text-lg font-bold text-center text-background text-shadow-sm">
+            <h1 className="text-background text-center text-lg font-bold text-shadow-sm">
               ANE d.o.o. Sarajevo
             </h1>
-            <h2 className="text-5xl font-bold lg:text-6xl text-background text-shadow-sm text-center">
+            <h2 className="text-background text-center text-5xl font-bold text-shadow-sm lg:text-6xl">
               {heroData.title}
             </h2>
-            <p className="mt-4 text-center text-lg md:text-2xl text-shadow-sm text-background max-w-2xl">
+            <p className="text-background mt-4 max-w-2xl text-center text-lg text-shadow-sm md:text-2xl">
               {heroData.description}
             </p>
             <Link href={heroData.ctaHref}>
-              <InteractiveHoverButton className="mt-8 w-fit text-center" variant="light">
+              <InteractiveHoverButton
+                className="mt-8 w-fit text-center"
+                variant="light"
+              >
                 Shop
               </InteractiveHoverButton>
             </Link>
@@ -40,11 +43,11 @@ export default function HeroCarousel() {
           alt={heroData.title}
           width={1600}
           height={900}
-          className="object-cover absolute top-0 left-0 w-full h-full z-10"
+          className="absolute top-0 left-0 z-10 h-full w-full object-cover"
           priority
           fetchPriority="high"
         />
-        <div className="absolute bottom-0 left-0 w-full h-full z-20 bg-linear-to-t from-primary/40 to-primary/0" />
+        <div className="from-primary/40 to-primary/0 absolute bottom-0 left-0 z-20 h-full w-full bg-linear-to-t" />
       </Container>
     </section>
   );

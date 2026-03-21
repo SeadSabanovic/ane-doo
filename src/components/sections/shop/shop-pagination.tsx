@@ -16,10 +16,7 @@ interface ShopPaginationProps {
 
 const WINDOW_SIZE = 1;
 
-function buildPageHref(
-  page: number,
-  baseSearchParams: URLSearchParams
-) {
+function buildPageHref(page: number, baseSearchParams: URLSearchParams) {
   const params = new URLSearchParams(baseSearchParams.toString());
 
   if (page <= 1) {
@@ -76,7 +73,11 @@ export default function ShopPagination({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={hasPrevious ? buildPageHref(currentPage - 1, baseSearchParams) : "#"}
+            href={
+              hasPrevious
+                ? buildPageHref(currentPage - 1, baseSearchParams)
+                : "#"
+            }
             aria-disabled={!hasPrevious}
             className={!hasPrevious ? "pointer-events-none opacity-50" : ""}
           />
@@ -96,12 +97,14 @@ export default function ShopPagination({
             <PaginationItem key={`${page}-${index}`}>
               <PaginationEllipsis />
             </PaginationItem>
-          )
+          ),
         )}
 
         <PaginationItem>
           <PaginationNext
-            href={hasNext ? buildPageHref(currentPage + 1, baseSearchParams) : "#"}
+            href={
+              hasNext ? buildPageHref(currentPage + 1, baseSearchParams) : "#"
+            }
             aria-disabled={!hasNext}
             className={!hasNext ? "pointer-events-none opacity-50" : ""}
           />

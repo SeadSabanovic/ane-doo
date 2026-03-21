@@ -39,9 +39,9 @@ function ListItem({
       <NavigationMenuLink asChild decoration={false} isActive={isActive}>
         <Link
           href={href}
-          className="flex flex-col gap-1 rounded-md px-3 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+          className="hover:bg-accent hover:text-accent-foreground flex flex-col gap-1 rounded-md px-3 py-2 transition-colors"
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="text-sm leading-none font-medium">{title}</div>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
             {children}
           </p>
@@ -60,7 +60,7 @@ export default function DesktopMenu() {
       .join(",")
       .split(",")
       .map((value) => value.trim())
-      .filter(Boolean)
+      .filter(Boolean),
   );
 
   const getCategorySlugFromPath = (path: string) => path.split("/").pop() ?? "";
@@ -68,7 +68,7 @@ export default function DesktopMenu() {
     `/shop?kategorija=${encodeURIComponent(slug)}`;
 
   return (
-    <div className="lg:block hidden">
+    <div className="hidden lg:block">
       <NavigationMenu className="hidden lg:block">
         <NavigationMenuList className="">
           {menuData.map((item) => {
@@ -76,7 +76,7 @@ export default function DesktopMenu() {
               item.path === "/"
                 ? pathname === "/"
                 : pathname === item.path ||
-                pathname.startsWith(item.path + "/");
+                  pathname.startsWith(item.path + "/");
 
             // Use DropdownMenu for "Kategorije" item with subcategories
             if (item.id === 3 && item.title === "Kategorije") {
@@ -87,7 +87,7 @@ export default function DesktopMenu() {
                       <button
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "group relative cursor-pointer focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                          "group relative cursor-pointer focus:outline-none focus-visible:ring-0 focus-visible:outline-none",
                         )}
                       >
                         {item.title}{" "}
@@ -100,7 +100,7 @@ export default function DesktopMenu() {
                     <DropdownMenuContent className="w-[280px]">
                       {categoryData.map((category) => {
                         const categorySlug = getCategorySlugFromPath(
-                          category.path
+                          category.path,
                         );
                         const categoryIsActive =
                           pathname === "/shop" &&
@@ -111,12 +111,12 @@ export default function DesktopMenu() {
                               <Link
                                 href={getShopFilterHref(categorySlug)}
                                 className={cn(
-                                  "flex items-center gap-2 focus:outline-none focus-visible:outline-none focus-visible:ring-0",
-                                  categoryIsActive && "bg-accent"
+                                  "flex items-center gap-2 focus:outline-none focus-visible:ring-0 focus-visible:outline-none",
+                                  categoryIsActive && "bg-accent",
                                 )}
                               >
                                 {category.title}
-                                <ChevronRight className="ml-auto size-4 group-hover:translate-x-1 transition-transform duration-200" />
+                                <ChevronRight className="ml-auto size-4 transition-transform duration-200 group-hover:translate-x-1" />
                               </Link>
                             </DropdownMenuSubTrigger>
                             {category.subcategories &&
@@ -124,13 +124,11 @@ export default function DesktopMenu() {
                                 <DropdownMenuSubContent className="w-[280px]">
                                   {category.subcategories.map((subcategory) => {
                                     const subcategorySlug =
-                                      getCategorySlugFromPath(
-                                        subcategory.path
-                                      );
+                                      getCategorySlugFromPath(subcategory.path);
                                     const subIsActive =
                                       pathname === "/shop" &&
                                       selectedCategorySlugs.has(
-                                        subcategorySlug
+                                        subcategorySlug,
                                       );
                                     return (
                                       <DropdownMenuItem
@@ -142,7 +140,7 @@ export default function DesktopMenu() {
                                       >
                                         <Link
                                           href={getShopFilterHref(
-                                            subcategorySlug
+                                            subcategorySlug,
                                           )}
                                           className="flex items-center gap-2"
                                         >
@@ -167,7 +165,7 @@ export default function DesktopMenu() {
               <NavigationMenuItem key={item.id}>
                 {item.submenu ? (
                   <>
-                    <NavigationMenuTrigger className="focus:outline-none focus-visible:outline-none focus-visible:ring-0">
+                    <NavigationMenuTrigger className="focus:outline-none focus-visible:ring-0 focus-visible:outline-none">
                       {item.title}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -177,7 +175,7 @@ export default function DesktopMenu() {
                             subItem.path === "/"
                               ? pathname === "/"
                               : pathname === subItem.path ||
-                              pathname.startsWith(subItem.path + "/");
+                                pathname.startsWith(subItem.path + "/");
                           return (
                             <ListItem
                               key={subItem.id}
@@ -195,7 +193,7 @@ export default function DesktopMenu() {
                     asChild
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                      "focus:outline-none focus-visible:ring-0 focus-visible:outline-none",
                     )}
                     isActive={isActive}
                   >

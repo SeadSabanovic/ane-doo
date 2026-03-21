@@ -14,7 +14,8 @@ function getOptionValue(option) {
 export function SelectAllArrayInput(props) {
   const options = props.schemaType?.options?.list ?? [];
   const optionValues = options.map(getOptionValue).filter(Boolean);
-  const hasSelectedValues = Array.isArray(props.value) && props.value.length > 0;
+  const hasSelectedValues =
+    Array.isArray(props.value) && props.value.length > 0;
 
   const handleSelectAll = () => {
     props.onChange(optionValues.length > 0 ? set(optionValues) : unset());

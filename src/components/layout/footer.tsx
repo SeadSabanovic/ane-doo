@@ -15,14 +15,14 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-linear-to-r from-primary to-card-foreground text-secondary-foreground lg:max-w-[calc(100%-4rem)] lg:mx-auto lg:mb-8 lg:rounded-lg lg:overflow-hidden w-full">
+    <footer className="from-primary to-card-foreground text-secondary-foreground relative w-full bg-linear-to-r lg:mx-auto lg:mb-8 lg:max-w-[calc(100%-4rem)] lg:overflow-hidden lg:rounded-lg">
       <div className="relative overflow-hidden">
         <Container className="relative z-20">
           {/* <!-- footer menu start --> */}
-          <div className="flex flex-wrap flex-col md:flex-row xl:flex-nowrap gap-10 xl:gap-19 xl:justify-between py-12 xl:py-24">
-            <div className="shrink-0 max-w-sm">
+          <div className="flex flex-col flex-wrap gap-10 py-12 md:flex-row xl:flex-nowrap xl:justify-between xl:gap-19 xl:py-24">
+            <div className="max-w-sm shrink-0">
               <Link
-                className="shrink-0 text-2xl font-bold text-primary-foreground inline-flex items-center gap-2"
+                className="text-primary-foreground inline-flex shrink-0 items-center gap-2 text-2xl font-bold"
                 href="/"
               >
                 <Image
@@ -33,23 +33,23 @@ const Footer = () => {
                   priority
                   className="size-10"
                 />
-                <span className="text-2xl font-bold font-heading">ANE d.o.o.</span>
+                <span className="font-heading text-2xl font-bold">
+                  ANE d.o.o.
+                </span>
               </Link>
               <p className="text-primary-foreground/80">
                 Pouzdan veleprodajni partner
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full lg:w-auto lg:gap-16">
-
-
+            <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:w-auto lg:grid-cols-3 lg:gap-16">
               {/* Navigacija */}
               <div>
-                <h2 className="mb-4 text-accent font-medium text-xl">
+                <h2 className="text-accent mb-4 text-xl font-medium">
                   Navigacija
                 </h2>
 
-                <ul className="flex flex-col gap-2 text-primary-foreground">
+                <ul className="text-primary-foreground flex flex-col gap-2">
                   <li>
                     <Link className={footerLinkClass} href="/">
                       Početna
@@ -85,13 +85,16 @@ const Footer = () => {
 
               {/* Pravne informacije */}
               <div>
-                <h2 className="mb-4 text-accent font-medium text-xl">
+                <h2 className="text-accent mb-4 text-xl font-medium">
                   Pravne informacije
                 </h2>
 
-                <ul className="flex flex-col gap-2 text-primary-foreground">
+                <ul className="text-primary-foreground flex flex-col gap-2">
                   <li>
-                    <Link className={footerLinkClass} href="/politika-privatnosti">
+                    <Link
+                      className={footerLinkClass}
+                      href="/politika-privatnosti"
+                    >
                       Politika privatnosti
                     </Link>
                   </li>
@@ -110,11 +113,11 @@ const Footer = () => {
 
               {/* Informacije i podrška */}
               <div>
-                <h2 className="mb-4 text-accent font-medium text-xl">
+                <h2 className="text-accent mb-4 text-xl font-medium">
                   Informacije i podrška
                 </h2>
 
-                <ul className="flex flex-col gap-2 text-primary-foreground">
+                <ul className="text-primary-foreground flex flex-col gap-2">
                   <li>
                     <a
                       href="mailto:info@ane-doo.com"
@@ -149,21 +152,22 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-
           </div>
         </Container>
         <FooterLines />
       </div>
 
-
-      <div className="py-5 xl:py-7.5 bg-primary text-primary-foreground font-medium z-10">
-        <Container className="flex items-center justify-between flex-col md:flex-row gap-4">
-          <p>&copy; 2014 - {year} ANE d.o.o. Sva prava zadržana.  ID: 4201939560009</p>
+      <div className="bg-primary text-primary-foreground z-10 py-5 font-medium xl:py-7.5">
+        <Container className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <p>
+            &copy; 2014 - {year} ANE d.o.o. Sva prava zadržana. ID:
+            4201939560009
+          </p>
 
           <div className="flex items-center gap-6">
             {SOCIALS.map((social) => (
               <Link key={social.name} href={social.url} target="_blank">
-                <div className="size-5 rounded-full flex items-center justify-center text-primary-foreground hover:scale-110 transition-all duration-200">
+                <div className="text-primary-foreground flex size-5 items-center justify-center rounded-full transition-all duration-200 hover:scale-110">
                   {social.icon}
                 </div>
               </Link>

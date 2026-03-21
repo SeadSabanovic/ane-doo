@@ -96,7 +96,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground min-h-screen flex flex-col font-sans;
+    @apply bg-background text-foreground flex min-h-screen flex-col font-sans;
   }
   h1,
   h2,

@@ -48,7 +48,7 @@ const contactFormSchema = z.object({
     .min(1, "Molimo odaberite predmet")
     .refine(
       (value) => subjectOptions.some((option) => option.value === value),
-      "Molimo odaberite predmet"
+      "Molimo odaberite predmet",
     ),
   message: z.string().trim().min(1, "Poruka je obavezna"),
   website: z.string().trim(),
@@ -136,25 +136,25 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="border rounded-2xl mx-auto w-full overflow-hidden lg:grid lg:grid-cols-2">
-      <div className="p-6 relative aspect-video lg:aspect-auto lg:min-h-full">
+    <section className="mx-auto w-full overflow-hidden rounded-2xl border lg:grid lg:grid-cols-2">
+      <div className="relative aspect-video p-6 lg:aspect-auto lg:min-h-full">
         <AnimatedImage
           src="https://images.pexels.com/photos/10558185/pexels-photo-10558185.jpeg?_gl=1*10zj0ze*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjQ3NTg3MjIkbzIkZzEkdDE3NjQ3NjAxMzEkajMzJGwwJGgw"
           alt="Kontakt forma"
           width={1240}
           height={700}
-          className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+          className="absolute top-0 left-0 -z-10 h-full w-full object-cover"
           loading="eager"
         />
       </div>
 
       <div className="p-6">
         {isSubmittedSuccessfully ? (
-          <div className="h-full flex flex-col justify-center">
-            <h2 className="text-2xl md:text-3xl font-semibold">
+          <div className="flex h-full flex-col justify-center">
+            <h2 className="text-2xl font-semibold md:text-3xl">
               Poruka je uspješno poslana
             </h2>
-            <p className="mt-3 text-muted-foreground max-w-2xl">
+            <p className="text-muted-foreground mt-3 max-w-2xl">
               Hvala vam na upitu. Naš tim će vas kontaktirati u najkraćem roku.
             </p>
             <InteractiveHoverButton
@@ -169,11 +169,16 @@ export default function ContactForm() {
             </InteractiveHoverButton>
           </div>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="space-y-6"
+          >
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold">Kontakt forma</h2>
-              <p className="mt-4 text-muted-foreground">
-                Ispunite kontakt formu ispod i odgovoriti ćemo na vaš upit u najkraćem mogućem roku. Izgradimo uspješno partnerstvo zajedno.
+              <h2 className="text-3xl font-bold lg:text-4xl">Kontakt forma</h2>
+              <p className="text-muted-foreground mt-4">
+                Ispunite kontakt formu ispod i odgovoriti ćemo na vaš upit u
+                najkraćem mogućem roku. Izgradimo uspješno partnerstvo zajedno.
               </p>
             </div>
 
@@ -195,7 +200,7 @@ export default function ContactForm() {
                 <div className="flex flex-1 flex-col gap-1.5">
                   <label
                     htmlFor="firstName"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Ime <span className="text-destructive">*</span>
                   </label>
@@ -211,7 +216,10 @@ export default function ContactForm() {
                     className={cn(errors.firstName && "border-destructive")}
                   />
                   {errors.firstName && (
-                    <p id="firstName-error" className="text-sm text-destructive">
+                    <p
+                      id="firstName-error"
+                      className="text-destructive text-sm"
+                    >
                       {errors.firstName.message}
                     </p>
                   )}
@@ -219,7 +227,7 @@ export default function ContactForm() {
                 <div className="flex flex-1 flex-col gap-1.5">
                   <label
                     htmlFor="lastName"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Prezime <span className="text-destructive">*</span>
                   </label>
@@ -235,7 +243,7 @@ export default function ContactForm() {
                     className={cn(errors.lastName && "border-destructive")}
                   />
                   {errors.lastName && (
-                    <p id="lastName-error" className="text-sm text-destructive">
+                    <p id="lastName-error" className="text-destructive text-sm">
                       {errors.lastName.message}
                     </p>
                   )}
@@ -249,7 +257,7 @@ export default function ContactForm() {
                 <div className="flex flex-1 flex-col gap-1.5">
                   <label
                     htmlFor="email"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Email <span className="text-destructive">*</span>
                   </label>
@@ -265,7 +273,7 @@ export default function ContactForm() {
                     className={cn(errors.email && "border-destructive")}
                   />
                   {errors.email && (
-                    <p id="email-error" className="text-sm text-destructive">
+                    <p id="email-error" className="text-destructive text-sm">
                       {errors.email.message}
                     </p>
                   )}
@@ -273,7 +281,7 @@ export default function ContactForm() {
                 <div className="flex flex-1 flex-col gap-1.5">
                   <label
                     htmlFor="phone"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Kontakt telefon <span className="text-destructive">*</span>
                   </label>
@@ -292,7 +300,9 @@ export default function ContactForm() {
                             countryCodeValue={phoneCodeField.value}
                             onCountryCodeChange={phoneCodeField.onChange}
                             hasError={!!errors.phone}
-                            describedBy={errors.phone ? "phone-error" : undefined}
+                            describedBy={
+                              errors.phone ? "phone-error" : undefined
+                            }
                             placeholder="123-456"
                           />
                         )}
@@ -300,7 +310,7 @@ export default function ContactForm() {
                     )}
                   />
                   {errors.phone && (
-                    <p id="phone-error" className="text-sm text-destructive">
+                    <p id="phone-error" className="text-destructive text-sm">
                       {errors.phone.message}
                     </p>
                   )}
@@ -314,7 +324,7 @@ export default function ContactForm() {
                 <div className="flex flex-1 flex-col gap-1.5">
                   <label
                     htmlFor="company"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Firma
                   </label>
@@ -328,7 +338,7 @@ export default function ContactForm() {
                 <div className="flex flex-1 flex-col gap-1.5">
                   <label
                     htmlFor="subject"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Predmet <span className="text-destructive">*</span>
                   </label>
@@ -336,7 +346,10 @@ export default function ContactForm() {
                     name="subject"
                     control={control}
                     render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
                         <SelectTrigger
                           id="subject"
                           aria-invalid={!!errors.subject}
@@ -345,7 +358,7 @@ export default function ContactForm() {
                           }
                           className={cn(
                             "w-full justify-between",
-                            errors.subject && "border-destructive"
+                            errors.subject && "border-destructive",
                           )}
                         >
                           <SelectValue placeholder="Odaberite predmet" />
@@ -361,7 +374,7 @@ export default function ContactForm() {
                     )}
                   />
                   {errors.subject && (
-                    <p id="subject-error" className="text-sm text-destructive">
+                    <p id="subject-error" className="text-destructive text-sm">
                       {errors.subject.message}
                     </p>
                   )}
@@ -373,7 +386,7 @@ export default function ContactForm() {
             <div className="space-y-2">
               <label
                 htmlFor="message"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Poruka <span className="text-destructive">*</span>
               </label>
@@ -386,11 +399,11 @@ export default function ContactForm() {
                 aria-describedby={errors.message ? "message-error" : undefined}
                 className={cn(
                   errors.message && "border-destructive",
-                  "min-h-36 max-h-36 resize-none"
+                  "max-h-36 min-h-36 resize-none",
                 )}
               />
               {errors.message && (
-                <p id="message-error" className="text-sm text-destructive">
+                <p id="message-error" className="text-destructive text-sm">
                   {errors.message.message}
                 </p>
               )}
@@ -400,13 +413,13 @@ export default function ContactForm() {
             <InteractiveHoverButton
               type="submit"
               disabled={isSubmitting}
-              className="disabled:opacity-60 ml-auto"
+              className="ml-auto disabled:opacity-60"
             >
               {isSubmitting ? "Šalje se..." : "Pošalji"}
             </InteractiveHoverButton>
 
             {submitError && (
-              <p className="text-sm text-destructive" role="alert">
+              <p className="text-destructive text-sm" role="alert">
                 {submitError}
               </p>
             )}

@@ -8,20 +8,17 @@ const testimonials = [
   {
     id: "testimonial-1",
     name: "Samir Hanusic",
-    content:
-      "Rade k’o singerica",
+    content: "Rade k’o singerica",
   },
   {
     id: "testimonial-2",
     name: "BAYA GmbH",
-    content:
-      "Odlična ekipa! Sve pohvale!",
+    content: "Odlična ekipa! Sve pohvale!",
   },
   {
     id: "testimonial-3",
     name: "Kemal Softic",
-    content:
-      "Odlična usluga, divno osoblje! Sve preporuke!",
+    content: "Odlična usluga, divno osoblje! Sve preporuke!",
   },
   {
     id: "testimonial-4",
@@ -31,8 +28,7 @@ const testimonials = [
   {
     id: "testimonial-5",
     name: "Ozkayam Murat",
-    content:
-      "Pristupačna destinacija za kupovinu tekstila iz Turske.",
+    content: "Pristupačna destinacija za kupovinu tekstila iz Turske.",
   },
   {
     id: "testimonial-6",
@@ -61,18 +57,18 @@ const ReviewCard = ({ name, content }: { name: string; content: string }) => {
   return (
     <figure
       className={cn(
-        "relative h-full w-64 cursor-pointer overflow-hidden rounded-md p-4 transition"
+        "relative h-full w-64 cursor-pointer overflow-hidden rounded-md p-4 transition",
       )}
     >
-      <Quote className="absolute top-2 right-2 size-8 text-primary/10 z-10" />
-      <div className="flex flex-row items-center gap-2 mb-3 relative z-20">
+      <Quote className="text-primary/10 absolute top-2 right-2 z-10 size-8" />
+      <div className="relative z-20 mb-3 flex flex-row items-center gap-2">
         <div className="flex flex-col">
-          <figcaption className="text-sm font-medium text-secondary-foreground">
+          <figcaption className="text-secondary-foreground text-sm font-medium">
             {name}
           </figcaption>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm text-muted-foreground italic">
+      <blockquote className="text-muted-foreground mt-2 text-sm italic">
         &quot;{content}&quot;
       </blockquote>
     </figure>
@@ -84,8 +80,10 @@ export default function Testimonials() {
     <section className="py-20">
       <Container>
         <div className="mb-8">
-          <SectionBadge className="mx-auto md:mx-0 justify-center md:justify-start">Povjerenje</SectionBadge>
-          <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
+          <SectionBadge className="mx-auto justify-center md:mx-0 md:justify-start">
+            Povjerenje
+          </SectionBadge>
+          <h2 className="mt-4 text-center text-3xl font-bold md:text-left lg:text-4xl">
             Naši klijenti kažu...
           </h2>
         </div>
@@ -101,8 +99,8 @@ export default function Testimonials() {
             <ReviewCard key={testimonial.id} {...testimonial} />
           ))}
         </Marquee>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background"></div>
+        <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r"></div>
+        <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l"></div>
       </div>
     </section>
   );

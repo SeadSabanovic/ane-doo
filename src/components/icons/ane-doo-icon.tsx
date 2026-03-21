@@ -32,7 +32,10 @@ type AneDooIconProps = SVGProps<SVGSVGElement> & {
   animated?: boolean;
 };
 
-export default function AneDooIcon({ animated = false, ...props }: AneDooIconProps) {
+export default function AneDooIcon({
+  animated = false,
+  ...props
+}: AneDooIconProps) {
   const baseSvgProps = {
     width: 76,
     height: 35,

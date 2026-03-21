@@ -39,8 +39,7 @@ const categories = [
   {
     id: "carape",
     name: "Čarape",
-    image:
-      "/images/categories/ane-doo-carape.jpg",
+    image: "/images/categories/ane-doo-carape.jpg",
     link: "/shop?kategorija=carape",
     alt: "Kategorija čarape - ANE d.o.o.",
   },
@@ -68,8 +67,7 @@ const categories = [
   {
     id: "papuce",
     name: "Papuče",
-    image:
-      "/images/categories/ane-doo-papuce.jpg",
+    image: "/images/categories/ane-doo-papuce.jpg",
     link: "/shop?kategorija=papuce",
     alt: "Kategorija papuče - ANE d.o.o.",
   },
@@ -87,7 +85,11 @@ export default function CategoriesSection() {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
   const plugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: false })
+    Autoplay({
+      delay: 5000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+    }),
   );
 
   useEffect(() => {
@@ -115,15 +117,15 @@ export default function CategoriesSection() {
     <section className="py-20">
       <Container>
         <div className="relative">
-          <SectionBadge className="mx-auto md:mx-0 justify-center md:justify-start">
+          <SectionBadge className="mx-auto justify-center md:mx-0 md:justify-start">
             Kategorije
           </SectionBadge>
-          <h2 className="text-3xl lg:text-4xl font-bold mt-4 text-center md:text-left">
+          <h2 className="mt-4 text-center text-3xl font-bold md:text-left lg:text-4xl">
             Za svakoga po nešto
           </h2>
 
           {/* Navigation buttons */}
-          <div className="items-center gap-2 absolute top-0 right-0 hidden md:flex">
+          <div className="absolute top-0 right-0 hidden items-center gap-2 md:flex">
             <Button
               variant="outline"
               size="icon"
@@ -152,7 +154,7 @@ export default function CategoriesSection() {
         </div>
       </Container>
 
-      <div className="mt-10 relative">
+      <div className="relative mt-10">
         <Carousel
           setApi={setApi}
           className="w-full"
@@ -168,26 +170,26 @@ export default function CategoriesSection() {
             {categories.map((category) => (
               <CarouselItem
                 key={category.id}
-                className="pl-2 md:pl-4 lg:basis-1/4 md:basis-1/3 basis-2/3 xl:basis-1/5 2xl:basis-1/6"
+                className="basis-2/3 pl-2 md:basis-1/3 md:pl-4 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
               >
                 <Link href={category.link} key={category.id}>
-                  <div className="group rounded-t-[50vw] rounded-bl-[8px] rounded-br-[50vw] bg-muted/20 relative aspect-3/4 cursor-pointer flex flex-col items-center justify-center overflow-hidden border">
+                  <div className="group bg-muted/20 relative flex aspect-3/4 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-t-[50vw] rounded-br-[50vw] rounded-bl-[8px] border">
                     <AnimatedImage
                       src={category.image}
                       alt={category.alt}
                       width={400}
                       height={400}
-                      className="object-cover group-hover:scale-105 transition-all duration-300 absolute top-0 left-0 w-full h-full"
+                      className="absolute top-0 left-0 h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-accent" />
+                    <div className="bg-accent absolute right-0 bottom-0 left-0 h-1" />
                   </div>
-                  <h3 className="text-xl font-medium mt-4">{category.name}</h3>
+                  <h3 className="mt-4 text-xl font-medium">{category.name}</h3>
                 </Link>
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
       </div>
-    </section >
+    </section>
   );
 }

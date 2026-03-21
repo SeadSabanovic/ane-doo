@@ -42,13 +42,13 @@ export function ProductOptions({
   const currentColor = selectedColor ?? internalColor;
 
   return (
-    <div className={cn("flex flex-col p-4 border rounded-md gap-4", className)}>
+    <div className={cn("flex flex-col gap-4 rounded-md border p-4", className)}>
       <Badge variant="outline" className="mb-4">
         Opcije
       </Badge>
 
       {/* Veličine */}
-      <div className="flex gap-4 items-start justify-between">
+      <div className="flex items-start justify-between gap-4">
         <h3 className="font-semibold">
           Veličina<sup className="text-destructive">*</sup>
         </h3>
@@ -61,7 +61,7 @@ export function ProductOptions({
               onClick={() => handleSizeClick(size)}
               className={cn(
                 currentSize === size &&
-                  "bg-primary text-primary-foreground hover:bg-primary/90"
+                  "bg-primary text-primary-foreground hover:bg-primary/90",
               )}
             >
               {size}
@@ -71,7 +71,7 @@ export function ProductOptions({
       </div>
 
       {/* Colors */}
-      <div className="flex gap-4 items-start justify-between">
+      <div className="flex items-start justify-between gap-4">
         <h3 className="font-semibold">
           Boja<sup className="text-destructive">*</sup>
         </h3>
@@ -84,14 +84,14 @@ export function ProductOptions({
                 key={colorName}
                 variant="outline"
                 className={cn(
-                  "size-10 rounded-full border ring-primary/20! relative",
-                  isSelected && "ring-2 ring-primary"
+                  "ring-primary/20! relative size-10 rounded-full border",
+                  isSelected && "ring-primary ring-2",
                 )}
                 onClick={() => handleColorClick(colorName)}
                 aria-label={`Odaberi boju ${colorName}`}
               >
                 <div
-                  className="p-2 border rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[80%]"
+                  className="absolute top-1/2 left-1/2 size-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full border p-2"
                   style={{
                     backgroundColor: color?.value || "#FFFFFF",
                   }}
@@ -104,4 +104,3 @@ export function ProductOptions({
     </div>
   );
 }
-

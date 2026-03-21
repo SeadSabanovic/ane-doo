@@ -12,19 +12,19 @@ interface Product {
 
 export default function SearchProduct({ product }: { product: Product }) {
   return (
-    <div className="flex items-start gap-3 rounded-md hover:bg-muted/10 transition-colors pr-3">
+    <div className="hover:bg-muted/10 flex items-start gap-3 rounded-md pr-3 transition-colors">
       <AnimatedImage
         src={product.image}
         alt={product.name}
-        className="aspect-square size-24 object-cover rounded-md"
+        className="aspect-square size-24 rounded-md object-cover"
       />
-      <div className="flex flex-col gap-1 py-2 flex-1">
-        <span className="font-medium text-xl">{product.name}</span>
+      <div className="flex flex-1 flex-col gap-1 py-2">
+        <span className="text-xl font-medium">{product.name}</span>
         <span className="text-sm">{formatPrice(product.price)}</span>
       </div>
 
-      <div className="p-2 bg-muted/20 rounded-md self-center hover:bg-muted/30 transition-colors">
-        <ArrowRight className="size-4 text-muted-foreground" />
+      <div className="bg-muted/20 hover:bg-muted/30 self-center rounded-md p-2 transition-colors">
+        <ArrowRight className="text-muted-foreground size-4" />
       </div>
     </div>
   );

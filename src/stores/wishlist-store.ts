@@ -27,7 +27,9 @@ export const useWishlistStore = create<WishlistStore>()(
 
       addItem: (item) => {
         set((state) => {
-          const exists = state.items.some((i) => i.productId === item.productId);
+          const exists = state.items.some(
+            (i) => i.productId === item.productId,
+          );
           if (exists) {
             return state;
           }
@@ -62,6 +64,6 @@ export const useWishlistStore = create<WishlistStore>()(
     }),
     {
       name: "ane-doo-wishlist",
-    }
-  )
+    },
+  ),
 );

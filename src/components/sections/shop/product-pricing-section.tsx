@@ -36,33 +36,35 @@ export function ProductPricingSection({
 
   return (
     <div className={cn("flex flex-col gap-4 p-4", className)}>
-      <div className="border flex items-start gap-4 rounded-md p-2 border-secondary bg-secondary-muted/50 text-secondary-foreground">
+      <div className="border-secondary bg-secondary-muted/50 text-secondary-foreground flex items-start gap-4 rounded-md border p-2">
         <Info className="shrink-0" />
         <p>{infoText}</p>
       </div>
 
       {pricingInfo.map((info, index) => (
-        <div key={index} className="flex gap-4 items-start justify-between">
+        <div key={index} className="flex items-start justify-between gap-4">
           <h3 className="font-semibold">{info.label}</h3>
           <p>{info.value}</p>
         </div>
       ))}
 
-      <div className="flex gap-4 items-start justify-between">
+      <div className="flex items-start justify-between gap-4">
         <h3 className="font-semibold">Cijena po komadu</h3>
-        <p className="text-primary font-semibold">{formatPrice(pricePerUnit)}</p>
+        <p className="text-primary font-semibold">
+          {formatPrice(pricePerUnit)}
+        </p>
       </div>
 
       <Separator />
 
-      <div className="flex flex-col gap-4 items-center justify-between lg:flex-row lg:items-end">
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-end">
         <InputWithPlusMinus
           value={quantity}
           onChange={setQuantity}
           minValue={1}
         />
         <Button
-          className="flex-1 w-full h-10 lg:min-w-[200px]"
+          className="h-10 w-full flex-1 lg:min-w-[200px]"
           onClick={handleAddToCart}
         >
           <ShoppingCart />

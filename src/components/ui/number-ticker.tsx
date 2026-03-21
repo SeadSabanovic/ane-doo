@@ -62,7 +62,7 @@ export function NumberTicker({
           ref.current.textContent = formatNumber(Number(latest), decimalPlaces);
         }
       }),
-    [springValue, decimalPlaces]
+    [springValue, decimalPlaces],
   );
 
   return (
@@ -73,8 +73,8 @@ export function NumberTicker({
         ref={ref}
         aria-hidden="true"
         className={cn(
-          "inline-block tracking-wider tabular-nums text-foreground",
-          className
+          "text-foreground inline-block tracking-wider tabular-nums",
+          className,
         )}
         {...props}
       >

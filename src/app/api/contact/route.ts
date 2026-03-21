@@ -17,16 +17,12 @@ const contactRequestSchema = z.object({
   phone: z
     .string()
     .trim()
-    .regex(
-      /^(?:\+387|\+381|\+385|\+382)\s\d{6,12}$/,
-      "Invalid phone format"
-    ),
+    .regex(/^(?:\+387|\+381|\+385|\+382)\s\d{6,12}$/, "Invalid phone format"),
   company: z.string().trim().optional().default(""),
   subject: z.enum(allowedSubjects),
   message: z.string().trim().min(1),
   website: z.string().trim().optional().default(""),
 });
-
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -36,7 +32,7 @@ export async function POST(request: Request) {
   if (!apiKey || !from || !to) {
     return NextResponse.json(
       { error: "Email service is not configured." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -46,7 +42,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       { error: "Invalid contact form data." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -55,7 +51,7 @@ export async function POST(request: Request) {
   if (!parsedBody.success) {
     return NextResponse.json(
       { error: "Invalid contact form data." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -66,12 +62,12 @@ export async function POST(request: Request) {
   }
 
   const hasValidPrefix = allowedPhoneCodes.some((code) =>
-    data.phone.startsWith(`${code} `)
+    data.phone.startsWith(`${code} `),
   );
   if (!hasValidPrefix) {
     return NextResponse.json(
       { error: "Invalid contact form data." },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -90,7 +86,10 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    return NextResponse.json({ error: "Failed to send email." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send email." },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ ok: true });

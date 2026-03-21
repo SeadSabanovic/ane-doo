@@ -13,16 +13,18 @@ export default function ContactInfo() {
   return (
     <section className="grid w-full grid-cols-1 items-stretch gap-8 lg:grid-cols-2">
       {/* Lijevo: kontakt info, jedna ispod druge */}
-      <div className="flex flex-col divide-y divide-border rounded-2xl border border-primary/10 p-6">
+      <div className="divide-border border-primary/10 flex flex-col divide-y rounded-2xl border p-6">
         {/* Pišite nam */}
         <div className="flex flex-col gap-4 pb-6 sm:flex-row sm:items-start sm:gap-6 sm:pb-8">
-          <div className="relative mx-auto flex size-16 shrink-0 items-center justify-center text-card-foreground sm:mx-0">
+          <div className="text-card-foreground relative mx-auto flex size-16 shrink-0 items-center justify-center sm:mx-0">
             <Mail size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
-            <div className="absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full bg-accent/40" />
+            <div className="bg-accent/40 absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full" />
           </div>
           <div className="flex flex-col gap-1 text-center sm:text-left">
             <h3 className="text-lg font-medium">Pišite nam</h3>
-            <p className="text-muted-foreground">Javit ćemo vam se što prije.</p>
+            <p className="text-muted-foreground">
+              Javit ćemo vam se što prije.
+            </p>
             <a
               href="mailto:info@ane-doo.com"
               className="mt-2 font-medium hover:underline"
@@ -34,9 +36,9 @@ export default function ContactInfo() {
 
         {/* Naša adresa */}
         <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-start sm:gap-6 sm:py-8">
-          <div className="relative mx-auto flex size-16 shrink-0 items-center justify-center text-card-foreground sm:mx-0">
+          <div className="text-card-foreground relative mx-auto flex size-16 shrink-0 items-center justify-center sm:mx-0">
             <MapPinned size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
-            <div className="absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full bg-accent/40" />
+            <div className="bg-accent/40 absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full" />
           </div>
           <div className="flex flex-col gap-1 text-center sm:text-left">
             <h3 className="text-lg font-medium">Naša adresa</h3>
@@ -56,9 +58,9 @@ export default function ContactInfo() {
 
         {/* Pozovite nas */}
         <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-start sm:gap-6 sm:pt-8">
-          <div className="relative mx-auto flex size-16 shrink-0 items-center justify-center text-card-foreground sm:mx-0">
+          <div className="text-card-foreground relative mx-auto flex size-16 shrink-0 items-center justify-center sm:mx-0">
             <Phone size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
-            <div className="absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full bg-accent/40" />
+            <div className="bg-accent/40 absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full" />
           </div>
           <div className="flex flex-col gap-1 text-center sm:text-left">
             <h3 className="text-lg font-medium">Pozovite nas</h3>
@@ -74,7 +76,7 @@ export default function ContactInfo() {
       </div>
 
       {/* Desno: ugrađena mapa (vizuelno) + nevidljivi link preko cijele površine za otvaranje u novom tabu */}
-      <div className="relative flex min-h-[280px] flex-col overflow-hidden rounded-2xl border border-primary/10 lg:min-h-0 lg:h-full">
+      <div className="border-primary/10 relative flex min-h-[280px] flex-col overflow-hidden rounded-2xl border lg:h-full lg:min-h-0">
         <iframe
           title="ANE d.o.o. — lokacija na karti"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2877.587848159165!2d18.3172603!3d43.84364310000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4758cbbeb43ae11f%3A0xa9d893e1d744eec1!2sVeleprodaja%20tekstila%20i%20opreme%20za%20nargile%20ANE%20D.O.O.!5e0!3m2!1sen!2sba!4v1764754584098!5m2!1sen!2sba"
@@ -91,7 +93,7 @@ export default function ContactInfo() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Otvori lokaciju u Google Maps u novom tabu"
-          className="absolute inset-0 z-10 cursor-pointer bg-transparent focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="focus-visible:outline-ring absolute inset-0 z-10 cursor-pointer bg-transparent focus-visible:outline focus-visible:outline-offset-2"
         />
       </div>
     </section>
