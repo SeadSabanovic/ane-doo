@@ -56,9 +56,8 @@ export default async function ProductPage({
   );
   const galleryImages = product.images.map((img) => urlFor(img).url());
 
-  // Build specifications from product data
+  // Build specifications from product data (šifra je interno, ne prikazuje se kupcu)
   const specifications = [
-    { label: "Šifra", value: product.sku },
     ...(product.material
       ? [{ label: "Materijal", value: product.material }]
       : []),
@@ -80,8 +79,44 @@ export default async function ProductPage({
   // Convert colors to display format using centralized color mapping
   const displayColors = product.colors?.map((c) => getColorName(c)) || [];
 
+  // JSON-LD Product schema za SEO (Google rich snippets)
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://www.ane-doo.com");
+  const productUrl = `${baseUrl}/shop/${product.slug.current}`;
+  const displayPrice = product.salePrice ?? product.price;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: galleryImages,
+    url: productUrl,
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "BAM",
+      price: displayPrice,
+      availability: product.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+    ...(product.tags &&
+      product.tags.length > 0 && {
+        keywords: product.tags.join(", "),
+      }),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <PageHeader
         breadcrumbItems={[
           { label: "Početna", href: "/" },
