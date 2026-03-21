@@ -89,10 +89,22 @@ const Footer = () => {
                   Pravne informacije
                 </h2>
 
-                <ul className="flex flex-col gap-2 text-primary-foreground/75">
-                  <li>Politika privatnosti</li>
-                  <li>Politika povrata</li>
-                  <li>Uslovi korišćenja</li>
+                <ul className="flex flex-col gap-2 text-primary-foreground">
+                  <li>
+                    <Link className={footerLinkClass} href="/politika-privatnosti">
+                      Politika privatnosti
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={footerLinkClass} href="/politika-povrata">
+                      Politika povrata
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={footerLinkClass} href="/uslovi-koristenja">
+                      Uslovi korišćenja
+                    </Link>
+                  </li>
                 </ul>
               </div>
 
