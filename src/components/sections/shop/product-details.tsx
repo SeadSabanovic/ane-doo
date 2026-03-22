@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { toast } from "sonner";
-import type { PackageContentLine } from "@/lib/package-contents";
+import type { ProductColorOption } from "@/constants/colors";
 
 interface Specification {
   label: string;
@@ -49,13 +49,13 @@ interface ProductDetailsProps {
   description: string;
   specifications: Specification[];
   sizes: string[];
-  colors: string[];
+  colorOptions: ProductColorOption[];
   tags?: string[];
   pricingSections: PricingSection[];
   /** Ako true, maloprodaja je dostupna (popunjena maloprodajna cijena u CMS-u) */
   allowRetail?: boolean;
-  /** Raspored sadržaja paketa (veličina + boja + komada) */
-  packageContents?: PackageContentLine[];
+  /** Opis sadržaja paketa (slobodan tekst iz CMS-a) */
+  packageContentsText?: string | null;
   className?: string;
 }
 
@@ -71,11 +71,11 @@ export function ProductDetails({
   description,
   specifications,
   sizes,
-  colors,
+  colorOptions,
   tags,
   pricingSections,
   allowRetail = false,
-  packageContents,
+  packageContentsText,
   className,
 }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -100,11 +100,11 @@ export function ProductDetails({
   ) => {
     const isRetail = purchaseType === "retail";
     if (isRetail) {
-      if (!selectedSize) {
+      if (sizes.length > 0 && !selectedSize) {
         toast.error("Molimo odaberite veličinu");
         return;
       }
-      if (!selectedColor && colors.length > 0) {
+      if (colorOptions.length > 0 && !selectedColor) {
         toast.error("Molimo odaberite boju");
         return;
       }
@@ -232,7 +232,9 @@ export function ProductDetails({
         </div>
       )}
 
-      <ProductSpecifications specifications={specifications} />
+      {specifications.length > 0 && (
+        <ProductSpecifications specifications={specifications} />
+      )}
 
       <div className="flex flex-col gap-6">
         {pricingSections.map((section, index) => (
@@ -268,9 +270,9 @@ export function ProductDetails({
               <ProductPackageInfo
                 embedded
                 sizes={sizes}
-                colors={colors}
+                colorOptions={colorOptions}
                 wholesaleMinQuantity={wholesaleMinQuantity}
-                packageContents={packageContents}
+                packageContentsText={packageContentsText}
               />
             )}
 
@@ -287,7 +289,7 @@ export function ProductDetails({
                 section.type === "maloprodaja" && allowRetail ? (
                   <RetailVariantPickers
                     sizes={sizes}
-                    colors={colors}
+                    colorOptions={colorOptions}
                     selectedSize={selectedSize}
                     selectedColor={selectedColor}
                     onSizeChange={setSelectedSize}
@@ -296,11 +298,7 @@ export function ProductDetails({
                 ) : undefined
               }
               className="p-0"
-              addButtonLabel={
-                section.type === "veleprodaja"
-                  ? "Dodaj paket"
-                  : "Dodaj u korpu"
-              }
+              addButtonLabel="Dodaj u korpu"
               onAddToCart={(quantity) =>
                 handleAddToCart(
                   quantity,

@@ -16,6 +16,10 @@ export function ProductSpecifications({
   specifications,
   className,
 }: ProductSpecificationsProps) {
+  if (!specifications.length) {
+    return null;
+  }
+
   return (
     <div className={cn("flex flex-col gap-4 rounded-md border p-4", className)}>
       <Badge variant="outline" className="mb-4">

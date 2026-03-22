@@ -63,6 +63,30 @@ export const getColorHex = (key: string): string => {
   return color?.value || "#000000";
 };
 
+/** Jedna opcija boje na PDP-u (preset ili custom iz CMS-a) */
+export type ProductColorOption = {
+  label: string;
+  hex: string;
+};
+
+/** Spaja preset ključeve i custom boje s hexom u jedan niz za UI */
+export function buildProductColorOptions(
+  colorKeys?: string[] | null,
+  customColors?: { name?: string; hex?: string }[] | null,
+): ProductColorOption[] {
+  const preset: ProductColorOption[] = (colorKeys ?? []).map((key) => ({
+    label: getColorName(key),
+    hex: getColorHex(key),
+  }));
+  const custom: ProductColorOption[] = (customColors ?? [])
+    .map((c) => ({
+      label: (c.name ?? "").trim(),
+      hex: (c.hex ?? "").trim(),
+    }))
+    .filter((c) => c.label.length > 0 && /^#[0-9A-Fa-f]{6}$/i.test(c.hex));
+  return [...preset, ...custom];
+}
+
 // Sizes configuration
 export const SIZES = [
   { key: "xs", name: "XS" },
@@ -71,4 +95,5 @@ export const SIZES = [
   { key: "l", name: "L" },
   { key: "xl", name: "XL" },
   { key: "xxl", name: "XXL" },
+  { key: "xxxl", name: "XXXL" },
 ];

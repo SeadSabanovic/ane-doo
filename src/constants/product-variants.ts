@@ -6,6 +6,7 @@ export const PRODUCT_SIZE_OPTIONS = [
   { title: "L", value: "l" },
   { title: "XL", value: "xl" },
   { title: "XXL", value: "xxl" },
+  { title: "XXXL", value: "xxxl" },
   // Posteljina (uobičajene dimenzije u cm)
   { title: "90 × 200 cm", value: "posteljina_90x200" },
   { title: "140 × 200 cm", value: "posteljina_140x200" },

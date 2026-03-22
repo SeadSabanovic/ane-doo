@@ -7,7 +7,7 @@ import { ProductDetails } from "@/components/sections/shop/product-details";
 import MoreSuggestions from "@/components/sections/shop/more-suggestions";
 import { getProductBySlug, getProducts, Product } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
-import { getColorName } from "@/constants/colors";
+import { buildProductColorOptions } from "@/constants/colors";
 import { displaySizeLabel } from "@/constants/product-variants";
 
 // Enable ISR - revalidate every 60 seconds
@@ -93,12 +93,14 @@ export default async function ProductPage({
 
   // Preset veličine + proizvoljne (customSizes)
   const displaySizes = [
-    ...product.sizes.map((s) => displaySizeLabel(s)),
+    ...(product.sizes ?? []).map((s) => displaySizeLabel(s)),
     ...(product.customSizes ?? []),
   ];
 
-  // Convert colors to display format using centralized color mapping
-  const displayColors = product.colors?.map((c) => getColorName(c)) || [];
+  const colorOptions = buildProductColorOptions(
+    product.colors,
+    product.customColors,
+  );
 
   // JSON-LD Product schema za SEO (Google rich snippets)
   const baseUrl =
@@ -168,11 +170,11 @@ export default async function ProductPage({
             description={product.description}
             specifications={specifications}
             sizes={displaySizes}
-            colors={displayColors}
+            colorOptions={colorOptions}
             tags={product.tags}
             pricingSections={getPricingSections(product)}
             allowRetail={product.retailPrice != null}
-            packageContents={product.packageContents}
+            packageContentsText={product.packageContentsText}
           />
         </div>
       </Container>

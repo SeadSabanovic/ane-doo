@@ -13,12 +13,8 @@ export interface Product {
   retailPrice?: number;
   wholesalePrice: number;
   wholesaleMinQuantity: number;
-  packageContents?: {
-    _key?: string;
-    size: string;
-    color: string;
-    quantity: number;
-  }[];
+  /** Slobodan tekst opisa sadržaja paketa (CMS textarea) */
+  packageContentsText?: string;
   images: {
     asset: {
       _ref: string;
@@ -38,10 +34,13 @@ export interface Product {
       };
     };
   };
-  sizes: string[];
+  /** Može biti null u Sanityju ako nije postavljeno */
+  sizes?: string[] | null;
   /** Proizvoljne veličine (slobodan unos) – spaja se s sizes */
   customSizes?: string[];
   colors?: string[];
+  /** Dodatne boje (naziv + hex) – spaja se s colors */
+  customColors?: { _key?: string; name: string; hex: string }[];
   inStock: boolean;
   featured: boolean;
   new: boolean;
@@ -95,7 +94,7 @@ export const PRODUCTS_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -107,6 +106,7 @@ export const PRODUCTS_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -133,7 +133,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -145,6 +145,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -171,7 +172,7 @@ export const NEW_PRODUCTS_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -183,6 +184,7 @@ export const NEW_PRODUCTS_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -209,7 +211,7 @@ export const SALE_PRODUCTS_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -221,6 +223,7 @@ export const SALE_PRODUCTS_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -299,7 +302,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -311,6 +314,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -337,7 +341,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -349,6 +353,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -375,7 +380,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -387,6 +392,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -416,7 +422,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -428,6 +434,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -453,7 +460,7 @@ export const PRODUCTS_PAGINATED_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -465,6 +472,7 @@ export const PRODUCTS_PAGINATED_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -494,7 +502,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -506,6 +514,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,
@@ -547,7 +556,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
-  packageContents,
+  packageContentsText,
   images,
   category->{
     name,
@@ -559,6 +568,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   },
   sizes,
   customSizes,
+  customColors,
   colors,
   inStock,
   featured,

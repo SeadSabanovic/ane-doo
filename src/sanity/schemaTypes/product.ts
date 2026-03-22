@@ -2,8 +2,6 @@ import { defineType, defineField } from "sanity";
 import { SelectAllArrayInput } from "../components/select-all-array-input";
 import { TagsInput } from "../components/tags-input";
 import { AltTextWithGenerate } from "../components/alt-text-with-generate";
-import { FilteredPackageColorInput } from "../components/filtered-package-color-input";
-import { FilteredPackageSizeInput } from "../components/filtered-package-size-input";
 import {
   PRODUCT_COLOR_OPTIONS,
   PRODUCT_SIZE_OPTIONS,
@@ -206,7 +204,8 @@ export default defineType({
       type: "number",
       group: "packageInfo",
       fieldset: "packageInfo",
-      description: "Broj komada u jednom veleprodajnom paketu (mora se slagati sa zbrojem u rasporedu ispod).",
+      description:
+        "Broj komada u jednom veleprodajnom paketu (prikaz „1 paket = n komada” na sajtu).",
       validation: (Rule) => Rule.required().min(1),
       initialValue: 12,
     }),
@@ -224,8 +223,7 @@ export default defineType({
         list: [...PRODUCT_SIZE_OPTIONS],
       },
       description:
-        "Koje veličine ulaze u ponudu: veleprodaja (sadržaj paketa) i maloprodaja (odabir kupca). Za nestandardne veličine koristite polje ispod.",
-      validation: (Rule) => Rule.required().min(1),
+        "Opciono. Koje veličine ulaze u ponudu: veleprodaja (sadržaj paketa) i maloprodaja (odabir kupca). Za nestandardne veličine koristite polje ispod.",
     }),
     defineField({
       name: "customSizes",
@@ -251,105 +249,72 @@ export default defineType({
       },
       of: [{ type: "string" }],
       description:
-        "Koje boje ulaze u ponudu: veleprodaja (sadržaj paketa) i maloprodaja (odabir kupca).",
+        "Opciono. Koje boje ulaze u ponudu: veleprodaja (sadržaj paketa) i maloprodaja (odabir kupca). Za boje koje nisu na listi koristite polje ispod.",
       options: {
         list: [...PRODUCT_COLOR_OPTIONS],
       },
-      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
-      name: "packageContents",
-      title: "Raspored sadržaja paketa",
+      name: "customColors",
+      title: "Dodatne boje (proizvoljno)",
       type: "array",
       group: "packageInfo",
       fieldset: "packageInfo",
       description:
-        "Za svaku kombinaciju veličine i boje unesite koliko komada ulazi u jedan paket. Zbroj mora biti jednak polju „Komada u paketu” iznad.",
+        "Za svaku boju unesite naziv (kako se prikazuje kupcu) i hex u formatu #RRGGBB (npr. #C9A227 za zlatnu). Pojavit će se u odabiru zajedno s bojama s liste iznad.",
       of: [
         {
           type: "object",
-          name: "packageContentLine",
+          name: "customColor",
           fields: [
             defineField({
-              name: "size",
-              title: "Veličina",
+              name: "name",
+              title: "Naziv",
               type: "string",
-              components: {
-                input: FilteredPackageSizeInput,
-              },
               validation: (Rule) => Rule.required(),
             }),
             defineField({
-              name: "color",
-              title: "Boja",
+              name: "hex",
+              title: "Hex (#RRGGBB)",
               type: "string",
-              components: {
-                input: FilteredPackageColorInput,
-              },
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "quantity",
-              title: "Komada",
-              type: "number",
-              initialValue: 1,
-              validation: (Rule) => Rule.required().integer().min(1),
+              description: "Npr. #8B4513 ili #23695e",
+              validation: (Rule) =>
+                Rule.required().custom((val) => {
+                  if (typeof val !== "string" || !val.trim()) {
+                    return "Obavezno";
+                  }
+                  const v = val.trim();
+                  if (!/^#[0-9A-Fa-f]{6}$/i.test(v)) {
+                    return "Mora biti u formatu #RRGGBB (6 hex znamenki)";
+                  }
+                  return true;
+                }),
             }),
           ],
           preview: {
             select: {
-              size: "size",
-              color: "color",
-              quantity: "quantity",
+              name: "name",
+              hex: "hex",
             },
-            prepare({ size, color, quantity }) {
-              const s = typeof size === "string" ? size.toUpperCase() : "";
+            prepare({ name, hex }) {
               return {
-                title: `${quantity ?? "?"}× ${s} · ${color ?? ""}`,
+                title: name || "Boja",
+                subtitle: hex || "",
               };
             },
           },
         },
       ],
-      validation: (Rule) =>
-        Rule.custom((lines, context) => {
-          const doc = context.document as {
-            wholesaleMinQuantity?: number;
-            sizes?: string[];
-            customSizes?: string[];
-            colors?: string[];
-          };
-          const min = doc?.wholesaleMinQuantity;
-          const arr = lines as
-            | { size?: string; color?: string; quantity?: number }[]
-            | undefined;
-          if (!arr?.length) return true;
-
-          const allowedSizes = new Set([
-            ...(doc.sizes || []),
-            ...(doc.customSizes || []),
-          ]);
-          const allowedColors = new Set(doc.colors || []);
-
-          for (let i = 0; i < arr.length; i++) {
-            const line = arr[i];
-            if (!line?.size || !allowedSizes.has(line.size)) {
-              return `Red ${i + 1}: veličina mora biti među odabranim u Veličine / Dodatne veličine.`;
-            }
-            if (!line?.color || !allowedColors.has(line.color)) {
-              return `Red ${i + 1}: boja mora biti među odabranim u Boje.`;
-            }
-          }
-
-          const sum = arr.reduce(
-            (s, l) => s + (typeof l.quantity === "number" ? l.quantity : 0),
-            0,
-          );
-          if (typeof min === "number" && sum !== min) {
-            return `Zbroj komada u rasporedu (${sum}) mora biti jednak „Komada u paketu” (${min}).`;
-          }
-          return true;
-        }),
+    }),
+    defineField({
+      name: "packageContentsText",
+      title: "Opis sadržaja paketa",
+      type: "text",
+      rows: 5,
+      group: "packageInfo",
+      fieldset: "packageInfo",
+      description:
+        "Opciono. Ručno opišite što je u paketu (npr. koliko komada kojih veličina i boja). Prikazuje se na sajtu ispod linije „1 paket = n komada”.",
     }),
     defineField({
       name: "inStock",
