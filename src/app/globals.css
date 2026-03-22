@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 
 @theme inline {
+  /* Visina glavne navigacije — npr. h-nav, min-h-nav */
+  --height-nav: var(--nav-height);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   /* next/font: varijable postavlja <html className={nunito.variable} …> */
@@ -61,7 +63,13 @@
 
 :root {
   --radius: 0.625rem;
+  /**
+   * Glavna navigacija (logo + meni + ikone)
+   * Ista vrijednost na mobilnom i desktopu — jedan izvor za layout i scroll.
+   */
   --nav-height: 60px;
+  --nav-height-mobile: var(--nav-height);
+  --nav-height-desktop: var(--nav-height);
   --background: #fffcf3;
   --foreground: #4d585b;
   --card: #faf3da;

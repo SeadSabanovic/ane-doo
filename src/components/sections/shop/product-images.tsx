@@ -141,7 +141,7 @@ export function ProductImages({
     <>
       <div
         className={cn(
-          "top-36 flex w-full flex-1 flex-col gap-4 lg:sticky lg:h-fit lg:max-w-xl",
+          "top-24 flex w-full flex-1 flex-col gap-4 lg:sticky lg:h-fit lg:max-w-xl",
           className,
         )}
       >

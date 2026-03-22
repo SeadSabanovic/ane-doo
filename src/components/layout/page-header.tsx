@@ -32,11 +32,12 @@ export default function PageHeader({
   const hasBreadcrumbs = Boolean(breadcrumbItems && breadcrumbItems.length > 0);
 
   return (
-    <header
+    <section
       className={cn(
         "bg-secondary/10 relative mb-20 overflow-hidden",
         !hasIntro && "mb-4 lg:mb-20",
       )}
+      aria-label={hasIntro ? "Uvod stranice" : "Putanja stranice"}
     >
       {hasIntro && (
         <>
@@ -89,6 +90,6 @@ export default function PageHeader({
           </Container>
         </div>
       )}
-    </header>
+    </section>
   );
 }

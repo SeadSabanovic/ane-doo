@@ -59,8 +59,8 @@ const Navigation = () => {
       >
         <div className="border-b">
           {/* <!-- header top start --> */}
-          <Container className="py-3">
-            <div className={`relative flex items-center justify-between gap-5`}>
+          <Container className="flex h-nav items-center">
+            <div className="relative flex w-full items-center justify-between gap-5">
               <div className="flex items-center gap-8">
                 {/* <!-- header top left / Logo --> */}
                 <Link

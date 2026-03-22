@@ -1,23 +1,21 @@
 "use client";
 
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ProductSpecifications } from "./product-specifications";
-import { ProductOptions } from "./product-options";
+import {
+  ProductPackageInfo,
+  RetailVariantPickers,
+} from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, Box, Boxes } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Heart } from "lucide-react";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { toast } from "sonner";
+import type { PackageContentLine } from "@/lib/package-contents";
 
 interface Specification {
   label: string;
@@ -34,6 +32,8 @@ interface PricingSection {
   infoText: string;
   pricingInfo: PricingInfo[];
   pricePerUnit: number;
+  /** Samo veleprodaja: precrtana veleprodajna kad postoji akcija */
+  compareAtPrice?: number;
 }
 
 interface ProductDetailsProps {
@@ -41,8 +41,9 @@ interface ProductDetailsProps {
   slug: string;
   image: string;
   name: string;
-  price?: number;
   salePrice?: number;
+  /** Maloprodajna cijena po komadu (samo ova vrijednost za maloprodaju, bez akcije) */
+  retailPrice?: number;
   wholesalePrice: number;
   wholesaleMinQuantity: number;
   description: string;
@@ -51,8 +52,10 @@ interface ProductDetailsProps {
   colors: string[];
   tags?: string[];
   pricingSections: PricingSection[];
-  /** Ako true, maloprodaja je dostupna (proizvod na akciji s salePrice) */
+  /** Ako true, maloprodaja je dostupna (popunjena maloprodajna cijena u CMS-u) */
   allowRetail?: boolean;
+  /** Raspored sadržaja paketa (veličina + boja + komada) */
+  packageContents?: PackageContentLine[];
   className?: string;
 }
 
@@ -61,8 +64,8 @@ export function ProductDetails({
   slug,
   image,
   name,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
   description,
@@ -72,16 +75,17 @@ export function ProductDetails({
   tags,
   pricingSections,
   allowRetail = false,
+  packageContents,
   className,
 }: ProductDetailsProps) {
-  const [openItem, setOpenItem] = useState<string>("");
-  const [selectedSize, setSelectedSize] = useState<string>(sizes[0] || "");
-  const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
 
   const addToCart = useCartStore((state) => state.addItem);
   const { toggleItem, isInWishlist } = useWishlistStore();
 
-  const displayPrice = salePrice ?? price ?? wholesalePrice;
+  /** Za listu želja – efektivna javna cijena (akcija ili veleprodajna) */
+  const displayPrice = salePrice ?? wholesalePrice;
 
   const isHydrated = useSyncExternalStore(
     () => () => {},
@@ -108,7 +112,8 @@ export function ProductDetails({
 
     const size = isRetail ? selectedSize : "";
     const color = isRetail ? selectedColor : "";
-    const retailPrice = (salePrice ?? price) ?? 0;
+    const cartRetailUnitPrice = retailPrice ?? 0;
+    const effectiveWholesaleUnit = salePrice ?? wholesalePrice;
 
     addToCart({
       productId,
@@ -120,8 +125,8 @@ export function ProductDetails({
       quantity,
       purchaseType,
       pricing: {
-        retailPrice,
-        wholesalePrice,
+        retailPrice: cartRetailUnitPrice,
+        wholesalePrice: effectiveWholesaleUnit,
         wholesaleMinQuantity,
       },
     });
@@ -181,15 +186,6 @@ export function ProductDetails({
     }
   };
 
-  useEffect(() => {
-    // Open first accordion (veleprodaja ako samo nju ima, ili maloprodaja ako postoje obje)
-    const timer = setTimeout(() => {
-      setOpenItem("item-0");
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <div className={cn("flex flex-1 flex-col gap-6", className)}>
       <div className="flex items-start justify-between gap-4">
@@ -198,22 +194,12 @@ export function ProductDetails({
             <h1 className="text-4xl font-bold">{name}</h1>
           </div>
           <div className="flex flex-wrap items-baseline gap-2">
-            {salePrice != null ? (
-              <>
-                {price != null && (
-                  <span className="text-muted-foreground text-2xl line-through">
-                    {formatPrice(price)}
-                  </span>
-                )}
-                <span className="text-destructive text-3xl font-semibold">
-                  {formatPrice(salePrice)}
-                </span>
-              </>
-            ) : (
-              <p className="text-primary text-3xl font-semibold">
-                od {formatPrice(wholesalePrice)} / kom
-              </p>
-            )}
+            {/*
+              Akcijska cijena se prikazuje u kartici „Veleprodaja“, ne u hero zoni.
+            */}
+            <p className="text-primary text-3xl font-semibold">
+              {formatPrice(wholesalePrice)} / kom
+            </p>
           </div>
         </div>
         <Button
@@ -248,83 +234,83 @@ export function ProductDetails({
 
       <ProductSpecifications specifications={specifications} />
 
-      <ProductOptions
-        sizes={sizes}
-        colors={colors}
-        selectedSize={selectedSize}
-        selectedColor={selectedColor}
-        onSizeChange={setSelectedSize}
-        onColorChange={setSelectedColor}
-        mode={allowRetail ? "retail" : "wholesale"}
-        wholesaleMinQuantity={wholesaleMinQuantity}
-      />
-
-      <Accordion
-        type="single"
-        className="w-full rounded-md border"
-        value={openItem}
-        onValueChange={setOpenItem}
-      >
-        {pricingSections.map((section, index) => {
-          const isFirst = index === 0;
-          const isLast = index === pricingSections.length - 1;
-
-          return (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger
-                className={cn(
-                  "px-5",
-                  isFirst && "rounded-t-md",
-                  isLast && "data-[state=closed]:rounded-b-md",
-                )}
-              >
-                <span className="flex items-center gap-4">
-                  <span
-                    className="from-primary to-card-foreground text-accent flex size-10 shrink-0 items-center justify-center rounded-full bg-linear-to-r"
-                    aria-hidden="true"
-                  >
-                    {section.type === "maloprodaja" ? (
-                      <Box className="size-4" />
-                    ) : (
-                      <Boxes className="size-4" />
-                    )}
-                  </span>
-                  <span className="flex flex-col space-y-0.5 text-lg">
-                    <h3 className="font-semibold">
-                      {section.type === "maloprodaja"
-                        ? "Maloprodaja"
-                        : "Veleprodaja"}
-                    </h3>
-                    <span className="text-muted-foreground font-semibold">
-                      {formatPrice(section.pricePerUnit)} po komadu
+      <div className="flex flex-col gap-6">
+        {pricingSections.map((section, index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-4 rounded-md border p-4"
+          >
+            <div className="flex flex-col gap-2">
+              <Badge variant="outline" className="w-fit">
+                {section.type === "maloprodaja"
+                  ? "Maloprodaja"
+                  : "Veleprodaja"}
+              </Badge>
+              <p className="text-muted-foreground text-lg font-semibold">
+                {section.type === "veleprodaja" &&
+                section.compareAtPrice != null ? (
+                  <>
+                    <span className="text-muted-foreground/80 line-through">
+                      {formatPrice(section.compareAtPrice)}{" "}
                     </span>
-                  </span>
-                </span>
-              </AccordionTrigger>
-              <AccordionContent
-                className={cn("px-5", isLast && "rounded-b-md")}
-              >
-                <ProductPricingSection
-                  infoText={section.infoText}
-                  pricingInfo={section.pricingInfo}
-                  pricePerUnit={section.pricePerUnit}
-                  addButtonLabel={
-                    section.type === "veleprodaja"
-                      ? "Dodaj paket"
-                      : "Dodaj u korpu"
-                  }
-                  onAddToCart={(quantity) =>
-                    handleAddToCart(
-                      quantity,
-                      section.type === "maloprodaja" ? "retail" : "wholesale",
-                    )
-                  }
-                />
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+                    <span className="text-destructive">
+                      {formatPrice(section.pricePerUnit)}
+                    </span>
+                  </>
+                ) : (
+                  formatPrice(section.pricePerUnit)
+                )}{" "}
+                po komadu
+              </p>
+            </div>
+
+            {section.type === "veleprodaja" && (
+              <ProductPackageInfo
+                embedded
+                sizes={sizes}
+                colors={colors}
+                wholesaleMinQuantity={wholesaleMinQuantity}
+                packageContents={packageContents}
+              />
+            )}
+
+            <ProductPricingSection
+              infoText={section.infoText}
+              pricingInfo={section.pricingInfo}
+              pricePerUnit={section.pricePerUnit}
+              compareAtPrice={
+                section.type === "veleprodaja"
+                  ? section.compareAtPrice
+                  : undefined
+              }
+              variantSlot={
+                section.type === "maloprodaja" && allowRetail ? (
+                  <RetailVariantPickers
+                    sizes={sizes}
+                    colors={colors}
+                    selectedSize={selectedSize}
+                    selectedColor={selectedColor}
+                    onSizeChange={setSelectedSize}
+                    onColorChange={setSelectedColor}
+                  />
+                ) : undefined
+              }
+              className="p-0"
+              addButtonLabel={
+                section.type === "veleprodaja"
+                  ? "Dodaj paket"
+                  : "Dodaj u korpu"
+              }
+              onAddToCart={(quantity) =>
+                handleAddToCart(
+                  quantity,
+                  section.type === "maloprodaja" ? "retail" : "wholesale",
+                )
+              }
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

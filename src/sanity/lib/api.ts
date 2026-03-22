@@ -8,10 +8,17 @@ export interface Product {
   };
   sku: string;
   description: string;
-  price?: number;
   salePrice?: number;
+  /** Maloprodajna referentna cijena (kad je akcija; veća od veleprodajne) */
+  retailPrice?: number;
   wholesalePrice: number;
   wholesaleMinQuantity: number;
+  packageContents?: {
+    _key?: string;
+    size: string;
+    color: string;
+    quantity: number;
+  }[];
   images: {
     asset: {
       _ref: string;
@@ -32,6 +39,8 @@ export interface Product {
     };
   };
   sizes: string[];
+  /** Proizvoljne veličine (slobodan unos) – spaja se s sizes */
+  customSizes?: string[];
   colors?: string[];
   inStock: boolean;
   featured: boolean;
@@ -44,7 +53,6 @@ export interface Product {
     label: string;
     value?: string;
   }[];
-  order?: number;
 }
 
 export interface Category {
@@ -77,16 +85,17 @@ export const PRODUCTS_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
-]|order(order asc, name asc){
+]|order(name asc){
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -97,6 +106,7 @@ export const PRODUCTS_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -105,8 +115,7 @@ export const PRODUCTS_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const FEATURED_PRODUCTS_QUERY = `*[
@@ -114,16 +123,17 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   && defined(slug.current)
   && inStock == true
   && featured == true
-]|order(order asc, name asc)[0...8]{
+]|order(name asc)[0...8]{
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -134,6 +144,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -142,8 +153,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const NEW_PRODUCTS_QUERY = `*[
@@ -151,16 +161,17 @@ export const NEW_PRODUCTS_QUERY = `*[
   && defined(slug.current)
   && inStock == true
   && new == true
-]|order(order asc, name asc)[0...8]{
+]|order(name asc)[0...8]{
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -171,6 +182,7 @@ export const NEW_PRODUCTS_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -179,8 +191,7 @@ export const NEW_PRODUCTS_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const SALE_PRODUCTS_QUERY = `*[
@@ -188,16 +199,17 @@ export const SALE_PRODUCTS_QUERY = `*[
   && defined(slug.current)
   && inStock == true
   && defined(salePrice)
-]|order(order asc, name asc)[0...8]{
+]|order(name asc)[0...8]{
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -208,6 +220,7 @@ export const SALE_PRODUCTS_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -216,8 +229,7 @@ export const SALE_PRODUCTS_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const CATEGORIES_QUERY = `*[
@@ -283,10 +295,11 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -297,6 +310,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -305,8 +319,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const PRODUCTS_BY_CATEGORY_QUERY = `*[
@@ -314,16 +327,17 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   && category->slug.current == $categorySlug
   && defined(slug.current)
   && inStock == true
-]|order(order asc, name asc){
+]|order(name asc){
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -334,6 +348,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -342,8 +357,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
@@ -351,16 +365,17 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   && category->parent->slug.current == $parentSlug
   && defined(slug.current)
   && inStock == true
-]|order(order asc, name asc){
+]|order(name asc){
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -371,6 +386,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -379,8 +395,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
@@ -391,16 +406,17 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
-]|order(order asc, name asc){
+]|order(name asc){
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -411,6 +427,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -419,24 +436,24 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const PRODUCTS_PAGINATED_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
-]|order(order asc, name asc)[$start...$end]{
+]|order(name asc)[$start...$end]{
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -447,6 +464,7 @@ export const PRODUCTS_PAGINATED_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -455,8 +473,7 @@ export const PRODUCTS_PAGINATED_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
@@ -467,16 +484,17 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
-]|order(order asc, name asc)[$start...$end]{
+]|order(name asc)[$start...$end]{
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -487,6 +505,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -495,8 +514,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 export const PRODUCTS_COUNT_QUERY = `count(*[
@@ -519,16 +537,17 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   _type == "product"
   && inStock == true
   && (name match $searchQuery || description match $searchQuery)
-]|order(order asc, name asc)[0...20]{
+]|order(name asc)[0...20]{
   _id,
   name,
   slug,
   sku,
   description,
-  price,
   salePrice,
+  retailPrice,
   wholesalePrice,
   wholesaleMinQuantity,
+  packageContents,
   images,
   category->{
     name,
@@ -539,6 +558,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
     }
   },
   sizes,
+  customSizes,
   colors,
   inStock,
   featured,
@@ -547,8 +567,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   material,
   weight,
   originCountry,
-  specifications,
-  order
+  specifications
 }`;
 
 // API Functions

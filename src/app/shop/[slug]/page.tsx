@@ -8,6 +8,7 @@ import MoreSuggestions from "@/components/sections/shop/more-suggestions";
 import { getProductBySlug, getProducts, Product } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
 import { getColorName } from "@/constants/colors";
+import { displaySizeLabel } from "@/constants/product-variants";
 
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;
@@ -16,24 +17,20 @@ export const revalidate = 60;
 export const dynamicParams = true; // Allow new products to be generated on-demand
 
 // Helper function to generate pricing sections from product data
-// Maloprodaja samo ako postoji salePrice (proizvod na akciji s maloprodajnom cijenom)
+// Redoslijed: prvo veleprodaja. Maloprodaja samo ako je u CMS-u popunjena maloprodajna cijena (retailPrice).
+// Akcijska cijena (salePrice) odnosi se samo na veleprodaju (precrtana veleprodajna + akcijska). Maloprodaja uvijek koristi retailPrice.
 function getPricingSections(product: Product) {
   const sections: {
     type: "maloprodaja" | "veleprodaja";
     infoText: string;
     pricingInfo: { label: string; value: string }[];
     pricePerUnit: number;
+    compareAtPrice?: number;
   }[] = [];
 
-  if (product.salePrice != null) {
-    sections.push({
-      type: "maloprodaja",
-      infoText:
-        "Maloprodaja je način kupnje proizvoda u malim količinama, obično od 1 do 99 komada. Cijena po komadu je fiksna i ne varira ovisno o količini.",
-      pricingInfo: [],
-      pricePerUnit: product.salePrice,
-    });
-  }
+  const wholesaleUnit = product.salePrice ?? product.wholesalePrice;
+  const wholesaleCompare =
+    product.salePrice != null ? product.wholesalePrice : undefined;
 
   sections.push({
     type: "veleprodaja",
@@ -42,8 +39,19 @@ function getPricingSections(product: Product) {
     pricingInfo: [
       { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
     ],
-    pricePerUnit: product.wholesalePrice,
+    pricePerUnit: wholesaleUnit,
+    compareAtPrice: wholesaleCompare,
   });
+
+  if (product.retailPrice != null) {
+    sections.push({
+      type: "maloprodaja",
+      infoText:
+        "Maloprodaja je način kupnje proizvoda u malim količinama, obično od 1 do 99 komada. Cijena po komadu je fiksna i ne varira ovisno o količini.",
+      pricingInfo: [],
+      pricePerUnit: product.retailPrice,
+    });
+  }
 
   return sections;
 }
@@ -83,8 +91,11 @@ export default async function ProductPage({
     ...(product.specifications || []),
   ];
 
-  // Convert sizes to uppercase for display
-  const displaySizes = product.sizes.map((s) => s.toUpperCase());
+  // Preset veličine + proizvoljne (customSizes)
+  const displaySizes = [
+    ...product.sizes.map((s) => displaySizeLabel(s)),
+    ...(product.customSizes ?? []),
+  ];
 
   // Convert colors to display format using centralized color mapping
   const displayColors = product.colors?.map((c) => getColorName(c)) || [];
@@ -96,8 +107,7 @@ export default async function ProductPage({
       ? `https://${process.env.VERCEL_URL}`
       : "https://www.ane-doo.com");
   const productUrl = `${baseUrl}/shop/${product.slug.current}`;
-  const displayPrice =
-    product.salePrice ?? product.price ?? product.wholesalePrice;
+  const displayPrice = product.salePrice ?? product.wholesalePrice;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -151,8 +161,8 @@ export default async function ProductPage({
             slug={product.slug.current}
             image={images[0]}
             name={product.name}
-            price={product.price}
             salePrice={product.salePrice}
+            retailPrice={product.retailPrice}
             wholesalePrice={product.wholesalePrice}
             wholesaleMinQuantity={product.wholesaleMinQuantity}
             description={product.description}
@@ -161,7 +171,8 @@ export default async function ProductPage({
             colors={displayColors}
             tags={product.tags}
             pricingSections={getPricingSections(product)}
-            allowRetail={product.salePrice != null}
+            allowRetail={product.retailPrice != null}
+            packageContents={product.packageContents}
           />
         </div>
       </Container>
