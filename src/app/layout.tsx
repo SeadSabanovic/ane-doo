@@ -46,10 +46,7 @@ export default function RootLayout({
       lang="bs"
       className={`${nunito.variable} ${lora.variable} ${geistMono.variable}`}
     >
-      <body
-        className="font-sans antialiased select-none"
-        suppressHydrationWarning
-      >
+      <body className="antialiased" suppressHydrationWarning>
         <LenisScrollProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
           <Toaster position="top-center" />
