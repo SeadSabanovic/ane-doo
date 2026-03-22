@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { COLORS } from "@/constants/colors";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Info } from "lucide-react";
 
 interface ProductOptionsProps {
   sizes: string[];
@@ -13,6 +14,9 @@ interface ProductOptionsProps {
   selectedColor?: string;
   onSizeChange?: (size: string) => void;
   onColorChange?: (color: string) => void;
+  /** Veleprodaja = prikaz sadržaja paketa; Maloprodaja = selectori za odabir */
+  mode?: "wholesale" | "retail";
+  wholesaleMinQuantity?: number;
   className?: string;
 }
 
@@ -23,6 +27,8 @@ export function ProductOptions({
   selectedColor,
   onSizeChange,
   onColorChange,
+  mode = "retail",
+  wholesaleMinQuantity,
   className,
 }: ProductOptionsProps) {
   const [internalSize, setInternalSize] = useState(selectedSize);
@@ -40,6 +46,36 @@ export function ProductOptions({
 
   const currentSize = selectedSize ?? internalSize;
   const currentColor = selectedColor ?? internalColor;
+
+  if (mode === "wholesale") {
+    const packageContent = [
+      sizes.length > 0 && `veličine: ${sizes.join(", ")}`,
+      colors.length > 0 && `boje: ${colors.join(", ")}`,
+    ]
+      .filter(Boolean)
+      .join(" • ");
+
+    return (
+      <div className={cn("flex flex-col gap-4 rounded-md border p-4", className)}>
+        <Badge variant="outline" className="mb-2 w-fit">
+          Sadržaj paketa
+        </Badge>
+        <div className="border-secondary bg-secondary-muted/50 text-secondary-foreground flex items-start gap-4 rounded-md border p-3">
+          <Info className="mt-0.5 shrink-0 size-4" />
+          <div>
+            <p className="font-medium">
+              1 paket = {wholesaleMinQuantity ?? "?"} komada
+            </p>
+            {packageContent && (
+              <p className="text-muted-foreground mt-1 text-sm">
+                {packageContent}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("flex flex-col gap-4 rounded-md border p-4", className)}>

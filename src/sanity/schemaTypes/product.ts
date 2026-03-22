@@ -125,19 +125,21 @@ export default defineType({
     }),
     defineField({
       name: "price",
-      title: "Maloprodajna cijena",
+      title: "Maloprodajna cijena (regularna)",
       type: "number",
       group: "pricing",
       fieldset: "pricing",
-      validation: (Rule) => Rule.required().min(0),
+      description:
+        "Samo za proizvode na akciji – originalna cijena prije popusta. Ostavite prazno za veleprodajne-only artikle.",
     }),
     defineField({
       name: "salePrice",
-      title: "Cijena na popustu",
+      title: "Maloprodajna cijena (na akciji)",
       type: "number",
       group: "pricing",
       fieldset: "pricing",
-      description: "Ako postoji, prikazuje se umjesto regularne cijene",
+      description:
+        "Ako unesete – artikal je na akciji i omogućena je maloprodaja (kupovina po komadu). Bez ovog polja artikal je isključivo veleprodaja.",
     }),
     defineField({
       name: "wholesalePrice",
@@ -145,16 +147,16 @@ export default defineType({
       type: "number",
       group: "pricing",
       fieldset: "pricing",
-      description: "Cijena za veleprodaju",
+      description: "Cijena po komadu za veleprodaju",
       validation: (Rule) => Rule.required().min(0),
     }),
     defineField({
       name: "wholesaleMinQuantity",
-      title: "Minimalna količina za veleprodaju",
+      title: "Komada u paketu",
       type: "number",
       group: "pricing",
       fieldset: "pricing",
-      description: "Minimalan broj komada za veleprodajnu cijenu",
+      description: "Broj komada u jednom veleprodajnom paketu",
       validation: (Rule) => Rule.required().min(1),
       initialValue: 12,
     }),
@@ -201,6 +203,8 @@ export default defineType({
           { title: "XXL", value: "xxl" },
         ],
       },
+      description:
+        "Veleprodaja: veličine u paketu. Maloprodaja: dostupne opcije za odabir.",
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
@@ -213,6 +217,8 @@ export default defineType({
         input: SelectAllArrayInput,
       },
       of: [{ type: "string" }],
+      description:
+        "Veleprodaja: boje u paketu. Maloprodaja: dostupne opcije za odabir.",
       options: {
         list: [
           { title: "Crna", value: "crna" },

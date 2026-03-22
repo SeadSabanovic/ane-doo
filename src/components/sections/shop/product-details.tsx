@@ -41,7 +41,7 @@ interface ProductDetailsProps {
   slug: string;
   image: string;
   name: string;
-  price: number;
+  price?: number;
   salePrice?: number;
   wholesalePrice: number;
   wholesaleMinQuantity: number;
@@ -51,6 +51,8 @@ interface ProductDetailsProps {
   colors: string[];
   tags?: string[];
   pricingSections: PricingSection[];
+  /** Ako true, maloprodaja je dostupna (proizvod na akciji s salePrice) */
+  allowRetail?: boolean;
   className?: string;
 }
 
@@ -69,6 +71,7 @@ export function ProductDetails({
   colors,
   tags,
   pricingSections,
+  allowRetail = false,
   className,
 }: ProductDetailsProps) {
   const [openItem, setOpenItem] = useState<string>("");
@@ -77,6 +80,8 @@ export function ProductDetails({
 
   const addToCart = useCartStore((state) => state.addItem);
   const { toggleItem, isInWishlist } = useWishlistStore();
+
+  const displayPrice = salePrice ?? price ?? wholesalePrice;
 
   const isHydrated = useSyncExternalStore(
     () => () => {},
@@ -89,33 +94,44 @@ export function ProductDetails({
     quantity: number,
     purchaseType: "retail" | "wholesale",
   ) => {
-    if (!selectedSize) {
-      toast.error("Molimo odaberite veličinu");
-      return;
+    const isRetail = purchaseType === "retail";
+    if (isRetail) {
+      if (!selectedSize) {
+        toast.error("Molimo odaberite veličinu");
+        return;
+      }
+      if (!selectedColor && colors.length > 0) {
+        toast.error("Molimo odaberite boju");
+        return;
+      }
     }
-    if (!selectedColor && colors.length > 0) {
-      toast.error("Molimo odaberite boju");
-      return;
-    }
+
+    const size = isRetail ? selectedSize : "";
+    const color = isRetail ? selectedColor : "";
+    const retailPrice = (salePrice ?? price) ?? 0;
 
     addToCart({
       productId,
       name,
       slug,
       image,
-      size: selectedSize,
-      color: selectedColor,
+      size,
+      color,
       quantity,
       purchaseType,
       pricing: {
-        retailPrice: salePrice || price,
+        retailPrice,
         wholesalePrice,
         wholesaleMinQuantity,
       },
     });
 
+    const desc =
+      purchaseType === "wholesale"
+        ? `${quantity} paket(a) × ${wholesaleMinQuantity} kom`
+        : `${selectedSize}${selectedColor ? ` • ${selectedColor}` : ""}`;
     toast.success(`${name} dodano u korpu`, {
-      description: `${selectedSize}${selectedColor ? ` • ${selectedColor}` : ""} • ${purchaseType === "wholesale" ? "Veleprodaja" : "Maloprodaja"}`,
+      description: `${desc} • ${purchaseType === "wholesale" ? "Veleprodaja" : "Maloprodaja"}`,
       icon: (
         <Image
           src={image}
@@ -134,7 +150,7 @@ export function ProductDetails({
       name,
       slug,
       image,
-      price,
+      price: displayPrice,
       salePrice,
     });
 
@@ -166,9 +182,9 @@ export function ProductDetails({
   };
 
   useEffect(() => {
-    // Open second accordion item after 500ms
+    // Open first accordion (veleprodaja ako samo nju ima, ili maloprodaja ako postoje obje)
     const timer = setTimeout(() => {
-      setOpenItem("item-1");
+      setOpenItem("item-0");
     }, 100);
 
     return () => clearTimeout(timer);
@@ -182,18 +198,20 @@ export function ProductDetails({
             <h1 className="text-4xl font-bold">{name}</h1>
           </div>
           <div className="flex flex-wrap items-baseline gap-2">
-            {salePrice ? (
+            {salePrice != null ? (
               <>
-                <span className="text-muted-foreground text-2xl line-through">
-                  {formatPrice(price)}
-                </span>
+                {price != null && (
+                  <span className="text-muted-foreground text-2xl line-through">
+                    {formatPrice(price)}
+                  </span>
+                )}
                 <span className="text-destructive text-3xl font-semibold">
                   {formatPrice(salePrice)}
                 </span>
               </>
             ) : (
               <p className="text-primary text-3xl font-semibold">
-                {formatPrice(price)}
+                od {formatPrice(wholesalePrice)} / kom
               </p>
             )}
           </div>
@@ -237,6 +255,8 @@ export function ProductDetails({
         selectedColor={selectedColor}
         onSizeChange={setSelectedSize}
         onColorChange={setSelectedColor}
+        mode={allowRetail ? "retail" : "wholesale"}
+        wholesaleMinQuantity={wholesaleMinQuantity}
       />
 
       <Accordion
@@ -288,6 +308,11 @@ export function ProductDetails({
                   infoText={section.infoText}
                   pricingInfo={section.pricingInfo}
                   pricePerUnit={section.pricePerUnit}
+                  addButtonLabel={
+                    section.type === "veleprodaja"
+                      ? "Dodaj paket"
+                      : "Dodaj u korpu"
+                  }
                   onAddToCart={(quantity) =>
                     handleAddToCart(
                       quantity,

@@ -18,6 +18,7 @@ interface ProductPricingSectionProps {
   pricingInfo: PricingInfo[];
   pricePerUnit: number;
   onAddToCart?: (quantity: number) => void;
+  addButtonLabel?: string;
   className?: string;
 }
 
@@ -26,6 +27,7 @@ export function ProductPricingSection({
   pricingInfo,
   pricePerUnit,
   onAddToCart,
+  addButtonLabel = "Dodaj u korpu",
   className,
 }: ProductPricingSectionProps) {
   const [quantity, setQuantity] = useState(1);
@@ -68,7 +70,7 @@ export function ProductPricingSection({
           onClick={handleAddToCart}
         >
           <ShoppingCart />
-          Dodaj u korpu
+          {addButtonLabel}
         </Button>
       </div>
     </div>

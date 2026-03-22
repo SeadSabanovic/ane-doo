@@ -8,7 +8,7 @@ export interface Product {
   };
   sku: string;
   description: string;
-  price: number;
+  price?: number;
   salePrice?: number;
   wholesalePrice: number;
   wholesaleMinQuantity: number;

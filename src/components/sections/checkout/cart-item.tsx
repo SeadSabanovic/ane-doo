@@ -61,17 +61,24 @@ export default function CartItemComponent({ item }: CartItemProps) {
         <div className="flex flex-1 flex-col gap-3">
           <h4 className="px-2 pt-2 font-medium">{item.name}</h4>
 
-          {/* Details - Size and Color */}
+          {/* Details - Size and Color (retail) ili paket (wholesale) */}
           <div className="flex flex-wrap gap-1 px-2">
-            <Badge variant="outline">Veličina: {item.size}</Badge>
-            <Badge variant="outline">Boja: {item.color}</Badge>
-            {isWholesale && (
+            {isWholesale ? (
               <Badge
                 variant="outline"
                 className="bg-secondary-muted/50 text-secondary-foreground"
               >
-                Veleprodaja: 1 x {item.pricing.wholesaleMinQuantity} kom
+                1 paket = {item.pricing.wholesaleMinQuantity} kom
               </Badge>
+            ) : (
+              <>
+                {item.size && (
+                  <Badge variant="outline">Veličina: {item.size}</Badge>
+                )}
+                {item.color && (
+                  <Badge variant="outline">Boja: {item.color}</Badge>
+                )}
+              </>
             )}
           </div>
         </div>

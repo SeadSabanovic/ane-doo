@@ -16,26 +16,36 @@ export const revalidate = 60;
 export const dynamicParams = true; // Allow new products to be generated on-demand
 
 // Helper function to generate pricing sections from product data
+// Maloprodaja samo ako postoji salePrice (proizvod na akciji s maloprodajnom cijenom)
 function getPricingSections(product: Product) {
-  return [
-    {
-      type: "maloprodaja" as const,
+  const sections: {
+    type: "maloprodaja" | "veleprodaja";
+    infoText: string;
+    pricingInfo: { label: string; value: string }[];
+    pricePerUnit: number;
+  }[] = [];
+
+  if (product.salePrice != null) {
+    sections.push({
+      type: "maloprodaja",
       infoText:
         "Maloprodaja je način kupnje proizvoda u malim količinama, obično od 1 do 99 komada. Cijena po komadu je fiksna i ne varira ovisno o količini.",
-      pricingInfo: [{ label: "Rok isporuke", value: "7 radnih dana" }],
-      pricePerUnit: product.salePrice || product.price,
-    },
-    {
-      type: "veleprodaja" as const,
-      infoText:
-        "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Popusti se obračunavaju po količinskim rangovima, a minimalna količina za ostvarivanje veleprodajne cijene navodi se uz svaki artikal.",
-      pricingInfo: [
-        { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
-        { label: "Rok isporuke", value: "12 radnih dana" },
-      ],
-      pricePerUnit: product.wholesalePrice,
-    },
-  ];
+      pricingInfo: [],
+      pricePerUnit: product.salePrice,
+    });
+  }
+
+  sections.push({
+    type: "veleprodaja",
+    infoText:
+      "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Naručujete pakete – svaki paket sadrži određeni broj komada u različitim veličinama i bojama.",
+    pricingInfo: [
+      { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
+    ],
+    pricePerUnit: product.wholesalePrice,
+  });
+
+  return sections;
 }
 
 export default async function ProductPage({
@@ -86,7 +96,8 @@ export default async function ProductPage({
       ? `https://${process.env.VERCEL_URL}`
       : "https://www.ane-doo.com");
   const productUrl = `${baseUrl}/shop/${product.slug.current}`;
-  const displayPrice = product.salePrice ?? product.price;
+  const displayPrice =
+    product.salePrice ?? product.price ?? product.wholesalePrice;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -150,6 +161,7 @@ export default async function ProductPage({
             colors={displayColors}
             tags={product.tags}
             pricingSections={getPricingSections(product)}
+            allowRetail={product.salePrice != null}
           />
         </div>
       </Container>
