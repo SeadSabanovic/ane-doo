@@ -61,11 +61,37 @@ export default async function ShopPage({
   const currentPage =
     Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
 
+  const parsePriceParam = (key: "cijenaOd" | "cijenaDo") => {
+    const raw = normalizedSearchParams.get(key);
+    if (!raw) return undefined;
+    const n = Number.parseInt(raw, 10);
+    return Number.isFinite(n) ? n : undefined;
+  };
+
+  const DEFAULT_MIN_PRICE = 0;
+  const DEFAULT_MAX_PRICE = 200;
+  const minPrice = Math.max(
+    0,
+    parsePriceParam("cijenaOd") ?? DEFAULT_MIN_PRICE,
+  );
+  const maxPrice = Math.max(
+    minPrice,
+    parsePriceParam("cijenaDo") ?? DEFAULT_MAX_PRICE,
+  );
+
+  const rawAkcija = normalizedSearchParams.get("akcija");
+  const saleOnly = rawAkcija === "1" || rawAkcija === "true";
+
   const [categories, totalProducts] = await Promise.all([
     getParentCategories(),
     selectedCategorySlugs.size > 0
-      ? getProductsByCategorySlugsCount([...selectedCategorySlugs])
-      : getProductsCount(),
+      ? getProductsByCategorySlugsCount(
+          [...selectedCategorySlugs],
+          minPrice,
+          maxPrice,
+          saleOnly,
+        )
+      : getProductsCount(minPrice, maxPrice, saleOnly),
   ]);
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
   const effectivePage = totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
@@ -77,8 +103,11 @@ export default async function ShopPage({
           [...selectedCategorySlugs],
           start,
           end,
+          minPrice,
+          maxPrice,
+          saleOnly,
         )
-      : await getProductsPaginated(start, end);
+      : await getProductsPaginated(start, end, minPrice, maxPrice, saleOnly);
 
   // Transform Sanity products to ProductCard format
   const products = sanityProducts.map((product) => ({
@@ -96,8 +125,8 @@ export default async function ShopPage({
   return (
     <>
       <PageHeader
-        title="Shop"
-        description="Pregledajte našu kolekciju proizvoda"
+        title="Online Katalog"
+        description="Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik"
         breadcrumbItems={[
           { label: "Početna", href: "/" },
           { label: "Shop", href: "/shop" },
@@ -113,11 +142,11 @@ export default async function ShopPage({
               icon={SearchX}
               title="Nema proizvoda za odabrani filter"
               description="Promijenite ili očistite filtere kako biste vidjeli dostupne artikle."
-              actionLabel="Očisti filtre"
+              actionLabel="Očisti filtere"
               actionHref="/shop"
             />
           ) : (
-            <div className="grid grid-cols-2 gap-8 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

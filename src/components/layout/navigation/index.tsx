@@ -110,7 +110,7 @@ const Navigation = () => {
                     {isHydrated && wishlistCount > 0 && (
                       <Badge
                         variant="outline"
-                        className="bg-background absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums"
+                        className="bg-background absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums z-10"
                       >
                         {wishlistCount}
                       </Badge>

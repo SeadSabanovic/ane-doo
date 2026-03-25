@@ -450,6 +450,9 @@ export const PRODUCTS_PAGINATED_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
 ]|order(name asc)[$start...$end]{
   _id,
   name,
@@ -492,6 +495,9 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
 ]|order(name asc)[$start...$end]{
   _id,
   name,
@@ -530,6 +536,9 @@ export const PRODUCTS_COUNT_QUERY = `count(*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
 ])`;
 
 export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
@@ -540,6 +549,9 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
 ])`;
 
 export const SEARCH_PRODUCTS_QUERY = `*[
@@ -676,10 +688,13 @@ export async function getProductsByCategorySlugs(
 export async function getProductsPaginated(
   start: number,
   end: number,
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
 ): Promise<Product[]> {
   return await client.fetch(
     PRODUCTS_PAGINATED_QUERY,
-    { start, end },
+    { start, end, minPrice, maxPrice, saleOnly },
     { next: { revalidate: 60 } },
   );
 }
@@ -688,28 +703,38 @@ export async function getProductsByCategorySlugsPaginated(
   categorySlugs: string[],
   start: number,
   end: number,
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
 ): Promise<Product[]> {
   return await client.fetch(
     PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY,
-    { categorySlugs, start, end },
+    { categorySlugs, start, end, minPrice, maxPrice, saleOnly },
     { next: { revalidate: 60 } },
   );
 }
 
-export async function getProductsCount(): Promise<number> {
+export async function getProductsCount(
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
+): Promise<number> {
   return await client.fetch(
     PRODUCTS_COUNT_QUERY,
-    {},
+    { minPrice, maxPrice, saleOnly },
     { next: { revalidate: 60 } },
   );
 }
 
 export async function getProductsByCategorySlugsCount(
   categorySlugs: string[],
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
 ): Promise<number> {
   return await client.fetch(
     PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY,
-    { categorySlugs },
+    { categorySlugs, minPrice, maxPrice, saleOnly },
     { next: { revalidate: 60 } },
   );
 }

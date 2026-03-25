@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CostSlider from "@/components/ui/cost-slider";
+import SaleOnlyToggle from "@/components/ui/sale-only-toggle";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -89,7 +90,26 @@ export default function ShopFilterDialog() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
-    undefined,
+    "price",
+  );
+  const DEFAULT_MIN_PRICE = 0;
+  const DEFAULT_MAX_PRICE = 200;
+
+  const readPriceFromQuery = (): [number, number] => {
+    const rawMin = searchParams.get("cijenaOd");
+    const rawMax = searchParams.get("cijenaDo");
+
+    const min = rawMin ? Number.parseInt(rawMin, 10) : DEFAULT_MIN_PRICE;
+    const max = rawMax ? Number.parseInt(rawMax, 10) : DEFAULT_MAX_PRICE;
+
+    const safeMin = Number.isFinite(min) ? Math.max(DEFAULT_MIN_PRICE, min) : DEFAULT_MIN_PRICE;
+    const safeMax = Number.isFinite(max) ? Math.max(safeMin, max) : DEFAULT_MAX_PRICE;
+
+    return [safeMin, safeMax];
+  };
+
+  const [priceRange, setPriceRange] = useState<[number, number]>(() =>
+    readPriceFromQuery(),
   );
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
     new Set(),
@@ -148,6 +168,17 @@ export default function ShopFilterDialog() {
     } else {
       params.delete("kategorija");
     }
+
+    const [minPrice, maxPrice] = priceRange;
+    if (minPrice <= DEFAULT_MIN_PRICE && maxPrice >= DEFAULT_MAX_PRICE) {
+      params.delete("cijenaOd");
+      params.delete("cijenaDo");
+    } else {
+      params.set("cijenaOd", String(minPrice));
+      params.set("cijenaDo", String(maxPrice));
+    }
+
+    params.delete("stranica");
 
     const query = params.toString();
     router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
@@ -270,6 +301,7 @@ export default function ShopFilterDialog() {
         setOpen(nextOpen);
         if (nextOpen) {
           syncSelectionWithQuery();
+          setPriceRange(readPriceFromQuery());
         }
       }}
     >
@@ -305,7 +337,7 @@ export default function ShopFilterDialog() {
               Kategorije
             </AccordionTrigger>
             <AccordionContent>
-              <div className="bg-muted/20 flex flex-col gap-2 rounded-md p-4">
+              <div className="flex flex-col gap-2 px-4">
                 {categories.map((category) => (
                   <div key={category._id} className="flex flex-col gap-2">
                     {/* Main Category */}
@@ -381,8 +413,15 @@ export default function ShopFilterDialog() {
               Cijena
             </AccordionTrigger>
             <AccordionContent>
-              <div className="bg-muted/20 rounded-md p-4">
-                <CostSlider />
+              <div className="px-4">
+                <CostSlider
+                  value={priceRange}
+                  onValueChange={setPriceRange}
+                  commitToUrl={false}
+                />
+                <div className="mt-4">
+                  <SaleOnlyToggle />
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -395,7 +434,7 @@ export default function ShopFilterDialog() {
             onClick={clearCategoryFilter}
           >
             <XIcon />
-            Očisti filtre
+            Očisti filtere
           </Button>
           <Button
             variant="default"

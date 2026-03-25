@@ -116,11 +116,11 @@ export default function ProductCard({ product }: { product: Product }) {
           variant="outline"
           className={
             product.salePrice
-              ? "border-destructive/20 bg-destructive/20 text-destructive absolute top-2 left-2 z-20"
+              ? "border-background/30 bg-background/20 text-background absolute top-2 left-2 z-20 backdrop-blur-md"
               : "bg-background absolute top-2 left-2 z-20"
           }
         >
-          {product.salePrice ? "Akcija" : product.badge}
+          {product.salePrice ? "% Akcija" : product.badge}
         </Badge>
       )}
       <div className="mt-4 flex flex-1 flex-col">

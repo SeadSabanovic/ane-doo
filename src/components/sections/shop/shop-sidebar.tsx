@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CostSlider from "@/components/ui/cost-slider";
+import SaleOnlyToggle from "@/components/ui/sale-only-toggle";
 import { Label } from "@/components/ui/label";
 import { type Category } from "@/sanity/lib/api";
 
@@ -22,7 +23,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
-    undefined,
+    "price",
   );
   const { selectedCategories, selectedSubcategories } = useMemo(() => {
     const rawCategoryParam = searchParams.get("kategorija");
@@ -201,7 +202,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
             Kategorije
           </AccordionTrigger>
           <AccordionContent className="px-3">
-            <div className="bg-muted/20 flex flex-col gap-2 rounded-md p-4">
+            <div className="flex flex-col gap-2 rounded-md px-4">
               {categories.map((category) => (
                 <div key={category._id} className="flex flex-col gap-2">
                   {/* Main Category */}
@@ -268,8 +269,11 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
             Cijena
           </AccordionTrigger>
           <AccordionContent className="px-2">
-            <div className="bg-muted/20 rounded-md p-4">
+            <div className="px-4">
               <CostSlider />
+              <div className="mt-4">
+                <SaleOnlyToggle />
+              </div>
             </div>
           </AccordionContent>
         </AccordionItem>
