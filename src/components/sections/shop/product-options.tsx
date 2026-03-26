@@ -124,7 +124,13 @@ export function RetailVariantPickers({
     <div className={cn("flex flex-col gap-4", className)}>
       {sizes.length > 0 && (
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-          <h3 className="shrink-0 font-semibold">Veličina</h3>
+          <h3 className="shrink-0 font-semibold">
+            Veličina{" "}
+            <span aria-hidden="true" className="text-destructive">
+              *
+            </span>
+            <span className="sr-only"> (obavezno)</span>
+          </h3>
           <div className="flex flex-wrap justify-end gap-2 sm:max-w-[70%]">
             {sizes.map((size) => (
               <Button
@@ -147,7 +153,13 @@ export function RetailVariantPickers({
 
       {colorOptions.length > 0 && (
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-          <h3 className="shrink-0 font-semibold">Boja</h3>
+          <h3 className="shrink-0 font-semibold">
+            Boja{" "}
+            <span aria-hidden="true" className="text-destructive">
+              *
+            </span>
+            <span className="sr-only"> (obavezno)</span>
+          </h3>
           <div className="flex flex-wrap justify-end gap-2 sm:max-w-[70%]">
             {colorOptions.map(({ label, hex }) => {
               const isSelected = currentColor === label;

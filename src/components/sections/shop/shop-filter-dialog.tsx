@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon, FilterIcon, XIcon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -24,7 +24,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { getParentCategories, type Category } from "@/sanity/lib/api";
+import type { Category } from "@/sanity/lib/api";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function getSelectedFromQuery(
@@ -83,11 +83,10 @@ function getSelectedFromQuery(
   };
 }
 
-export default function ShopFilterDialog() {
+export default function ShopFilterDialog({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [categories, setCategories] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string | undefined>(
     "price",
@@ -118,14 +117,6 @@ export default function ShopFilterDialog() {
     Set<string>
   >(new Set());
   const lenis = useLenis();
-
-  useEffect(() => {
-    async function fetchCategories() {
-      const data = await getParentCategories();
-      setCategories(data);
-    }
-    fetchCategories();
-  }, []);
 
   const syncSelectionWithQuery = () => {
     const {
@@ -310,7 +301,7 @@ export default function ShopFilterDialog() {
           variant="outline"
           className="hover:bg-background/80! flex h-fit flex-1 items-center justify-start rounded-full p-1 xl:hidden"
         >
-          <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-full">
+          <div className="bg-primary text-primary-foreground flex size-6 md:size-8 lg:size-10 items-center justify-center rounded-full">
             <FilterIcon />
           </div>
           Filteri

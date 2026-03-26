@@ -17,8 +17,9 @@ import { useState } from "react";
 import ShopFilterDialog from "./shop-filter-dialog";
 import Container from "@/components/layout/container";
 import { Label } from "@/components/ui/label";
+import type { Category } from "@/sanity/lib/api";
 
-export default function ShopToolbar() {
+export default function ShopToolbar({ categories }: { categories: Category[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
 
@@ -31,9 +32,9 @@ export default function ShopToolbar() {
 
   return (
     <Container className="pb-8">
-      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-end lg:justify-end">
+      <div className="flex flex-col items-center justify-between gap-4 lg:grid lg:grid-cols-2 lg:items-end lg:justify-end xl:grid-cols-3">
         {/* Search Bar */}
-        <div className="flex w-full flex-1 flex-col items-stretch gap-2 lg:max-w-sm! xl:max-w-lg!">
+        <div className="flex w-full flex-1 flex-col items-stretch gap-2 xl:col-start-2">
           <Label
             htmlFor="search-input"
             className="sr-only text-sm font-medium whitespace-nowrap"
@@ -59,9 +60,9 @@ export default function ShopToolbar() {
           </InputGroup>
         </div>
 
-        <div className="flex w-full flex-1 items-end gap-4 xl:max-w-sm">
+        <div className="flex w-full flex-1 items-end gap-4">
           {/* Sort */}
-          <div className="flex flex-1 flex-col items-stretch gap-2">
+          <div className="flex flex-1 flex-col items-stretch gap-2 lg:max-w-60 ml-auto">
             <Label
               htmlFor="sort-select"
               className="sr-only text-sm font-medium whitespace-nowrap"
@@ -74,7 +75,7 @@ export default function ShopToolbar() {
                 className="bg-background! h-fit! w-full flex-1 cursor-pointer rounded-full p-1 pr-2 font-medium!"
               >
                 <SelectValue className="h-fit">
-                  <div className="bg-primary text-primary-foreground! flex size-10 items-center justify-center rounded-full">
+                  <div className="bg-primary text-primary-foreground! flex size-6 md:size-8 lg:size-10 items-center justify-center rounded-full">
                     <ArrowDown01
                       size={24}
                       className="text-primary-foreground"
@@ -96,7 +97,7 @@ export default function ShopToolbar() {
           </div>
 
           {/* Filter */}
-          <ShopFilterDialog />
+          <ShopFilterDialog categories={categories} />
         </div>
       </div>
     </Container>

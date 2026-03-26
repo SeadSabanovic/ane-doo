@@ -131,7 +131,15 @@ export default function ProductCard({ product }: { product: Product }) {
         <small className="mt-auto flex flex-wrap items-end gap-x-2 gap-y-0 pt-1 text-sm">
           {product.salePrice ? (
             <>
-              <span className="line-through">{formatPrice(product.price)}</span>
+              <span className="sr-only">
+                Redovna cijena: {formatPrice(product.price)}
+              </span>
+              <span aria-hidden="true" className="line-through">
+                {formatPrice(product.price)}
+              </span>
+              <span className="sr-only">
+                Akcijska cijena: {formatPrice(product.salePrice)}
+              </span>
               <span className="text-destructive font-semibold">
                 {formatPrice(product.salePrice)}
               </span>

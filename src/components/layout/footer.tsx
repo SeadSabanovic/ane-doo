@@ -15,7 +15,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="from-primary to-card-foreground text-secondary-foreground relative w-full bg-linear-to-r lg:mx-auto lg:mb-8 lg:max-w-[calc(100%-4rem)] lg:overflow-hidden lg:rounded-lg">
+    <footer className="from-primary to-card-foreground text-secondary-foreground relative w-full bg-linear-to-r lg:border lg:border-card-foreground lg:mx-auto lg:mb-8 lg:max-w-[calc(100%-4rem)] lg:overflow-hidden lg:rounded-lg">
       <div className="relative overflow-hidden">
         <Container className="relative z-20">
           {/* <!-- footer menu start --> */}

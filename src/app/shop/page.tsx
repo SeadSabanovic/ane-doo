@@ -132,7 +132,7 @@ export default async function ShopPage({
           { label: "Shop", href: "/shop" },
         ]}
       />
-      <ShopToolbar />
+      <ShopToolbar categories={categories} />
       <Container className="gap-8 pb-20 lg:flex lg:flex-row">
         <ShopSidebar categories={categories} />
 
