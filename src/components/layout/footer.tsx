@@ -30,7 +30,6 @@ const Footer = () => {
                   alt="ANE d.o.o. Logo"
                   width={40}
                   height={40}
-                  priority
                   className="size-10"
                 />
                 <span className="font-heading text-2xl font-bold">
