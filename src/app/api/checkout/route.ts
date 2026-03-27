@@ -12,6 +12,7 @@ const checkoutRequestSchema = z
       .regex(/^(?:\+387|\+381|\+385|\+382)\s\d{6,12}$/, "Invalid phone format"),
     deliveryMethod: z.enum(["pickup", "delivery"]),
     address: z.string().trim().optional().default(""),
+    addressNumber: z.string().trim().optional().default(""),
     city: z.string().trim().optional().default(""),
     zip: z.string().trim().optional().default(""),
     country: z.string().trim().optional().default(""),
@@ -32,6 +33,18 @@ const checkoutRequestSchema = z
             wholesalePrice: z.number().nonnegative(),
             wholesaleMinQuantity: z.number().int().min(1),
           }),
+          wholesalePackageSnapshot: z
+            .object({
+              packageContentsText: z.string().nullable().optional(),
+              sizes: z.array(z.string()),
+              colorOptions: z.array(
+                z.object({
+                  label: z.string(),
+                  hex: z.string(),
+                }),
+              ),
+            })
+            .optional(),
         }),
       )
       .min(1),

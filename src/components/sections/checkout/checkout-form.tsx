@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import PhoneInputWithCountryCode from "@/components/ui/phone-input-with-country-code";
 import { useCartStore } from "@/stores";
 
@@ -31,6 +31,7 @@ const checkoutFormSchema = z
       .max(12, "Kontakt telefon mora imati između 6 i 12 cifara"),
     deliveryMethod: z.enum(["pickup", "delivery"]),
     address: z.string().trim(),
+    addressNumber: z.string().trim(),
     city: z.string().trim(),
     zip: z.string().trim(),
     country: z.string().trim(),
@@ -41,8 +42,15 @@ const checkoutFormSchema = z
       if (!data.address) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Adresa je obavezna",
+          message: "Ulica je obavezna",
           path: ["address"],
+        });
+      }
+      if (!data.addressNumber) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Broj je obavezan",
+          path: ["addressNumber"],
         });
       }
       if (!data.city) {
@@ -85,6 +93,7 @@ export default function CheckoutForm() {
     phone: "",
     deliveryMethod: "pickup",
     address: "",
+    addressNumber: "",
     city: "",
     zip: "",
     country: "",
@@ -117,6 +126,8 @@ export default function CheckoutForm() {
       phone: `${formData.phoneCountryCode} ${formData.phone}`.trim(),
       deliveryMethod: formData.deliveryMethod,
       address: formData.deliveryMethod === "delivery" ? formData.address : "",
+      addressNumber:
+        formData.deliveryMethod === "delivery" ? formData.addressNumber : "",
       city: formData.deliveryMethod === "delivery" ? formData.city : "",
       zip: formData.deliveryMethod === "delivery" ? formData.zip : "",
       country: formData.deliveryMethod === "delivery" ? formData.country : "",
@@ -156,22 +167,25 @@ export default function CheckoutForm() {
   };
 
   return (
-    <section className="h-fit rounded-md border p-6 lg:col-span-2">
+    <section className="h-fit overflow-hidden rounded-md border p-6 xl:col-span-2">
       {isSubmittedSuccessfully ? (
         <div className="space-y-4 py-4">
-          <h2 className="text-2xl font-semibold">Narudžba je uspješno poslana</h2>
+          <h2 className="text-2xl font-semibold">
+            Narudžba je uspješno poslana
+          </h2>
           <p className="text-muted-foreground">
             Hvala vam. Uskoro ćemo vas kontaktirati s potvrdom narudžbe.
           </p>
-          <Button
+          <InteractiveHoverButton
             type="button"
+            className="w-fit"
             onClick={() => {
               setIsSubmittedSuccessfully(false);
               setSubmitError(null);
             }}
           >
             Pošalji novu narudžbu
-          </Button>
+          </InteractiveHoverButton>
         </div>
       ) : (
         <form
@@ -190,9 +204,13 @@ export default function CheckoutForm() {
             />
           </div>
 
-          {/* Contact Information */}
-          <div>
-            <h2 className="mb-4 text-2xl font-semibold">Kontakt informacije</h2>
+          <h2 className="mb-6 text-2xl font-semibold">Finalizacija narudžbe</h2>
+
+          {/* Kontakt podaci */}
+          <div className="space-y-4">
+            <h3 className="text-muted-foreground text-lg font-semibold">
+              Kontakt podaci
+            </h3>
             <div className="space-y-4">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="flex flex-col gap-1.5">
@@ -298,7 +316,10 @@ export default function CheckoutForm() {
                     )}
                   />
                   {errors.phone && (
-                    <p id="checkout-phone-error" className="text-destructive text-sm">
+                    <p
+                      id="checkout-phone-error"
+                      className="text-destructive text-sm"
+                    >
                       {errors.phone.message}
                     </p>
                   )}
@@ -307,9 +328,11 @@ export default function CheckoutForm() {
             </div>
           </div>
 
-          {/* Delivery Method */}
-          <div>
-            <h2 className="mb-4 text-2xl font-semibold">Način preuzimanja</h2>
+          {/* Način preuzimanja */}
+          <div className="space-y-4">
+            <h3 className="text-muted-foreground text-lg font-semibold">
+              Način preuzimanja
+            </h3>
             <Controller
               name="deliveryMethod"
               control={control}
@@ -323,7 +346,8 @@ export default function CheckoutForm() {
                     htmlFor="pickup"
                     className={cn(
                       "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
-                      field.value === "pickup" && "border-primary bg-primary/10",
+                      field.value === "pickup" &&
+                        "border-primary bg-primary/10",
                     )}
                   >
                     <RadioGroupItem id="pickup" value="pickup" />
@@ -346,7 +370,9 @@ export default function CheckoutForm() {
                   >
                     <RadioGroupItem id="delivery" value="delivery" />
                     <div className="grid flex-1 gap-1.5 font-normal">
-                      <p className="text-sm leading-none font-medium">Dostava</p>
+                      <p className="text-sm leading-none font-medium">
+                        Dostava
+                      </p>
                       <p className="text-muted-foreground text-sm">
                         Dostavljamo na vašu adresu
                       </p>
@@ -357,36 +383,75 @@ export default function CheckoutForm() {
             />
           </div>
 
-          {/* Shipping Address */}
+          {/* Adresa za dostavu */}
           {deliveryMethod === "delivery" && (
-            <div>
-              <h2 className="mb-4 text-2xl font-semibold">Adresa dostave</h2>
+            <div className="space-y-4">
+              <h3 className="text-muted-foreground text-lg font-semibold">
+                Adresa za dostavu
+              </h3>
               <div className="space-y-4">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="address" className="text-sm font-medium">
-                    Adresa <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="address"
-                    placeholder="Ulica i broj"
-                    {...register("address")}
-                    aria-invalid={!!errors.address}
-                    aria-describedby={
-                      errors.address ? "checkout-address-error" : undefined
-                    }
-                    className={cn(errors.address && "border-destructive")}
-                  />
-                  {errors.address && (
-                    <p
-                      id="checkout-address-error"
-                      className="text-destructive text-sm"
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-4">
+                  <div className="min-w-0 flex-1 space-y-1.5">
+                    <label htmlFor="address" className="text-sm font-medium">
+                      Ulica <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="address"
+                      placeholder="Naziv ulice"
+                      autoComplete="street-address"
+                      {...register("address")}
+                      aria-invalid={!!errors.address}
+                      aria-describedby={
+                        errors.address ? "checkout-address-error" : undefined
+                      }
+                      className={cn(errors.address && "border-destructive")}
+                    />
+                    {errors.address && (
+                      <p
+                        id="checkout-address-error"
+                        className="text-destructive text-sm"
+                      >
+                        {errors.address.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="w-full space-y-1.5 sm:w-24 sm:shrink-0">
+                    <label
+                      htmlFor="addressNumber"
+                      className="text-sm font-medium"
                     >
-                      {errors.address.message}
-                    </p>
-                  )}
+                      Broj <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="addressNumber"
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      placeholder="12"
+                      {...register("addressNumber")}
+                      aria-invalid={!!errors.addressNumber}
+                      aria-describedby={
+                        errors.addressNumber
+                          ? "checkout-addressNumber-error"
+                          : undefined
+                      }
+                      className={cn(
+                        "tabular-nums",
+                        errors.addressNumber && "border-destructive",
+                      )}
+                    />
+                    {errors.addressNumber && (
+                      <p
+                        id="checkout-addressNumber-error"
+                        className="text-destructive text-sm"
+                      >
+                        {errors.addressNumber.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="city" className="text-sm font-medium">
                       Grad <span className="text-destructive">*</span>
@@ -394,6 +459,7 @@ export default function CheckoutForm() {
                     <Input
                       id="city"
                       placeholder="Grad"
+                      autoComplete="address-level2"
                       {...register("city")}
                       aria-invalid={!!errors.city}
                       aria-describedby={
@@ -402,7 +468,10 @@ export default function CheckoutForm() {
                       className={cn(errors.city && "border-destructive")}
                     />
                     {errors.city && (
-                      <p id="checkout-city-error" className="text-destructive text-sm">
+                      <p
+                        id="checkout-city-error"
+                        className="text-destructive text-sm"
+                      >
                         {errors.city.message}
                       </p>
                     )}
@@ -414,6 +483,7 @@ export default function CheckoutForm() {
                     <Input
                       id="zip"
                       placeholder="71000"
+                      autoComplete="postal-code"
                       {...register("zip")}
                       aria-invalid={!!errors.zip}
                       aria-describedby={
@@ -422,42 +492,53 @@ export default function CheckoutForm() {
                       className={cn(errors.zip && "border-destructive")}
                     />
                     {errors.zip && (
-                      <p id="checkout-zip-error" className="text-destructive text-sm">
+                      <p
+                        id="checkout-zip-error"
+                        className="text-destructive text-sm"
+                      >
                         {errors.zip.message}
                       </p>
                     )}
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="country" className="text-sm font-medium">
-                      Država <span className="text-destructive">*</span>
-                    </label>
-                    <Input
-                      id="country"
-                      placeholder="Bosna i Hercegovina"
-                      {...register("country")}
-                      aria-invalid={!!errors.country}
-                      aria-describedby={
-                        errors.country ? "checkout-country-error" : undefined
-                      }
-                      className={cn(errors.country && "border-destructive")}
-                    />
-                    {errors.country && (
-                      <p
-                        id="checkout-country-error"
-                        className="text-destructive text-sm"
-                      >
-                        {errors.country.message}
-                      </p>
-                    )}
-                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="country" className="text-sm font-medium">
+                    Država <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="country"
+                    placeholder="Bosna i Hercegovina"
+                    autoComplete="country-name"
+                    {...register("country")}
+                    aria-invalid={!!errors.country}
+                    aria-describedby={
+                      errors.country ? "checkout-country-error" : undefined
+                    }
+                    className={cn(errors.country && "border-destructive")}
+                  />
+                  {errors.country && (
+                    <p
+                      id="checkout-country-error"
+                      className="text-destructive text-sm"
+                    >
+                      {errors.country.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
           )}
 
-          <Button className="flex-1" size="lg" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Slanje..." : "Završi narudžbu"}
-          </Button>
+          <div className="flex w-full justify-end">
+            <InteractiveHoverButton
+              type="submit"
+              disabled={isSubmitting}
+              className="max-w-full disabled:opacity-60"
+            >
+              {isSubmitting ? "Slanje..." : "Završi narudžbu"}
+            </InteractiveHoverButton>
+          </div>
 
           {submitError && (
             <p className="text-destructive text-sm" role="alert">

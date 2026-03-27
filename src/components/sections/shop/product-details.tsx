@@ -129,6 +129,18 @@ export function ProductDetails({
         wholesalePrice: effectiveWholesaleUnit,
         wholesaleMinQuantity,
       },
+      ...(purchaseType === "wholesale"
+        ? {
+            wholesalePackageSnapshot: {
+              packageContentsText: packageContentsText?.trim() || null,
+              sizes: [...sizes],
+              colorOptions: colorOptions.map(({ label, hex }) => ({
+                label,
+                hex,
+              })),
+            },
+          }
+        : {}),
     });
 
     const desc =

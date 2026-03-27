@@ -39,7 +39,7 @@ export default function CheckoutContent() {
   }
 
   return (
-    <div className="flex flex-col gap-8 lg:grid lg:grid-cols-5">
+    <div className="flex flex-col gap-8 xl:grid xl:grid-cols-5">
       <OrderSummary cartItems={items} total={total} />
       <CheckoutForm />
     </div>

@@ -12,10 +12,10 @@ interface OrderSummaryProps {
 
 export default function OrderSummary({ cartItems, total }: OrderSummaryProps) {
   return (
-    <div className="flex-1 overflow-hidden rounded-lg border lg:col-span-3">
+    <div className="h-fit flex-1 overflow-hidden rounded-lg border xl:col-span-3">
       {/* Cart Items */}
       <div className="space-y-4 border-b p-6">
-        <h2 className="mb-4 text-2xl font-semibold">Korpa</h2>
+        <h2 className="mb-6 text-2xl font-semibold">Pregled narudžbe</h2>
         {cartItems.map((item, index) => (
           <Fragment
             key={`${item.productId}-${item.size}-${item.color}-${item.purchaseType}`}
@@ -29,7 +29,7 @@ export default function OrderSummary({ cartItems, total }: OrderSummaryProps) {
       </div>
 
       {/* Cart Summary */}
-      <div className="space-y-6 p-6">
+      <div className="space-y-6 bg-muted/10 p-6">
         <div className="flex justify-between text-lg font-bold">
           <span>Ukupno:</span>
           <span>{formatPrice(total)}</span>

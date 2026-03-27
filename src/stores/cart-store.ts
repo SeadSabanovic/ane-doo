@@ -1,5 +1,13 @@
+import type { ProductColorOption } from "@/constants/colors";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+/** Snapshot s PDP-a za prikaz „Sadržaj paketa” u korpi (samo veleprodaja). */
+export interface WholesalePackageSnapshot {
+  packageContentsText?: string | null;
+  sizes: string[];
+  colorOptions: ProductColorOption[];
+}
 
 export interface CartItem {
   productId: string;
@@ -15,6 +23,7 @@ export interface CartItem {
     wholesalePrice: number;
     wholesaleMinQuantity: number;
   };
+  wholesalePackageSnapshot?: WholesalePackageSnapshot;
 }
 
 interface CartStore {
@@ -57,9 +66,12 @@ export const useCartStore = create<CartStore>()(
 
           if (existingIndex !== -1) {
             const updatedItems = [...state.items];
+            const prev = updatedItems[existingIndex];
             updatedItems[existingIndex] = {
-              ...updatedItems[existingIndex],
-              quantity: updatedItems[existingIndex].quantity + item.quantity,
+              ...prev,
+              quantity: prev.quantity + item.quantity,
+              wholesalePackageSnapshot:
+                item.wholesalePackageSnapshot ?? prev.wholesalePackageSnapshot,
             };
             return { items: updatedItems };
           }

@@ -9,6 +9,7 @@ import { formatPrice } from "@/lib/format-price";
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { CartItem, useCartStore } from "@/stores";
+import { RetailCartItemEditDialog } from "./retail-cart-item-edit-dialog";
 
 interface CartItemProps {
   item: CartItem;
@@ -19,6 +20,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
   const removeItem = useCartStore((state) => state.removeItem);
 
   const isWholesale = item.purchaseType === "wholesale";
+  const isRetail = item.purchaseType === "retail";
 
   const unitPrice = isWholesale
     ? item.pricing.wholesalePrice
@@ -47,10 +49,21 @@ export default function CartItemComponent({ item }: CartItemProps) {
     removeItem(item.productId, item.size, item.color, item.purchaseType);
   };
 
+  // Retail edit dialog is extracted into its own component.
+
+  const priceBlockLabelClass = "text-muted-foreground text-sm";
+  const priceBlockValueClass = "font-semibold";
+
+  const snap = item.wholesalePackageSnapshot;
+  const packageNote = snap?.packageContentsText?.trim() ?? "";
+  const packageSizes = snap?.sizes ?? [];
+  const packageColors = snap?.colorOptions ?? [];
+
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex w-full flex-col gap-4">
+      {/* Gornji red: samo slika + naslov + badgevi */}
       <div className="flex items-start gap-3">
-        <Link href={`/shop/${item.slug}`}>
+        <Link href={`/shop/${item.slug}`} className="shrink-0">
           <AnimatedImage
             src={item.image}
             alt={item.name}
@@ -60,20 +73,20 @@ export default function CartItemComponent({ item }: CartItemProps) {
           />
         </Link>
 
-        {/* Details */}
-        <div className="flex flex-1 flex-col gap-3">
-          <h4 className="px-2 pt-2 font-medium">{item.name}</h4>
-
-          {/* Details - Size and Color (retail) ili paket (wholesale) */}
-          <div className="flex flex-wrap gap-1 px-2">
+        <div className="min-w-0 flex-1">
+          <h4 className="text-lg font-medium">
+            <Link
+              href={`/shop/${item.slug}`}
+              className="hover:text-foreground/90 hover:underline"
+            >
+              {item.name}
+            </Link>
+          </h4>
+          <div className="mt-2 flex flex-wrap gap-1">
             <Badge variant="outline">
               {isWholesale ? "Veleprodaja" : "Maloprodaja"}
             </Badge>
-            {isWholesale ? (
-              <Badge variant="outline" className="text-secondary-foreground">
-                1 paket = {item.pricing.wholesaleMinQuantity} kom
-              </Badge>
-            ) : (
+            {isRetail ? (
               <>
                 {item.size && (
                   <Badge variant="outline">Veličina: {item.size}</Badge>
@@ -82,40 +95,117 @@ export default function CartItemComponent({ item }: CartItemProps) {
                   <Badge variant="outline">Boja: {item.color}</Badge>
                 )}
               </>
-            )}
+            ) : null}
           </div>
-          {isWholesale && (
-            <p className="text-muted-foreground px-2 text-sm">
-              {item.quantity} paketa = {totalUnits} komada
-            </p>
-          )}
         </div>
       </div>
 
-      {/* Price and Quantity */}
-      <div className={cn("flex w-full flex-col gap-3 rounded-md p-2 pb-0")}>
-        <div className="flex flex-col gap-1">
-          <span className="text-right font-medium">
-            {formatPrice(unitPrice)}
-            {isWholesale ? " / kom" : ""}
-          </span>
+      {/* Cijena, ukupno — isti label + vrijednost stil */}
+      <div className="flex w-full flex-col gap-3">
+        <div className="flex flex-col gap-2">
+          {isWholesale ? (
+            <>
+              <div className="flex flex-col gap-0.5">
+                <span className={priceBlockLabelClass}>Sadržaj paketa</span>
+                <span className={priceBlockValueClass}>
+                  1 paket = {item.pricing.wholesaleMinQuantity} komada
+                </span>
+                {packageNote ? (
+                  <span
+                    className={cn(
+                      priceBlockValueClass,
+                      "block whitespace-pre-wrap",
+                    )}
+                  >
+                    {packageNote}
+                  </span>
+                ) : null}
+              </div>
+              {packageSizes.length > 0 ? (
+                <div className="flex flex-col gap-0.5">
+                  <span className={priceBlockLabelClass}>Veličine</span>
+                  <span className={priceBlockValueClass}>
+                    {packageSizes.join(", ")}
+                  </span>
+                </div>
+              ) : null}
+              {packageColors.length > 0 ? (
+                <div className="flex flex-col gap-0.5">
+                  <span className={priceBlockLabelClass}>Boje</span>
+                  <span className={priceBlockValueClass}>
+                    {packageColors.map((c) => c.label).join(", ")}
+                  </span>
+                </div>
+              ) : null}
+            </>
+          ) : null}
+
+          <div className="flex flex-col gap-0.5">
+            <span className={priceBlockLabelClass}>
+              {isWholesale ? "Cijena po komadu" : "Cijena"}
+            </span>
+            <span className={priceBlockValueClass}>
+              {formatPrice(unitPrice)}
+              {isWholesale ? " / kom" : ""}
+            </span>
+          </div>
+
+          <div className="flex w-full flex-col gap-0.5 text-right">
+            <span className={cn(priceBlockLabelClass, "block")}>Ukupno</span>
+            <span className={cn(priceBlockValueClass, "tabular-nums")}>
+              {formatPrice(totalPrice)}
+            </span>
+            <span className="text-muted-foreground block text-xs">
+              {formatPrice(unitPrice)} × {totalUnits} kom
+            </span>
+          </div>
         </div>
-        <div className="flex items-end gap-2">
+
+        <div
+          className={cn(
+            "flex w-full gap-2",
+            "flex-col items-stretch gap-3 md:flex-row md:items-end",
+          )}
+        >
           <InputWithPlusMinus
             value={item.quantity}
             minValue={1}
             onChange={handleQuantityChange}
             label={isWholesale ? "Broj pakovanja" : "Količina"}
-            className="flex-1"
+            className={cn("w-full", isWholesale && "md:min-w-0 md:flex-1")}
           />
-          <Button variant="outline" size="lg" onClick={handleRemove}>
-            <Trash2 />
-            Ukloni
-          </Button>
+          {isRetail ? (
+            <div
+              className={cn(
+                "flex w-full flex-col items-stretch gap-2 md:w-auto md:shrink-0 md:flex-row md:self-end",
+              )}
+            >
+              <RetailCartItemEditDialog
+                item={item}
+                triggerClassName="w-full md:w-auto"
+              />
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full md:w-auto"
+                onClick={handleRemove}
+              >
+                <Trash2 />
+                Ukloni
+              </Button>
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full shrink-0 md:w-auto"
+              onClick={handleRemove}
+            >
+              <Trash2 />
+              Ukloni
+            </Button>
+          )}
         </div>
-        <span className="text-foreground/80 text-right text-sm">
-          {formatPrice(unitPrice)} × {totalUnits} kom = {formatPrice(totalPrice)}
-        </span>
       </div>
     </div>
   );
