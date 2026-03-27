@@ -194,12 +194,21 @@ export function ProductDetails({
             <h1 className="text-4xl font-bold">{name}</h1>
           </div>
           <div className="flex flex-wrap items-baseline gap-2">
-            {/*
-              Akcijska cijena se prikazuje u kartici „Veleprodaja“, ne u hero zoni.
-            */}
-            <p className="text-primary text-3xl font-semibold">
-              {formatPrice(wholesalePrice)} / kom
-            </p>
+            {salePrice != null ? (
+              <>
+                <p className="text-muted-foreground/80 text-2xl line-through">
+                  {formatPrice(wholesalePrice)}
+                </p>
+                <p className="text-primary text-3xl font-semibold">
+                  <span className="text-destructive">{formatPrice(salePrice)}</span>{" "}
+                  / kom
+                </p>
+              </>
+            ) : (
+              <p className="text-primary text-3xl font-semibold">
+                {formatPrice(wholesalePrice)} / kom
+              </p>
+            )}
           </div>
         </div>
         <Button
@@ -283,6 +292,11 @@ export function ProductDetails({
               compareAtPrice={
                 section.type === "veleprodaja"
                   ? section.compareAtPrice
+                  : undefined
+              }
+              wholesaleMinQuantity={
+                section.type === "veleprodaja"
+                  ? wholesaleMinQuantity
                   : undefined
               }
               variantSlot={

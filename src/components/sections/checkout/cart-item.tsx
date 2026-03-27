@@ -23,6 +23,9 @@ export default function CartItemComponent({ item }: CartItemProps) {
   const unitPrice = isWholesale
     ? item.pricing.wholesalePrice
     : item.pricing.retailPrice;
+  const totalUnits = isWholesale
+    ? item.quantity * item.pricing.wholesaleMinQuantity
+    : item.quantity;
 
   const totalPrice = isWholesale
     ? item.quantity *
@@ -63,11 +66,11 @@ export default function CartItemComponent({ item }: CartItemProps) {
 
           {/* Details - Size and Color (retail) ili paket (wholesale) */}
           <div className="flex flex-wrap gap-1 px-2">
+            <Badge variant="outline">
+              {isWholesale ? "Veleprodaja" : "Maloprodaja"}
+            </Badge>
             {isWholesale ? (
-              <Badge
-                variant="outline"
-                className="bg-secondary-muted/50 text-secondary-foreground"
-              >
+              <Badge variant="outline" className="text-secondary-foreground">
                 1 paket = {item.pricing.wholesaleMinQuantity} kom
               </Badge>
             ) : (
@@ -81,6 +84,11 @@ export default function CartItemComponent({ item }: CartItemProps) {
               </>
             )}
           </div>
+          {isWholesale && (
+            <p className="text-muted-foreground px-2 text-sm">
+              {item.quantity} paketa = {totalUnits} komada
+            </p>
+          )}
         </div>
       </div>
 
@@ -106,7 +114,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
           </Button>
         </div>
         <span className="text-foreground/80 text-right text-sm">
-          = {formatPrice(totalPrice)}
+          {formatPrice(unitPrice)} × {totalUnits} kom = {formatPrice(totalPrice)}
         </span>
       </div>
     </div>

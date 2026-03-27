@@ -123,7 +123,7 @@ export function RetailVariantPickers({
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       {sizes.length > 0 && (
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="flex flex-col gap-2 sm:items-start sm:justify-between">
           <h3 className="shrink-0 font-semibold">
             Veličina{" "}
             <span aria-hidden="true" className="text-destructive">
@@ -152,7 +152,7 @@ export function RetailVariantPickers({
       )}
 
       {colorOptions.length > 0 && (
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="flex flex-col gap-2 sm:items-start sm:justify-between">
           <h3 className="shrink-0 font-semibold">
             Boja{" "}
             <span aria-hidden="true" className="text-destructive">

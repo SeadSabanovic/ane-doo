@@ -34,7 +34,7 @@ export default function PhoneInputWithCountryCode({
   onPhoneChange,
   countryCodeValue,
   onCountryCodeChange,
-  placeholder = "61486300",
+  placeholder = "61 234 567",
   hasError = false,
   describedBy,
 }: PhoneInputWithCountryCodeProps) {

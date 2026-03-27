@@ -8,7 +8,7 @@ export async function GET() {
     firstName: "Sead",
     lastName: "Sabanovic",
     email: "sead@example.com",
-    phone: "+387 61486300",
+    phone: "+387 61 234 567",
     company: "ANE d.o.o.",
     subject: "upit-o-proizvodima",
     message:

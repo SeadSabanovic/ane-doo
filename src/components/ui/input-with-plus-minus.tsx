@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useId, useState } from "react";
+import { useCallback, useId, useState, type ReactNode } from "react";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,8 @@ interface InputWithPlusMinusProps {
   maxValue?: number;
   step?: number;
   onChange?: (value: number) => void;
-  label?: string;
+  label?: ReactNode;
+  ariaLabel?: string;
   className?: string;
   inputClassName?: string;
   disabled?: boolean;
@@ -28,6 +29,7 @@ export function InputWithPlusMinus({
   step = 1,
   onChange,
   label = "Količina",
+  ariaLabel,
   className,
   inputClassName,
   disabled = false,
@@ -82,6 +84,10 @@ export function InputWithPlusMinus({
   const canDecrement = minValue === undefined || currentValue > minValue;
   const canIncrement = maxValue === undefined || currentValue < maxValue;
 
+  const computedAriaLabel =
+    ariaLabel ??
+    (typeof label === "string" && label.length > 0 ? label : "Količina");
+
   return (
     <div className={cn("w-full space-y-2", className)}>
       {label && (
@@ -94,7 +100,7 @@ export function InputWithPlusMinus({
       )}
       <div
         role="group"
-        aria-label={label || "Količina"}
+        aria-label={computedAriaLabel}
         className={cn(
           "relative inline-flex h-10 w-full min-w-0 items-center rounded-md bg-transparent text-base whitespace-nowrap shadow-none! transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
           "focus-within:ring-ring/50! focus-within:ring-2",
@@ -133,7 +139,7 @@ export function InputWithPlusMinus({
           aria-valuemin={minValue}
           aria-valuemax={maxValue}
           aria-valuenow={currentValue}
-          aria-label={label || "Količina"}
+          aria-label={computedAriaLabel}
           className={cn(
             "bg-background!",
             "boder-border selection:bg-primary selection:text-primary-foreground h-full w-full grow rounded-none border-x-0 border-y px-3 py-2 text-center text-2xl! font-semibold tabular-nums shadow-none! outline-none",
