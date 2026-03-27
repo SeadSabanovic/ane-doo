@@ -12,7 +12,9 @@ import {
 import CostSlider from "@/components/ui/cost-slider";
 import SaleOnlyToggle from "@/components/ui/sale-only-toggle";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { type Category } from "@/sanity/lib/api";
+import { FilterX } from "lucide-react";
 
 interface ShopSidebarProps {
   categories: Category[];
@@ -79,6 +81,26 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
       selectedSubcategories: nextSelectedSubcategories,
     };
   }, [categories, searchParams]);
+
+  const hasActiveFilters = useMemo(() => {
+    if (searchParams.get("kategorija")) return true;
+    if (searchParams.get("cijenaOd") || searchParams.get("cijenaDo"))
+      return true;
+    const akcija = searchParams.get("akcija");
+    if (akcija === "1" || akcija === "true") return true;
+    return false;
+  }, [searchParams]);
+
+  const clearFilters = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("kategorija");
+    params.delete("cijenaOd");
+    params.delete("cijenaDo");
+    params.delete("akcija");
+    params.delete("stranica");
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
 
   const buildSelectedSlugs = (
     categoryIds: Set<string>,
@@ -278,6 +300,21 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      {hasActiveFilters ? (
+        <div className="px-4 pb-4">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full gap-2"
+            onClick={clearFilters}
+          >
+            <FilterX className="size-4" aria-hidden />
+            Očisti filtere
+          </Button>
+        </div>
+      ) : null}
     </aside>
   );
 }

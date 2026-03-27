@@ -79,6 +79,26 @@ export interface Category {
   subcategories?: Category[];
 }
 
+/**
+ * Shop listing sort. `popular` = istaknuti (`featured`) prvo, zatim naziv — nema
+ * podataka o prodaji/pregledima u Sanityju, pa nije „prava” popularnost.
+ */
+export type ShopSort = "popular" | "newest" | "price-asc" | "price-desc";
+
+export function parseShopSortParam(
+  value: string | null | undefined,
+): ShopSort {
+  if (
+    value === "newest" ||
+    value === "price-asc" ||
+    value === "price-desc" ||
+    value === "popular"
+  ) {
+    return value;
+  }
+  return "popular";
+}
+
 // GROQ Queries
 export const PRODUCTS_QUERY = `*[
   _type == "product"
@@ -446,14 +466,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
   specifications
 }`;
 
-export const PRODUCTS_PAGINATED_QUERY = `*[
-  _type == "product"
-  && defined(slug.current)
-  && inStock == true
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
-  && (!$saleOnly || defined(salePrice))
-]|order(name asc)[$start...$end]{
+const SHOP_LIST_PROJECTION = `{
   _id,
   name,
   slug,
@@ -487,7 +500,34 @@ export const PRODUCTS_PAGINATED_QUERY = `*[
   specifications
 }`;
 
-export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
+function shopProductOrderClause(sort: ShopSort): string {
+  switch (sort) {
+    case "popular":
+      return "|order(featured desc, name asc)";
+    case "newest":
+      return "|order(_createdAt desc)";
+    case "price-asc":
+      return "|order(coalesce(salePrice, wholesalePrice) asc, name asc)";
+    case "price-desc":
+      return "|order(coalesce(salePrice, wholesalePrice) desc, name asc)";
+    default:
+      return "|order(featured desc, name asc)";
+  }
+}
+
+export function buildProductsPaginatedGroq(sort: ShopSort): string {
+  return `*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
+]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
+}
+
+export function buildProductsByCategorySlugsPaginatedGroq(sort: ShopSort): string {
+  return `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -498,39 +538,8 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY = `*[
   && coalesce(salePrice, wholesalePrice) >= $minPrice
   && coalesce(salePrice, wholesalePrice) <= $maxPrice
   && (!$saleOnly || defined(salePrice))
-]|order(name asc)[$start...$end]{
-  _id,
-  name,
-  slug,
-  sku,
-  description,
-  salePrice,
-  retailPrice,
-  wholesalePrice,
-  wholesaleMinQuantity,
-  packageContentsText,
-  images,
-  category->{
-    name,
-    slug,
-    parent->{
-      name,
-      slug
-    }
-  },
-  sizes,
-  customSizes,
-  customColors,
-  colors,
-  inStock,
-  featured,
-  new,
-  tags,
-  material,
-  weight,
-  originCountry,
-  specifications
-}`;
+]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
+}
 
 export const PRODUCTS_COUNT_QUERY = `count(*[
   _type == "product"
@@ -691,9 +700,10 @@ export async function getProductsPaginated(
   minPrice: number,
   maxPrice: number,
   saleOnly: boolean,
+  sort: ShopSort = "popular",
 ): Promise<Product[]> {
   return await client.fetch(
-    PRODUCTS_PAGINATED_QUERY,
+    buildProductsPaginatedGroq(sort),
     { start, end, minPrice, maxPrice, saleOnly },
     { next: { revalidate: 60 } },
   );
@@ -706,9 +716,10 @@ export async function getProductsByCategorySlugsPaginated(
   minPrice: number,
   maxPrice: number,
   saleOnly: boolean,
+  sort: ShopSort = "popular",
 ): Promise<Product[]> {
   return await client.fetch(
-    PRODUCTS_BY_CATEGORY_SLUGS_PAGINATED_QUERY,
+    buildProductsByCategorySlugsPaginatedGroq(sort),
     { categorySlugs, start, end, minPrice, maxPrice, saleOnly },
     { next: { revalidate: 60 } },
   );

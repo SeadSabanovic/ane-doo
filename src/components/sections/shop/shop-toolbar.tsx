@@ -14,21 +14,46 @@ import {
 } from "@/components/ui/select";
 import { ArrowDown01, Search } from "lucide-react";
 import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ShopFilterDialog from "./shop-filter-dialog";
 import Container from "@/components/layout/container";
 import { Label } from "@/components/ui/label";
-import type { Category } from "@/sanity/lib/api";
+import {
+  parseShopSortParam,
+  type Category,
+  type ShopSort,
+} from "@/sanity/lib/api";
 
 export default function ShopToolbar({ categories }: { categories: Category[] }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("popular");
 
-  const sortOptions = [
-    { value: "popular", label: "Najpopularnije" },
+  const sortBy = parseShopSortParam(searchParams.get("sort"));
+
+  const sortOptions: { value: ShopSort; label: string }[] = [
+    {
+      value: "popular",
+      label: "Istaknuto",
+    },
     { value: "newest", label: "Najnovije" },
     { value: "price-asc", label: "Cijena: rastuća" },
     { value: "price-desc", label: "Cijena: padajuća" },
   ];
+
+  const handleSortChange = (value: string) => {
+    const next = parseShopSortParam(value);
+    const params = new URLSearchParams(searchParams.toString());
+    if (next === "popular") {
+      params.delete("sort");
+    } else {
+      params.set("sort", next);
+    }
+    params.delete("stranica");
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
 
   return (
     <Container className="pb-8">
@@ -69,7 +94,7 @@ export default function ShopToolbar({ categories }: { categories: Category[] }) 
             >
               Sortiraj:
             </Label>
-            <Select value={sortBy} onValueChange={setSortBy}>
+            <Select value={sortBy} onValueChange={handleSortChange}>
               <SelectTrigger
                 id="sort-select"
                 className="bg-background! h-fit! w-full flex-1 cursor-pointer rounded-full p-1 pr-2 font-medium!"

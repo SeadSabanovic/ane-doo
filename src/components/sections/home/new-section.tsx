@@ -95,7 +95,10 @@ export default function NewSection() {
           ))}
         </div>
 
-        <Link href="/shop" className="mx-auto mt-10 block w-fit">
+        <Link
+          href="/shop?sort=newest"
+          className="mx-auto mt-10 block w-fit"
+        >
           <InteractiveHoverButton
             className="w-fit text-center lg:text-left"
             variant="light"

@@ -13,6 +13,7 @@ import {
   getProductsByCategorySlugsPaginated,
   getProductsCount,
   getProductsPaginated,
+  parseShopSortParam,
 } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -82,6 +83,8 @@ export default async function ShopPage({
   const rawAkcija = normalizedSearchParams.get("akcija");
   const saleOnly = rawAkcija === "1" || rawAkcija === "true";
 
+  const sort = parseShopSortParam(normalizedSearchParams.get("sort"));
+
   const [categories, totalProducts] = await Promise.all([
     getParentCategories(),
     selectedCategorySlugs.size > 0
@@ -106,8 +109,16 @@ export default async function ShopPage({
           minPrice,
           maxPrice,
           saleOnly,
+          sort,
         )
-      : await getProductsPaginated(start, end, minPrice, maxPrice, saleOnly);
+      : await getProductsPaginated(
+          start,
+          end,
+          minPrice,
+          maxPrice,
+          saleOnly,
+          sort,
+        );
 
   // Transform Sanity products to ProductCard format
   const products = sanityProducts.map((product) => ({
