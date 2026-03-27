@@ -10,9 +10,14 @@ import { SearchX } from "lucide-react";
 import {
   getParentCategories,
   getProductsByCategorySlugsCount,
+  getProductsByCategorySlugsCountWithSearch,
   getProductsByCategorySlugsPaginated,
+  getProductsByCategorySlugsPaginatedWithSearch,
   getProductsCount,
+  getProductsCountWithSearch,
   getProductsPaginated,
+  getProductsPaginatedWithSearch,
+  parseShopSearchQuery,
   parseShopSortParam,
 } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
@@ -85,23 +90,62 @@ export default async function ShopPage({
 
   const sort = parseShopSortParam(normalizedSearchParams.get("sort"));
 
+  const searchQuery = parseShopSearchQuery(
+    normalizedSearchParams.get("q") ?? undefined,
+  );
+
   const [categories, totalProducts] = await Promise.all([
     getParentCategories(),
-    selectedCategorySlugs.size > 0
-      ? getProductsByCategorySlugsCount(
-          [...selectedCategorySlugs],
-          minPrice,
-          maxPrice,
-          saleOnly,
-        )
-      : getProductsCount(minPrice, maxPrice, saleOnly),
+    searchQuery
+      ? selectedCategorySlugs.size > 0
+        ? getProductsByCategorySlugsCountWithSearch(
+            [...selectedCategorySlugs],
+            minPrice,
+            maxPrice,
+            saleOnly,
+            searchQuery,
+          )
+        : getProductsCountWithSearch(
+            minPrice,
+            maxPrice,
+            saleOnly,
+            searchQuery,
+          )
+      : selectedCategorySlugs.size > 0
+        ? getProductsByCategorySlugsCount(
+            [...selectedCategorySlugs],
+            minPrice,
+            maxPrice,
+            saleOnly,
+          )
+        : getProductsCount(minPrice, maxPrice, saleOnly),
   ]);
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
   const effectivePage = totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
   const start = (effectivePage - 1) * PRODUCTS_PER_PAGE;
   const end = start + PRODUCTS_PER_PAGE;
-  const sanityProducts =
-    selectedCategorySlugs.size > 0
+  const sanityProducts = searchQuery
+    ? selectedCategorySlugs.size > 0
+      ? await getProductsByCategorySlugsPaginatedWithSearch(
+          [...selectedCategorySlugs],
+          start,
+          end,
+          minPrice,
+          maxPrice,
+          saleOnly,
+          sort,
+          searchQuery,
+        )
+      : await getProductsPaginatedWithSearch(
+          start,
+          end,
+          minPrice,
+          maxPrice,
+          saleOnly,
+          sort,
+          searchQuery,
+        )
+    : selectedCategorySlugs.size > 0
       ? await getProductsByCategorySlugsPaginated(
           [...selectedCategorySlugs],
           start,
@@ -151,7 +195,7 @@ export default async function ShopPage({
           {products.length === 0 ? (
             <EmptyState
               icon={SearchX}
-              title="Nema proizvoda za odabrani filter"
+              title="Nema proizvoda za odabrani filter/pretragu"
               description="Promijenite ili očistite filtere kako biste vidjeli dostupne artikle."
               actionLabel="Očisti filtere"
               actionHref="/shop"

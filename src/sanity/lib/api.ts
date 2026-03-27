@@ -99,6 +99,17 @@ export function parseShopSortParam(
   return "popular";
 }
 
+/** Minimalna duljina pretrage (nakon trimiranja) za Sanity upit i URL param `q`. */
+export const SHOP_SEARCH_MIN_LENGTH = 3;
+
+export function parseShopSearchQuery(
+  value: string | null | undefined,
+): string | null {
+  const t = (value ?? "").trim();
+  if (t.length < SHOP_SEARCH_MIN_LENGTH) return null;
+  return t;
+}
+
 // GROQ Queries
 export const PRODUCTS_QUERY = `*[
   _type == "product"
@@ -541,6 +552,36 @@ export function buildProductsByCategorySlugsPaginatedGroq(sort: ShopSort): strin
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
 
+export function buildProductsPaginatedGroqWithSearch(sort: ShopSort): string {
+  return `*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
+  && (name match $searchQuery || description match $searchQuery)
+]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
+}
+
+export function buildProductsByCategorySlugsPaginatedGroqWithSearch(
+  sort: ShopSort,
+): string {
+  return `*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && (
+    category->slug.current in $categorySlugs
+    || category->parent->slug.current in $categorySlugs
+  )
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
+  && (name match $searchQuery || description match $searchQuery)
+]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
+}
+
 export const PRODUCTS_COUNT_QUERY = `count(*[
   _type == "product"
   && defined(slug.current)
@@ -561,6 +602,30 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
   && coalesce(salePrice, wholesalePrice) >= $minPrice
   && coalesce(salePrice, wholesalePrice) <= $maxPrice
   && (!$saleOnly || defined(salePrice))
+])`;
+
+export const PRODUCTS_COUNT_WITH_SEARCH_QUERY = `count(*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
+  && (name match $searchQuery || description match $searchQuery)
+])`;
+
+export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY = `count(*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && (
+    category->slug.current in $categorySlugs
+    || category->parent->slug.current in $categorySlugs
+  )
+  && coalesce(salePrice, wholesalePrice) >= $minPrice
+  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
+  && (name match $searchQuery || description match $searchQuery)
 ])`;
 
 export const SEARCH_PRODUCTS_QUERY = `*[
@@ -746,6 +811,96 @@ export async function getProductsByCategorySlugsCount(
   return await client.fetch(
     PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY,
     { categorySlugs, minPrice, maxPrice, saleOnly },
+    { next: { revalidate: 60 } },
+  );
+}
+
+function shopSearchGroqParam(trimmedQuery: string): string {
+  return `*${trimmedQuery}*`;
+}
+
+export async function getProductsPaginatedWithSearch(
+  start: number,
+  end: number,
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
+  sort: ShopSort,
+  searchQuery: string,
+): Promise<Product[]> {
+  return await client.fetch(
+    buildProductsPaginatedGroqWithSearch(sort),
+    {
+      start,
+      end,
+      minPrice,
+      maxPrice,
+      saleOnly,
+      searchQuery: shopSearchGroqParam(searchQuery),
+    },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsByCategorySlugsPaginatedWithSearch(
+  categorySlugs: string[],
+  start: number,
+  end: number,
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
+  sort: ShopSort,
+  searchQuery: string,
+): Promise<Product[]> {
+  return await client.fetch(
+    buildProductsByCategorySlugsPaginatedGroqWithSearch(sort),
+    {
+      categorySlugs,
+      start,
+      end,
+      minPrice,
+      maxPrice,
+      saleOnly,
+      searchQuery: shopSearchGroqParam(searchQuery),
+    },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsCountWithSearch(
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
+  searchQuery: string,
+): Promise<number> {
+  return await client.fetch(
+    PRODUCTS_COUNT_WITH_SEARCH_QUERY,
+    {
+      minPrice,
+      maxPrice,
+      saleOnly,
+      searchQuery: shopSearchGroqParam(searchQuery),
+    },
+    { next: { revalidate: 60 } },
+  );
+}
+
+export async function getProductsByCategorySlugsCountWithSearch(
+  categorySlugs: string[],
+  minPrice: number,
+  maxPrice: number,
+  saleOnly: boolean,
+  searchQuery: string,
+): Promise<number> {
+  return await client.fetch(
+    PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY,
+    {
+      categorySlugs,
+      minPrice,
+      maxPrice,
+      saleOnly,
+      searchQuery: shopSearchGroqParam(searchQuery),
+    },
     { next: { revalidate: 60 } },
   );
 }
