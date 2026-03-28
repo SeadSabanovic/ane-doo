@@ -1,7 +1,7 @@
 import Container from "@/components/layout/container";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import SectionBadge from "@/components/ui/section-badge";
-import Image from "next/image";
+import AnimatedImage from "@/components/ui/animated-image";
 import Link from "next/link";
 
 export default function SaleSection() {
@@ -23,12 +23,13 @@ export default function SaleSection() {
           </Link>
         </div>
         <div className="relative aspect-square overflow-hidden rounded-md">
-          <Image
-            src="https://i.pinimg.com/736x/f5/ea/49/f5ea49e3d8958eb88f5f6e8fba99a880.jpg"
+          <AnimatedImage
+            src="/images/home/ane-doo-sale.jpg"
             alt="Sale"
             width={1000}
             height={1000}
             className="absolute top-0 left-0 h-full w-full object-cover"
+            loading="lazy"
           />
         </div>
       </Container>

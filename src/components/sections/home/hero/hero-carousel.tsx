@@ -14,7 +14,7 @@ const heroData = {
 
 export default function HeroCarousel() {
   return (
-    <section className="relative flex h-full min-h-[calc(85svh-var(--nav-height))] flex-col items-center justify-center overflow-hidden sm:py-4 lg:min-h-[calc(75svh-var(--nav-height))]">
+    <section className="relative flex h-full min-h-[calc(90svh-var(--nav-height))] flex-col items-center justify-center overflow-hidden sm:py-4 lg:min-h-[calc(80svh-var(--nav-height))]">
       <Container className="relative z-30 flex h-full w-full flex-1 flex-col justify-end gap-6 overflow-hidden sm:rounded-lg">
         <div className="z-30 flex h-fit flex-col items-center justify-between p-6 py-12 pt-4 pb-[10svh] lg:items-start lg:justify-center lg:rounded-tr-lg lg:pt-6">
           <div className="flex w-full flex-col items-center gap-2">
