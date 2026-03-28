@@ -2,7 +2,11 @@ import Container from "@/components/layout/container";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import SectionBadge from "@/components/ui/section-badge";
 import AnimatedImage from "@/components/ui/animated-image";
+import SpinningText from "@/components/ui/spinning-text";
 import Link from "next/link";
+
+const SALE_SPIN_TEXT =
+  "OGRANIČENA KOLIČINA • AKCIJA • OGRANIČENA KOLIČINA • AKCIJA • ";
 
 export default function SaleSection() {
   return (
@@ -31,6 +35,16 @@ export default function SaleSection() {
             className="absolute top-0 left-0 h-full w-full object-cover"
             loading="lazy"
           />
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+            <SpinningText
+              text={SALE_SPIN_TEXT}
+              radius={26.3}
+              speed={22}
+              direction="normal"
+              className="size-[min(80%,500px)]"
+              textClassName="fill-[#fffcf3] text-[3.25px] sm:text-[4px]"
+            />
+          </div>
         </div>
       </Container>
     </section>
