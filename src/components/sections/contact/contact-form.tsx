@@ -139,7 +139,7 @@ export default function ContactForm() {
     <section className="mx-auto w-full overflow-hidden rounded-2xl border lg:grid lg:grid-cols-2">
       <div className="relative aspect-video p-6 lg:aspect-auto lg:min-h-full">
         <AnimatedImage
-          src="https://images.pexels.com/photos/10558185/pexels-photo-10558185.jpeg?_gl=1*10zj0ze*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NjQ3NTg3MjIkbzIkZzEkdDE3NjQ3NjAxMzEkajMzJGwwJGgw"
+          src="/images/contact/ane-doo-contact.jpg"
           alt="Kontakt forma"
           width={1240}
           height={700}

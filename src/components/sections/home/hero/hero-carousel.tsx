@@ -8,7 +8,7 @@ const heroData = {
   title: "Pouzdan veleprodajni partner",
   description:
     "Porodična firma koja već više od 20 godina spaja tradiciju i veleprodaju odjeće i kućnog tekstila.",
-  image: "/images/ane-doo-landing.jpeg",
+  image: "/images/home/ane-doo-landing.jpeg",
   ctaHref: "/shop",
 };
 
