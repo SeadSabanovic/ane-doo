@@ -128,7 +128,7 @@ export default function AboutBentoSection() {
             </div>
             <div className="relative aspect-video w-full">
               <AnimatedImage
-                src="https://images.pexels.com/photos/4792352/pexels-photo-4792352.jpeg?_gl=1*ia7oto*_ga*MjA0MTQwODUxLjE3NjMzMjUxNzE.*_ga_8JE65Q40S6*czE3NzQxMDYyOTQkbzgkZzEkdDE3NzQxMDYzMTkkajM1JGwwJGgw"
+                src="/images/about/ane-doo-about-bento.jpg"
                 alt="ANE d.o.o. Sarajevo"
                 width={600}
                 height={600}
