@@ -56,6 +56,23 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
+/** Preglednik često vraća engleske poruke za mrežne greške. */
+function localizeClientErrorMessage(message: string): string {
+  const m = message.trim().toLowerCase();
+  if (
+    m === "failed to fetch" ||
+    m.includes("networkerror") ||
+    m === "load failed" ||
+    m.includes("network request failed")
+  ) {
+    return "Nema veze sa serverom. Provjerite internet i pokušajte ponovo.";
+  }
+  if (m.includes("aborted")) {
+    return "Zahtjev je prekinut. Pokušajte ponovo.";
+  }
+  return message;
+}
+
 export default function ContactForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
@@ -129,7 +146,7 @@ export default function ContactForm() {
       console.error("Error submitting form:", error);
       const message =
         error instanceof Error
-          ? error.message
+          ? localizeClientErrorMessage(error.message)
           : "Došlo je do greške. Molimo pokušajte ponovo.";
       setSubmitError(message);
     }
@@ -150,7 +167,7 @@ export default function ContactForm() {
 
       <div className="p-6">
         {isSubmittedSuccessfully ? (
-          <div className="flex h-full flex-col justify-center">
+          <div className="flex h-full flex-col justify-center lg:min-h-[400px]">
             <h2 className="text-2xl font-semibold md:text-3xl">
               Poruka je uspješno poslana
             </h2>

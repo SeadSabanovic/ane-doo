@@ -1,4 +1,5 @@
-import { Mail, MapPinned, Phone } from "lucide-react";
+import { SOCIALS } from "@/constants/socials";
+import { AtSign, Mail, MapPinned, Phone } from "lucide-react";
 
 const ICON_SIZE = 36;
 const ICON_STROKE_WIDTH = 1;
@@ -23,7 +24,7 @@ export default function ContactInfo() {
           <div className="flex flex-col gap-1 text-center sm:text-left">
             <h3 className="text-lg font-medium">Pišite nam</h3>
             <p className="text-muted-foreground">
-              Javit ćemo vam se što prije.
+              Naš tim će vas kontaktirati u najkraćem roku.
             </p>
             <a
               href="mailto:info@ane-doo.com"
@@ -57,7 +58,7 @@ export default function ContactInfo() {
         </div>
 
         {/* Pozovite nas */}
-        <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-start sm:gap-6 sm:pt-8">
+        <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-start sm:gap-6 sm:py-8">
           <div className="text-card-foreground relative mx-auto flex size-16 shrink-0 items-center justify-center sm:mx-0">
             <Phone size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
             <div className="bg-accent/40 absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full" />
@@ -71,6 +72,30 @@ export default function ContactInfo() {
             >
               (+387) 61 101 871
             </a>
+          </div>
+        </div>
+
+        {/* Društvene mreže */}
+        <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-start sm:gap-6 sm:pt-8">
+          <div className="text-card-foreground relative mx-auto flex size-16 shrink-0 items-center justify-center sm:mx-0">
+            <AtSign size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />
+            <div className="bg-accent/40 absolute bottom-0 left-1/2 -z-10 size-[60%] -translate-x-1/2 rounded-full" />
+          </div>
+          <div className="flex flex-col gap-3 text-center sm:text-left">
+            <h3 className="text-lg font-medium">Pratite nas</h3>
+            <nav className="flex flex-col gap-2" aria-label="Društvene mreže">
+              {SOCIALS.map((social) => (
+                <a
+                  key={social.url}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium hover:underline"
+                >
+                  {social.name}
+                </a>
+              ))}
+            </nav>
           </div>
         </div>
       </div>

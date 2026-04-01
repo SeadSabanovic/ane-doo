@@ -31,7 +31,10 @@ export async function POST(request: Request) {
 
   if (!apiKey || !from || !to) {
     return NextResponse.json(
-      { error: "Email service is not configured." },
+      {
+        error:
+          "Slanje e-pošte nije konfigurirano. Molimo pokušajte kasnije ili kontaktirajte nas direktno.",
+      },
       { status: 500 },
     );
   }
@@ -41,7 +44,7 @@ export async function POST(request: Request) {
     rawBody = await request.json();
   } catch {
     return NextResponse.json(
-      { error: "Invalid contact form data." },
+      { error: "Neispravni podaci forme. Provjerite unos i pokušajte ponovo." },
       { status: 400 },
     );
   }
@@ -50,7 +53,7 @@ export async function POST(request: Request) {
 
   if (!parsedBody.success) {
     return NextResponse.json(
-      { error: "Invalid contact form data." },
+      { error: "Neispravni podaci forme. Provjerite unos i pokušajte ponovo." },
       { status: 400 },
     );
   }
@@ -66,7 +69,7 @@ export async function POST(request: Request) {
   );
   if (!hasValidPrefix) {
     return NextResponse.json(
-      { error: "Invalid contact form data." },
+      { error: "Neispravni podaci forme. Provjerite unos i pokušajte ponovo." },
       { status: 400 },
     );
   }
@@ -87,7 +90,9 @@ export async function POST(request: Request) {
 
   if (error) {
     return NextResponse.json(
-      { error: "Failed to send email." },
+      {
+        error: "Došlo je do greške. Molimo pokušajte ponovo kasnije.",
+      },
       { status: 500 },
     );
   }

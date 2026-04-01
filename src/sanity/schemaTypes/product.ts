@@ -236,7 +236,7 @@ export default defineType({
         input: TagsInput,
       },
       description:
-        "Slobodan unos ako veličina nije na listi (npr. 220×240 cm, poseban kroj). Pojavit će se u rasporedu paketa zajedno s odabranim veličinama.",
+        "Slobodan unos ako veličina nije na listi (npr. 220×240 cm, poseban kroj). Pojaviti će se u rasporedu paketa zajedno s odabranim veličinama.",
     }),
     defineField({
       name: "colors",
@@ -261,7 +261,7 @@ export default defineType({
       group: "packageInfo",
       fieldset: "packageInfo",
       description:
-        "Za svaku boju unesite naziv (kako se prikazuje kupcu) i hex u formatu #RRGGBB (npr. #C9A227 za zlatnu). Pojavit će se u odabiru zajedno s bojama s liste iznad.",
+        "Za svaku boju unesite naziv (kako se prikazuje kupcu) i hex u formatu #RRGGBB (npr. #C9A227 za zlatnu). Pojaviti će se u odabiru zajedno s bojama s liste iznad.",
       of: [
         {
           type: "object",
