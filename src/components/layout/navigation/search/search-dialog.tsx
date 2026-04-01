@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {
+  startTransition,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Loader2, Search, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import {
   Dialog,
@@ -15,24 +22,47 @@ import {
   InputGroup,
   InputGroupInput,
   InputGroupAddon,
+  InputGroupButton,
 } from "@/components/ui/input-group";
-import SearchProduct from "./search-product";
+import SearchProduct, { type SearchProductItem } from "./search-product";
+import SearchResultsSkeleton from "./search-results-skeleton";
+import { parseShopSearchQuery, SHOP_SEARCH_MIN_LENGTH } from "@/sanity/lib/api";
 
 interface SearchDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
+const SEARCH_DEBOUNCE_MS = 400;
+
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [products, setProducts] = useState<SearchProductItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const lenis = useLenis();
+  const abortRef = useRef<AbortController | null>(null);
 
-  // Disable/enable Lenis scroll when dialog opens/closes
+  // Debounce za API (prazno odmah → istaknuto)
+  useEffect(() => {
+    if (!open) return;
+    if (searchQuery.trim() === "") {
+      startTransition(() => {
+        setDebouncedQuery("");
+      });
+      return;
+    }
+    const id = window.setTimeout(
+      () => setDebouncedQuery(searchQuery),
+      SEARCH_DEBOUNCE_MS,
+    );
+    return () => window.clearTimeout(id);
+  }, [searchQuery, open]);
+
   useEffect(() => {
     if (!lenis) return;
 
     if (open) {
-      // Stop and destroy Lenis to completely disable scrolling when dialog opens
       lenis.stop();
       lenis.destroy();
     } else {
@@ -46,85 +76,74 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     };
   }, [open, lenis]);
 
-  // Mock suggestions - replace with actual search logic
-  const suggestions = [
-    {
-      id: 1,
-      name: "Klasična majica",
-      price: 16.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/1200x/57/de/dd/57dedd3f780ef00be19e543781155b12.jpg",
-    },
-    {
-      id: 2,
-      name: "Džemper sa V izrezom",
-      price: 17.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/1200x/ae/f9/fe/aef9fe1869d8098043de2ba7388840eb.jpg",
-    },
-    {
-      id: 3,
-      name: "Chino hlače",
-      price: 18.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/736x/82/3c/fa/823cfac2a92c5e7c817b82f67dfdc854.jpg",
-    },
-    {
-      id: 4,
-      name: "Trenerka",
-      price: 19.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/1200x/f9/8d/82/f98d82c437fc45edb977be305cf9ec22.jpg",
-    },
-    {
-      id: 5,
-      name: "Košulja",
-      price: 20.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/1200x/67/e6/e7/67e6e7e4dd988bb2a54cfe976ef356c8.jpg",
-    },
-    {
-      id: 6,
-      name: "Duks sa kapuljačom",
-      price: 21.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/736x/3f/35/3c/3f353c38b5567d6a28592dc79efe6e1c.jpg",
-    },
-    {
-      id: 7,
-      name: "Kaput",
-      price: 22.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/1200x/27/4c/fd/274cfd022a45bda18b250c0bd6876630.jpg",
-    },
-    {
-      id: 8,
-      name: "Kratke hlače",
-      price: 23.99,
-      link: "/shop/basic-t-shirt",
-      image:
-        "https://i.pinimg.com/1200x/05/f0/86/05f086c85e3a9acc032f94c2787927ec.jpg",
-    },
-  ];
+  /** Samo ≥ 3 znaka (trim) šalju se na API kao pretraga; kraće = isto kao prazno (istaknuto). */
+  const stableSearchQuery = useMemo(() => {
+    const t = debouncedQuery.trim();
+    if (t.length < SHOP_SEARCH_MIN_LENGTH) return "";
+    return t;
+  }, [debouncedQuery]);
 
-  const filteredSuggestions = suggestions.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  useLayoutEffect(() => {
+    if (!open) return;
 
-  // Reset search query when dialog closes
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    startTransition(() => {
+      setIsLoading(true);
+      setProducts([]);
+    });
+
+    const params = new URLSearchParams();
+    if (stableSearchQuery) params.set("q", stableSearchQuery);
+
+    fetch(`/api/products/search?${params.toString()}`, {
+      signal: controller.signal,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("fetch failed");
+        return res.json() as Promise<{ products: SearchProductItem[] }>;
+      })
+      .then((data) => {
+        if (controller.signal.aborted) return;
+        setProducts(data.products ?? []);
+      })
+      .catch(() => {
+        if (controller.signal.aborted) return;
+        setProducts([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [open, stableSearchQuery]);
+
   const handleOpenChange = (newOpen: boolean) => {
     onOpenChange(newOpen);
     if (!newOpen) {
       setSearchQuery("");
+      setDebouncedQuery("");
+      setProducts([]);
     }
   };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setDebouncedQuery("");
+  };
+
+  const parsedSearch = parseShopSearchQuery(stableSearchQuery || undefined);
+  const showClear = searchQuery.length > 0;
+  const showSearchAddon = showClear || isLoading;
+
+  const listTitle =
+    parsedSearch === null
+      ? "Istaknuto"
+      : products.length > 0
+        ? "Rezultati pretrage"
+        : "Nema rezultata";
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -132,40 +151,69 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         <DialogHeader className="flex h-fit flex-col gap-6 border-b p-6">
           <DialogTitle>Pretražite proizvode</DialogTitle>
           <DialogDescription className="sr-only">
-            Pretražite proizvode i kategorije
+            Pretražite proizvode; za pretragu potrebno je najmanje{" "}
+            {SHOP_SEARCH_MIN_LENGTH} znaka.
           </DialogDescription>
 
-          {/* Search Bar */}
-          <InputGroup className="bg-background! h-fit rounded-md">
+          <InputGroup className="bg-background! h-fit rounded-full">
             <InputGroupInput
-              id="search-input"
+              id="header-search-input"
               name="search"
               type="text"
               placeholder="Pretraga..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoComplete="off"
+              aria-busy={isLoading}
               className="text-lg!"
             />
+            {showSearchAddon ? (
+              <InputGroupAddon align="inline-end">
+                {isLoading ? (
+                  <span
+                    className="text-muted-foreground flex size-8 items-center justify-center"
+                    role="status"
+                    aria-label="Učitavanje"
+                  >
+                    <Loader2
+                      className="size-4 shrink-0 animate-spin"
+                      aria-hidden
+                    />
+                  </span>
+                ) : (
+                  <InputGroupButton
+                    type="button"
+                    variant="ghost"
+                    size="icon-xs"
+                    className="text-muted-foreground hover:text-foreground rounded-full"
+                    onClick={handleClearSearch}
+                    aria-label="Očisti pretragu"
+                  >
+                    <X />
+                  </InputGroupButton>
+                )}
+              </InputGroupAddon>
+            ) : null}
             <InputGroupAddon className="py-1 pl-1">
-              <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-sm">
+              <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-full">
                 <Search />
               </div>
             </InputGroupAddon>
           </InputGroup>
         </DialogHeader>
 
-        {/* Dialog Body */}
         <div className="flex-1 overflow-hidden rounded-b-md">
           <div className="h-full overflow-auto rounded-b-md p-6">
-            {searchQuery && filteredSuggestions.length === 0 ? (
+            {isLoading ? (
+              <SearchResultsSkeleton count={6} />
+            ) : parsedSearch !== null && products.length === 0 ? (
               <div className="text-muted-foreground py-8 text-center">
-                Nema rezultata za &quot;{searchQuery}&quot;
+                Nema rezultata za &quot;{stableSearchQuery}&quot;
               </div>
             ) : (
               <div className="flex flex-col gap-2 space-y-2">
-                <h3 className="text-xl font-medium">Najprodavaniji komadi</h3>
-                {filteredSuggestions.map((item) => (
+                <h3 className="text-xl font-medium">{listTitle}</h3>
+                {products.map((item) => (
                   <Link
                     key={item.id}
                     href={item.link}

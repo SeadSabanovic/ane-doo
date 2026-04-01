@@ -630,6 +630,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY = `count(*[
 
 export const SEARCH_PRODUCTS_QUERY = `*[
   _type == "product"
+  && defined(slug.current)
   && inStock == true
   && (name match $searchQuery || description match $searchQuery)
 ]|order(name asc)[0...20]{

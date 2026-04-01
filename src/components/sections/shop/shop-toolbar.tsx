@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDown01, Search, X } from "lucide-react";
+import { ArrowDown01, Loader2, Search, X } from "lucide-react";
 import debounce from "lodash/debounce";
 import {
   startTransition,
@@ -21,6 +21,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  useTransition,
 } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ShopFilterDialog from "./shop-filter-dialog";
@@ -47,6 +48,7 @@ export default function ShopToolbar({
 
   const [searchQuery, setSearchQuery] = useState("");
   const skipNextUrlSyncRef = useRef(false);
+  const [isSearchNavPending, startSearchNavigation] = useTransition();
 
   useEffect(() => {
     searchParamsRef.current = searchParams;
@@ -72,24 +74,28 @@ export default function ShopToolbar({
 
   useLayoutEffect(() => {
     const d = debounce((raw: string) => {
-      skipNextUrlSyncRef.current = true;
-      const trimmed = raw.trim();
-      const params = new URLSearchParams(searchParamsRef.current.toString());
-      params.delete("stranica");
-      if (trimmed.length >= SHOP_SEARCH_MIN_LENGTH) {
-        params.set("q", trimmed);
-      } else {
-        params.delete("q");
-      }
-      const query = params.toString();
-      router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+      startSearchNavigation(() => {
+        skipNextUrlSyncRef.current = true;
+        const trimmed = raw.trim();
+        const params = new URLSearchParams(searchParamsRef.current.toString());
+        params.delete("stranica");
+        if (trimmed.length >= SHOP_SEARCH_MIN_LENGTH) {
+          params.set("q", trimmed);
+        } else {
+          params.delete("q");
+        }
+        const query = params.toString();
+        router.push(query ? `${pathname}?${query}` : pathname, {
+          scroll: false,
+        });
+      });
     }, SEARCH_DEBOUNCE_MS);
     debouncedApplySearchToUrlRef.current = d;
     return () => {
       d.cancel();
       debouncedApplySearchToUrlRef.current = null;
     };
-  }, [pathname, router]);
+  }, [pathname, router, startSearchNavigation]);
 
   const sortOptions: { value: ShopSort; label: string }[] = [
     {
@@ -123,14 +129,17 @@ export default function ShopToolbar({
   const handleClearSearch = () => {
     debouncedApplySearchToUrlRef.current?.cancel();
     setSearchQuery("");
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("q");
-    params.delete("stranica");
-    const query = params.toString();
-    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    startSearchNavigation(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("q");
+      params.delete("stranica");
+      const query = params.toString();
+      router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    });
   };
 
   const showClear = searchQuery.length > 0;
+  const showSearchAddon = showClear || isSearchNavPending;
 
   return (
     <Container className="pb-8">
@@ -143,7 +152,10 @@ export default function ShopToolbar({
           >
             Pretraga:
           </Label>
-          <InputGroup className="bg-background! h-fit rounded-full">
+          <InputGroup
+            className="bg-background! h-fit rounded-full"
+            data-search-loading={isSearchNavPending ? "true" : undefined}
+          >
             <InputGroupInput
               id="search-input"
               name="search"
@@ -152,20 +164,25 @@ export default function ShopToolbar({
               value={searchQuery}
               onChange={handleSearchChange}
               autoComplete="off"
+              aria-busy={isSearchNavPending}
               className="text-lg!"
             />
-            {showClear ? (
+            {showSearchAddon ? (
               <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  type="button"
-                  variant="ghost"
-                  size="icon-xs"
-                  className="text-muted-foreground hover:text-foreground rounded-full"
-                  onClick={handleClearSearch}
-                  aria-label="Očisti pretragu"
-                >
-                  <X />
-                </InputGroupButton>
+                {isSearchNavPending ? (
+                  <Loader2 className="shrink-0 animate-spin" aria-hidden />
+                ) : (
+                  <InputGroupButton
+                    type="button"
+                    variant="ghost"
+                    size="icon-xs"
+                    className="text-muted-foreground hover:text-foreground rounded-full"
+                    onClick={handleClearSearch}
+                    aria-label="Očisti pretragu"
+                  >
+                    <X />
+                  </InputGroupButton>
+                )}
               </InputGroupAddon>
             ) : null}
             <InputGroupAddon className="py-1 pl-1">
