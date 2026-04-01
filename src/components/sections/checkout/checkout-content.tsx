@@ -3,8 +3,8 @@
 import { useCartStore } from "@/stores";
 import OrderSummary from "./order-summary";
 import CheckoutForm from "./checkout-form";
-import { ShoppingBag, Loader2 } from "lucide-react";
-import { useSyncExternalStore } from "react";
+import { ShoppingBag, Loader2, CircleCheck } from "lucide-react";
+import { useSyncExternalStore, useState, useEffect } from "react";
 import EmptyState from "@/components/ui/empty-state";
 
 export default function CheckoutContent() {
@@ -15,8 +15,15 @@ export default function CheckoutContent() {
   );
   const items = useCartStore((state) => state.items);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const total = getTotalPrice();
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setOrderPlaced(false);
+    }
+  }, [items.length]);
 
   if (!isHydrated) {
     return (
@@ -26,12 +33,24 @@ export default function CheckoutContent() {
     );
   }
 
+  if (orderPlaced) {
+    return (
+      <EmptyState
+        icon={CircleCheck}
+        title="Narudžba je uspješno poslana"
+        description="Uskoro ćemo vas kontaktirati s potvrdom narudžbe."
+        actionLabel="Istraži Shop"
+        actionHref="/shop"
+      />
+    );
+  }
+
   if (items.length === 0) {
     return (
       <EmptyState
         icon={ShoppingBag}
         title="Vaša korpa je prazna"
-        description="Dodajte proizvode u korpu da biste nastavili s narudžbom."
+        description="Vaša korpa čeka na vrhunske komade tekstila. Pronađite idealne proizvode za svoj dom ili biznis."
         actionLabel="Istraži Shop"
         actionHref="/shop"
       />
@@ -41,7 +60,7 @@ export default function CheckoutContent() {
   return (
     <div className="flex flex-col gap-8 xl:grid xl:grid-cols-5">
       <OrderSummary cartItems={items} total={total} />
-      <CheckoutForm />
+      <CheckoutForm onOrderSuccess={() => setOrderPlaced(true)} />
     </div>
   );
 }

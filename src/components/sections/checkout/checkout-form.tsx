@@ -95,9 +95,12 @@ function localizeClientErrorMessage(message: string): string {
   return message;
 }
 
-export default function CheckoutForm() {
+type CheckoutFormProps = {
+  onOrderSuccess: () => void;
+};
+
+export default function CheckoutForm({ onOrderSuccess }: CheckoutFormProps) {
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
   const cartItems = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
 
@@ -171,7 +174,7 @@ export default function CheckoutForm() {
 
       clearCart();
       reset(defaultValues);
-      setIsSubmittedSuccessfully(true);
+      onOrderSuccess();
     } catch (error) {
       console.error("Error submitting checkout form:", error);
       setSubmitError(
@@ -184,31 +187,11 @@ export default function CheckoutForm() {
 
   return (
     <section className="h-fit overflow-hidden rounded-md border p-6 xl:col-span-2">
-      {isSubmittedSuccessfully ? (
-        <div className="space-y-4 py-4">
-          <h2 className="text-2xl font-semibold">
-            Narudžba je uspješno poslana
-          </h2>
-          <p className="text-muted-foreground">
-            Hvala vam. Uskoro ćemo vas kontaktirati s potvrdom narudžbe.
-          </p>
-          <InteractiveHoverButton
-            type="button"
-            className="w-fit"
-            onClick={() => {
-              setIsSubmittedSuccessfully(false);
-              setSubmitError(null);
-            }}
-          >
-            Pošalji novu narudžbu
-          </InteractiveHoverButton>
-        </div>
-      ) : (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          className="space-y-8"
-        >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="space-y-8"
+      >
           <div className="hidden" aria-hidden="true">
             <label htmlFor="website">Website</label>
             <Input
@@ -562,7 +545,6 @@ export default function CheckoutForm() {
             </p>
           )}
         </form>
-      )}
     </section>
   );
 }
