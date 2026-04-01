@@ -79,6 +79,22 @@ const checkoutFormSchema = z
 
 type CheckoutFormValues = z.infer<typeof checkoutFormSchema>;
 
+function localizeClientErrorMessage(message: string): string {
+  const m = message.trim().toLowerCase();
+  if (
+    m === "failed to fetch" ||
+    m.includes("networkerror") ||
+    m === "load failed" ||
+    m.includes("network request failed")
+  ) {
+    return "Nema veze sa serverom. Provjerite internet i pokušajte ponovo.";
+  }
+  if (m.includes("aborted")) {
+    return "Zahtjev je prekinut. Pokušajte ponovo.";
+  }
+  return message;
+}
+
 export default function CheckoutForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
@@ -160,7 +176,7 @@ export default function CheckoutForm() {
       console.error("Error submitting checkout form:", error);
       setSubmitError(
         error instanceof Error
-          ? error.message
+          ? localizeClientErrorMessage(error.message)
           : "Došlo je do greške. Molimo pokušajte ponovo.",
       );
     }
