@@ -27,7 +27,7 @@ export default function WishlistContent() {
       <EmptyState
         icon={Heart}
         title="Nemate spašenih proizvoda"
-        description="Počnite pregledavati i dodajte svoje omiljene artikle"
+        description="Sačuvajte artikle koji vas zanimaju kako biste lakše planirali svoju sljedeću narudžbu."
         actionLabel="Istraži Shop"
         actionHref="/shop"
       />
