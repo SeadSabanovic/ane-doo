@@ -17,6 +17,7 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PhoneInputWithCountryCode from "@/components/ui/phone-input-with-country-code";
+import { CONTACT_MESSAGE_MAX_LENGTH } from "@/constants/contact-form";
 
 const subjectOptions = [
   { value: "upit-o-proizvodima", label: "Upit o proizvodima" },
@@ -50,7 +51,14 @@ const contactFormSchema = z.object({
       (value) => subjectOptions.some((option) => option.value === value),
       "Molimo odaberite predmet",
     ),
-  message: z.string().trim().min(1, "Poruka je obavezna"),
+  message: z
+    .string()
+    .trim()
+    .min(1, "Poruka je obavezna")
+    .max(
+      CONTACT_MESSAGE_MAX_LENGTH,
+      `Poruka ne smije biti duža od ${CONTACT_MESSAGE_MAX_LENGTH} znakova.`,
+    ),
   website: z.string().trim(),
 });
 
@@ -94,6 +102,7 @@ export default function ContactForm() {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -101,6 +110,8 @@ export default function ContactForm() {
     mode: "onSubmit",
     reValidateMode: "onChange",
   });
+
+  const messageLength = watch("message")?.length ?? 0;
 
   const onSubmit: SubmitHandler<ContactFormValues> = async (formData) => {
     setSubmitError(null);
@@ -411,19 +422,37 @@ export default function ContactForm() {
                 id="message"
                 placeholder="Unesite vašu poruku..."
                 rows={6}
+                maxLength={CONTACT_MESSAGE_MAX_LENGTH}
                 {...register("message")}
                 aria-invalid={!!errors.message}
-                aria-describedby={errors.message ? "message-error" : undefined}
+                aria-describedby={
+                  errors.message
+                    ? "message-error message-length-hint"
+                    : "message-length-hint"
+                }
                 className={cn(
                   errors.message && "border-destructive",
                   "max-h-36 min-h-36 resize-none",
                 )}
               />
-              {errors.message && (
-                <p id="message-error" className="text-destructive text-sm">
-                  {errors.message.message}
+              <div className="space-y-1">
+                {errors.message && (
+                  <p id="message-error" className="text-destructive text-sm">
+                    {errors.message.message}
+                  </p>
+                )}
+                <p
+                  id="message-length-hint"
+                  className={cn(
+                    "text-muted-foreground text-right text-xs tabular-nums",
+                    messageLength >= CONTACT_MESSAGE_MAX_LENGTH &&
+                      "text-destructive",
+                  )}
+                  aria-live="polite"
+                >
+                  {messageLength} / {CONTACT_MESSAGE_MAX_LENGTH}
                 </p>
-              )}
+              </div>
             </div>
 
             {/* Submit Button */}

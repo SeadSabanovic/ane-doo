@@ -7,6 +7,7 @@ import {
   buildContactEmailText,
   formatContactSubjectLabel,
 } from "@/lib/contact-email-template";
+import { CONTACT_MESSAGE_MAX_LENGTH } from "@/constants/contact-form";
 
 const allowedPhoneCodes = ["+387", "+381", "+385", "+382"] as const;
 
@@ -20,7 +21,7 @@ const contactRequestSchema = z.object({
     .regex(/^(?:\+387|\+381|\+385|\+382)\s\d{6,12}$/, "Invalid phone format"),
   company: z.string().trim().optional().default(""),
   subject: z.enum(allowedSubjects),
-  message: z.string().trim().min(1),
+  message: z.string().trim().min(1).max(CONTACT_MESSAGE_MAX_LENGTH),
   website: z.string().trim().optional().default(""),
 });
 
