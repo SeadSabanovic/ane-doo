@@ -17,6 +17,8 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        /** Kategorijski tagovi na PDP-u — vizuelno odvojeni od bedževa na karticama proizvoda */
+        tag: "rounded-md border-secondary/25 bg-secondary/10 text-secondary-foreground font-normal [a&]:hover:bg-secondary/15",
       },
     },
     defaultVariants: {

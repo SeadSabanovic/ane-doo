@@ -246,7 +246,7 @@ export function ProductDetails({
       {tags && tags.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <Badge key={tag} variant="outline">
+            <Badge key={tag} variant="tag">
               {tag}
             </Badge>
           ))}

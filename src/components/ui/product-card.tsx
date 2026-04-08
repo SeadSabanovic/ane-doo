@@ -17,6 +17,8 @@ interface Product {
   salePrice?: number;
   image: string;
   badge?: string;
+  /** Kad je postavljeno (npr. početna „Nova kolekcija“), uvijek ovaj tekst na bedžu, ne veličine/% akcija. */
+  fixedBadge?: string;
   link: string;
   saved?: boolean;
 }
@@ -32,6 +34,16 @@ export default function ProductCard({ product }: { product: Product }) {
   // Izvuci slug iz linka (npr. "/shop/nike-majica" -> "nike-majica")
   const slug = product.link.replace("/shop/", "");
   const isSaved = isHydrated && isInWishlist(String(product.id));
+
+  const hasFixedBadge = Boolean(product.fixedBadge?.trim());
+  const showBadge =
+    hasFixedBadge || Boolean(product.salePrice ?? product.badge);
+  const badgeIsSaleStyle = !hasFixedBadge && Boolean(product.salePrice);
+  const badgeLabel = hasFixedBadge
+    ? product.fixedBadge!.trim()
+    : product.salePrice
+      ? "% Akcija"
+      : product.badge;
 
   const handleHeartClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -111,16 +123,16 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
       </div>
 
-      {(product.salePrice ?? product.badge) && (
+      {showBadge && badgeLabel && (
         <Badge
           variant="outline"
           className={
-            product.salePrice
+            badgeIsSaleStyle
               ? "border-background/30 bg-background/20 text-background absolute top-2 left-2 z-20 backdrop-blur-md"
               : "bg-background absolute top-2 left-2 z-20"
           }
         >
-          {product.salePrice ? "% Akcija" : product.badge}
+          {badgeLabel}
         </Badge>
       )}
       <div className="mt-4 flex flex-1 flex-col">

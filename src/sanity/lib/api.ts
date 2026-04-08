@@ -188,12 +188,12 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   specifications
 }`;
 
+/** Zadnjih 8 artikala u skladu s redoslijedom „Najnovije“ u shopu (`_createdAt desc`). */
 export const NEW_PRODUCTS_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
-  && new == true
-]|order(name asc)[0...8]{
+]|order(_createdAt desc)[0...8]{
   _id,
   name,
   slug,
