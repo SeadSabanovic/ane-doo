@@ -6,6 +6,10 @@ import {
   type Product,
 } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
+import {
+  getBaseWholesaleUnitPrice,
+  getListingUnitPrice,
+} from "@/lib/sanity-product-pricing";
 
 export type SearchProductPayload = {
   id: string;
@@ -18,18 +22,23 @@ export type SearchProductPayload = {
 };
 
 function mapProducts(products: Product[]): SearchProductPayload[] {
-  return products.map((p) => ({
-    id: p._id,
-    name: p.name,
-    price: p.wholesalePrice,
-    ...(typeof p.salePrice === "number" && p.salePrice > 0
-      ? { salePrice: p.salePrice }
-      : {}),
-    image: p.images[0]
-      ? urlFor(p.images[0]).width(400).height(400).url()
-      : "",
-    link: `/shop/${p.slug.current}`,
-  }));
+  return products.map((p) => {
+    const base = getBaseWholesaleUnitPrice(p);
+    const price =
+      p.salePrice != null && base != null ? base : getListingUnitPrice(p);
+    return {
+      id: p._id,
+      name: p.name,
+      price,
+      ...(typeof p.salePrice === "number" && p.salePrice > 0
+        ? { salePrice: p.salePrice }
+        : {}),
+      image: p.images[0]
+        ? urlFor(p.images[0]).width(400).height(400).url()
+        : "",
+      link: `/shop/${p.slug.current}`,
+    };
+  });
 }
 
 /**

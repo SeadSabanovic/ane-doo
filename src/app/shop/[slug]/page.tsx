@@ -6,6 +6,12 @@ import { ProductImages } from "@/components/sections/shop/product-images";
 import { ProductDetails } from "@/components/sections/shop/product-details";
 import MoreSuggestions from "@/components/sections/shop/more-suggestions";
 import { getProductBySlug, getProducts, Product } from "@/sanity/lib/api";
+import {
+  getBaseWholesaleUnitPrice,
+  getEffectiveWholesaleUnitPrice,
+  getListingUnitPrice,
+  hasWholesaleOffer,
+} from "@/lib/sanity-product-pricing";
 import { urlFor } from "@/sanity/lib/image";
 import { buildProductColorOptions } from "@/constants/colors";
 import { displaySizeLabel } from "@/constants/product-variants";
@@ -16,9 +22,7 @@ export const revalidate = 60;
 // Generate all product pages at build time
 export const dynamicParams = true; // Allow new products to be generated on-demand
 
-// Helper function to generate pricing sections from product data
-// Redoslijed: prvo veleprodaja. Maloprodaja samo ako je u CMS-u popunjena maloprodajna cijena (retailPrice).
-// Akcijska cijena (salePrice) odnosi se samo na veleprodaju (precrtana veleprodajna + akcijska). Maloprodaja uvijek koristi retailPrice.
+/** Veleprodaja ako postoji bilo koji veleprodajni podatak; maloprodaja ako je retailPrice postavljen. */
 function getPricingSections(product: Product) {
   const sections: {
     type: "maloprodaja" | "veleprodaja";
@@ -28,26 +32,32 @@ function getPricingSections(product: Product) {
     compareAtPrice?: number;
   }[] = [];
 
-  const wholesaleUnit = product.salePrice ?? product.wholesalePrice;
-  const wholesaleCompare =
-    product.salePrice != null ? product.wholesalePrice : undefined;
-
-  sections.push({
-    type: "veleprodaja",
-    infoText:
-      "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Naručujete pakete – svaki paket sadrži određeni broj komada u različitim veličinama i bojama.",
-    pricingInfo: [
-      { label: "Pakovanje", value: `${product.wholesaleMinQuantity} komada` },
-    ],
-    pricePerUnit: wholesaleUnit,
-    compareAtPrice: wholesaleCompare,
-  });
+  if (hasWholesaleOffer(product)) {
+    const base = getBaseWholesaleUnitPrice(product);
+    const eff = getEffectiveWholesaleUnitPrice(product);
+    if (base != null && eff != null) {
+      sections.push({
+        type: "veleprodaja",
+        infoText:
+          "Veleprodajna kupovina omogućava povoljniju cijenu po komadu za veće narudžbe. Naručujete pakete – svaki paket sadrži određeni broj komada u različitim veličinama i bojama.",
+        pricingInfo: [
+          {
+            label: "Pakovanje",
+            value: `${product.wholesaleMinQuantity ?? "?"} komada`,
+          },
+        ],
+        pricePerUnit: eff,
+        compareAtPrice:
+          product.salePrice != null ? base : undefined,
+      });
+    }
+  }
 
   if (product.retailPrice != null) {
     sections.push({
       type: "maloprodaja",
       infoText:
-        "Maloprodaja je način kupnje proizvoda u malim količinama, obično od 1 do 99 komada. Cijena po komadu je fiksna i ne varira ovisno o količini.",
+        "Maloprodaja je način kupnje proizvoda u malim količinama. Cijena po komadu je fiksna i ne varira ovisno o količini.",
       pricingInfo: [],
       pricePerUnit: product.retailPrice,
     });
@@ -109,7 +119,7 @@ export default async function ProductPage({
       ? `https://${process.env.VERCEL_URL}`
       : "https://www.ane-doo.com");
   const productUrl = `${baseUrl}/shop/${product.slug.current}`;
-  const displayPrice = product.salePrice ?? product.wholesalePrice;
+  const displayPrice = getListingUnitPrice(product);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -166,6 +176,7 @@ export default async function ProductPage({
             salePrice={product.salePrice}
             retailPrice={product.retailPrice}
             wholesalePrice={product.wholesalePrice}
+            wholesalePricePerPackage={product.wholesalePricePerPackage}
             wholesaleMinQuantity={product.wholesaleMinQuantity}
             description={product.description}
             specifications={specifications}

@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { REQUIRED_TITLE_SUFFIX } from "../constants/field-labels";
 
 export default defineType({
   name: "category",
@@ -7,13 +8,13 @@ export default defineType({
   fields: [
     defineField({
       name: "name",
-      title: "Naziv kategorije",
+      title: `Naziv kategorije${REQUIRED_TITLE_SUFFIX}`,
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
-      title: "Slug",
+      title: `Slug${REQUIRED_TITLE_SUFFIX}`,
       type: "slug",
       options: {
         source: "name",

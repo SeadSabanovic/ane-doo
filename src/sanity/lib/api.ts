@@ -11,8 +11,12 @@ export interface Product {
   salePrice?: number;
   /** Maloprodajna referentna cijena (kad je akcija; veća od veleprodajne) */
   retailPrice?: number;
-  wholesalePrice: number;
-  wholesaleMinQuantity: number;
+  /** Opcionalno ako je samo maloprodaja ili je jedinična cijena samo iz „po paketu”. */
+  wholesalePrice?: number;
+  /** Cijena za cijeli veleprodajni paket (sinhronizuje se s cijenom po komadu × komada u paketu). */
+  wholesalePricePerPackage?: number;
+  /** Obavezno kad postoji bilo koja veleprodajna cijena; za samo maloprodaju može ostati prazno u CMS-u. */
+  wholesaleMinQuantity?: number;
   /** Slobodan tekst opisa sadržaja paketa (CMS textarea) */
   packageContentsText?: string;
   images: {
@@ -43,7 +47,6 @@ export interface Product {
   customColors?: { _key?: string; name: string; hex: string }[];
   inStock: boolean;
   featured: boolean;
-  new: boolean;
   tags?: string[];
   material?: string;
   weight?: string;
@@ -110,6 +113,12 @@ export function parseShopSearchQuery(
   return t;
 }
 
+/**
+ * Jedna „komadna” cijena za GROQ filter i sort u shopu (akcija → veleprodaja → iz paketa → maloprodaja).
+ */
+export const GROQ_SHOP_UNIT_PRICE =
+  "coalesce(salePrice, wholesalePrice, select(defined(wholesalePricePerPackage) && wholesaleMinQuantity > 0 => wholesalePricePerPackage / wholesaleMinQuantity), retailPrice)";
+
 // GROQ Queries
 export const PRODUCTS_QUERY = `*[
   _type == "product"
@@ -124,6 +133,7 @@ export const PRODUCTS_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -141,7 +151,6 @@ export const PRODUCTS_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -163,6 +172,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -180,7 +190,6 @@ export const FEATURED_PRODUCTS_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -202,6 +211,7 @@ export const NEW_PRODUCTS_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -219,7 +229,6 @@ export const NEW_PRODUCTS_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -241,6 +250,7 @@ export const SALE_PRODUCTS_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -258,7 +268,6 @@ export const SALE_PRODUCTS_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -332,6 +341,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -349,7 +359,6 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -371,6 +380,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -388,7 +398,6 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -410,6 +419,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -427,7 +437,6 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -452,6 +461,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -469,7 +479,6 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -486,6 +495,7 @@ const SHOP_LIST_PROJECTION = `{
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -503,7 +513,6 @@ const SHOP_LIST_PROJECTION = `{
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,
@@ -518,9 +527,9 @@ function shopProductOrderClause(sort: ShopSort): string {
     case "newest":
       return "|order(_createdAt desc)";
     case "price-asc":
-      return "|order(coalesce(salePrice, wholesalePrice) asc, name asc)";
+      return `|order(${GROQ_SHOP_UNIT_PRICE} asc, name asc)`;
     case "price-desc":
-      return "|order(coalesce(salePrice, wholesalePrice) desc, name asc)";
+      return `|order(${GROQ_SHOP_UNIT_PRICE} desc, name asc)`;
     default:
       return "|order(featured desc, name asc)";
   }
@@ -531,8 +540,8 @@ export function buildProductsPaginatedGroq(sort: ShopSort): string {
   _type == "product"
   && defined(slug.current)
   && inStock == true
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
@@ -546,8 +555,8 @@ export function buildProductsByCategorySlugsPaginatedGroq(sort: ShopSort): strin
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
@@ -557,8 +566,8 @@ export function buildProductsPaginatedGroqWithSearch(sort: ShopSort): string {
   _type == "product"
   && defined(slug.current)
   && inStock == true
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
   && (name match $searchQuery || description match $searchQuery)
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
@@ -575,8 +584,8 @@ export function buildProductsByCategorySlugsPaginatedGroqWithSearch(
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
   && (name match $searchQuery || description match $searchQuery)
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
@@ -586,8 +595,8 @@ export const PRODUCTS_COUNT_QUERY = `count(*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
 ])`;
 
@@ -599,8 +608,8 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
 ])`;
 
@@ -608,8 +617,8 @@ export const PRODUCTS_COUNT_WITH_SEARCH_QUERY = `count(*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
   && (name match $searchQuery || description match $searchQuery)
 ])`;
@@ -622,8 +631,8 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY = `count(*[
     category->slug.current in $categorySlugs
     || category->parent->slug.current in $categorySlugs
   )
-  && coalesce(salePrice, wholesalePrice) >= $minPrice
-  && coalesce(salePrice, wholesalePrice) <= $maxPrice
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
   && (name match $searchQuery || description match $searchQuery)
 ])`;
@@ -642,6 +651,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   packageContentsText,
   images,
@@ -659,7 +669,6 @@ export const SEARCH_PRODUCTS_QUERY = `*[
   colors,
   inStock,
   featured,
-  new,
   tags,
   material,
   weight,

@@ -5,20 +5,29 @@ import SectionBadge from "@/components/ui/section-badge";
 import Link from "next/link";
 import { getNewProducts } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
+import {
+  getBaseWholesaleUnitPrice,
+  getListingUnitPrice,
+} from "@/lib/sanity-product-pricing";
 
 export default async function NewSection() {
   const raw = await getNewProducts();
   const products = raw
     .filter((p) => p.images?.[0])
-    .map((p) => ({
+    .map((p) => {
+      const base = getBaseWholesaleUnitPrice(p);
+      const price =
+        p.salePrice != null && base != null ? base : getListingUnitPrice(p);
+      return {
       id: p._id,
       name: p.name,
-      price: p.wholesalePrice,
+      price,
       salePrice: p.salePrice,
       image: urlFor(p.images[0]).width(400).height(400).url(),
       link: `/shop/${p.slug.current}`,
       fixedBadge: "Novo",
-    }));
+    };
+    });
 
   return (
     <section className="py-20">

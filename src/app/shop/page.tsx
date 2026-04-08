@@ -21,6 +21,10 @@ import {
   parseShopSortParam,
 } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
+import {
+  getBaseWholesaleUnitPrice,
+  getListingUnitPrice,
+} from "@/lib/sanity-product-pricing";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -165,17 +169,24 @@ export default async function ShopPage({
         );
 
   // Transform Sanity products to ProductCard format
-  const products = sanityProducts.map((product) => ({
+  const products = sanityProducts.map((product) => {
+    const base = getBaseWholesaleUnitPrice(product);
+    const price =
+      product.salePrice != null && base != null
+        ? base
+        : getListingUnitPrice(product);
+    return {
     id: product._id,
     name: product.name,
-    price: product.wholesalePrice,
+    price,
     salePrice: product.salePrice,
     image: product.images[0]
       ? urlFor(product.images[0]).width(400).height(400).url()
       : "",
     slug: product.slug.current,
     link: `/shop/${product.slug.current}`,
-  }));
+  };
+  });
 
   return (
     <>

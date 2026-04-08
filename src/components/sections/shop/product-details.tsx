@@ -16,6 +16,12 @@ import { Heart } from "lucide-react";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { toast } from "sonner";
 import type { ProductColorOption } from "@/constants/colors";
+import {
+  getBaseWholesaleUnitPrice,
+  getEffectiveWholesaleUnitPrice,
+  getListingUnitPrice,
+  hasWholesaleOffer,
+} from "@/lib/sanity-product-pricing";
 
 interface Specification {
   label: string;
@@ -44,8 +50,9 @@ interface ProductDetailsProps {
   salePrice?: number;
   /** Maloprodajna cijena po komadu (samo ova vrijednost za maloprodaju, bez akcije) */
   retailPrice?: number;
-  wholesalePrice: number;
-  wholesaleMinQuantity: number;
+  wholesalePrice?: number;
+  wholesalePricePerPackage?: number;
+  wholesaleMinQuantity?: number;
   description: string;
   specifications: Specification[];
   sizes: string[];
@@ -67,6 +74,7 @@ export function ProductDetails({
   salePrice,
   retailPrice,
   wholesalePrice,
+  wholesalePricePerPackage,
   wholesaleMinQuantity,
   description,
   specifications,
@@ -84,8 +92,18 @@ export function ProductDetails({
   const addToCart = useCartStore((state) => state.addItem);
   const { toggleItem, isInWishlist } = useWishlistStore();
 
-  /** Za listu želja – efektivna javna cijena (akcija ili veleprodajna) */
-  const displayPrice = salePrice ?? wholesalePrice;
+  const pricingLike = {
+    salePrice,
+    retailPrice,
+    wholesalePrice,
+    wholesalePricePerPackage,
+    wholesaleMinQuantity,
+  };
+  const baseWholesaleUnit = getBaseWholesaleUnitPrice(pricingLike);
+  const effWholesaleUnit = getEffectiveWholesaleUnitPrice(pricingLike);
+  const showWholesale = hasWholesaleOffer(pricingLike);
+  /** Za listu želja – akcija → veleprodaja → maloprodaja */
+  const displayPrice = getListingUnitPrice(pricingLike);
 
   const isHydrated = useSyncExternalStore(
     () => () => {},
@@ -113,7 +131,14 @@ export function ProductDetails({
     const size = isRetail ? selectedSize : "";
     const color = isRetail ? selectedColor : "";
     const cartRetailUnitPrice = retailPrice ?? 0;
-    const effectiveWholesaleUnit = salePrice ?? wholesalePrice;
+    const effectiveWholesaleUnit =
+      getEffectiveWholesaleUnitPrice(pricingLike) ?? 0;
+    const pkgQty = wholesaleMinQuantity ?? 1;
+
+    if (!isRetail && (typeof wholesaleMinQuantity !== "number" || wholesaleMinQuantity < 1)) {
+      toast.error("Nedostaju podaci o veleprodajnom paketu (komada u paketu).");
+      return;
+    }
 
     addToCart({
       productId,
@@ -127,7 +152,7 @@ export function ProductDetails({
       pricing: {
         retailPrice: cartRetailUnitPrice,
         wholesalePrice: effectiveWholesaleUnit,
-        wholesaleMinQuantity,
+        wholesaleMinQuantity: pkgQty,
       },
       ...(purchaseType === "wholesale"
         ? {
@@ -145,7 +170,7 @@ export function ProductDetails({
 
     const desc =
       purchaseType === "wholesale"
-        ? `${quantity} paket(a) × ${wholesaleMinQuantity} kom`
+        ? `${quantity} paket(a) × ${pkgQty} kom`
         : `${selectedSize}${selectedColor ? ` • ${selectedColor}` : ""}`;
     toast.success(`${name} dodano u korpu`, {
       description: `${desc} • ${purchaseType === "wholesale" ? "Veleprodaja" : "Maloprodaja"}`,
@@ -206,21 +231,29 @@ export function ProductDetails({
             <h1 className="text-4xl font-bold">{name}</h1>
           </div>
           <div className="flex flex-wrap items-baseline gap-2">
-            {salePrice != null ? (
-              <>
-                <p className="text-muted-foreground/80 text-2xl line-through">
-                  {formatPrice(wholesalePrice)}
-                </p>
+            {showWholesale && effWholesaleUnit != null ? (
+              salePrice != null && baseWholesaleUnit != null ? (
+                <>
+                  <p className="text-muted-foreground/80 text-2xl line-through">
+                    {formatPrice(baseWholesaleUnit)}
+                  </p>
+                  <p className="text-primary text-3xl font-semibold">
+                    <span className="text-destructive">
+                      {formatPrice(salePrice)}
+                    </span>{" "}
+                    / kom
+                  </p>
+                </>
+              ) : (
                 <p className="text-primary text-3xl font-semibold">
-                  <span className="text-destructive">{formatPrice(salePrice)}</span>{" "}
-                  / kom
+                  {formatPrice(effWholesaleUnit)} / kom
                 </p>
-              </>
-            ) : (
+              )
+            ) : retailPrice != null ? (
               <p className="text-primary text-3xl font-semibold">
-                {formatPrice(wholesalePrice)} / kom
+                {formatPrice(retailPrice)} / kom
               </p>
-            )}
+            ) : null}
           </div>
         </div>
         <Button
@@ -292,7 +325,7 @@ export function ProductDetails({
                 embedded
                 sizes={sizes}
                 colorOptions={colorOptions}
-                wholesaleMinQuantity={wholesaleMinQuantity}
+                wholesaleMinQuantity={wholesaleMinQuantity ?? 1}
                 packageContentsText={packageContentsText}
               />
             )}
@@ -308,7 +341,7 @@ export function ProductDetails({
               }
               wholesaleMinQuantity={
                 section.type === "veleprodaja"
-                  ? wholesaleMinQuantity
+                  ? wholesaleMinQuantity ?? 1
                   : undefined
               }
               variantSlot={
