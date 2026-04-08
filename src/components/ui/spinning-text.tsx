@@ -22,6 +22,8 @@ export default function SpinningText({
 }: SpinningTextProps) {
   const uid = useId();
   const pathId = `circlePath-${uid.replace(/:/g, "")}`;
+  /** Obim kruga u viewBox jedinicama — tekst se rastegne duž cijele staze (rješava „prazan“ luk na malim fontovima). */
+  const pathLength = 1.97 * Math.PI * radius;
 
   return (
     <div className={className}>
@@ -48,6 +50,8 @@ export default function SpinningText({
               "font-bold uppercase tracking-widest",
               textClassName,
             )}
+            textLength={pathLength}
+            lengthAdjust="spacing"
           >
             <textPath href={`#${pathId}`} startOffset="0%">
               {text}

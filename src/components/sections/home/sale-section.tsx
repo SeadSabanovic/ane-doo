@@ -42,7 +42,7 @@ export default function SaleSection() {
               speed={22}
               direction="normal"
               className="size-[min(80%,500px)]"
-              textClassName="fill-[#fffcf3] text-[3.25px] sm:text-[4px]"
+              textClassName="fill-[#fffcf3] text-[4px]"
             />
           </div>
         </div>
