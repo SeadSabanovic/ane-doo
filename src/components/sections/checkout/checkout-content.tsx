@@ -4,7 +4,7 @@ import { useCartStore } from "@/stores";
 import OrderSummary from "./order-summary";
 import CheckoutForm from "./checkout-form";
 import { ShoppingBag, Loader2, CircleCheck } from "lucide-react";
-import { useSyncExternalStore, useState, useEffect } from "react";
+import { useSyncExternalStore, useState, useEffect, useRef } from "react";
 import EmptyState from "@/components/ui/empty-state";
 
 export default function CheckoutContent() {
@@ -16,14 +16,21 @@ export default function CheckoutContent() {
   const items = useCartStore((state) => state.items);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const prevItemsLenRef = useRef(items.length);
 
   const total = getTotalPrice();
 
   useEffect(() => {
-    if (items.length > 0) {
-      setOrderPlaced(false);
-    }
-  }, [items.length]);
+    prevItemsLenRef.current = useCartStore.getState().items.length;
+    const unsubscribe = useCartStore.subscribe((state) => {
+      const len = state.items.length;
+      if (len > prevItemsLenRef.current && len > 0) {
+        setOrderPlaced(false);
+      }
+      prevItemsLenRef.current = len;
+    });
+    return unsubscribe;
+  }, []);
 
   if (!isHydrated) {
     return (
