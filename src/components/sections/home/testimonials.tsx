@@ -57,20 +57,17 @@ const ReviewCard = ({ name, content }: { name: string; content: string }) => {
   return (
     <figure
       className={cn(
-        "relative h-full w-64 cursor-pointer overflow-hidden rounded-md p-4 transition",
+        "relative h-full w-96 cursor-pointer overflow-hidden rounded-md p-4 transition flex flex-col",
       )}
     >
-      <Quote className="text-primary/10 absolute top-2 right-2 z-10 size-8" />
-      <div className="relative z-20 mb-3 flex flex-row items-center gap-2">
-        <div className="flex flex-col">
-          <figcaption className="text-secondary-foreground text-sm font-medium">
-            {name}
-          </figcaption>
-        </div>
-      </div>
-      <blockquote className="text-muted-foreground mt-2 text-sm italic">
+      <Quote className="text-accent/10 mb-4 size-8 absolute inset-0" />
+      <blockquote className="text-foreground mb-4 text-lg italic">
         &quot;{content}&quot;
       </blockquote>
+      <div className="text-lg tracking-wide text-accent mt-auto">★★★★★</div>
+      <figcaption className="text-primary text-sm font-medium mt-2">
+        {name}
+      </figcaption>
     </figure>
   );
 };
