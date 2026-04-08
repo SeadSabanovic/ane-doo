@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Politika privatnosti – ANE d.o.o.",
+  title: "Politika privatnosti",
   description:
     "Politika privatnosti ANE d.o.o. Sarajevo – kako postupamo sa vašim podacima na stranici www.ane-doo.com.",
 };

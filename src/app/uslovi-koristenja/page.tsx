@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Uslovi korištenja – ANE d.o.o.",
+  title: "Uslovi korištenja",
   description:
     "Uslovi korištenja online trgovine ANE d.o.o. Sarajevo – informacije o naručivanju, plaćanju, dostavi i zaštiti podataka.",
 };

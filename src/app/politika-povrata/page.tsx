@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Reklamacije i povrat robe – ANE d.o.o.",
+  title: "Reklamacije i povrat robe",
   description:
     "Politika povrata i reklamacije ANE d.o.o. Sarajevo – uslovi povrata robe u skladu sa Zakonom o zaštiti potrošača u BiH.",
 };
