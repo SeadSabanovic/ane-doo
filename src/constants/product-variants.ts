@@ -1,4 +1,7 @@
-/** Opcije veličina (vrijednosti u Sanity i API-ju) – jedan izvor za shemu i prikaz */
+/**
+ * Stari preset slugovi (prije kataloga `size` u Sanityju).
+ * Ostaje za `displaySizeLabel` ako negdje još stigne stari slug (npr. stari snapshot).
+ */
 export const PRODUCT_SIZE_OPTIONS = [
   { title: "XS", value: "xs" },
   { title: "S", value: "s" },

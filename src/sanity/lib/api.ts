@@ -38,10 +38,15 @@ export interface Product {
       };
     };
   };
-  /** Može biti null u Sanityju ako nije postavljeno */
-  sizes?: string[] | null;
-  /** Proizvoljne veličine (slobodan unos) – spaja se s sizes */
-  customSizes?: string[];
+  /** Veličine iz kataloga; `null` u nizu kad referenca nije razriješena (obrisan `size` ili pokvaren ref). */
+  sizes?: (
+    | {
+        _id: string;
+        name: string;
+        slug: { current: string };
+      }
+    | null
+  )[] | null;
   colors?: string[];
   /** Dodatne boje (naziv + hex) – spaja se s colors */
   customColors?: { _key?: string; name: string; hex: string }[];
@@ -145,8 +150,7 @@ export const PRODUCTS_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -184,8 +188,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -223,8 +226,7 @@ export const NEW_PRODUCTS_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -262,8 +264,7 @@ export const SALE_PRODUCTS_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -353,8 +354,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -392,8 +392,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -431,8 +430,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -473,8 +471,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -507,8 +504,7 @@ const SHOP_LIST_PROJECTION = `{
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,
@@ -663,8 +659,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
       slug
     }
   },
-  sizes,
-  customSizes,
+  sizes[]->{ _id, name, slug },
   customColors,
   colors,
   inStock,

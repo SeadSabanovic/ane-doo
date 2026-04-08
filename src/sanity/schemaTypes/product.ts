@@ -1,12 +1,9 @@
-import { defineType, defineField } from "sanity";
+import { defineType, defineField, defineArrayMember } from "sanity";
 import { SelectAllArrayInput } from "../components/select-all-array-input";
 import { TagsInput } from "../components/tags-input";
 import { AltTextWithGenerate } from "../components/alt-text-with-generate";
 import { WholesalePricePerPackageInput } from "../components/wholesale-pricing-inputs";
-import {
-  PRODUCT_COLOR_OPTIONS,
-  PRODUCT_SIZE_OPTIONS,
-} from "../../constants/product-variants";
+import { PRODUCT_COLOR_OPTIONS } from "../../constants/product-variants";
 import {
   REQUIRED_TITLE_SUFFIX,
   WHOLESALE_PRICE_TITLE_SUFFIX,
@@ -437,28 +434,31 @@ export default defineType({
       type: "array",
       group: "packageInfo",
       fieldset: "packageInfo",
-      components: {
-        input: SelectAllArrayInput,
-      },
-      of: [{ type: "string" }],
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "size" }],
+          options: {
+            disableNew: false,
+          },
+        }),
+      ],
       options: {
-        list: [...PRODUCT_SIZE_OPTIONS],
+        layout: "tags",
       },
       description:
-        "Opciono. Koje veličine ulaze u ponudu: veleprodaja (sadržaj paketa) i maloprodaja (odabir kupca). Za nestandardne veličine koristite polje ispod.",
-    }),
-    defineField({
-      name: "customSizes",
-      title: "Dodatne veličine (proizvoljno)",
-      type: "array",
-      group: "packageInfo",
-      fieldset: "packageInfo",
-      of: [{ type: "string" }],
-      components: {
-        input: TagsInput,
-      },
-      description:
-        "Slobodan unos ako veličina nije na listi (npr. 220×240 cm, poseban kroj). Pojaviti će se u rasporedu paketa zajedno s odabranim veličinama.",
+        "Opciono. Odaberite veličine iz kataloga (Content → Veličina). „+ Dodaj” → možete ili izabrati postojeću ili **Nova veličina** da se trajno doda u katalog i ovdje.",
+      validation: (Rule) =>
+        Rule.custom((refs) => {
+          if (!Array.isArray(refs) || refs.length === 0) return true;
+          const ids = refs
+            .map((r) => r && typeof r === "object" && "_ref" in r && (r as { _ref?: string })._ref)
+            .filter(Boolean) as string[];
+          if (ids.length !== new Set(ids).size) {
+            return "Ista veličina je dva puta u listi — uklonite duplikat.";
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "colors",

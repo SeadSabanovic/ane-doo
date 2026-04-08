@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getProductBySlug } from "@/sanity/lib/api";
 import { buildProductColorOptions } from "@/constants/colors";
-import { displaySizeLabel } from "@/constants/product-variants";
 
 type RouteParams = {
   params: Promise<{ slug: string }>;
@@ -15,10 +14,9 @@ export async function GET(_request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Product not found." }, { status: 404 });
   }
 
-  const sizeOptions = [
-    ...(product.sizes ?? []).map((s) => displaySizeLabel(s)),
-    ...(product.customSizes ?? []),
-  ];
+  const sizeOptions = (product.sizes ?? [])
+    .filter((s): s is NonNullable<typeof s> => s != null)
+    .map((s) => s.name);
   const colorOptions = buildProductColorOptions(product.colors, product.customColors);
 
   return NextResponse.json(

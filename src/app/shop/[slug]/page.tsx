@@ -14,7 +14,6 @@ import {
 } from "@/lib/sanity-product-pricing";
 import { urlFor } from "@/sanity/lib/image";
 import { buildProductColorOptions } from "@/constants/colors";
-import { displaySizeLabel } from "@/constants/product-variants";
 
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;
@@ -101,11 +100,9 @@ export default async function ProductPage({
     ...(product.specifications || []),
   ];
 
-  // Preset veličine + proizvoljne (customSizes)
-  const displaySizes = [
-    ...(product.sizes ?? []).map((s) => displaySizeLabel(s)),
-    ...(product.customSizes ?? []),
-  ];
+  const displaySizes = (product.sizes ?? [])
+    .filter((s): s is NonNullable<typeof s> => s != null)
+    .map((s) => s.name);
 
   const colorOptions = buildProductColorOptions(
     product.colors,
