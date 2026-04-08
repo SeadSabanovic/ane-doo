@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Narudžba",
   description:
     "Završite vašu narudžbu. Unesite podatke za dostavu i odaberite način plaćanja.",
+  robots: { index: false, follow: true },
 };
 
 export default function CheckoutPage() {

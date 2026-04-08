@@ -2,7 +2,7 @@ import Container from "@/components/layout/container";
 import { SOCIALS } from "@/constants/socials";
 import Link from "next/link";
 import FooterLines from "@/components/icons/footer-lines";
-import Image from "next/image";
+import { AneLogo } from "@/components/logo/ane-logo";
 
 /** Isti URL kao u kontakt sekciji — otvara lokaciju u Google Maps. */
 const MAPS_URL =
@@ -15,30 +15,26 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="from-primary to-card-foreground text-secondary-foreground relative w-full bg-linear-to-r lg:border lg:border-card-foreground lg:mx-auto lg:mb-8 lg:max-w-[calc(100%-4rem)] lg:overflow-hidden lg:rounded-lg">
+    <footer className="from-primary to-card-foreground text-secondary-foreground lg:border-card-foreground relative w-full bg-linear-to-r lg:mx-auto lg:mb-8 lg:max-w-[calc(100%-4rem)] lg:overflow-hidden lg:rounded-lg lg:border">
       <div className="relative overflow-hidden">
         <Container className="relative z-20">
           {/* <!-- footer menu start --> */}
           <div className="flex flex-col flex-wrap gap-10 py-12 md:flex-row xl:flex-nowrap xl:justify-between xl:gap-19 xl:py-24">
             <div className="max-w-sm shrink-0">
               <Link
-                className="text-primary-foreground inline-flex shrink-0 items-center gap-2 text-2xl font-bold"
+                className="text-primary-foreground inline-flex shrink-0 items-center gap-4 text-2xl font-bold 2xl:items-center"
                 href="/"
               >
-                <Image
-                  src="/icons/ANE-logo.svg"
-                  alt="ANE d.o.o. Logo"
-                  width={40}
-                  height={40}
-                  className="size-10"
-                />
-                <span className="font-heading text-2xl font-bold">
-                  ANE d.o.o.
-                </span>
+                <AneLogo className="size-14 2xl:size-24" />
+                <div>
+                  <span className="font-heading text-2xl font-bold 2xl:text-3xl">
+                    ANE d.o.o.
+                  </span>
+                  <p className="text-accent text-sm 2xl:text-base">
+                    Pouzdan veleprodajni partner
+                  </p>
+                </div>
               </Link>
-              <p className="text-primary-foreground/80">
-                Pouzdan veleprodajni partner
-              </p>
             </div>
 
             <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:w-auto lg:grid-cols-3 lg:gap-16">

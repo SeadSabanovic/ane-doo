@@ -3,7 +3,6 @@
 import { useState, useSyncExternalStore } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Container from "../container";
 import { Heart, Search, ShoppingCart } from "lucide-react";
@@ -15,6 +14,7 @@ import { SearchDialog } from "./search/search-dialog";
 import { SOCIALS } from "@/constants/socials";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { useCartStore, useWishlistStore } from "@/stores";
+import { AneLogo } from "@/components/logo/ane-logo";
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -67,14 +67,7 @@ const Navigation = () => {
                   className="text-primary flex shrink-0 items-center gap-2 text-2xl font-bold"
                   href="/"
                 >
-                  <Image
-                    src="/icons/ANE-logo.svg"
-                    alt="ANE d.o.o. Logo"
-                    width={32}
-                    height={32}
-                    priority
-                    className="size-8"
-                  />
+                  <AneLogo className="size-8" />
                   <span className="font-heading sr-only text-xl font-bold sm:not-sr-only">
                     ANE d.o.o.
                   </span>
