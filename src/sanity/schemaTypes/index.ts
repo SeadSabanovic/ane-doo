@@ -1,8 +1,9 @@
 import { type SchemaTypeDefinition } from "sanity";
 import category from "./category";
+import color from "./color";
 import product from "./product";
 import size from "./size";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [category, product, size],
+  types: [category, product, size, color],
 };

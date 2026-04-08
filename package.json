@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "seed:categories": "node scripts/seed-categories.js",
-    "migrate:sizes": "node scripts/migrate-sizes.js"
+    "migrate:sizes": "node scripts/migrate-sizes.js",
+    "migrate:colors": "node scripts/migrate-colors.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

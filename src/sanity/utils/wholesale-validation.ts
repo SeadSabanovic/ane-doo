@@ -60,3 +60,22 @@ export function wholesaleFieldsReadOnly(document: unknown): boolean {
   if (hasWholesalePricingValues(document)) return false;
   return true;
 }
+
+/**
+ * Jedinična veleprodajna cijena za validaciju: eksplicitno po komadu, inače iz paketa ÷ komada u paketu.
+ * Usklađeno s `getBaseWholesaleUnitPrice` na sajtu.
+ */
+export function getWholesaleBaseUnit(doc: unknown): number | null {
+  if (!doc || typeof doc !== "object") return null;
+  const d = doc as {
+    wholesalePrice?: unknown;
+    wholesalePricePerPackage?: unknown;
+    wholesaleMinQuantity?: unknown;
+  };
+  if (isFiniteNumber(d.wholesalePrice)) return d.wholesalePrice;
+  const qty = normalizeWholesaleQty(d.wholesaleMinQuantity);
+  if (qty != null && isFiniteNumber(d.wholesalePricePerPackage)) {
+    return d.wholesalePricePerPackage / qty;
+  }
+  return null;
+}

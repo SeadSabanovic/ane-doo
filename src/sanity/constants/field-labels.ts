@@ -4,5 +4,8 @@
  */
 export const REQUIRED_TITLE_SUFFIX = " (obavezno)";
 
-/** Uz naslove veleprodajnih cijena kad pravilo vrijedi uz unesen broj komada (detalji u opisu polja). */
+/** Uz naslov polja „Veleprodajna cijena (po komadu)” kad je uključena veleprodaja (detalji u opisu). */
 export const WHOLESALE_PRICE_TITLE_SUFFIX = " (obavezno uz komade u paketu)";
+
+/** Ukupna cijena paketa — opcionalna; na sajtu se veleprodaja prikazuje pretežno preko cijene po komadu. */
+export const WHOLESALE_PACKAGE_TITLE_SUFFIX = " (opcionalno)";

@@ -47,9 +47,16 @@ export interface Product {
       }
     | null
   )[] | null;
-  colors?: string[];
-  /** Dodatne boje (naziv + hex) – spaja se s colors */
-  customColors?: { _key?: string; name: string; hex: string }[];
+  /** Boje iz kataloga; `null` u nizu kad referenca nije razriješena. */
+  colors?: (
+    | {
+        _id: string;
+        name: string;
+        hex: string;
+        slug: { current: string };
+      }
+    | null
+  )[] | null;
   inStock: boolean;
   featured: boolean;
   tags?: string[];
@@ -151,8 +158,7 @@ export const PRODUCTS_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -189,8 +195,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -227,8 +232,7 @@ export const NEW_PRODUCTS_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -265,8 +269,7 @@ export const SALE_PRODUCTS_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -355,8 +358,7 @@ export const PRODUCT_BY_SLUG_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -393,8 +395,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -431,8 +432,7 @@ export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -472,8 +472,7 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -505,8 +504,7 @@ const SHOP_LIST_PROJECTION = `{
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,
@@ -660,8 +658,7 @@ export const SEARCH_PRODUCTS_QUERY = `*[
     }
   },
   sizes[]->{ _id, name, slug },
-  customColors,
-  colors,
+  colors[]->{ _id, name, hex, slug },
   inStock,
   featured,
   tags,

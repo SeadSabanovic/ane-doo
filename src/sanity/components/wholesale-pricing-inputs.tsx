@@ -121,16 +121,13 @@ export function WholesalePricePerPackageInput(props: NumberInputProps) {
           Zašto je ovo polje važno i šta radi dugme
         </Text>
         <Text as="p" muted size={1} style={{ marginTop: "0.65rem", lineHeight: 1.45 }}>
-          <strong>Veleprodajna cijena po komadu</strong> i <strong>veleprodajna cijena po paketu</strong>{" "}
-          su par: u CMS-u i na sajtu ne smije postojati samo jedno od ta dva polja kad je veleprodaja
-          aktivna — frontend treba oba iznosa za konzistentan prikaz. <strong>Cijena po paketu</strong> je
-          ukupna cijena cijelog paketa (npr. koliko košta jedan paket od <em>n</em> komada).
+          Na sajtu se veleprodaja prikazuje pretežno preko <strong>cijene po komadu</strong>.{" "}
+          <strong>Cijena po paketu</strong> je opcionalna (ukupni iznos paketa); korisna je za kontrolu ili
+          ako želite cijenu po komadu izračunati iz ukupnog paketa.
         </Text>
         <Text as="p" muted size={1} style={{ marginTop: "0.5rem", lineHeight: 1.45 }}>
-          Vrijednosti moraju odgovarati <strong>cijena po komadu × komada u paketu</strong>. Dugme ispod{" "}
-          <strong>izračunava nedostajuće polje</strong>: ako imate cijenu po komadu, popunjava paket; ako
-          imate cijenu po paketu, popunjava cijenu po komadu (podijeli s brojem komada). Ručni unos je
-          dozvoljen ako ostane u skladu s pravilom.
+          Ako unesete oba iznosa, trebaju odgovarati <strong>cijena po komadu × komada u paketu</strong>.
+          Dugme ispod izračunava nedostajuće polje (× komada ili ÷ komada).
         </Text>
       </Box>
 

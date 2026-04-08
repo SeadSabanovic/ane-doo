@@ -26,16 +26,3 @@ export function displaySizeLabel(value: string): string {
   return hit ? hit.title : value;
 }
 
-/** Opcije boja – jedan izvor za shemu i prikaz */
-export const PRODUCT_COLOR_OPTIONS = [
-  { title: "Crna", value: "crna" },
-  { title: "Bijela", value: "bijela" },
-  { title: "Siva", value: "siva" },
-  { title: "Plava", value: "plava" },
-  { title: "Crvena", value: "crvena" },
-  { title: "Zelena", value: "zelena" },
-  { title: "Žuta", value: "zuta" },
-  { title: "Roze", value: "roze" },
-  { title: "Smeđa", value: "smeda" },
-  { title: "Narandžasta", value: "narandzasta" },
-] as const;

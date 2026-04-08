@@ -17,7 +17,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
   const sizeOptions = (product.sizes ?? [])
     .filter((s): s is NonNullable<typeof s> => s != null)
     .map((s) => s.name);
-  const colorOptions = buildProductColorOptions(product.colors, product.customColors);
+  const colorOptions = buildProductColorOptions(product.colors);
 
   return NextResponse.json(
     {

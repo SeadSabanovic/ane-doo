@@ -1,15 +1,15 @@
 import { defineType, defineField, defineArrayMember } from "sanity";
-import { SelectAllArrayInput } from "../components/select-all-array-input";
 import { TagsInput } from "../components/tags-input";
 import { AltTextWithGenerate } from "../components/alt-text-with-generate";
 import { WholesalePricePerPackageInput } from "../components/wholesale-pricing-inputs";
-import { PRODUCT_COLOR_OPTIONS } from "../../constants/product-variants";
 import {
   REQUIRED_TITLE_SUFFIX,
+  WHOLESALE_PACKAGE_TITLE_SUFFIX,
   WHOLESALE_PRICE_TITLE_SUFFIX,
 } from "../constants/field-labels";
 import {
   getDocumentForValidation,
+  getWholesaleBaseUnit,
   hasValidWholesaleQty,
   isFiniteNumber,
   isPositivePrice,
@@ -26,8 +26,8 @@ const MSG_WHOLESALE_NO_QTY_PACKAGE =
 const MSG_SALE_NO_QTY =
   'Bez „Komada u paketu” (cijeli broj ≥1) akcija ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.';
 
-const MSG_WHOLESALE_PAIR_REQUIRED =
-  "Kad je unesen broj komada u paketu, unesite i veleprodajnu cijenu po komadu i po paketu, ili unesite maloprodajnu cijenu (ili akciju) ako ne prodajete veleprodajno.";
+const MSG_WHOLESALE_PRICING_REQUIRED =
+  "Kad je unesen broj komada u paketu, unesite veleprodajnu cijenu po komadu i/ili po paketu, ili maloprodajnu/akcijsku cijenu — ne ostavljajte sva cijenska polja prazna.";
 
 export default defineType({
   name: "product",
@@ -59,39 +59,32 @@ export default defineType({
         return true;
       }
 
-      // Uz validan paket: po komadu i po paketu uvijek zajedno (FE i prikaz ovise o obje vrijednosti).
-      if (hasWPiece !== hasWPackage) {
-        return "Veleprodajna cijena po komadu i po paketu moraju biti obje unesene ili obje prazne. Sajt očekuje oba iznosa kad postoji veleprodaja.";
+      // Uz „Komada u paketu”: treba barem jedna cijena (veleprodaja po komadu i/ili po paketu, ili maloprodaja, ili akcija).
+      if (!hasWPiece && !hasWPackage && !hasRetail && !hasSale) {
+        return MSG_WHOLESALE_PRICING_REQUIRED;
       }
 
-      const hasWholesalePair = hasWPiece && hasWPackage;
-
-      if (!hasWholesalePair) {
-        if (!hasRetail && !hasSale) {
-          return "Unesite maloprodajnu cijenu i/ili obje veleprodajne cijene (po komadu i po paketu) i/ili akciju po komadu.";
-        }
-      }
-
-      const baseUnit = hasWholesalePair ? d.wholesalePrice! : null;
-
-      if (hasRetail && baseUnit != null && (d.retailPrice as number) <= baseUnit) {
-        return "Maloprodajna cijena mora biti veća od veleprodajne (po komadu).";
-      }
-
-      if (hasSale) {
-        if (!hasWholesalePair || baseUnit == null) {
-          return "Akcijska cijena zahtijeva potpunu veleprodaju: „Komada u paketu”, cijena po komadu i cijena po paketu.";
-        }
-        if (d.salePrice! >= baseUnit) {
-          return "Akcijska cijena mora biti niža od veleprodajne (po komadu).";
-        }
-      }
-
-      if (hasWholesalePair && hasValidQty) {
+      // Ako su oba veleprodajna iznosa unesena, trebaju se slagati s formulom.
+      if (hasWPiece && hasWPackage && hasValidQty) {
         const qty = normalizeWholesaleQty(d.wholesaleMinQuantity)!;
         const expected = d.wholesalePrice! * qty;
         if (Math.abs(expected - d.wholesalePricePerPackage!) > 0.02) {
-          return "Cijena po paketu mora odgovarati: (cijena po komadu) × (komada u paketu). Ispravite jedno od polja ili koristite dugme za izračun.";
+          return "Cijena po paketu ne odgovara (cijena po komadu) × (komada u paketu). Ispravite jedno od polja ili koristite dugme za izračun.";
+        }
+      }
+
+      const baseUnit = getWholesaleBaseUnit(d);
+
+      if (hasRetail && baseUnit != null && (d.retailPrice as number) <= baseUnit) {
+        return "Maloprodajna cijena mora biti veća od veleprodajne (referentno po komadu).";
+      }
+
+      if (hasSale) {
+        if (baseUnit == null) {
+          return "Akcijska cijena zahtijeva veleprodajnu cijenu po komadu ili po paketu (s komada u paketu).";
+        }
+        if (d.salePrice! >= baseUnit) {
+          return "Akcijska cijena mora biti niža od veleprodajne (po komadu).";
         }
       }
 
@@ -224,8 +217,8 @@ export default defineType({
       fieldset: "pricing",
       description:
         "PRAVILO: Prazno polje = nemate veleprodaju — tada su prazna veleprodajna polja zaključana u Studiju; ako već postoje stare vrijednosti bez broja komada, polja su otključana da možete obrisati ili unijeti „Komada u paketu”. Maloprodajna cijena ispod je obavezna kad nema veleprodaje.\n\n" +
-        "Ako unesete cijeli broj ≥ 1, otvara se veleprodaja: tada morate imati i „Veleprodajnu cijenu (po komadu)” i „Veleprodajnu cijenu (po paketu)” kad god želite prodavati veleprodajno (obje vrijednosti; sajt i prikaz cijena računaju od njih).\n\n" +
-        "Broj se koristi za tekst tipa „1 paket = n komada” i za formulu: cijena po paketu = cijena po komadu × ovaj broj.",
+        "Ako unesete cijeli broj ≥ 1, otvara se veleprodaja: na sajtu se veleprodaja prikazuje pretežno preko cijene po komadu; cijena po paketu je opcionalna (korisno za kontrolu formule).\n\n" +
+        "Broj se koristi za tekst tipa „1 paket = n komada” i za formulu: cijena po paketu ≈ cijena po komadu × ovaj broj (ako oba unesete).",
       validation: (Rule) =>
         Rule.custom((value, context) => {
           const doc = getDocumentForValidation(context);
@@ -242,11 +235,8 @@ export default defineType({
           const hasRetail = isPositivePrice(doc.retailPrice);
           const hasSale = isPositivePrice(doc.salePrice);
 
-          if (hasPiece !== hasPkg) {
-            return "Veleprodajna cijena po komadu i po paketu moraju biti obje unesene ili obje prazne. Sajt očekuje oba iznosa kad postoji veleprodaja.";
-          }
           if (!hasPiece && !hasPkg && !hasRetail && !hasSale) {
-            return MSG_WHOLESALE_PAIR_REQUIRED;
+            return MSG_WHOLESALE_PRICING_REQUIRED;
           }
           if (hasPiece && hasPkg) {
             const qty = normalizeWholesaleQty(value)!;
@@ -254,7 +244,7 @@ export default defineType({
             const wpp = doc.wholesalePricePerPackage as number;
             const expected = wp * qty;
             if (Math.abs(expected - wpp) > 0.02) {
-              return "Cijena po paketu mora odgovarati: (cijena po komadu) × (komada u paketu). Ispravite jedno od polja ili koristite dugme za izračun.";
+              return "Cijena po paketu ne odgovara (cijena po komadu) × (komada u paketu). Ispravite jedno od polja ili koristite dugme za izračun.";
             }
           }
           return true;
@@ -268,9 +258,9 @@ export default defineType({
       fieldset: "pricing",
       description:
         "OBVEZNO kad je „Komada u paketu” unesen (≥1), osim ako prodajete samo maloprodajno ili akciju bez veleprodajnih cijena — tada unesite maloprodajnu/akcijsku cijenu.\n\n" +
-        "VAŽNO ZA SAJT: Ovo je glavna veleprodajna jedinica koju frontend prikazuje (cijena po jednom komadu za veleprodaju).\n\n" +
-        "Mora postojati „Komada u paketu” (≥1). Ne možete imati samo cijenu po paketu bez ove cijene — oba polja moraju biti popunjena zajedno.\n\n" +
-        "Mora se slagati s „Veleprodajnom cijenom (po paketu)”: po paketu ≈ (po komadu) × (komada u paketu). Možete koristiti dugme ispod polja za cijenu po paketu da izračunate drugo polje.",
+        "Na sajtu se veleprodaja prikazuje preko ove cijene po komadu (glavna vrijednost).\n\n" +
+        "Mora postojati „Komada u paketu” (≥1). Cijena po paketu je opcionalna; ako oba unesete, trebaju odgovarati formuli (vidi polje ispod).\n\n" +
+        "Možete koristiti dugme ispod polja za cijenu po paketu da izračunate paket iz po komadu × komada ili obrnuto.",
       readOnly: ({ document, parent }) =>
         wholesaleFieldsReadOnly(document ?? parent),
       validation: (Rule) =>
@@ -290,17 +280,8 @@ export default defineType({
           const hasRetail = isPositivePrice(doc.retailPrice);
           const hasSale = isPositivePrice(doc.salePrice);
 
-          if (hasPiece !== hasPkg) {
-            if (hasPiece && !hasPkg) {
-              return "Unesite i veleprodajnu cijenu po paketu (obje moraju biti popunjene).";
-            }
-            if (!hasPiece && hasPkg) {
-              return "Unesite i veleprodajnu cijenu po komadu (obje moraju biti popunjene).";
-            }
-          }
-
           if (!hasPiece && !hasPkg && !hasRetail && !hasSale) {
-            return MSG_WHOLESALE_PAIR_REQUIRED;
+            return MSG_WHOLESALE_PRICING_REQUIRED;
           }
 
           return true;
@@ -308,7 +289,7 @@ export default defineType({
     }),
     defineField({
       name: "wholesalePricePerPackage",
-      title: `Veleprodajna cijena (po paketu)${WHOLESALE_PRICE_TITLE_SUFFIX}`,
+      title: `Veleprodajna cijena (po paketu)${WHOLESALE_PACKAGE_TITLE_SUFFIX}`,
       type: "number",
       group: "pricing",
       fieldset: "pricing",
@@ -316,9 +297,8 @@ export default defineType({
         input: WholesalePricePerPackageInput,
       },
       description:
-        "OBVEZNO kad je „Komada u paketu” unesen (≥1), osim ako prodajete samo maloprodajno ili akciju bez veleprodajnih cijena — tada unesite maloprodajnu/akcijsku cijenu.\n\n" +
-        "Ukupna cijena cijelog veleprodajnog paketa (zbir za n komada). Zajedno s „Veleprodajnom cijenom (po komadu)” čini par: ako jedno popunjavate, morate i drugo — inače FE nema konzistentan prikaz.\n\n" +
-        "Mora odgovarati: (cijena po komadu) × (komada u paketu). Ručno unesite ili ispod koristite dugme za izračun iz druga dva polja.",
+        "Opcionalno. Ukupna cijena cijelog veleprodajnog paketa. Na sajtu se cijena po komadu koristi za prikaz; ovo polje je korisno za kontrolu ili ako želite eksplicitno unijeti ukupni iznos.\n\n" +
+        "Ako unesete i po komadu i po paketu, vrijednosti trebaju odgovarati: (cijena po komadu) × (komada u paketu). Ručno ili dugmetom ispod.",
       readOnly: ({ document, parent }) =>
         wholesaleFieldsReadOnly(document ?? parent),
       validation: (Rule) =>
@@ -338,17 +318,8 @@ export default defineType({
           const hasRetail = isPositivePrice(doc.retailPrice);
           const hasSale = isPositivePrice(doc.salePrice);
 
-          if (hasPiece !== hasPkg) {
-            if (hasPiece && !hasPkg) {
-              return "Unesite i veleprodajnu cijenu po paketu (obje moraju biti popunjene).";
-            }
-            if (!hasPiece && hasPkg) {
-              return "Unesite i veleprodajnu cijenu po komadu (obje moraju biti popunjene).";
-            }
-          }
-
           if (!hasPiece && !hasPkg && !hasRetail && !hasSale) {
-            return MSG_WHOLESALE_PAIR_REQUIRED;
+            return MSG_WHOLESALE_PRICING_REQUIRED;
           }
 
           return true;
@@ -362,7 +333,7 @@ export default defineType({
       fieldset: "pricing",
       description:
         "Samo za veleprodaju (na sajtu: precrtana veleprodajna po komadu + akcijska). Ne mijenja maloprodajnu cijenu.\n\n" +
-        "Dozvoljeno je samo kad su uneseni „Komada u paketu”, „Veleprodajna cijena (po komadu)” i „Veleprodajna cijena (po paketu)” — akcija mora biti niža od veleprodajne po komadu.",
+        "Potrebni su „Komada u paketu” i referentna veleprodajna cijena (po komadu, ili po paketu ÷ komada) — akcija mora biti niža od te baze.",
       readOnly: ({ document, parent }) =>
         wholesaleFieldsReadOnly(document ?? parent),
       validation: (Rule) =>
@@ -466,67 +437,31 @@ export default defineType({
       type: "array",
       group: "packageInfo",
       fieldset: "packageInfo",
-      components: {
-        input: SelectAllArrayInput,
-      },
-      of: [{ type: "string" }],
-      description:
-        "Opciono. Koje boje ulaze u ponudu: veleprodaja (sadržaj paketa) i maloprodaja (odabir kupca). Za boje koje nisu na listi koristite polje ispod.",
-      options: {
-        list: [...PRODUCT_COLOR_OPTIONS],
-      },
-    }),
-    defineField({
-      name: "customColors",
-      title: "Dodatne boje (proizvoljno)",
-      type: "array",
-      group: "packageInfo",
-      fieldset: "packageInfo",
-      description:
-        "Za svaku boju unesite naziv (kako se prikazuje kupcu) i hex u formatu #RRGGBB (npr. #C9A227 za zlatnu). Pojaviti će se u odabiru zajedno s bojama s liste iznad.",
       of: [
-        {
-          type: "object",
-          name: "customColor",
-          fields: [
-            defineField({
-              name: "name",
-              title: `Naziv${REQUIRED_TITLE_SUFFIX}`,
-              type: "string",
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "hex",
-              title: `Hex (#RRGGBB)${REQUIRED_TITLE_SUFFIX}`,
-              type: "string",
-              description: "Npr. #8B4513 ili #23695e",
-              validation: (Rule) =>
-                Rule.required().custom((val) => {
-                  if (typeof val !== "string" || !val.trim()) {
-                    return "Obavezno";
-                  }
-                  const v = val.trim();
-                  if (!/^#[0-9A-Fa-f]{6}$/i.test(v)) {
-                    return "Mora biti u formatu #RRGGBB (6 hex znamenki)";
-                  }
-                  return true;
-                }),
-            }),
-          ],
-          preview: {
-            select: {
-              name: "name",
-              hex: "hex",
-            },
-            prepare({ name, hex }) {
-              return {
-                title: name || "Boja",
-                subtitle: hex || "",
-              };
-            },
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "color" }],
+          options: {
+            disableNew: false,
           },
-        },
+        }),
       ],
+      options: {
+        layout: "tags",
+      },
+      description:
+        "Opciono. Odaberite boje iz kataloga (Content → Boja). Preko „+ Dodaj” možete odabrati postojeću ili kreirati novu boju koja ostaje u katalogu za druge proizvode.",
+      validation: (Rule) =>
+        Rule.custom((refs) => {
+          if (!Array.isArray(refs) || refs.length === 0) return true;
+          const ids = refs
+            .map((r) => r && typeof r === "object" && "_ref" in r && (r as { _ref?: string })._ref)
+            .filter(Boolean) as string[];
+          if (ids.length !== new Set(ids).size) {
+            return "Ista boja je dva puta u listi — uklonite duplikat.";
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "packageContentsText",

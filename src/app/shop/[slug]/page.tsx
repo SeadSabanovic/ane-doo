@@ -104,10 +104,7 @@ export default async function ProductPage({
     .filter((s): s is NonNullable<typeof s> => s != null)
     .map((s) => s.name);
 
-  const colorOptions = buildProductColorOptions(
-    product.colors,
-    product.customColors,
-  );
+  const colorOptions = buildProductColorOptions(product.colors);
 
   // JSON-LD Product schema za SEO (Google rich snippets)
   const baseUrl =
