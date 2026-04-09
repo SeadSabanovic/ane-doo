@@ -17,7 +17,7 @@ export default function SearchProduct({ product }: { product: SearchProductItem 
   const onSale = salePrice != null && salePrice > 0;
 
   return (
-    <div className="hover:bg-muted/10 flex items-start gap-3 rounded-md pr-3 transition-colors">
+    <div className="group hover:bg-muted/10 flex items-start gap-3 rounded-md pr-3 transition-colors">
       <div className="relative shrink-0">
         <AnimatedImage
           src={product.image}
@@ -59,7 +59,7 @@ export default function SearchProduct({ product }: { product: SearchProductItem 
         </div>
       </div>
 
-      <div className="bg-muted/20 hover:bg-muted/30 self-center rounded-md p-2 transition-colors">
+      <div className="bg-muted/20 group-hover:bg-muted/30 self-center rounded-md p-2 transition-all duration-200 group-hover:translate-x-1">
         <ArrowRight className="text-muted-foreground size-4" />
       </div>
     </div>

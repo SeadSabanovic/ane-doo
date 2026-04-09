@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Lora, Nunito } from "next/font/google";
 import "./globals.css";
 import LenisScrollProvider from "@/providers/lenis-provider";
+import RouteScrollReset from "@/providers/route-scroll-reset";
 import ConditionalLayout from "@/components/layout/conditional-layout";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
     >
       <body className="antialiased" suppressHydrationWarning>
         <LenisScrollProvider>
+          <RouteScrollReset />
           <ConditionalLayout>{children}</ConditionalLayout>
           <Toaster position="top-center" />
         </LenisScrollProvider>
