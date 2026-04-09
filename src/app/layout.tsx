@@ -28,14 +28,43 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://ane-doo.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "ANE d.o.o.",
+    default: "Veleprodaja tekstila i kućnog asortimana – Sarajevo | ANE d.o.o.",
     template: "%s | ANE d.o.o.",
   },
   description:
-    "Pronađite sve što vam treba na jednom mjestu. Kvalitetna odjeća i obuća po povoljnim cijenama.",
-  keywords: ["online shop", "kupovina", "odjeća", "obuća", "moda"],
+    "Pouzdan veleprodajni partner za vaš biznis. ANE d.o.o. nudi vrhunski tekstil, posteljine i kućni asortiman uz brzu dostavu širom BiH. Pogledajte ponudu.",
+  keywords: [
+    "ANE d.o.o.",
+    "veleprodaja tekstila",
+    "veleprodaja Sarajevo",
+    "distribucija tekstila BiH",
+    "kućni tekstil",
+    "veleprodaja posteljina",
+    "veleprodaja odjeće",
+    "oprema za hotele i apartmane",
+    "pouzdan veleprodajni partner",
+    "tekstilna galanterija",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

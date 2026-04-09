@@ -27,9 +27,9 @@ import {
 } from "@/lib/sanity-product-pricing";
 
 export const metadata: Metadata = {
-  title: "Shop",
+  title: "Veleprodajni katalog",
   description:
-    "Pregledajte našu kompletnu kolekciju proizvoda. Filtrirajte po kategorijama i pronađite savršen artikl za sebe.",
+    "Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik. ANE d.o.o. nudi vrhunski tekstil uz brzu dostavu širom BiH.",
 };
 
 // Enable ISR - revalidate every 60 seconds
@@ -191,7 +191,7 @@ export default async function ShopPage({
   return (
     <>
       <PageHeader
-        title="Online Katalog"
+        title="Veleprodajni katalog tekstila"
         description="Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik"
         breadcrumbItems={[
           { label: "Početna", href: "/" },
