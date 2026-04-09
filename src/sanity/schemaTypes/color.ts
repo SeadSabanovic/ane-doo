@@ -40,6 +40,8 @@ export default defineType({
       name: "slug",
       title: `Slug${REQUIRED_TITLE_SUFFIX}`,
       type: "slug",
+      description:
+        "VAZNO: Slug je tehnicki identifikator boje (za stabilne reference i migracije). Promjenu raditi samo kad je stvarno neophodno.",
       options: {
         source: "name",
         maxLength: 96,

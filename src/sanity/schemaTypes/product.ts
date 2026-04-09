@@ -1,6 +1,7 @@
 import { defineType, defineField, defineArrayMember } from "sanity";
 import { TagsInput } from "../components/tags-input";
 import { AltTextWithGenerate } from "../components/alt-text-with-generate";
+import { DescriptionWithCharCount } from "../components/description-with-char-count";
 import { WholesalePricePerPackageInput } from "../components/wholesale-pricing-inputs";
 import {
   REQUIRED_TITLE_SUFFIX,
@@ -163,7 +164,8 @@ export default defineType({
       type: "slug",
       group: "basic",
       fieldset: "basic",
-      description: "URL za proizvod na sajtu",
+      description:
+        "VAZNO: Slug je jedinstveni URL identifikator proizvoda (npr. /shop/ime-proizvoda). Mijenjanje sluga nakon objave mijenja link proizvoda i moze pokvariti stare linkove, SEO i dijeljenje.",
       options: {
         source: "name",
         maxLength: 96,
@@ -186,6 +188,11 @@ export default defineType({
       type: "text",
       group: "basic",
       fieldset: "basic",
+      components: {
+        input: DescriptionWithCharCount,
+      },
+      description:
+        "Opis koji kupac vidi na stranici proizvoda. SEO preporuka: ciljajte 150-300 karaktera (jasno, konkretno, bez nabrajanja kljucnih rijeci).",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -207,7 +214,8 @@ export default defineType({
       components: {
         input: TagsInput,
       },
-      description: "Ključne riječi za pretragu i filtriranje",
+      description:
+        "Unesite 3-5 kratkih pojmova koje kupci stvarno pretražuju (npr. materijal, stil, namjena). Oznake pomažu pretrazi i filtriranju na sajtu, pa izbjegavajte duge rečenice i duplikate.",
     }),
     defineField({
       name: "wholesaleMinQuantity",

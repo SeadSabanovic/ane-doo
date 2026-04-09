@@ -19,6 +19,8 @@ export default defineType({
       name: "slug",
       title: `Slug${REQUIRED_TITLE_SUFFIX}`,
       type: "slug",
+      description:
+        "VAZNO: Slug je tehnicki identifikator velicine (koristi se za stabilne reference i migracije). Najbolje ga je postaviti jednom i ne mijenjati bez potrebe.",
       options: {
         source: "name",
         maxLength: 96,

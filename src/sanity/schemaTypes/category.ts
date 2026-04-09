@@ -16,6 +16,8 @@ export default defineType({
       name: "slug",
       title: `Slug${REQUIRED_TITLE_SUFFIX}`,
       type: "slug",
+      description:
+        "VAZNO: Slug je URL identifikator kategorije (koristi se u linkovima i filtriranju). Kad ga promijenite, mijenjaju se URL-ovi i moguce je da stari linkovi vise ne rade.",
       options: {
         source: "name",
         maxLength: 96,
