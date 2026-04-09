@@ -27,9 +27,12 @@ import {
 } from "@/lib/sanity-product-pricing";
 
 export const metadata: Metadata = {
-  title: "Veleprodajni katalog",
+  title: "Veleprodajni katalog tekstila i kućne galanterije",
   description:
     "Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik. ANE d.o.o. nudi vrhunski tekstil uz brzu dostavu širom BiH.",
+  alternates: {
+    canonical: "/katalog",
+  },
 };
 
 // Enable ISR - revalidate every 60 seconds
@@ -109,12 +112,7 @@ export default async function ShopPage({
             saleOnly,
             searchQuery,
           )
-        : getProductsCountWithSearch(
-            minPrice,
-            maxPrice,
-            saleOnly,
-            searchQuery,
-          )
+        : getProductsCountWithSearch(minPrice, maxPrice, saleOnly, searchQuery)
       : selectedCategorySlugs.size > 0
         ? getProductsByCategorySlugsCount(
             [...selectedCategorySlugs],
@@ -176,16 +174,16 @@ export default async function ShopPage({
         ? base
         : getListingUnitPrice(product);
     return {
-    id: product._id,
-    name: product.name,
-    price,
-    salePrice: product.salePrice,
-    image: product.images[0]
-      ? urlFor(product.images[0]).width(400).height(400).url()
-      : "",
-    slug: product.slug.current,
-    link: `/katalog/${product.slug.current}`,
-  };
+      id: product._id,
+      name: product.name,
+      price,
+      salePrice: product.salePrice,
+      image: product.images[0]
+        ? urlFor(product.images[0]).width(400).height(400).url()
+        : "",
+      slug: product.slug.current,
+      link: `/katalog/${product.slug.current}`,
+    };
   });
 
   return (

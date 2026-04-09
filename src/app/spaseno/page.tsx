@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Spašeni proizvodi",
   description:
     "Vaši omiljeni proizvodi na jednom mjestu. Pregledajte sve artikle koje ste sačuvali.",
+  alternates: {
+    canonical: "/spaseno",
+  },
   robots: { index: false, follow: true },
 };
 

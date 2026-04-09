@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Narudžba",
   description:
     "Završite vašu narudžbu. Unesite podatke za dostavu i odaberite način plaćanja.",
+  alternates: {
+    canonical: "/narudzba",
+  },
   robots: { index: false, follow: true },
 };
 

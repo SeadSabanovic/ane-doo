@@ -46,9 +46,6 @@ export const metadata: Metadata = {
     "pouzdan veleprodajni partner",
     "tekstilna galanterija",
   ],
-  alternates: {
-    canonical: "/",
-  },
   robots: {
     index: true,
     follow: true,

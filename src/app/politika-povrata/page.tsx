@@ -5,20 +5,23 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Reklamacije i povrat robe",
+  title: "Reklamacije i Povrat Robe",
   description:
     "Politika povrata i reklamacije ANE d.o.o. Sarajevo – uslovi povrata robe u skladu sa Zakonom o zaštiti potrošača u BiH.",
+  alternates: {
+    canonical: "/politika-povrata",
+  },
 };
 
 export default function PolitikaPovrataPage() {
   return (
     <>
       <PageHeader
-        title="Reklamacije i povrat robe"
+        title="Reklamacije i Povrat Robe"
         description="Uslovi povrata i reklamacije u skladu sa Zakonom o zaštiti potrošača u BiH"
         breadcrumbItems={[
           { label: "Početna", href: "/" },
-          { label: "Politika povrata", href: "/politika-povrata" },
+          { label: "Politika Povrata", href: "/politika-povrata" },
         ]}
       />
       <Container className="max-w-3xl pb-20">

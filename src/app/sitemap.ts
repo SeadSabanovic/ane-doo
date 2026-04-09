@@ -1,14 +1,11 @@
 import type { MetadataRoute } from "next";
-import { getParentCategories, getProducts } from "@/sanity/lib/api";
+import { getProducts } from "@/sanity/lib/api";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://ane-doo.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, categories] = await Promise.all([
-    getProducts(),
-    getParentCategories(),
-  ]);
+  const products = await getProducts();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${siteUrl}/`, changeFrequency: "daily", priority: 1 },
@@ -40,14 +37,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-  const categoryRoutes: MetadataRoute.Sitemap = categories
-    .filter((c) => c.slug?.current)
-    .map((c) => ({
-      // Kategorije su u katalog filteru preko query parametra.
-      url: `${siteUrl}/katalog?kategorija=${encodeURIComponent(c.slug.current)}`,
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-    }));
-
-  return [...staticRoutes, ...productRoutes, ...categoryRoutes];
+  return [...staticRoutes, ...productRoutes];
 }

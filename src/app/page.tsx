@@ -4,6 +4,13 @@ import HottestSection from "@/components/sections/home/hottest-section";
 import NewSection from "@/components/sections/home/new-section";
 import SaleSection from "@/components/sections/home/sale-section";
 import Testimonials from "@/components/sections/home/testimonials";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Home() {
   return (

@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Kontakt",
   description:
     "Kontaktirajte nas za sve vaše pitanja. Mi smo ovdje da vam pomognemo.",
+  alternates: {
+    canonical: "/kontakt",
+  },
 };
 
 export default function ContactPage() {

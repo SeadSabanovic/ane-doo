@@ -5,20 +5,23 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Politika privatnosti",
+  title: "Politika Privatnosti",
   description:
     "Politika privatnosti ANE d.o.o. Sarajevo – kako postupamo sa vašim podacima na stranici www.ane-doo.com.",
+  alternates: {
+    canonical: "/politika-privatnosti",
+  },
 };
 
 export default function PolitikaPrivatnostiPage() {
   return (
     <>
       <PageHeader
-        title="Politika privatnosti"
+        title="Politika Privatnosti"
         description="Kako postupamo sa vašim podacima na stranici www.ane-doo.com"
         breadcrumbItems={[
           { label: "Početna", href: "/" },
-          { label: "Politika privatnosti", href: "/politika-privatnosti" },
+          { label: "Politika Privatnosti", href: "/politika-privatnosti" },
         ]}
       />
       <Container className="max-w-3xl pb-20">

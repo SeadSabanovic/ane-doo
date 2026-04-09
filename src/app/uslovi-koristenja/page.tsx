@@ -5,20 +5,23 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Uslovi korištenja",
+  title: "Uslovi Korištenja",
   description:
     "Uslovi korištenja online trgovine ANE d.o.o. Sarajevo – informacije o naručivanju, plaćanju, dostavi i zaštiti podataka.",
+  alternates: {
+    canonical: "/uslovi-koristenja",
+  },
 };
 
 export default function UsloviKoristenjaPage() {
   return (
     <>
       <PageHeader
-        title="Uslovi korištenja"
-        description="Uslovi korištenja internet stranice www.ane-doo.com"
+        title="Uslovi Korištenja"
+        description="Uslovi Korištenja internet stranice www.ane-doo.com"
         breadcrumbItems={[
           { label: "Početna", href: "/" },
-          { label: "Uslovi korištenja", href: "/uslovi-koristenja" },
+          { label: "Uslovi Korištenja", href: "/uslovi-koristenja" },
         ]}
       />
       <Container className="max-w-3xl pb-20">

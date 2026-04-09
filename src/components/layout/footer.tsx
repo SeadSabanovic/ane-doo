@@ -57,7 +57,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link className={footerLinkClass} href="/o-nama">
-                      O nama
+                      O Nama
                     </Link>
                   </li>
                   <li>
@@ -90,17 +90,17 @@ const Footer = () => {
                       className={footerLinkClass}
                       href="/politika-privatnosti"
                     >
-                      Politika privatnosti
+                      Politika Privatnosti
                     </Link>
                   </li>
                   <li>
                     <Link className={footerLinkClass} href="/politika-povrata">
-                      Politika povrata
+                      Politika Povrata
                     </Link>
                   </li>
                   <li>
                     <Link className={footerLinkClass} href="/uslovi-koristenja">
-                      Uslovi korišćenja
+                      Uslovi Korišćenja
                     </Link>
                   </li>
                 </ul>
