@@ -128,11 +128,11 @@ export function parseShopSearchQuery(
 /**
  * Jedna „komadna” cijena za GROQ filter i sort u shopu (akcija → veleprodaja → iz paketa → maloprodaja).
  */
-export const GROQ_SHOP_UNIT_PRICE =
+const GROQ_SHOP_UNIT_PRICE =
   "coalesce(salePrice, wholesalePrice, select(defined(wholesalePricePerPackage) && wholesaleMinQuantity > 0 => wholesalePricePerPackage / wholesaleMinQuantity), retailPrice)";
 
 // GROQ Queries
-export const PRODUCTS_QUERY = `*[
+const PRODUCTS_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -168,7 +168,7 @@ export const PRODUCTS_QUERY = `*[
   specifications
 }`;
 
-export const FEATURED_PRODUCTS_QUERY = `*[
+const FEATURED_PRODUCTS_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -206,7 +206,7 @@ export const FEATURED_PRODUCTS_QUERY = `*[
 }`;
 
 /** Zadnjih 8 artikala u skladu s redoslijedom „Najnovije“ u shopu (`_createdAt desc`). */
-export const NEW_PRODUCTS_QUERY = `*[
+const NEW_PRODUCTS_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -242,63 +242,7 @@ export const NEW_PRODUCTS_QUERY = `*[
   specifications
 }`;
 
-export const SALE_PRODUCTS_QUERY = `*[
-  _type == "product"
-  && defined(slug.current)
-  && inStock == true
-  && defined(salePrice)
-]|order(name asc)[0...8]{
-  _id,
-  name,
-  slug,
-  sku,
-  description,
-  salePrice,
-  retailPrice,
-  wholesalePrice,
-  wholesalePricePerPackage,
-  wholesaleMinQuantity,
-  packageContentsText,
-  images,
-  category->{
-    name,
-    slug,
-    parent->{
-      name,
-      slug
-    }
-  },
-  sizes[]->{ _id, name, slug },
-  colors[]->{ _id, name, hex, slug },
-  inStock,
-  featured,
-  tags,
-  material,
-  weight,
-  originCountry,
-  specifications
-}`;
-
-export const CATEGORIES_QUERY = `*[
-  _type == "category"
-  && defined(slug.current)
-]|order(order asc, name asc){
-  _id,
-  name,
-  slug,
-  description,
-  image,
-  isParent,
-  parent->{
-    _id,
-    name,
-    slug
-  },
-  icon,
-  order
-}`;
-
-export const PARENT_CATEGORIES_QUERY = `*[
+const PARENT_CATEGORIES_QUERY = `*[
   _type == "category"
   && defined(slug.current)
   && isParent == true
@@ -320,137 +264,11 @@ export const PARENT_CATEGORIES_QUERY = `*[
   }
 }`;
 
-export const SUBCATEGORIES_BY_PARENT_QUERY = `*[
-  _type == "category"
-  && defined(slug.current)
-  && parent->slug.current == $parentSlug
-]|order(order asc, name asc){
-  _id,
-  name,
-  slug,
-  description,
-  order
-}`;
-
-export const PRODUCT_BY_SLUG_QUERY = `*[
+const PRODUCT_BY_SLUG_QUERY = `*[
   _type == "product"
   && slug.current == $slug
   && inStock == true
 ][0]{
-  _id,
-  name,
-  slug,
-  sku,
-  description,
-  salePrice,
-  retailPrice,
-  wholesalePrice,
-  wholesalePricePerPackage,
-  wholesaleMinQuantity,
-  packageContentsText,
-  images,
-  category->{
-    name,
-    slug,
-    parent->{
-      name,
-      slug
-    }
-  },
-  sizes[]->{ _id, name, slug },
-  colors[]->{ _id, name, hex, slug },
-  inStock,
-  featured,
-  tags,
-  material,
-  weight,
-  originCountry,
-  specifications
-}`;
-
-export const PRODUCTS_BY_CATEGORY_QUERY = `*[
-  _type == "product"
-  && category->slug.current == $categorySlug
-  && defined(slug.current)
-  && inStock == true
-]|order(name asc){
-  _id,
-  name,
-  slug,
-  sku,
-  description,
-  salePrice,
-  retailPrice,
-  wholesalePrice,
-  wholesalePricePerPackage,
-  wholesaleMinQuantity,
-  packageContentsText,
-  images,
-  category->{
-    name,
-    slug,
-    parent->{
-      name,
-      slug
-    }
-  },
-  sizes[]->{ _id, name, slug },
-  colors[]->{ _id, name, hex, slug },
-  inStock,
-  featured,
-  tags,
-  material,
-  weight,
-  originCountry,
-  specifications
-}`;
-
-export const PRODUCTS_BY_PARENT_CATEGORY_QUERY = `*[
-  _type == "product"
-  && category->parent->slug.current == $parentSlug
-  && defined(slug.current)
-  && inStock == true
-]|order(name asc){
-  _id,
-  name,
-  slug,
-  sku,
-  description,
-  salePrice,
-  retailPrice,
-  wholesalePrice,
-  wholesalePricePerPackage,
-  wholesaleMinQuantity,
-  packageContentsText,
-  images,
-  category->{
-    name,
-    slug,
-    parent->{
-      name,
-      slug
-    }
-  },
-  sizes[]->{ _id, name, slug },
-  colors[]->{ _id, name, hex, slug },
-  inStock,
-  featured,
-  tags,
-  material,
-  weight,
-  originCountry,
-  specifications
-}`;
-
-export const PRODUCTS_BY_CATEGORY_SLUGS_QUERY = `*[
-  _type == "product"
-  && defined(slug.current)
-  && inStock == true
-  && (
-    category->slug.current in $categorySlugs
-    || category->parent->slug.current in $categorySlugs
-  )
-]|order(name asc){
   _id,
   name,
   slug,
@@ -529,7 +347,7 @@ function shopProductOrderClause(sort: ShopSort): string {
   }
 }
 
-export function buildProductsPaginatedGroq(sort: ShopSort): string {
+function buildProductsPaginatedGroq(sort: ShopSort): string {
   return `*[
   _type == "product"
   && defined(slug.current)
@@ -540,7 +358,7 @@ export function buildProductsPaginatedGroq(sort: ShopSort): string {
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
 
-export function buildProductsByCategorySlugsPaginatedGroq(sort: ShopSort): string {
+function buildProductsByCategorySlugsPaginatedGroq(sort: ShopSort): string {
   return `*[
   _type == "product"
   && defined(slug.current)
@@ -555,7 +373,7 @@ export function buildProductsByCategorySlugsPaginatedGroq(sort: ShopSort): strin
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
 
-export function buildProductsPaginatedGroqWithSearch(sort: ShopSort): string {
+function buildProductsPaginatedGroqWithSearch(sort: ShopSort): string {
   return `*[
   _type == "product"
   && defined(slug.current)
@@ -567,7 +385,7 @@ export function buildProductsPaginatedGroqWithSearch(sort: ShopSort): string {
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
 
-export function buildProductsByCategorySlugsPaginatedGroqWithSearch(
+function buildProductsByCategorySlugsPaginatedGroqWithSearch(
   sort: ShopSort,
 ): string {
   return `*[
@@ -585,7 +403,7 @@ export function buildProductsByCategorySlugsPaginatedGroqWithSearch(
 ]${shopProductOrderClause(sort)}[$start...$end]${SHOP_LIST_PROJECTION}`;
 }
 
-export const PRODUCTS_COUNT_QUERY = `count(*[
+const PRODUCTS_COUNT_QUERY = `count(*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -594,30 +412,7 @@ export const PRODUCTS_COUNT_QUERY = `count(*[
   && (!$saleOnly || defined(salePrice))
 ])`;
 
-export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
-  _type == "product"
-  && defined(slug.current)
-  && inStock == true
-  && (
-    category->slug.current in $categorySlugs
-    || category->parent->slug.current in $categorySlugs
-  )
-  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
-  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
-  && (!$saleOnly || defined(salePrice))
-])`;
-
-export const PRODUCTS_COUNT_WITH_SEARCH_QUERY = `count(*[
-  _type == "product"
-  && defined(slug.current)
-  && inStock == true
-  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
-  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
-  && (!$saleOnly || defined(salePrice))
-  && (name match $searchQuery || description match $searchQuery)
-])`;
-
-export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY = `count(*[
+const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_QUERY = `count(*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -628,10 +423,33 @@ export const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY = `count(*[
   && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
   && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
   && (!$saleOnly || defined(salePrice))
+])`;
+
+const PRODUCTS_COUNT_WITH_SEARCH_QUERY = `count(*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
   && (name match $searchQuery || description match $searchQuery)
 ])`;
 
-export const SEARCH_PRODUCTS_QUERY = `*[
+const PRODUCTS_BY_CATEGORY_SLUGS_COUNT_WITH_SEARCH_QUERY = `count(*[
+  _type == "product"
+  && defined(slug.current)
+  && inStock == true
+  && (
+    category->slug.current in $categorySlugs
+    || category->parent->slug.current in $categorySlugs
+  )
+  && ${GROQ_SHOP_UNIT_PRICE} >= $minPrice
+  && ${GROQ_SHOP_UNIT_PRICE} <= $maxPrice
+  && (!$saleOnly || defined(salePrice))
+  && (name match $searchQuery || description match $searchQuery)
+])`;
+
+const SEARCH_PRODUCTS_QUERY = `*[
   _type == "product"
   && defined(slug.current)
   && inStock == true
@@ -689,22 +507,6 @@ export async function getNewProducts(): Promise<Product[]> {
   );
 }
 
-export async function getSaleProducts(): Promise<Product[]> {
-  return await client.fetch(
-    SALE_PRODUCTS_QUERY,
-    {},
-    { next: { revalidate: 60 } },
-  );
-}
-
-export async function getCategories(): Promise<Category[]> {
-  return await client.fetch(
-    CATEGORIES_QUERY,
-    {},
-    { next: { revalidate: 3600 } },
-  );
-}
-
 export async function getParentCategories(): Promise<Category[]> {
   return await client.fetch(
     PARENT_CATEGORIES_QUERY,
@@ -713,50 +515,10 @@ export async function getParentCategories(): Promise<Category[]> {
   );
 }
 
-export async function getSubcategoriesByParent(
-  parentSlug: string,
-): Promise<Category[]> {
-  return await client.fetch(
-    SUBCATEGORIES_BY_PARENT_QUERY,
-    { parentSlug },
-    { next: { revalidate: 3600 } },
-  );
-}
-
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   return await client.fetch(
     PRODUCT_BY_SLUG_QUERY,
     { slug },
-    { next: { revalidate: 60 } },
-  );
-}
-
-export async function getProductsByCategory(
-  categorySlug: string,
-): Promise<Product[]> {
-  return await client.fetch(
-    PRODUCTS_BY_CATEGORY_QUERY,
-    { categorySlug },
-    { next: { revalidate: 60 } },
-  );
-}
-
-export async function getProductsByParentCategory(
-  parentSlug: string,
-): Promise<Product[]> {
-  return await client.fetch(
-    PRODUCTS_BY_PARENT_CATEGORY_QUERY,
-    { parentSlug },
-    { next: { revalidate: 60 } },
-  );
-}
-
-export async function getProductsByCategorySlugs(
-  categorySlugs: string[],
-): Promise<Product[]> {
-  return await client.fetch(
-    PRODUCTS_BY_CATEGORY_SLUGS_QUERY,
-    { categorySlugs },
     { next: { revalidate: 60 } },
   );
 }

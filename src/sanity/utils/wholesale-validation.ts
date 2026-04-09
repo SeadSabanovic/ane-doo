@@ -37,7 +37,7 @@ export function hasValidWholesaleQty(document: unknown): boolean {
   return normalizeWholesaleQty(q) != null;
 }
 
-export function hasWholesalePricingValues(document: unknown): boolean {
+function hasWholesalePricingValues(document: unknown): boolean {
   if (!document || typeof document !== "object") return false;
   const d = document as {
     wholesalePrice?: unknown;
