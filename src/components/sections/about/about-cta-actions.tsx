@@ -11,7 +11,7 @@ export function AboutCtaActions() {
       <InteractiveHoverButton
         type="button"
         variant="light"
-        onClick={() => router.push("/shop")}
+        onClick={() => router.push("/katalog")}
       >
         Istraži asortiman
       </InteractiveHoverButton>

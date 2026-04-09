@@ -91,8 +91,7 @@ function formatItemDetailsText(item: CheckoutCartItemEmail): string[] {
     const note = item.wholesalePackageSnapshot?.packageContentsText?.trim();
     if (note) lines.push(`Napomena: ${note}`);
     const sizes = item.wholesalePackageSnapshot?.sizes?.filter(Boolean) ?? [];
-    if (sizes.length)
-      lines.push(`Veličine (paket): ${sizes.join(", ")}`);
+    if (sizes.length) lines.push(`Veličine (paket): ${sizes.join(", ")}`);
     const colors =
       item.wholesalePackageSnapshot?.colorOptions?.map((c) => c.label) ?? [];
     if (colors.length) lines.push(`Boje (paket): ${colors.join(", ")}`);
@@ -102,7 +101,9 @@ function formatItemDetailsText(item: CheckoutCartItemEmail): string[] {
     lines.push(`Količina: ${item.quantity}`);
   }
 
-  const unit = isWholesale ? item.pricing.wholesalePrice : item.pricing.retailPrice;
+  const unit = isWholesale
+    ? item.pricing.wholesalePrice
+    : item.pricing.retailPrice;
   lines.push(`Cijena po komadu: ${formatPrice(unit)}`);
   lines.push(`Ukupno za stavku: ${formatPrice(lineItemTotal(item))}`);
 
@@ -156,7 +157,7 @@ export function buildCheckoutEmailHtml(data: CheckoutEmailPayload): string {
           </td>
           <td valign="top" style="padding:10px 0;border-bottom:1px solid #e5e7eb;font-size:14px;">
             <strong>${index + 1}. ${name}</strong>
-            <span style="font-size:12px;color:#6b7280;"> (/shop/${slug})</span>
+            <span style="font-size:12px;color:#6b7280;"> (/katalog/${slug})</span>
             <div style="margin-top:8px;line-height:1.5;color:#374151;">${lines}</div>
           </td>
         </tr>`;
@@ -226,14 +227,16 @@ export function buildCheckoutEmailText(data: CheckoutEmailPayload): string {
   lines.push("", "Stavke:", "");
 
   data.items.forEach((item, i) => {
-    lines.push(`${i + 1}. ${item.name} (/shop/${item.slug})`);
+    lines.push(`${i + 1}. ${item.name} (/katalog/${item.slug})`);
     const img = safeImageUrlForEmail(item.image);
     if (img) lines.push(`   Slika: ${img}`);
     formatItemDetailsText(item).forEach((l) => lines.push(`   ${l}`));
     lines.push("");
   });
 
-  lines.push(`Ukupno za naplatu: ${formatPrice(checkoutGrandTotal(data.items))}`);
+  lines.push(
+    `Ukupno za naplatu: ${formatPrice(checkoutGrandTotal(data.items))}`,
+  );
 
   return lines.join("\n");
 }

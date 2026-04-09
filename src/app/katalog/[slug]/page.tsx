@@ -46,8 +46,7 @@ function getPricingSections(product: Product) {
           },
         ],
         pricePerUnit: eff,
-        compareAtPrice:
-          product.salePrice != null ? base : undefined,
+        compareAtPrice: product.salePrice != null ? base : undefined,
       });
     }
   }
@@ -112,7 +111,7 @@ export default async function ProductPage({
     (process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : "https://www.ane-doo.com");
-  const productUrl = `${baseUrl}/shop/${product.slug.current}`;
+  const productUrl = `${baseUrl}/katalog/${product.slug.current}`;
   const displayPrice = getListingUnitPrice(product);
 
   const jsonLd = {
@@ -147,8 +146,8 @@ export default async function ProductPage({
       <PageHeader
         breadcrumbItems={[
           { label: "Početna", href: "/" },
-          { label: "Shop", href: "/shop" },
-          { label: product.name, href: `/shop/${product.slug}` },
+          { label: "Katalog", href: "/katalog" },
+          { label: product.name, href: `/katalog/${product.slug}` },
         ]}
       />
 

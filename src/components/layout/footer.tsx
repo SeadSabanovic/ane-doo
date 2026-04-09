@@ -51,8 +51,8 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className={footerLinkClass} href="/shop">
-                      Shop
+                    <Link className={footerLinkClass} href="/katalog">
+                      Katalog
                     </Link>
                   </li>
                   <li>

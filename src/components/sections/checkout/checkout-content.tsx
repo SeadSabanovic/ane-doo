@@ -46,8 +46,8 @@ export default function CheckoutContent() {
         icon={CircleCheck}
         title="Narudžba je uspješno poslana"
         description="Uskoro ćemo vas kontaktirati s potvrdom narudžbe."
-        actionLabel="Istraži Shop"
-        actionHref="/shop"
+        actionLabel="Istraži Katalog"
+        actionHref="/katalog"
       />
     );
   }
@@ -58,8 +58,8 @@ export default function CheckoutContent() {
         icon={ShoppingBag}
         title="Vaša korpa je prazna"
         description="Vaša korpa čeka na vrhunske komade tekstila. Pronađite idealne proizvode za svoj dom ili biznis."
-        actionLabel="Istraži Shop"
-        actionHref="/shop"
+        actionLabel="Istraži Katalog"
+        actionHref="/katalog"
       />
     );
   }

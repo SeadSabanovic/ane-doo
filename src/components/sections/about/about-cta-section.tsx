@@ -19,7 +19,7 @@ export default function AboutCtaSection() {
           Spremni za saradnju?
         </h2>
         <p className="text-muted-foreground mt-4 text-lg md:text-xl">
-          Istražite naš trenutni asortiman na online shopu ili nas kontaktirajte
+          Istražite naš trenutni asortiman u online katalogu ili nas kontaktirajte
           direktno za veleprodajne upite i namjensku proizvodnju po vašoj mjeri.
         </p>
 

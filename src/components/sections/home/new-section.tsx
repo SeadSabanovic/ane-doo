@@ -19,14 +19,14 @@ export default async function NewSection() {
       const price =
         p.salePrice != null && base != null ? base : getListingUnitPrice(p);
       return {
-      id: p._id,
-      name: p.name,
-      price,
-      salePrice: p.salePrice,
-      image: urlFor(p.images[0]).width(400).height(400).url(),
-      link: `/shop/${p.slug.current}`,
-      fixedBadge: "Novo",
-    };
+        id: p._id,
+        name: p.name,
+        price,
+        salePrice: p.salePrice,
+        image: urlFor(p.images[0]).width(400).height(400).url(),
+        link: `/katalog/${p.slug.current}`,
+        fixedBadge: "Novo",
+      };
     });
 
   return (
@@ -41,8 +41,8 @@ export default async function NewSection() {
 
         {products.length === 0 ? (
           <p className="text-muted-foreground mt-10 text-center md:text-left">
-            Trenutno nema dostupnih artikala za prikaz. Pogledajte cijeli katalog u
-            shopu.
+            Trenutno nema dostupnih artikala za prikaz. Pogledajte cijeli
+            katalog.
           </p>
         ) : (
           <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -52,10 +52,7 @@ export default async function NewSection() {
           </div>
         )}
 
-        <Link
-          href="/shop?sort=newest"
-          className="mx-auto mt-10 block w-fit"
-        >
+        <Link href="/katalog?sort=newest" className="mx-auto mt-10 block w-fit">
           <InteractiveHoverButton
             className="w-fit text-center lg:text-left"
             variant="light"

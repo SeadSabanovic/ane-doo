@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${siteUrl}/`, changeFrequency: "daily", priority: 1 },
-    { url: `${siteUrl}/shop`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${siteUrl}/katalog`, changeFrequency: "daily", priority: 0.9 },
     { url: `${siteUrl}/o-nama`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/kontakt`, changeFrequency: "monthly", priority: 0.7 },
     {
@@ -35,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productRoutes: MetadataRoute.Sitemap = products
     .filter((p) => p.slug?.current)
     .map((p) => ({
-      url: `${siteUrl}/shop/${p.slug.current}`,
+      url: `${siteUrl}/katalog/${p.slug.current}`,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     }));
@@ -43,8 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const categoryRoutes: MetadataRoute.Sitemap = categories
     .filter((c) => c.slug?.current)
     .map((c) => ({
-      // Kategorije su u shop filteru preko query parametra.
-      url: `${siteUrl}/shop?kategorija=${encodeURIComponent(c.slug.current)}`,
+      // Kategorije su u katalog filteru preko query parametra.
+      url: `${siteUrl}/katalog?kategorija=${encodeURIComponent(c.slug.current)}`,
       changeFrequency: "weekly" as const,
       priority: 0.6,
     }));

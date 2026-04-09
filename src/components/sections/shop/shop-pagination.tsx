@@ -26,7 +26,7 @@ function buildPageHref(page: number, baseSearchParams: URLSearchParams) {
   }
 
   const query = params.toString();
-  return query ? `/shop?${query}` : "/shop";
+  return query ? `/katalog?${query}` : "/katalog";
 }
 
 function getVisiblePages(currentPage: number, totalPages: number) {

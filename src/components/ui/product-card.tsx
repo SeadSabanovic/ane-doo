@@ -31,8 +31,8 @@ export default function ProductCard({ product }: { product: Product }) {
     () => true,
     () => false,
   );
-  // Izvuci slug iz linka (npr. "/shop/nike-majica" -> "nike-majica")
-  const slug = product.link.replace("/shop/", "");
+  // Izvuci slug iz linka (npr. "/katalog/nike-majica" -> "nike-majica")
+  const slug = product.link.replace("/katalog/", "");
   const isSaved = isHydrated && isInWishlist(String(product.id));
 
   const hasFixedBadge = Boolean(product.fixedBadge?.trim());

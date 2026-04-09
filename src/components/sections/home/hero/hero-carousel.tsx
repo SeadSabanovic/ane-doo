@@ -9,7 +9,7 @@ const heroData = {
   description:
     "Porodična firma koja već više od 20 godina spaja tradiciju i veleprodaju odjeće i kućnog tekstila.",
   image: "/images/home/ane-doo-landing.jpeg",
-  ctaHref: "/shop",
+  ctaHref: "/katalog",
 };
 
 export default function HeroCarousel() {
@@ -33,7 +33,7 @@ export default function HeroCarousel() {
                 className="mt-8 w-fit text-center"
                 variant="light"
               >
-                Shop
+                Katalog
               </InteractiveHoverButton>
             </Link>
           </div>

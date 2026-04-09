@@ -11,7 +11,7 @@ export default function NotFound() {
           title="Stranica nije pronađena"
           description="Nažalost, stranica koju tražite ne postoji ili je premještena."
           actionLabel="Nastavi sa kupovinom"
-          actionHref="/shop"
+          actionHref="/katalog"
         />
       </Container>
     </div>

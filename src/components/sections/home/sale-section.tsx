@@ -20,7 +20,7 @@ export default function SaleSection() {
             biramo nove artikle koji postaju dio naše posebne ponude, dok se
             drugi vraćaju u redovnu prodaju.
           </p>
-          <Link href="/shop?akcija=1">
+          <Link href="/katalog?akcija=1">
             <InteractiveHoverButton className="mt-8 w-fit text-center lg:text-left">
               Istraži ponudu
             </InteractiveHoverButton>

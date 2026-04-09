@@ -184,7 +184,7 @@ export default async function ShopPage({
       ? urlFor(product.images[0]).width(400).height(400).url()
       : "",
     slug: product.slug.current,
-    link: `/shop/${product.slug.current}`,
+    link: `/katalog/${product.slug.current}`,
   };
   });
 
@@ -195,7 +195,7 @@ export default async function ShopPage({
         description="Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik"
         breadcrumbItems={[
           { label: "Početna", href: "/" },
-          { label: "Shop", href: "/shop" },
+          { label: "Katalog", href: "/katalog" },
         ]}
       />
       <ShopToolbar categories={categories} />
@@ -209,7 +209,7 @@ export default async function ShopPage({
               title="Nema proizvoda za odabrani filter/pretragu"
               description="Promijenite ili očistite filtere kako biste vidjeli dostupne artikle."
               actionLabel="Očisti filtere"
-              actionHref="/shop"
+              actionHref="/katalog"
             />
           ) : (
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">

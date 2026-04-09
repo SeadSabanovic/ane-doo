@@ -20,15 +20,15 @@ export const menuData: Array<{
   },
   {
     id: 2,
-    title: "Shop",
+    title: "Katalog",
     newTab: false,
-    path: "/shop",
+    path: "/katalog",
   },
   {
     id: 3,
     title: "Kategorije",
     newTab: false,
-    path: "/shop",
+    path: "/katalog",
     submenu: categoryData.map((category) => ({
       id: category.id,
       title: category.title,

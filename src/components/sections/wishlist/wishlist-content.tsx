@@ -28,8 +28,8 @@ export default function WishlistContent() {
         icon={Heart}
         title="Nemate spašenih proizvoda"
         description="Sačuvajte artikle koji vas zanimaju kako biste lakše planirali svoju sljedeću narudžbu."
-        actionLabel="Istraži Shop"
-        actionHref="/shop"
+        actionLabel="Istraži katalog"
+        actionHref="/katalog"
       />
     );
   }
@@ -45,7 +45,7 @@ export default function WishlistContent() {
             price: item.price,
             salePrice: item.salePrice,
             image: item.image,
-            link: `/shop/${item.slug}`,
+            link: `/katalog/${item.slug}`,
             saved: true,
           }}
         />

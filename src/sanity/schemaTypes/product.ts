@@ -19,13 +19,13 @@ import {
 } from "../utils/wholesale-validation";
 
 const MSG_WHOLESALE_NO_QTY_PIECE =
-  'Bez „Komada u paketu” (cijeli broj ≥1) ova cijena ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.';
+  "Bez „Komada u paketu” (cijeli broj ≥1) ova cijena ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.";
 
 const MSG_WHOLESALE_NO_QTY_PACKAGE =
-  'Bez „Komada u paketu” (cijeli broj ≥1) ova cijena ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.';
+  "Bez „Komada u paketu” (cijeli broj ≥1) ova cijena ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.";
 
 const MSG_SALE_NO_QTY =
-  'Bez „Komada u paketu” (cijeli broj ≥1) akcija ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.';
+  "Bez „Komada u paketu” (cijeli broj ≥1) akcija ne smije postojati. Unesite broj komada ili kliknite „Obriši veleprodajne cijene” ispod polja za cijenu po paketu.";
 
 const MSG_WHOLESALE_PRICING_REQUIRED =
   "Kad je unesen broj komada u paketu, unesite veleprodajnu cijenu po komadu i/ili po paketu, ili maloprodajnu/akcijsku cijenu — ne ostavljajte sva cijenska polja prazna.";
@@ -55,7 +55,7 @@ export default defineType({
       // Bez „Komada u paketu”: greške na pojedinačnim poljima; ovdje samo maloprodaja kad nema ničeg.
       if (!hasValidQty) {
         if (!hasWPiece && !hasWPackage && !hasSale && !hasRetail) {
-          return 'Kad ne prodajete na veleprodaju (prazno „Komada u paketu”), maloprodajna cijena (po komadu) je obavezna.';
+          return "Kad ne prodajete na veleprodaju (prazno „Komada u paketu”), maloprodajna cijena (po komadu) je obavezna.";
         }
         return true;
       }
@@ -76,7 +76,11 @@ export default defineType({
 
       const baseUnit = getWholesaleBaseUnit(d);
 
-      if (hasRetail && baseUnit != null && (d.retailPrice as number) <= baseUnit) {
+      if (
+        hasRetail &&
+        baseUnit != null &&
+        (d.retailPrice as number) <= baseUnit
+      ) {
         return "Maloprodajna cijena mora biti veća od veleprodajne (referentno po komadu).";
       }
 
@@ -165,7 +169,7 @@ export default defineType({
       group: "basic",
       fieldset: "basic",
       description:
-        "VAZNO: Slug je jedinstveni URL identifikator proizvoda (npr. /shop/ime-proizvoda). Mijenjanje sluga nakon objave mijenja link proizvoda i moze pokvariti stare linkove, SEO i dijeljenje.",
+        "VAZNO: Slug je jedinstveni URL identifikator proizvoda (npr. /katalog/ime-proizvoda). Mijenjanje sluga nakon objave mijenja link proizvoda i moze pokvariti stare linkove, SEO i dijeljenje.",
       options: {
         source: "name",
         maxLength: 96,
@@ -372,9 +376,10 @@ export default defineType({
           if (!doc) {
             return "Validacija nema pristup dokumentu (osvježite Studio ili kontaktirajte podršku).";
           }
-          const hasValidQty = normalizeWholesaleQty(doc.wholesaleMinQuantity) != null;
+          const hasValidQty =
+            normalizeWholesaleQty(doc.wholesaleMinQuantity) != null;
           if (!hasValidQty && !isPositivePrice(value)) {
-            return 'Kad je „Komada u paketu” prazno, maloprodajna cijena je obavezna (samo maloprodaja).';
+            return "Kad je „Komada u paketu” prazno, maloprodajna cijena je obavezna (samo maloprodaja).";
           }
           return true;
         }).min(0),
@@ -431,7 +436,13 @@ export default defineType({
         Rule.custom((refs) => {
           if (!Array.isArray(refs) || refs.length === 0) return true;
           const ids = refs
-            .map((r) => r && typeof r === "object" && "_ref" in r && (r as { _ref?: string })._ref)
+            .map(
+              (r) =>
+                r &&
+                typeof r === "object" &&
+                "_ref" in r &&
+                (r as { _ref?: string })._ref,
+            )
             .filter(Boolean) as string[];
           if (ids.length !== new Set(ids).size) {
             return "Ista veličina je dva puta u listi — uklonite duplikat.";
@@ -463,7 +474,13 @@ export default defineType({
         Rule.custom((refs) => {
           if (!Array.isArray(refs) || refs.length === 0) return true;
           const ids = refs
-            .map((r) => r && typeof r === "object" && "_ref" in r && (r as { _ref?: string })._ref)
+            .map(
+              (r) =>
+                r &&
+                typeof r === "object" &&
+                "_ref" in r &&
+                (r as { _ref?: string })._ref,
+            )
             .filter(Boolean) as string[];
           if (ids.length !== new Set(ids).size) {
             return "Ista boja je dva puta u listi — uklonite duplikat.";
@@ -581,7 +598,13 @@ export default defineType({
       firstImage: "images.0",
       firstImageAsset: "images.0.asset",
     },
-    prepare({ title, wholesalePrice, retailPrice, firstImage, firstImageAsset }) {
+    prepare({
+      title,
+      wholesalePrice,
+      retailPrice,
+      firstImage,
+      firstImageAsset,
+    }) {
       let subtitle: string | undefined;
       if (typeof wholesalePrice === "number") {
         subtitle = `${wholesalePrice} BAM / kom (veleprodaja)`;

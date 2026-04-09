@@ -65,7 +65,7 @@ export default function DesktopMenu() {
 
   const getCategorySlugFromPath = (path: string) => path.split("/").pop() ?? "";
   const getShopFilterHref = (slug: string) =>
-    `/shop?kategorija=${encodeURIComponent(slug)}`;
+    `/katalog?kategorija=${encodeURIComponent(slug)}`;
 
   return (
     <div className="hidden lg:block">
@@ -103,7 +103,7 @@ export default function DesktopMenu() {
                           category.path,
                         );
                         const categoryIsActive =
-                          pathname === "/shop" &&
+                          pathname === "/katalog" &&
                           selectedCategorySlugs.has(categorySlug);
                         return (
                           <DropdownMenuSub key={category.id}>
@@ -126,7 +126,7 @@ export default function DesktopMenu() {
                                     const subcategorySlug =
                                       getCategorySlugFromPath(subcategory.path);
                                     const subIsActive =
-                                      pathname === "/shop" &&
+                                      pathname === "/katalog" &&
                                       selectedCategorySlugs.has(
                                         subcategorySlug,
                                       );

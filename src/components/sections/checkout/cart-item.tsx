@@ -63,7 +63,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
     <div className="flex w-full flex-col gap-4">
       {/* Gornji red: samo slika + naslov + badgevi */}
       <div className="flex items-start gap-3">
-        <Link href={`/shop/${item.slug}`} className="shrink-0">
+        <Link href={`/katalog/${item.slug}`} className="shrink-0">
           <AnimatedImage
             src={item.image}
             alt={item.name}
@@ -76,7 +76,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
         <div className="min-w-0 flex-1">
           <h4 className="text-lg font-medium">
             <Link
-              href={`/shop/${item.slug}`}
+              href={`/katalog/${item.slug}`}
               className="hover:text-foreground/90 hover:underline"
             >
               {item.name}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Lora, Nunito } from "next/font/google";
+import { Lora, Nunito } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import LenisScrollProvider from "@/providers/lenis-provider";
@@ -21,11 +21,6 @@ const lora = Lora({
   variable: "--font-lora",
   display: "swap",
   adjustFontFallback: true,
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
 });
 
 const siteUrl =
@@ -75,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="bs"
-      className={`${nunito.variable} ${lora.variable} ${geistMono.variable}`}
+      className={`${nunito.variable} ${lora.variable}`}
     >
       <body className="antialiased" suppressHydrationWarning>
         <LenisScrollProvider>

@@ -36,7 +36,7 @@ function mapProducts(products: Product[]): SearchProductPayload[] {
       image: p.images[0]
         ? urlFor(p.images[0]).width(400).height(400).url()
         : "",
-      link: `/shop/${p.slug.current}`,
+      link: `/katalog/${p.slug.current}`,
     };
   });
 }
