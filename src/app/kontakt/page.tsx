@@ -5,9 +5,9 @@ import ContactForm from "@/components/sections/contact/contact-form";
 import ContactInfo from "@/components/sections/contact/contact-info";
 
 export const metadata: Metadata = {
-  title: "Kontakt",
+  title: "Kontakt – Veleprodaja i distribucija tekstila",
   description:
-    "Kontaktirajte nas za sve vaše pitanja. Mi smo ovdje da vam pomognemo.",
+    "Stupite u kontakt sa ANE d.o.o. Sarajevo. Saznajte sve o veleprodajnim cijenama, uslovima saradnje i direktnom uvozu tekstila za vaše butike i hotele u regiji.",
   alternates: {
     canonical: "/kontakt",
   },
@@ -17,8 +17,8 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader
-        title="Kontakt"
-        description="Planirate unaprijediti svoju ponudu našim asortimanom? Naš tim je tu da vam pruži sve informacije o veleprodajnim cijenama, uslovima saradnje i dostupnosti artikala."
+        title="Kontaktirajte ANE d.o.o. tim"
+        description="Planirate unaprijediti ponudu svog biznisa našim asortimanom? Tu smo da vam pružimo sve informacije o veleprodajnim cijenama, direktnom uvozu i uslovima saradnje za BiH i region."
         breadcrumbItems={[
           { label: "Početna", href: "/" },
           { label: "Kontakt", href: "/kontakt" },
