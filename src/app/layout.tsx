@@ -58,6 +58,23 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  openGraph: {
+    type: "website",
+    locale: "bs_BA",
+    siteName: "ANE d.o.o.",
+    images: [
+      {
+        url: "/images/home/ane-doo-landing.jpeg",
+        width: 1600,
+        height: 900,
+        alt: "ANE d.o.o. – veleprodaja tekstila",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/home/ane-doo-landing.jpeg"],
+  },
 };
 
 export default function RootLayout({
