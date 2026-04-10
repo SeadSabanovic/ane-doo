@@ -196,7 +196,7 @@ export default defineType({
         input: DescriptionWithCharCount,
       },
       description:
-        "Opis koji kupac vidi na stranici proizvoda. SEO preporuka: ciljajte 150-300 karaktera (jasno, konkretno, bez nabrajanja kljucnih rijeci).",
+        "Opis koji kupac vidi na stranici proizvoda. SEO preporuka: ciljajte 75-155 karaktera (jasno, konkretno, bez nabrajanja kljucnih rijeci).",
       validation: (Rule) => Rule.required(),
     }),
     defineField({

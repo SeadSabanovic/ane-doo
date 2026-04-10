@@ -15,6 +15,23 @@ import {
 import { urlFor } from "@/sanity/lib/image";
 import { buildProductColorOptions } from "@/constants/colors";
 
+const SITE_URL_FALLBACK = "https://ane-doo.vercel.app";
+
+function getSiteBaseUrl() {
+  return (
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || SITE_URL_FALLBACK
+  ).replace(/\/$/, "");
+}
+
+/** Meta description za SERP / OG — oko 160 znakova, bez rezanja riječi usred. */
+function metaDescription(text: string, max = 160): string {
+  const t = text.trim().replace(/\s+/g, " ");
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 50 ? cut.slice(0, lastSpace) : cut).trimEnd() + "…";
+}
+
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;
 
@@ -106,11 +123,7 @@ export default async function ProductPage({
   const colorOptions = buildProductColorOptions(product.colors);
 
   // JSON-LD Product schema za SEO (Google rich snippets)
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "https://www.ane-doo.com");
+  const baseUrl = getSiteBaseUrl();
   const productUrl = `${baseUrl}/katalog/${product.slug.current}`;
   const displayPrice = getListingUnitPrice(product);
 
@@ -119,6 +132,11 @@ export default async function ProductPage({
     "@type": "Product",
     name: product.name,
     description: product.description,
+    sku: product.sku,
+    brand: {
+      "@type": "Brand",
+      name: "ANE d.o.o.",
+    },
     image: galleryImages,
     url: productUrl,
     offers: {
@@ -147,7 +165,7 @@ export default async function ProductPage({
         breadcrumbItems={[
           { label: "Početna", href: "/" },
           { label: "Katalog", href: "/katalog" },
-          { label: product.name, href: `/katalog/${product.slug}` },
+          { label: product.name, href: `/katalog/${product.slug.current}` },
         ]}
       />
 
@@ -210,14 +228,47 @@ export async function generateMetadata({
   if (!product) {
     return {
       title: "Proizvod nije pronađen",
+      robots: { index: false, follow: true },
     };
   }
 
+  const base = getSiteBaseUrl();
+  const path = `/katalog/${product.slug.current}`;
+  const absoluteUrl = `${base}${path}`;
+  const desc = metaDescription(product.description);
+  const ogImage = product.images?.[0]
+    ? urlFor(product.images[0]).width(1200).height(630).fit("crop").url()
+    : undefined;
+
   return {
     title: product.name,
-    description: product.description,
+    description: desc,
     alternates: {
-      canonical: `/katalog/${product.slug.current}`,
+      canonical: path,
+    },
+    openGraph: {
+      title: product.name,
+      description: desc,
+      url: absoluteUrl,
+      siteName: "ANE d.o.o.",
+      locale: "bs_BA",
+      type: "website",
+      ...(ogImage && {
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: product.name,
+          },
+        ],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: desc,
+      ...(ogImage && { images: [ogImage] }),
     },
   };
 }

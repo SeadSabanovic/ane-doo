@@ -2,8 +2,8 @@
 
 import { Box, Flex, Text } from "@sanity/ui";
 
-const RECOMMENDED_MIN = 150;
-const RECOMMENDED_MAX = 300;
+const RECOMMENDED_MIN = 75;
+const RECOMMENDED_MAX = 155;
 
 export function DescriptionWithCharCount(props) {
   const value = typeof props.value === "string" ? props.value : "";

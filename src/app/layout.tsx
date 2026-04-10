@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import LenisScrollProvider from "@/providers/lenis-provider";
 import RouteScrollReset from "@/providers/route-scroll-reset";
 import ConditionalLayout from "@/components/layout/conditional-layout";
+import OrganizationWebsiteJsonLd from "@/components/seo/organization-website-json-ld";
 import { Toaster } from "@/components/ui/sonner";
 
 /** Body — Nunito (variable), subset latin + latin-ext za bs/hr */
@@ -70,6 +71,7 @@ export default function RootLayout({
       className={`${nunito.variable} ${lora.variable}`}
     >
       <body className="antialiased" suppressHydrationWarning>
+        <OrganizationWebsiteJsonLd />
         <LenisScrollProvider>
           <RouteScrollReset />
           <ConditionalLayout>{children}</ConditionalLayout>
