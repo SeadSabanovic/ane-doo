@@ -2,7 +2,6 @@ import Container from "@/components/layout/container";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import ProductCard from "@/components/ui/product-card";
 import SectionBadge from "@/components/ui/section-badge";
-import Link from "next/link";
 import { getNewProducts } from "@/sanity/lib/api";
 import { urlFor } from "@/sanity/lib/image";
 import {
@@ -52,14 +51,13 @@ export default async function NewSection() {
           </div>
         )}
 
-        <Link href="/katalog?sort=newest" className="mx-auto mt-10 block w-fit">
-          <InteractiveHoverButton
-            className="w-fit text-center lg:text-left"
-            variant="light"
-          >
-            Pogledaj više
-          </InteractiveHoverButton>
-        </Link>
+        <InteractiveHoverButton
+          href="/katalog?sort=newest"
+          className="mx-auto mt-10 block w-fit text-center lg:text-left"
+          variant="light"
+        >
+          Pogledaj više
+        </InteractiveHoverButton>
       </Container>
     </section>
   );

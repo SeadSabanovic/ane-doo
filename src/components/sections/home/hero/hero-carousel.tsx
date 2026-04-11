@@ -2,7 +2,6 @@ import AneDooIcon from "@/components/icons/ane-doo-icon";
 import Container from "@/components/layout/container";
 import AnimatedImage from "@/components/ui/animated-image";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import Link from "next/link";
 
 const heroData = {
   title: "Pouzdan veleprodajni partner",
@@ -28,14 +27,13 @@ export default function HeroCarousel() {
             <p className="text-background mt-4 max-w-2xl text-center text-lg text-shadow-sm md:text-2xl">
               {heroData.description}
             </p>
-            <Link href={heroData.ctaHref}>
-              <InteractiveHoverButton
-                className="mt-8 w-fit text-center"
-                variant="light"
-              >
-                Katalog
-              </InteractiveHoverButton>
-            </Link>
+            <InteractiveHoverButton
+              href={heroData.ctaHref}
+              className="mt-8 w-fit text-center"
+              variant="light"
+            >
+              Katalog
+            </InteractiveHoverButton>
           </div>
         </div>
         <AnimatedImage

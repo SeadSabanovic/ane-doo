@@ -2,8 +2,6 @@ import Container from "@/components/layout/container";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import ProductCard from "@/components/ui/product-card";
 import SectionBadge from "@/components/ui/section-badge";
-import Link from "next/link";
-
 export default function HottestSection() {
   const products = [
     {
@@ -87,14 +85,13 @@ export default function HottestSection() {
           ))}
         </div>
 
-        <Link href="/katalog" className="mx-auto mt-10 block w-fit">
-          <InteractiveHoverButton
-            className="w-fit text-center lg:text-left"
-            variant="light"
-          >
-            Pogledaj više
-          </InteractiveHoverButton>
-        </Link>
+        <InteractiveHoverButton
+          href="/katalog"
+          className="mx-auto mt-10 block w-fit text-center lg:text-left"
+          variant="light"
+        >
+          Pogledaj više
+        </InteractiveHoverButton>
       </Container>
     </section>
   );
