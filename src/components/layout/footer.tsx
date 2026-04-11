@@ -1,12 +1,9 @@
 import Container from "@/components/layout/container";
 import { SOCIALS } from "@/constants/socials";
+import { SITE_MAPS_URL } from "@/constants/site-contact";
 import Link from "next/link";
 import FooterLines from "@/components/icons/footer-lines";
 import { AneLogo } from "@/components/logo/ane-logo";
-
-/** Isti URL kao u kontakt sekciji — otvara lokaciju u Google Maps. */
-const MAPS_URL =
-  "https://www.google.com/maps?ll=43.843643,18.31726&z=16&t=m&hl=en&gl=BA&mapclient=embed&cid=12238694585567866561";
 
 const footerLinkClass =
   "ease-out duration-200 hover:underline w-fit text-primary-foreground";
@@ -134,7 +131,7 @@ const Footer = () => {
 
                   <li>
                     <a
-                      href={MAPS_URL}
+                      href={SITE_MAPS_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={footerLinkClass}

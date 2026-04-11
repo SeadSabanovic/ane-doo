@@ -91,7 +91,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <div className="group relative flex flex-col">
       <Link
         href={href}
-        className="focus-visible:ring-ring flex flex-col rounded-md outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+        className="focus-visible:ring-ring focus-visible:ring-offset- flex flex-1 flex-col rounded-md outline-none focus-visible:ring-2"
       >
         <div className="group/image bg-muted/20 relative flex aspect-3/4 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md">
           <AnimatedImage

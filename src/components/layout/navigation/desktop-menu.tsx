@@ -65,7 +65,10 @@ export default function DesktopMenu({
 
   return (
     <div className="hidden lg:block">
-      <NavigationMenu className="hidden lg:block">
+      <NavigationMenu
+        className="hidden lg:block"
+        aria-label="Glavna navigacija"
+      >
         <NavigationMenuList className="">
           {menuData.map((item) => {
             const isActive =
