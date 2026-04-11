@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "../container";
@@ -14,11 +14,13 @@ import { SearchDialog } from "./search/search-dialog";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { AneLogo } from "@/components/logo/ane-logo";
 import type { Category } from "@/sanity/lib/api";
+import { cn } from "@/lib/utils";
 
 const Navigation = ({ categories }: { categories: Category[] }) => {
   const pathname = usePathname();
-  const isRootRoute = pathname === "/";
   const [searchOpen, setSearchOpen] = useState(false);
+  /** false na SSR i prvom client paintu — izbjegava hydration mismatch; na `/` nakon mounta lagani ulaz. */
+  const [searchReveal, setSearchReveal] = useState(false);
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -30,6 +32,26 @@ const Navigation = ({ categories }: { categories: Category[] }) => {
 
   const cartCount = cartItems.length;
   const wishlistCount = wishlistItems.length;
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      queueMicrotask(() => {
+        setSearchReveal(false);
+        setSearchOpen(false);
+      });
+      return;
+    }
+    let cancelled = false;
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!cancelled) setSearchReveal(true);
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(id);
+    };
+  }, [pathname]);
 
   return (
     <>
@@ -58,24 +80,35 @@ const Navigation = ({ categories }: { categories: Category[] }) => {
 
               {/* <!-- header top right --> */}
               <div className="flex items-center">
-                {isRootRoute && (
-                  <>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="relative"
-                      onClick={() => setSearchOpen(true)}
-                      aria-label="Pretraži proizvode"
-                    >
-                      <Search aria-hidden />
-                    </Button>
-                    <SearchDialog
-                      open={searchOpen}
-                      onOpenChange={setSearchOpen}
-                    />
-                  </>
-                )}
+                <div
+                  className={cn(
+                    "flex shrink-0 justify-center transition-[max-width,opacity,transform] duration-300 ease-out motion-reduce:transition-none",
+                    pathname === "/" && searchReveal
+                      ? "max-w-9 translate-y-0 opacity-100"
+                      : "pointer-events-none max-w-0 -translate-y-1 opacity-0 overflow-hidden",
+                  )}
+                  aria-hidden={pathname !== "/" || !searchReveal}
+                >
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="relative shrink-0"
+                    onClick={() => setSearchOpen(true)}
+                    aria-label="Pretraži proizvode"
+                    disabled={pathname !== "/"}
+                    tabIndex={pathname === "/" && searchReveal ? undefined : -1}
+                  >
+                    <Search aria-hidden />
+                  </Button>
+                </div>
+                <SearchDialog
+                  open={searchOpen && pathname === "/"}
+                  onOpenChange={(open) => {
+                    if (pathname !== "/") return;
+                    setSearchOpen(open);
+                  }}
+                />
                 {/* <!-- header top right / Wishlist and Cart --> */}
                 <Button
                   asChild

@@ -12,7 +12,6 @@ import Link from "next/link";
 import { Loader2, Search, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 
-import { useIsClient } from "@/hooks/use-is-client";
 import {
   Dialog,
   DialogContent,
@@ -38,7 +37,6 @@ interface SearchDialogProps {
 const SEARCH_DEBOUNCE_MS = 400;
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
-  const isClient = useIsClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [products, setProducts] = useState<SearchProductItem[]>([]);
@@ -147,10 +145,6 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       : products.length > 0
         ? "Rezultati pretrage"
         : "Nema rezultata";
-
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
