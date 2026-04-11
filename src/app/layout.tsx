@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Lora, Nunito } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
+import { VercelAnalyticsGate } from "@/components/vercel-analytics-gate";
 import LenisScrollProvider from "@/providers/lenis-provider";
 import RouteScrollReset from "@/providers/route-scroll-reset";
 import ConditionalLayout from "@/components/layout/conditional-layout";
@@ -96,7 +96,7 @@ export default function RootLayout({
             {children}
           </ConditionalLayout>
           <Toaster position="top-center" />
-          <Analytics />
+          <VercelAnalyticsGate />
         </LenisScrollProvider>
       </body>
     </html>

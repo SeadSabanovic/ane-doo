@@ -179,12 +179,12 @@ export default function CategoriesSection() {
                 <Link href={category.link} key={category.id}>
                   <div className="group bg-muted/20 relative flex aspect-3/4 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-t-[50vw] rounded-br-[50vw] rounded-bl-[8px] border">
                     <AnimatedImage
-                      loadWhenVisible
                       src={category.image}
                       alt={category.alt}
                       width={400}
                       height={400}
                       className="absolute top-0 left-0 h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
+                      loading="lazy"
                     />
                     <div className="bg-accent absolute right-0 bottom-0 left-0 h-1" />
                   </div>
