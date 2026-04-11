@@ -208,7 +208,7 @@ export default function ShopSidebar({ categories }: ShopSidebarProps) {
   return (
     <aside className="hidden w-full max-w-2xs space-y-3 rounded-md border xl:sticky xl:top-24 xl:block xl:self-start">
       <div className="mb-0 flex items-center justify-between gap-2 p-4">
-        <h4 className="text-lg font-medium">Filteri:</h4>
+        <h2 className="text-lg font-medium">Filteri</h2>
       </div>
 
       <Accordion

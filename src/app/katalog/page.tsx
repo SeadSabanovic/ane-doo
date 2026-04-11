@@ -210,11 +210,19 @@ export default async function ShopPage({
               actionHref="/katalog"
             />
           ) : (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <>
+              <h2 id="katalog-products-heading" className="sr-only">
+                Pronađeni proizvodi
+              </h2>
+              <div
+                className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4"
+                aria-labelledby="katalog-products-heading"
+              >
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </>
           )}
 
           <ShopPagination

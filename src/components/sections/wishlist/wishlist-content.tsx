@@ -35,21 +35,29 @@ export default function WishlistContent() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {items.map((item) => (
-        <ProductCard
-          key={item.productId}
-          product={{
-            id: item.productId,
-            name: item.name,
-            price: item.price,
-            salePrice: item.salePrice,
-            image: item.image,
-            link: `/katalog/${item.slug}`,
-            saved: true,
-          }}
-        />
-      ))}
-    </div>
+    <>
+      <h2 id="wishlist-products-heading" className="sr-only">
+        Lista spašenih artikala
+      </h2>
+      <div
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        aria-labelledby="wishlist-products-heading"
+      >
+        {items.map((item) => (
+          <ProductCard
+            key={item.productId}
+            product={{
+              id: item.productId,
+              name: item.name,
+              price: item.price,
+              salePrice: item.salePrice,
+              image: item.image,
+              link: `/katalog/${item.slug}`,
+              saved: true,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 }
