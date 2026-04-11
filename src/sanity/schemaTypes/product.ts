@@ -138,11 +138,6 @@ export default defineType({
       options: { collapsible: true, collapsed: false },
     },
     {
-      name: "packageInfo",
-      title: "Informacije o paketu",
-      options: { collapsible: true, collapsed: false },
-    },
-    {
       name: "inventory",
       title: "Zalihe",
       options: { collapsible: true, collapsed: false },
@@ -417,7 +412,6 @@ export default defineType({
       title: "Veličine",
       type: "array",
       group: "packageInfo",
-      fieldset: "packageInfo",
       of: [
         defineArrayMember({
           type: "reference",
@@ -455,7 +449,6 @@ export default defineType({
       title: "Boje",
       type: "array",
       group: "packageInfo",
-      fieldset: "packageInfo",
       of: [
         defineArrayMember({
           type: "reference",
@@ -494,7 +487,6 @@ export default defineType({
       type: "text",
       rows: 5,
       group: "packageInfo",
-      fieldset: "packageInfo",
       description:
         "Opciono. Ručno opišite što je u paketu (npr. koliko komada kojih veličina i boja). Prikazuje se na sajtu ispod linije „1 paket = n komada”.",
     }),

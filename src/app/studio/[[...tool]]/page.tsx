@@ -8,8 +8,8 @@
  */
 
 import type { Metadata } from "next";
-import { NextStudio } from "next-sanity/studio";
 import config from "../../../../sanity.config";
+import StudioRoot from "./studio-root";
 
 export const dynamic = "force-static";
 export const metadata: Metadata = {
@@ -21,5 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function StudioPage() {
-  return <NextStudio config={config} />;
+  return <StudioRoot config={config} />;
 }

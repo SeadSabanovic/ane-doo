@@ -179,6 +179,7 @@ export default function CategoriesSection() {
                 <Link href={category.link} key={category.id}>
                   <div className="group bg-muted/20 relative flex aspect-3/4 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-t-[50vw] rounded-br-[50vw] rounded-bl-[8px] border">
                     <AnimatedImage
+                      loadWhenVisible
                       src={category.image}
                       alt={category.alt}
                       width={400}
