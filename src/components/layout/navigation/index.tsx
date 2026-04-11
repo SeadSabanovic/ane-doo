@@ -1,19 +1,23 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Suspense } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Container from "../container";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, Search, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DesktopMenu from "./desktop-menu";
 import { Badge } from "@/components/ui/badge";
 import MobileMenu from "./mobile-menu";
-// import { SearchDialog } from "./search/search-dialog";
+import { SearchDialog } from "./search/search-dialog";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { AneLogo } from "@/components/logo/ane-logo";
 
 const Navigation = () => {
+  const pathname = usePathname();
+  const isRootRoute = pathname === "/";
+  const [searchOpen, setSearchOpen] = useState(false);
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -54,7 +58,6 @@ const Navigation = () => {
 
               {/* <!-- header top right --> */}
               <div className="flex items-center">
-                {/* Homepage search (SearchDialog) — privremeno isključeno (hydration debug)
                 {isRootRoute && (
                   <>
                     <Button
@@ -73,7 +76,6 @@ const Navigation = () => {
                     />
                   </>
                 )}
-                */}
                 {/* <!-- header top right / Wishlist and Cart --> */}
                 <Button
                   asChild

@@ -3,6 +3,7 @@
 import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
 import { useInView, useMotionValue, useSpring } from "motion/react";
 
+import { useIsClient } from "@/hooks/use-is-client";
 import { cn } from "@/lib/utils";
 
 function formatNumber(n: number, decimalPlaces: number) {
@@ -36,10 +37,7 @@ export function NumberTicker({
   seoLabel,
   ...props
 }: NumberTickerProps) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isClient = useIsClient();
 
   const motionValue = useMotionValue(direction === "down" ? value : startValue);
   const springValue = useSpring(motionValue, {
@@ -66,14 +64,14 @@ export function NumberTicker({
   }, [motionValue, isInView, delay, value, direction, startValue]);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!isClient) return;
     const update = (latest: number) => {
       setDisplay(formatNumber(Number(latest), decimalPlaces));
     };
     const unsub = springValue.on("change", update);
     update(springValue.get());
     return unsub;
-  }, [mounted, springValue, decimalPlaces]);
+  }, [isClient, springValue, decimalPlaces]);
 
   return (
     <span className="relative inline-block">

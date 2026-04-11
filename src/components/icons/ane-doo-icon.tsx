@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { SVGProps } from "react";
 import { motion, type Variants } from "motion/react";
 
+import { useIsClient } from "@/hooks/use-is-client";
 import { cn } from "@/lib/utils";
 
 const LOGO_COLOR = "#F0C71D";
@@ -40,12 +40,9 @@ export default function AneDooIcon({
   className,
   ...props
 }: AneDooIconProps) {
-  const [motionReady, setMotionReady] = useState(false);
-  useEffect(() => {
-    if (animated) setMotionReady(true);
-  }, [animated]);
-
-  const staticPlaceholder = animated && !motionReady;
+  const isClient = useIsClient();
+  const motionReady = !animated || isClient;
+  const staticPlaceholder = animated && !isClient;
 
   const baseSvgProps = {
     width: 76,
