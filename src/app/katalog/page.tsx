@@ -25,15 +25,28 @@ import {
   getBaseWholesaleUnitPrice,
   getListingUnitPrice,
 } from "@/lib/sanity-product-pricing";
+import {
+  buildKatalogCanonicalPath,
+  normalizeShopSearchParams,
+} from "@/lib/shop-search-params";
 
-export const metadata: Metadata = {
-  title: "Veleprodajni katalog tekstila i kućne galanterije",
-  description:
-    "Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik. ANE d.o.o. nudi vrhunski tekstil uz brzu dostavu širom BiH.",
-  alternates: {
-    canonical: "/katalog",
-  },
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
+  const resolved = await searchParams;
+  const normalized = normalizeShopSearchParams(resolved);
+
+  return {
+    title: "Veleprodajni katalog tekstila i kućne galanterije",
+    description:
+      "Istražite dostupne modele i naručite direktno za svoju poslovnicu ili butik. ANE d.o.o. nudi vrhunski tekstil uz brzu dostavu širom BiH.",
+    alternates: {
+      canonical: buildKatalogCanonicalPath(normalized),
+    },
+  };
+}
 
 // Enable ISR - revalidate every 60 seconds
 export const revalidate = 60;
@@ -45,20 +58,9 @@ export default async function ShopPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const normalizedSearchParams = new URLSearchParams();
-
-  Object.entries(resolvedSearchParams).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      value.forEach((entry) => {
-        if (entry) normalizedSearchParams.append(key, entry);
-      });
-      return;
-    }
-
-    if (value) {
-      normalizedSearchParams.set(key, value);
-    }
-  });
+  const normalizedSearchParams = normalizeShopSearchParams(
+    resolvedSearchParams,
+  );
 
   const kategorija = normalizedSearchParams.getAll("kategorija");
   const selectedCategorySlugs = new Set(
