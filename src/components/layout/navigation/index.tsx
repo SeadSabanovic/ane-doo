@@ -1,20 +1,21 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "../container";
 import { Heart, Search, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DesktopMenu from "./desktop-menu";
+import { CategoryNavLinksSrOnly } from "./category-nav-links-sr-only";
 import { Badge } from "@/components/ui/badge";
 import MobileMenu from "./mobile-menu";
 import { SearchDialog } from "./search/search-dialog";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { AneLogo } from "@/components/logo/ane-logo";
+import type { Category } from "@/sanity/lib/api";
 
-const Navigation = () => {
+const Navigation = ({ categories }: { categories: Category[] }) => {
   const pathname = usePathname();
   const isRootRoute = pathname === "/";
   const [searchOpen, setSearchOpen] = useState(false);
@@ -51,9 +52,8 @@ const Navigation = () => {
                   </span>
                 </Link>
 
-                <Suspense fallback={null}>
-                  <DesktopMenu />
-                </Suspense>
+                <CategoryNavLinksSrOnly categories={categories} />
+                <DesktopMenu categories={categories} />
               </div>
 
               {/* <!-- header top right --> */}
@@ -114,9 +114,7 @@ const Navigation = () => {
                   </Link>
                 </Button>
 
-                <Suspense fallback={null}>
-                  <MobileMenu />
-                </Suspense>
+                <MobileMenu categories={categories} />
               </div>
             </div>
           </Container>

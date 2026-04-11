@@ -7,7 +7,7 @@ export default function SocialTopBar() {
   return (
     <div className="bg-card-foreground text-primary-foreground hidden w-full lg:block">
       <Container className="flex items-center justify-between py-2">
-        <a href="tel:+38761123456" className="flex items-center gap-2">
+        <a href="tel:+38761101871" className="flex items-center gap-2">
           <AnimatedShinyText className="text-sm">
             Pozovite nas: (+387) 61 101 871
           </AnimatedShinyText>

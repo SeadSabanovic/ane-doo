@@ -1,5 +1,3 @@
-import { categoryData } from "@/constants/categories";
-
 export const menuData: Array<{
   id: number;
   title: string;
@@ -29,12 +27,6 @@ export const menuData: Array<{
     title: "Kategorije",
     newTab: false,
     path: "/katalog",
-    submenu: categoryData.map((category) => ({
-      id: category.id,
-      title: category.title,
-      newTab: false,
-      path: category.path,
-    })),
   },
   {
     id: 4,

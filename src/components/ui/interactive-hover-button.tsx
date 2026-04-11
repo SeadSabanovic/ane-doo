@@ -8,7 +8,8 @@ import omit from "lodash/omit";
 
 import { cn } from "@/lib/utils";
 
-const MotionLink = motion(Link);
+/** Bez `forwardMotionProps` — inače `whileTap` / `animate` završe na `<a>` preko Next `Link` i React prijavljuje upozorenje. */
+const MotionLink = motion.create(Link);
 
 interface Position {
   x: number;

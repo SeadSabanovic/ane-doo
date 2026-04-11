@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { client } from "./client";
 
 export interface Product {
@@ -503,13 +504,15 @@ export async function getNewProducts(): Promise<Product[]> {
   );
 }
 
-export async function getParentCategories(): Promise<Category[]> {
+export const getParentCategories = cache(async function getParentCategories(): Promise<
+  Category[]
+> {
   return await client.fetch(
     PARENT_CATEGORIES_QUERY,
     {},
     { next: { revalidate: 3600 } },
   );
-}
+});
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   return await client.fetch(

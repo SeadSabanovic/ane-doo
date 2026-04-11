@@ -8,6 +8,7 @@ import ConditionalLayout from "@/components/layout/conditional-layout";
 import SocialTopBar from "@/components/layout/navigation/social-top-bar";
 import OrganizationWebsiteJsonLd from "@/components/seo/organization-website-json-ld";
 import { Toaster } from "@/components/ui/sonner";
+import { getParentCategories } from "@/sanity/lib/api";
 
 /** Body — Nunito (variable), subset latin + latin-ext za bs/hr */
 const nunito = Nunito({
@@ -78,18 +79,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const categories = await getParentCategories();
+
   return (
     <html lang="bs" className={`${nunito.variable} ${lora.variable}`}>
       <body className="antialiased" suppressHydrationWarning>
         <OrganizationWebsiteJsonLd />
         <LenisScrollProvider>
           <RouteScrollReset />
-          <ConditionalLayout socialTopBar={<SocialTopBar />}>
+          <ConditionalLayout
+            socialTopBar={<SocialTopBar />}
+            categories={categories}
+          >
             {children}
           </ConditionalLayout>
           <Toaster position="top-center" />

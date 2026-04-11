@@ -20,23 +20,19 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import { menuData } from "./menuData";
-import { categoryData } from "@/constants/categories";
-import { usePathname, useSearchParams } from "next/navigation";
+import type { Category } from "@/sanity/lib/api";
+import { usePathname } from "next/navigation";
+import { useCategoryFilterSlugs } from "@/hooks/use-category-filter-slugs";
 import { cn } from "@/lib/utils";
 
-export default function MobileMenu() {
+export default function MobileMenu({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const selectedCategorySlugs = new Set(
-    searchParams
-      .getAll("kategorija")
-      .join(",")
-      .split(",")
-      .map((value) => value.trim())
-      .filter(Boolean),
-  );
-  const getCategorySlugFromPath = (path: string) => path.split("/").pop() ?? "";
+  const selectedCategorySlugs = useCategoryFilterSlugs();
   const getShopFilterHref = (slug: string) =>
     `/katalog?kategorija=${encodeURIComponent(slug)}`;
 
@@ -98,21 +94,19 @@ export default function MobileMenu() {
                     </AccordionTrigger>
                     <AccordionContent className="pt-2 pl-4">
                       <Accordion type="single" collapsible className="w-full">
-                        {categoryData.map((category) => {
-                          const categorySlug = getCategorySlugFromPath(
-                            category.path,
-                          );
+                        {categories.map((category) => {
+                          const categorySlug = category.slug?.current;
+                          if (!categorySlug) return null;
                           const categoryIsActive =
                             pathname === "/katalog" &&
                             selectedCategorySlugs.has(categorySlug);
                           const hasSubcategories =
-                            category.subcategories &&
-                            category.subcategories.length > 0;
+                            (category.subcategories?.length ?? 0) > 0;
 
                           return (
                             <AccordionItem
-                              key={category.id}
-                              value={`category-${category.id}`}
+                              key={category._id}
+                              value={`category-${category._id}`}
                               className="border-none"
                             >
                               <AccordionTrigger className="text-secondary [&>svg]:text-accent py-2 text-lg hover:no-underline [&>svg]:size-5">
@@ -128,7 +122,7 @@ export default function MobileMenu() {
                                         categoryIsActive && "font-bold",
                                       )}
                                     >
-                                      {category.title}
+                                      {category.name}
                                     </Link>
                                   ) : (
                                     <Link
@@ -138,7 +132,7 @@ export default function MobileMenu() {
                                         categoryIsActive && "font-bold",
                                       )}
                                     >
-                                      {category.title}
+                                      {category.name}
                                     </Link>
                                   )}
                                 </div>
@@ -148,28 +142,23 @@ export default function MobileMenu() {
                                   <div className="flex flex-col gap-2">
                                     {category.subcategories?.map(
                                       (subcategory) => {
-                                        const subcategorySlug =
-                                          getCategorySlugFromPath(
-                                            subcategory.path,
-                                          );
+                                        const subSlug =
+                                          subcategory.slug?.current;
+                                        if (!subSlug) return null;
                                         const subIsActive =
                                           pathname === "/katalog" &&
-                                          selectedCategorySlugs.has(
-                                            subcategorySlug,
-                                          );
+                                          selectedCategorySlugs.has(subSlug);
                                         return (
                                           <Link
-                                            key={subcategory.id}
-                                            href={getShopFilterHref(
-                                              subcategorySlug,
-                                            )}
+                                            key={subcategory._id}
+                                            href={getShopFilterHref(subSlug)}
                                             onClick={handleNavigate}
                                             className={cn(
                                               "text-secondary py-1 text-lg font-medium hover:underline",
                                               subIsActive && "font-bold",
                                             )}
                                           >
-                                            {subcategory.title}
+                                            {subcategory.name}
                                           </Link>
                                         );
                                       },
