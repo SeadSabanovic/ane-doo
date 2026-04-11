@@ -29,7 +29,9 @@ export default function AnimatedImage({
   unoptimized = false,
   onClick,
 }: AnimatedImageProps) {
-  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(() =>
+    priority ? src : null,
+  );
   const isLoaded = loadedSrc === src;
 
   return (

@@ -36,6 +36,11 @@ export function NumberTicker({
   seoLabel,
   ...props
 }: NumberTickerProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const motionValue = useMotionValue(direction === "down" ? value : startValue);
   const springValue = useSpring(motionValue, {
     damping: 60,
@@ -61,13 +66,14 @@ export function NumberTicker({
   }, [motionValue, isInView, delay, value, direction, startValue]);
 
   useEffect(() => {
+    if (!mounted) return;
     const update = (latest: number) => {
       setDisplay(formatNumber(Number(latest), decimalPlaces));
     };
     const unsub = springValue.on("change", update);
     update(springValue.get());
     return unsub;
-  }, [springValue, decimalPlaces]);
+  }, [mounted, springValue, decimalPlaces]);
 
   return (
     <span className="relative inline-block">
