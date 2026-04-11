@@ -19,7 +19,8 @@ export function AltTextWithGenerate(props) {
     [path, images],
   );
 
-  const nameOk = typeof productName === "string" && productName.trim().length > 0;
+  const nameOk =
+    typeof productName === "string" && productName.trim().length > 0;
 
   const handleGenerate = useCallback(() => {
     const name = typeof productName === "string" ? productName.trim() : "";
@@ -58,9 +59,7 @@ export function AltTextWithGenerate(props) {
 
 function getImageIndexFromPath(path, images) {
   if (!Array.isArray(path) || !Array.isArray(images)) return 0;
-  const keySeg = path.find(
-    (p) => p && typeof p === "object" && "_key" in p,
-  );
+  const keySeg = path.find((p) => p && typeof p === "object" && "_key" in p);
   if (!keySeg?._key) return 0;
   const i = images.findIndex((img) => img?._key === keySeg._key);
   return i >= 0 ? i : 0;

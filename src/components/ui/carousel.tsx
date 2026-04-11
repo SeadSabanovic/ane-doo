@@ -181,6 +181,7 @@ function CarouselPrevious({
 
   return (
     <Button
+      type="button"
       data-slot="carousel-previous"
       variant={variant}
       size={size}
@@ -193,10 +194,10 @@ function CarouselPrevious({
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
+      aria-label="Prethodni slajd"
       {...props}
     >
-      <ArrowLeft />
-      <span className="sr-only">Previous slide</span>
+      <ArrowLeft aria-hidden />
     </Button>
   );
 }
@@ -211,6 +212,7 @@ function CarouselNext({
 
   return (
     <Button
+      type="button"
       data-slot="carousel-next"
       variant={variant}
       size={size}
@@ -223,10 +225,10 @@ function CarouselNext({
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
+      aria-label="Sljedeći slajd"
       {...props}
     >
-      <ArrowRight />
-      <span className="sr-only">Next slide</span>
+      <ArrowRight aria-hidden />
     </Button>
   );
 }

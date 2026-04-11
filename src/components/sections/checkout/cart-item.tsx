@@ -62,26 +62,22 @@ export default function CartItemComponent({ item }: CartItemProps) {
   return (
     <div className="flex w-full flex-col gap-4">
       {/* Gornji red: samo slika + naslov + badgevi */}
-      <div className="flex items-start gap-3">
-        <Link href={`/katalog/${item.slug}`} className="shrink-0">
-          <AnimatedImage
-            src={item.image}
-            alt={item.name}
-            width={128}
-            height={128}
-            className="size-24 rounded-md object-cover md:size-32"
-          />
-        </Link>
+      <Link
+        href={`/katalog/${item.slug}`}
+        className="focus-visible:ring-ring group flex min-w-0 flex-1 items-start gap-3 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+      >
+        <AnimatedImage
+          src={item.image}
+          alt=""
+          width={128}
+          height={128}
+          className="size-24 shrink-0 rounded-md object-cover md:size-32"
+        />
 
         <div className="min-w-0 flex-1">
-          <h4 className="text-lg font-medium">
-            <Link
-              href={`/katalog/${item.slug}`}
-              className="hover:text-foreground/90 hover:underline"
-            >
-              {item.name}
-            </Link>
-          </h4>
+          <h3 className="group-hover:text-foreground/90 text-lg font-medium group-hover:underline">
+            {item.name}
+          </h3>
           <div className="mt-2 flex flex-wrap gap-1">
             <Badge variant="outline">
               {isWholesale ? "Veleprodaja" : "Maloprodaja"}
@@ -98,7 +94,7 @@ export default function CartItemComponent({ item }: CartItemProps) {
             ) : null}
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* Cijena, ukupno — isti label + vrijednost stil */}
       <div className="flex w-full flex-col gap-3">

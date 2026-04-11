@@ -3,10 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ProductSpecifications } from "./product-specifications";
-import {
-  ProductPackageInfo,
-  RetailVariantPickers,
-} from "./product-options";
+import { ProductPackageInfo, RetailVariantPickers } from "./product-options";
 import { ProductPricingSection } from "./product-pricing-section";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
@@ -135,7 +132,10 @@ export function ProductDetails({
       getEffectiveWholesaleUnitPrice(pricingLike) ?? 0;
     const pkgQty = wholesaleMinQuantity ?? 1;
 
-    if (!isRetail && (typeof wholesaleMinQuantity !== "number" || wholesaleMinQuantity < 1)) {
+    if (
+      !isRetail &&
+      (typeof wholesaleMinQuantity !== "number" || wholesaleMinQuantity < 1)
+    ) {
       toast.error("Nedostaju podaci o veleprodajnom paketu (komada u paketu).");
       return;
     }
@@ -298,9 +298,7 @@ export function ProductDetails({
           >
             <div className="flex flex-col gap-2">
               <Badge variant="outline" className="w-fit">
-                {section.type === "maloprodaja"
-                  ? "Maloprodaja"
-                  : "Veleprodaja"}
+                {section.type === "maloprodaja" ? "Maloprodaja" : "Veleprodaja"}
               </Badge>
               <p className="text-muted-foreground text-lg font-semibold">
                 {section.type === "veleprodaja" &&
@@ -341,7 +339,7 @@ export function ProductDetails({
               }
               wholesaleMinQuantity={
                 section.type === "veleprodaja"
-                  ? wholesaleMinQuantity ?? 1
+                  ? (wholesaleMinQuantity ?? 1)
                   : undefined
               }
               variantSlot={

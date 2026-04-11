@@ -83,7 +83,11 @@ function getSelectedFromQuery(
   };
 }
 
-export default function ShopFilterDialog({ categories }: { categories: Category[] }) {
+export default function ShopFilterDialog({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -101,8 +105,12 @@ export default function ShopFilterDialog({ categories }: { categories: Category[
     const min = rawMin ? Number.parseInt(rawMin, 10) : DEFAULT_MIN_PRICE;
     const max = rawMax ? Number.parseInt(rawMax, 10) : DEFAULT_MAX_PRICE;
 
-    const safeMin = Number.isFinite(min) ? Math.max(DEFAULT_MIN_PRICE, min) : DEFAULT_MIN_PRICE;
-    const safeMax = Number.isFinite(max) ? Math.max(safeMin, max) : DEFAULT_MAX_PRICE;
+    const safeMin = Number.isFinite(min)
+      ? Math.max(DEFAULT_MIN_PRICE, min)
+      : DEFAULT_MIN_PRICE;
+    const safeMax = Number.isFinite(max)
+      ? Math.max(safeMin, max)
+      : DEFAULT_MAX_PRICE;
 
     return [safeMin, safeMax];
   };
@@ -301,7 +309,7 @@ export default function ShopFilterDialog({ categories }: { categories: Category[
           variant="outline"
           className="hover:bg-background/80! flex h-fit flex-1 items-center justify-start rounded-full p-1 xl:hidden"
         >
-          <div className="bg-primary text-primary-foreground flex size-6 md:size-8 lg:size-10 items-center justify-center rounded-full">
+          <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-full md:size-8 lg:size-10">
             <FilterIcon />
           </div>
           Filteri

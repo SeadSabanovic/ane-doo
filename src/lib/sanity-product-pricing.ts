@@ -8,7 +8,9 @@ export type ProductPricingLike = {
 };
 
 /** Veleprodajna cijena po komadu iz CMS-a (bez akcije): eksplicitno ili iz cijene po paketu. */
-export function getBaseWholesaleUnitPrice(p: ProductPricingLike): number | null {
+export function getBaseWholesaleUnitPrice(
+  p: ProductPricingLike,
+): number | null {
   if (typeof p.wholesalePrice === "number") return p.wholesalePrice;
   if (
     typeof p.wholesalePricePerPackage === "number" &&

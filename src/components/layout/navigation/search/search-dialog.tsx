@@ -147,7 +147,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="flex h-[70svh] max-w-3xl! flex-col gap-0 p-0">
+      <DialogContent className="flex h-[90svh] max-h-[680px] max-w-3xl! flex-col gap-0 p-0 md:h-[70svh]">
         <DialogHeader className="flex h-fit flex-col gap-6 border-b p-6">
           <DialogTitle>Pretražite proizvode</DialogTitle>
           <DialogDescription className="sr-only">

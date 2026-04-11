@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { InteractiveHoverButton } from "./interactive-hover-button";
 import { LucideIcon } from "lucide-react";
 
@@ -26,11 +25,9 @@ export default function EmptyState({
         <h2 className="mb-2 text-2xl font-semibold">{title}</h2>
         <p className="text-muted-foreground">{description}</p>
       </div>
-      <Link href={actionHref}>
-        <InteractiveHoverButton className="w-fit text-center">
-          {actionLabel}
-        </InteractiveHoverButton>
-      </Link>
+      <InteractiveHoverButton href={actionHref} className="w-fit text-center">
+        {actionLabel}
+      </InteractiveHoverButton>
     </div>
   );
 }

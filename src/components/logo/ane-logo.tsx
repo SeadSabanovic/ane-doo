@@ -2,10 +2,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 /** Inline SVG — izbjegava `next/image` preload upozorenja za `/icons/ANE-logo.svg`. */
-export function AneLogo({
-  className,
-  ...props
-}: ComponentProps<"svg">) {
+export function AneLogo({ className, ...props }: ComponentProps<"svg">) {
   return (
     <svg
       viewBox="0 0 100 100"

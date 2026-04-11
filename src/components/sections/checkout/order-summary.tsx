@@ -29,7 +29,7 @@ export default function OrderSummary({ cartItems, total }: OrderSummaryProps) {
       </div>
 
       {/* Cart Summary */}
-      <div className="space-y-6 bg-muted/10 p-6">
+      <div className="bg-muted/10 space-y-6 p-6">
         <div className="flex justify-between text-lg font-bold">
           <span>Ukupno:</span>
           <span>{formatPrice(total)}</span>

@@ -51,7 +51,7 @@ export function ProductPricingSection({
   return (
     <div className={cn("flex flex-col gap-4 p-4", className)}>
       <div className="border-secondary bg-secondary-muted/50 text-secondary-foreground flex items-start gap-4 rounded-md border p-2">
-        <Info className="shrink-0 text-secondary" />
+        <Info className="text-secondary shrink-0" />
         <p>{infoText}</p>
       </div>
 

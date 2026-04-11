@@ -229,35 +229,38 @@ export function ProductImages({
               </CarouselContent>
               <div className="pointer-events-none absolute inset-0 flex items-center justify-between px-4">
                 <Button
+                  type="button"
                   variant="secondary"
                   size="icon"
                   disabled={!canGoPrev}
                   className="bg-primary/10 border-primary/40 hover:bg-primary/20 text-primary pointer-events-auto size-12 rounded-full border backdrop-blur-sm disabled:pointer-events-none disabled:opacity-35"
                   onClick={() => api?.scrollPrev()}
+                  aria-label="Prethodna slika"
                 >
-                  <ArrowLeft size={18} strokeWidth={3} />
-                  <span className="sr-only">Prethodna slika</span>
+                  <ArrowLeft size={18} strokeWidth={3} aria-hidden />
                 </Button>
                 <Button
+                  type="button"
                   variant="secondary"
                   size="icon"
                   disabled={!canGoNext}
                   className="bg-primary/10 border-primary/40 hover:bg-primary/20 text-primary pointer-events-auto size-12 rounded-full border backdrop-blur-sm disabled:pointer-events-none disabled:opacity-35"
                   onClick={() => api?.scrollNext()}
+                  aria-label="Sljedeća slika"
                 >
-                  <ArrowRight size={18} strokeWidth={3} />
-                  <span className="sr-only">Sljedeća slika</span>
+                  <ArrowRight size={18} strokeWidth={3} aria-hidden />
                 </Button>
               </div>
               <div className="pointer-events-none absolute top-[10lvh] right-4 md:top-[5lvh]">
                 <Button
+                  type="button"
                   variant="secondary"
                   size="icon"
                   className="bg-primary/10 border-primary/40 hover:bg-primary/20 text-primary pointer-events-auto size-12 rounded-full border backdrop-blur-sm"
                   onClick={handleClose}
+                  aria-label="Zatvori galeriju"
                 >
-                  <X size={18} strokeWidth={3} />
-                  <span className="sr-only">Zatvori</span>
+                  <X size={18} strokeWidth={3} aria-hidden />
                 </Button>
               </div>
               {!isClosing && (

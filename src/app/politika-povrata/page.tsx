@@ -2,7 +2,6 @@ import Container from "@/components/layout/container";
 import PageHeader from "@/components/layout/page-header";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Reklamacije i Povrat Robe",
@@ -152,9 +151,9 @@ export default function PolitikaPovrataPage() {
           </section>
         </article>
 
-        <Link href="/" className="mt-12 block text-center">
-          <InteractiveHoverButton>Nazad na Početnu</InteractiveHoverButton>
-        </Link>
+        <InteractiveHoverButton href="/" className="mt-12 block text-center">
+          Nazad na Početnu
+        </InteractiveHoverButton>
       </Container>
     </>
   );

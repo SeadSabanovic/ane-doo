@@ -6,8 +6,11 @@ import Footer from "@/components/layout/footer";
 
 export default function ConditionalLayout({
   children,
+  socialTopBar,
 }: {
   children: React.ReactNode;
+  /** Server Component slot (prosljeđuje ga root layout) — izbjegava hydration mismatch na društvenim linkovima. */
+  socialTopBar: React.ReactNode;
 }) {
   const pathname = usePathname();
   const isStudio = pathname?.startsWith("/studio");
@@ -18,6 +21,7 @@ export default function ConditionalLayout({
 
   return (
     <>
+      {socialTopBar}
       <Navigation />
       <main className="flex-1">{children}</main>
       <Footer />

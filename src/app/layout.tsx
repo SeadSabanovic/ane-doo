@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Lora, Nunito } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
+import { VercelAnalyticsGate } from "@/components/vercel-analytics-gate";
 import LenisScrollProvider from "@/providers/lenis-provider";
 import RouteScrollReset from "@/providers/route-scroll-reset";
 import ConditionalLayout from "@/components/layout/conditional-layout";
+import SocialTopBar from "@/components/layout/navigation/social-top-bar";
 import OrganizationWebsiteJsonLd from "@/components/seo/organization-website-json-ld";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -83,17 +84,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="bs"
-      className={`${nunito.variable} ${lora.variable}`}
-    >
+    <html lang="bs" className={`${nunito.variable} ${lora.variable}`}>
       <body className="antialiased" suppressHydrationWarning>
         <OrganizationWebsiteJsonLd />
         <LenisScrollProvider>
           <RouteScrollReset />
-          <ConditionalLayout>{children}</ConditionalLayout>
+          <ConditionalLayout socialTopBar={<SocialTopBar />}>
+            {children}
+          </ConditionalLayout>
           <Toaster position="top-center" />
-          <Analytics />
+          <VercelAnalyticsGate />
         </LenisScrollProvider>
       </body>
     </html>

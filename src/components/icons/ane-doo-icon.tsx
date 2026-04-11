@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { SVGProps } from "react";
 import { motion, type Variants } from "motion/react";
+
+import { cn } from "@/lib/utils";
 
 const LOGO_COLOR = "#F0C71D";
 
@@ -34,25 +37,36 @@ type AneDooIconProps = SVGProps<SVGSVGElement> & {
 
 export default function AneDooIcon({
   animated = false,
+  className,
   ...props
 }: AneDooIconProps) {
+  const [motionReady, setMotionReady] = useState(false);
+  useEffect(() => {
+    if (animated) setMotionReady(true);
+  }, [animated]);
+
+  const staticPlaceholder = animated && !motionReady;
+
   const baseSvgProps = {
     width: 76,
     height: 35,
     viewBox: "0 0 76 35",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
+    className: cn(className, staticPlaceholder && "opacity-0"),
     ...props,
   };
 
-  if (!animated) {
-    return (
-      <svg {...baseSvgProps}>
-        {paths.map((d, index) => (
-          <path key={index} d={d} fill={LOGO_COLOR} />
-        ))}
-      </svg>
-    );
+  const staticSvg = (
+    <svg {...baseSvgProps}>
+      {paths.map((d, index) => (
+        <path key={index} d={d} fill={LOGO_COLOR} />
+      ))}
+    </svg>
+  );
+
+  if (!animated || !motionReady) {
+    return staticSvg;
   }
 
   return (

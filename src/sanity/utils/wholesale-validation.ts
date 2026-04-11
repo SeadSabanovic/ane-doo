@@ -21,7 +21,12 @@ export function isPositivePrice(value: unknown): boolean {
 
 /** Kad nema cijelog broja ≥1 u „Komada u paketu”, veleprodajna polja u Studiju su zaključana (samo opis tekstom ne onemogućava unos). */
 export function normalizeWholesaleQty(q: unknown): number | null {
-  if (typeof q === "number" && Number.isFinite(q) && Number.isInteger(q) && q >= 1) {
+  if (
+    typeof q === "number" &&
+    Number.isFinite(q) &&
+    Number.isInteger(q) &&
+    q >= 1
+  ) {
     return q;
   }
   if (typeof q === "string" && q.trim() !== "") {
@@ -33,7 +38,8 @@ export function normalizeWholesaleQty(q: unknown): number | null {
 
 export function hasValidWholesaleQty(document: unknown): boolean {
   if (!document || typeof document !== "object") return false;
-  const q = (document as { wholesaleMinQuantity?: unknown }).wholesaleMinQuantity;
+  const q = (document as { wholesaleMinQuantity?: unknown })
+    .wholesaleMinQuantity;
   return normalizeWholesaleQty(q) != null;
 }
 

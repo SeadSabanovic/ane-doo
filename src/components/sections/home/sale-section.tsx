@@ -3,8 +3,6 @@ import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button
 import SectionBadge from "@/components/ui/section-badge";
 import AnimatedImage from "@/components/ui/animated-image";
 import SpinningText from "@/components/ui/spinning-text";
-import Link from "next/link";
-
 const SALE_SPIN_TEXT =
   "OGRANIČENA KOLIČINA • AKCIJA • OGRANIČENA KOLIČINA • AKCIJA • ";
 
@@ -20,11 +18,12 @@ export default function SaleSection() {
             biramo nove artikle koji postaju dio naše posebne ponude, dok se
             drugi vraćaju u redovnu prodaju.
           </p>
-          <Link href="/katalog?akcija=1">
-            <InteractiveHoverButton className="mt-8 w-fit text-center lg:text-left">
-              Istraži ponudu
-            </InteractiveHoverButton>
-          </Link>
+          <InteractiveHoverButton
+            href="/katalog?akcija=1"
+            className="mt-8 w-fit text-center lg:text-left"
+          >
+            Istraži ponudu
+          </InteractiveHoverButton>
         </div>
         <div className="relative aspect-square overflow-hidden rounded-md">
           <AnimatedImage
