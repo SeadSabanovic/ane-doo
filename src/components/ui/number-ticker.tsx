@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
 import { useInView, useMotionValue, useSpring } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -36,13 +36,18 @@ export function NumberTicker({
   seoLabel,
   ...props
 }: NumberTickerProps) {
-  const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === "down" ? value : startValue);
   const springValue = useSpring(motionValue, {
     damping: 60,
     stiffness: 100,
   });
+  const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px" });
+
+  const initialNumeric = direction === "down" ? value : startValue;
+  const [display, setDisplay] = useState(() =>
+    formatNumber(initialNumeric, decimalPlaces),
+  );
 
   const seoText = seoLabel ?? formatNumber(value, decimalPlaces);
 
@@ -55,19 +60,17 @@ export function NumberTicker({
     }
   }, [motionValue, isInView, delay, value, direction, startValue]);
 
-  useEffect(
-    () =>
-      springValue.on("change", (latest) => {
-        if (ref.current) {
-          ref.current.textContent = formatNumber(Number(latest), decimalPlaces);
-        }
-      }),
-    [springValue, decimalPlaces],
-  );
+  useEffect(() => {
+    const update = (latest: number) => {
+      setDisplay(formatNumber(Number(latest), decimalPlaces));
+    };
+    const unsub = springValue.on("change", update);
+    update(springValue.get());
+    return unsub;
+  }, [springValue, decimalPlaces]);
 
   return (
     <span className="relative inline-block">
-      {/* Stvarna vrijednost u DOM-u za crawlers / SEO; vizuelno sakriveno */}
       <span className="sr-only">{seoText}</span>
       <span
         ref={ref}
@@ -78,7 +81,7 @@ export function NumberTicker({
         )}
         {...props}
       >
-        {startValue}
+        {display}
       </span>
     </span>
   );

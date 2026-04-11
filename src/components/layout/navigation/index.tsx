@@ -37,7 +37,7 @@ const Navigation = () => {
       >
         <div className="border-b">
           {/* <!-- header top start --> */}
-          <Container className="flex h-nav items-center">
+          <Container className="h-nav flex items-center">
             <div className="relative flex w-full items-center justify-between gap-5">
               <div className="flex items-center gap-8">
                 {/* <!-- header top left / Logo --> */}

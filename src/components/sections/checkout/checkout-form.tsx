@@ -187,364 +187,357 @@ export default function CheckoutForm({ onOrderSuccess }: CheckoutFormProps) {
 
   return (
     <section className="h-fit overflow-hidden rounded-md border p-6 xl:col-span-2">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        className="space-y-8"
-      >
-          <div className="hidden" aria-hidden="true">
-            <label htmlFor="website">Website</label>
-            <Input
-              id="website"
-              type="text"
-              tabIndex={-1}
-              autoComplete="off"
-              {...register("website")}
-            />
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-8">
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="website">Website</label>
+          <Input
+            id="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            {...register("website")}
+          />
+        </div>
 
-          <h2 className="mb-6 text-2xl font-semibold">Finalizacija narudžbe</h2>
+        <h2 className="mb-6 text-2xl font-semibold">Finalizacija narudžbe</h2>
 
-          {/* Kontakt podaci */}
+        {/* Kontakt podaci */}
+        <div className="space-y-4">
+          <h3 className="text-muted-foreground text-lg font-semibold">
+            Kontakt podaci
+          </h3>
           <div className="space-y-4">
-            <h3 className="text-muted-foreground text-lg font-semibold">
-              Kontakt podaci
-            </h3>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="firstName" className="text-sm font-medium">
-                    Ime <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="firstName"
-                    placeholder="Ime"
-                    {...register("firstName")}
-                    aria-invalid={!!errors.firstName}
-                    aria-describedby={
-                      errors.firstName ? "checkout-firstName-error" : undefined
-                    }
-                    className={cn(errors.firstName && "border-destructive")}
-                  />
-                  {errors.firstName && (
-                    <p
-                      id="checkout-firstName-error"
-                      className="text-destructive text-sm"
-                    >
-                      {errors.firstName.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="lastName" className="text-sm font-medium">
-                    Prezime <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="lastName"
-                    placeholder="Prezime"
-                    {...register("lastName")}
-                    aria-invalid={!!errors.lastName}
-                    aria-describedby={
-                      errors.lastName ? "checkout-lastName-error" : undefined
-                    }
-                    className={cn(errors.lastName && "border-destructive")}
-                  />
-                  {errors.lastName && (
-                    <p
-                      id="checkout-lastName-error"
-                      className="text-destructive text-sm"
-                    >
-                      {errors.lastName.message}
-                    </p>
-                  )}
-                </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="firstName" className="text-sm font-medium">
+                  Ime <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  id="firstName"
+                  placeholder="Ime"
+                  {...register("firstName")}
+                  aria-invalid={!!errors.firstName}
+                  aria-describedby={
+                    errors.firstName ? "checkout-firstName-error" : undefined
+                  }
+                  className={cn(errors.firstName && "border-destructive")}
+                />
+                {errors.firstName && (
+                  <p
+                    id="checkout-firstName-error"
+                    className="text-destructive text-sm"
+                  >
+                    {errors.firstName.message}
+                  </p>
+                )}
               </div>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    Email <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    inputMode="email"
-                    autoComplete="email"
-                    placeholder="vas@email.com"
-                    {...register("email")}
-                    aria-invalid={!!errors.email}
-                    aria-describedby={
-                      errors.email ? "checkout-email-error" : undefined
-                    }
-                    className={cn(errors.email && "border-destructive")}
-                  />
-                  {errors.email && (
-                    <p
-                      id="checkout-email-error"
-                      className="text-destructive text-sm"
-                    >
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="phone" className="text-sm font-medium">
-                    Kontakt telefon <span className="text-destructive">*</span>
-                  </label>
-                  <Controller
-                    name="phoneCountryCode"
-                    control={control}
-                    render={({ field: phoneCodeField }) => (
-                      <Controller
-                        name="phone"
-                        control={control}
-                        render={({ field: phoneField }) => (
-                          <PhoneInputWithCountryCode
-                            id="phone"
-                            phoneValue={phoneField.value}
-                            onPhoneChange={phoneField.onChange}
-                            countryCodeValue={phoneCodeField.value}
-                            onCountryCodeChange={phoneCodeField.onChange}
-                            hasError={!!errors.phone}
-                            describedBy={
-                              errors.phone ? "checkout-phone-error" : undefined
-                            }
-                            placeholder="61 234 567"
-                          />
-                        )}
-                      />
-                    )}
-                  />
-                  {errors.phone && (
-                    <p
-                      id="checkout-phone-error"
-                      className="text-destructive text-sm"
-                    >
-                      {errors.phone.message}
-                    </p>
-                  )}
-                </div>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="lastName" className="text-sm font-medium">
+                  Prezime <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  id="lastName"
+                  placeholder="Prezime"
+                  {...register("lastName")}
+                  aria-invalid={!!errors.lastName}
+                  aria-describedby={
+                    errors.lastName ? "checkout-lastName-error" : undefined
+                  }
+                  className={cn(errors.lastName && "border-destructive")}
+                />
+                {errors.lastName && (
+                  <p
+                    id="checkout-lastName-error"
+                    className="text-destructive text-sm"
+                  >
+                    {errors.lastName.message}
+                  </p>
+                )}
               </div>
             </div>
-          </div>
-
-          {/* Način preuzimanja */}
-          <div className="space-y-4">
-            <h3 className="text-muted-foreground text-lg font-semibold">
-              Način preuzimanja
-            </h3>
-            <Controller
-              name="deliveryMethod"
-              control={control}
-              render={({ field }) => (
-                <RadioGroup
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  className="space-y-2"
-                >
-                  <Label
-                    htmlFor="pickup"
-                    className={cn(
-                      "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
-                      field.value === "pickup" &&
-                        "border-primary bg-primary/10",
-                    )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="email" className="text-sm font-medium">
+                  Email <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  placeholder="vas@email.com"
+                  {...register("email")}
+                  aria-invalid={!!errors.email}
+                  aria-describedby={
+                    errors.email ? "checkout-email-error" : undefined
+                  }
+                  className={cn(errors.email && "border-destructive")}
+                />
+                {errors.email && (
+                  <p
+                    id="checkout-email-error"
+                    className="text-destructive text-sm"
                   >
-                    <RadioGroupItem id="pickup" value="pickup" />
-                    <div className="grid flex-1 gap-1.5 font-normal">
-                      <p className="text-sm leading-none font-medium">
-                        Lično preuzimanje
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        Preuzmite narudžbu lično u našoj poslovnici
-                      </p>
-                    </div>
-                  </Label>
-                  <Label
-                    htmlFor="delivery"
-                    className={cn(
-                      "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
-                      field.value === "delivery" &&
-                        "border-primary bg-primary/10",
-                    )}
-                  >
-                    <RadioGroupItem id="delivery" value="delivery" />
-                    <div className="grid flex-1 gap-1.5 font-normal">
-                      <p className="text-sm leading-none font-medium">
-                        Dostava
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        Dostavljamo na vašu adresu
-                      </p>
-                    </div>
-                  </Label>
-                </RadioGroup>
-              )}
-            />
-          </div>
-
-          {/* Adresa za dostavu */}
-          {deliveryMethod === "delivery" && (
-            <div className="space-y-4">
-              <h3 className="text-muted-foreground text-lg font-semibold">
-                Adresa za dostavu
-              </h3>
-              <div className="space-y-4">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-4">
-                  <div className="min-w-0 flex-1 space-y-1.5">
-                    <label htmlFor="address" className="text-sm font-medium">
-                      Ulica <span className="text-destructive">*</span>
-                    </label>
-                    <Input
-                      id="address"
-                      placeholder="Naziv ulice"
-                      autoComplete="street-address"
-                      {...register("address")}
-                      aria-invalid={!!errors.address}
-                      aria-describedby={
-                        errors.address ? "checkout-address-error" : undefined
-                      }
-                      className={cn(errors.address && "border-destructive")}
-                    />
-                    {errors.address && (
-                      <p
-                        id="checkout-address-error"
-                        className="text-destructive text-sm"
-                      >
-                        {errors.address.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="w-full space-y-1.5 sm:w-24 sm:shrink-0">
-                    <label
-                      htmlFor="addressNumber"
-                      className="text-sm font-medium"
-                    >
-                      Broj <span className="text-destructive">*</span>
-                    </label>
-                    <Input
-                      id="addressNumber"
-                      type="number"
-                      inputMode="numeric"
-                      min={0}
-                      placeholder="12"
-                      {...register("addressNumber")}
-                      aria-invalid={!!errors.addressNumber}
-                      aria-describedby={
-                        errors.addressNumber
-                          ? "checkout-addressNumber-error"
-                          : undefined
-                      }
-                      className={cn(
-                        "tabular-nums",
-                        errors.addressNumber && "border-destructive",
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="phone" className="text-sm font-medium">
+                  Kontakt telefon <span className="text-destructive">*</span>
+                </label>
+                <Controller
+                  name="phoneCountryCode"
+                  control={control}
+                  render={({ field: phoneCodeField }) => (
+                    <Controller
+                      name="phone"
+                      control={control}
+                      render={({ field: phoneField }) => (
+                        <PhoneInputWithCountryCode
+                          id="phone"
+                          phoneValue={phoneField.value}
+                          onPhoneChange={phoneField.onChange}
+                          countryCodeValue={phoneCodeField.value}
+                          onCountryCodeChange={phoneCodeField.onChange}
+                          hasError={!!errors.phone}
+                          describedBy={
+                            errors.phone ? "checkout-phone-error" : undefined
+                          }
+                          placeholder="61 234 567"
+                        />
                       )}
                     />
-                    {errors.addressNumber && (
-                      <p
-                        id="checkout-addressNumber-error"
-                        className="text-destructive text-sm"
-                      >
-                        {errors.addressNumber.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                  )}
+                />
+                {errors.phone && (
+                  <p
+                    id="checkout-phone-error"
+                    className="text-destructive text-sm"
+                  >
+                    {errors.phone.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="city" className="text-sm font-medium">
-                      Grad <span className="text-destructive">*</span>
-                    </label>
-                    <Input
-                      id="city"
-                      placeholder="Grad"
-                      autoComplete="address-level2"
-                      {...register("city")}
-                      aria-invalid={!!errors.city}
-                      aria-describedby={
-                        errors.city ? "checkout-city-error" : undefined
-                      }
-                      className={cn(errors.city && "border-destructive")}
-                    />
-                    {errors.city && (
-                      <p
-                        id="checkout-city-error"
-                        className="text-destructive text-sm"
-                      >
-                        {errors.city.message}
-                      </p>
-                    )}
+        {/* Način preuzimanja */}
+        <div className="space-y-4">
+          <h3 className="text-muted-foreground text-lg font-semibold">
+            Način preuzimanja
+          </h3>
+          <Controller
+            name="deliveryMethod"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup
+                value={field.value}
+                onValueChange={field.onChange}
+                className="space-y-2"
+              >
+                <Label
+                  htmlFor="pickup"
+                  className={cn(
+                    "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
+                    field.value === "pickup" && "border-primary bg-primary/10",
+                  )}
+                >
+                  <RadioGroupItem id="pickup" value="pickup" />
+                  <div className="grid flex-1 gap-1.5 font-normal">
+                    <p className="text-sm leading-none font-medium">
+                      Lično preuzimanje
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      Preuzmite narudžbu lično u našoj poslovnici
+                    </p>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="zip" className="text-sm font-medium">
-                      Poštanski broj <span className="text-destructive">*</span>
-                    </label>
-                    <Input
-                      id="zip"
-                      placeholder="71000"
-                      autoComplete="postal-code"
-                      {...register("zip")}
-                      aria-invalid={!!errors.zip}
-                      aria-describedby={
-                        errors.zip ? "checkout-zip-error" : undefined
-                      }
-                      className={cn(errors.zip && "border-destructive")}
-                    />
-                    {errors.zip && (
-                      <p
-                        id="checkout-zip-error"
-                        className="text-destructive text-sm"
-                      >
-                        {errors.zip.message}
-                      </p>
-                    )}
+                </Label>
+                <Label
+                  htmlFor="delivery"
+                  className={cn(
+                    "hover:bg-primary/20 hover:border-primary/20 flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
+                    field.value === "delivery" &&
+                      "border-primary bg-primary/10",
+                  )}
+                >
+                  <RadioGroupItem id="delivery" value="delivery" />
+                  <div className="grid flex-1 gap-1.5 font-normal">
+                    <p className="text-sm leading-none font-medium">Dostava</p>
+                    <p className="text-muted-foreground text-sm">
+                      Dostavljamo na vašu adresu
+                    </p>
                   </div>
-                </div>
+                </Label>
+              </RadioGroup>
+            )}
+          />
+        </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="country" className="text-sm font-medium">
-                    Država <span className="text-destructive">*</span>
+        {/* Adresa za dostavu */}
+        {deliveryMethod === "delivery" && (
+          <div className="space-y-4">
+            <h3 className="text-muted-foreground text-lg font-semibold">
+              Adresa za dostavu
+            </h3>
+            <div className="space-y-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-4">
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <label htmlFor="address" className="text-sm font-medium">
+                    Ulica <span className="text-destructive">*</span>
                   </label>
                   <Input
-                    id="country"
-                    placeholder="Bosna i Hercegovina"
-                    autoComplete="country-name"
-                    {...register("country")}
-                    aria-invalid={!!errors.country}
+                    id="address"
+                    placeholder="Naziv ulice"
+                    autoComplete="street-address"
+                    {...register("address")}
+                    aria-invalid={!!errors.address}
                     aria-describedby={
-                      errors.country ? "checkout-country-error" : undefined
+                      errors.address ? "checkout-address-error" : undefined
                     }
-                    className={cn(errors.country && "border-destructive")}
+                    className={cn(errors.address && "border-destructive")}
                   />
-                  {errors.country && (
+                  {errors.address && (
                     <p
-                      id="checkout-country-error"
+                      id="checkout-address-error"
                       className="text-destructive text-sm"
                     >
-                      {errors.country.message}
+                      {errors.address.message}
+                    </p>
+                  )}
+                </div>
+                <div className="w-full space-y-1.5 sm:w-24 sm:shrink-0">
+                  <label
+                    htmlFor="addressNumber"
+                    className="text-sm font-medium"
+                  >
+                    Broj <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="addressNumber"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    placeholder="12"
+                    {...register("addressNumber")}
+                    aria-invalid={!!errors.addressNumber}
+                    aria-describedby={
+                      errors.addressNumber
+                        ? "checkout-addressNumber-error"
+                        : undefined
+                    }
+                    className={cn(
+                      "tabular-nums",
+                      errors.addressNumber && "border-destructive",
+                    )}
+                  />
+                  {errors.addressNumber && (
+                    <p
+                      id="checkout-addressNumber-error"
+                      className="text-destructive text-sm"
+                    >
+                      {errors.addressNumber.message}
                     </p>
                   )}
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="city" className="text-sm font-medium">
+                    Grad <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="city"
+                    placeholder="Grad"
+                    autoComplete="address-level2"
+                    {...register("city")}
+                    aria-invalid={!!errors.city}
+                    aria-describedby={
+                      errors.city ? "checkout-city-error" : undefined
+                    }
+                    className={cn(errors.city && "border-destructive")}
+                  />
+                  {errors.city && (
+                    <p
+                      id="checkout-city-error"
+                      className="text-destructive text-sm"
+                    >
+                      {errors.city.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="zip" className="text-sm font-medium">
+                    Poštanski broj <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="zip"
+                    placeholder="71000"
+                    autoComplete="postal-code"
+                    {...register("zip")}
+                    aria-invalid={!!errors.zip}
+                    aria-describedby={
+                      errors.zip ? "checkout-zip-error" : undefined
+                    }
+                    className={cn(errors.zip && "border-destructive")}
+                  />
+                  {errors.zip && (
+                    <p
+                      id="checkout-zip-error"
+                      className="text-destructive text-sm"
+                    >
+                      {errors.zip.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="country" className="text-sm font-medium">
+                  Država <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  id="country"
+                  placeholder="Bosna i Hercegovina"
+                  autoComplete="country-name"
+                  {...register("country")}
+                  aria-invalid={!!errors.country}
+                  aria-describedby={
+                    errors.country ? "checkout-country-error" : undefined
+                  }
+                  className={cn(errors.country && "border-destructive")}
+                />
+                {errors.country && (
+                  <p
+                    id="checkout-country-error"
+                    className="text-destructive text-sm"
+                  >
+                    {errors.country.message}
+                  </p>
+                )}
+              </div>
             </div>
-          )}
-
-          <div className="flex w-full justify-end">
-            <InteractiveHoverButton
-              type="submit"
-              disabled={isSubmitting}
-              className="max-w-full disabled:opacity-60"
-            >
-              {isSubmitting ? "Slanje..." : "Završi narudžbu"}
-            </InteractiveHoverButton>
           </div>
+        )}
 
-          {submitError && (
-            <p className="text-destructive text-sm" role="alert">
-              {submitError}
-            </p>
-          )}
-        </form>
+        <div className="flex w-full justify-end">
+          <InteractiveHoverButton
+            type="submit"
+            disabled={isSubmitting}
+            className="max-w-full disabled:opacity-60"
+          >
+            {isSubmitting ? "Slanje..." : "Završi narudžbu"}
+          </InteractiveHoverButton>
+        </div>
+
+        {submitError && (
+          <p className="text-destructive text-sm" role="alert">
+            {submitError}
+          </p>
+        )}
+      </form>
     </section>
   );
 }

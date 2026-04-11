@@ -116,7 +116,10 @@ export async function POST(request: Request) {
     rawBody = await request.json();
   } catch {
     return NextResponse.json(
-      { error: "Neispravni podaci narudžbe. Provjerite unos i pokušajte ponovo." },
+      {
+        error:
+          "Neispravni podaci narudžbe. Provjerite unos i pokušajte ponovo.",
+      },
       { status: 400 },
     );
   }
@@ -140,7 +143,10 @@ export async function POST(request: Request) {
   );
   if (!hasValidPrefix) {
     return NextResponse.json(
-      { error: "Neispravni podaci narudžbe. Provjerite unos i pokušajte ponovo." },
+      {
+        error:
+          "Neispravni podaci narudžbe. Provjerite unos i pokušajte ponovo.",
+      },
       { status: 400 },
     );
   }

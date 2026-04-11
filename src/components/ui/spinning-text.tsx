@@ -46,10 +46,7 @@ export default function SpinningText({
             fill="none"
           />
           <text
-            className={cn(
-              "font-bold uppercase tracking-widest",
-              textClassName,
-            )}
+            className={cn("font-bold tracking-widest uppercase", textClassName)}
             textLength={pathLength}
             lengthAdjust="spacing"
           >

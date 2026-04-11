@@ -25,10 +25,7 @@ export default function EmptyState({
         <h2 className="mb-2 text-2xl font-semibold">{title}</h2>
         <p className="text-muted-foreground">{description}</p>
       </div>
-      <InteractiveHoverButton
-        href={actionHref}
-        className="w-fit text-center"
-      >
+      <InteractiveHoverButton href={actionHref} className="w-fit text-center">
         {actionLabel}
       </InteractiveHoverButton>
     </div>

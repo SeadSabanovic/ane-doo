@@ -4,8 +4,18 @@ import { useCallback } from "react";
 import type { ComponentProps } from "react";
 import { Box, Button, Card, Flex, Text } from "@sanity/ui";
 import { TrashIcon } from "@sanity/icons";
-import { NumberInput, PatchEvent, set, unset, useFormCallbacks, useFormValue } from "sanity";
-import { isFiniteNumber, normalizeWholesaleQty } from "../utils/wholesale-validation";
+import {
+  NumberInput,
+  PatchEvent,
+  set,
+  unset,
+  useFormCallbacks,
+  useFormValue,
+} from "sanity";
+import {
+  isFiniteNumber,
+  normalizeWholesaleQty,
+} from "../utils/wholesale-validation";
 
 type NumberInputProps = ComponentProps<typeof NumberInput>;
 
@@ -39,10 +49,7 @@ export function WholesalePricePerPackageInput(props: NumberInputProps) {
     piece >= 0;
 
   const canComputeFromPackage =
-    hasValidQty &&
-    typeof pkg === "number" &&
-    Number.isFinite(pkg) &&
-    pkg >= 0;
+    hasValidQty && typeof pkg === "number" && Number.isFinite(pkg) && pkg >= 0;
 
   const canCompute = canComputeFromPiece || canComputeFromPackage;
 
@@ -53,7 +60,9 @@ export function WholesalePricePerPackageInput(props: NumberInputProps) {
       return;
     }
     if (canComputeFromPackage) {
-      onDocumentChange(PatchEvent.from([set(roundMoney(pkg! / qtyNorm), ["wholesalePrice"])]));
+      onDocumentChange(
+        PatchEvent.from([set(roundMoney(pkg! / qtyNorm), ["wholesalePrice"])]),
+      );
     }
   }, [
     canCompute,
@@ -98,9 +107,10 @@ export function WholesalePricePerPackageInput(props: NumberInputProps) {
         <Card padding={3} radius={2} shadow={1} tone="critical">
           <Flex direction="column" gap={3}>
             <Text size={1}>
-              <strong>Nekonzistentno stanje:</strong> postoje veleprodajne cijene ili akcija, a „Komada u
-              paketu” nije unesen (ili nije cijeli broj ≥ 1). Ne možete objaviti dokument dok to ne
-              ispravite — obrišite veleprodaju ili unesite broj komada u paketu.
+              <strong>Nekonzistentno stanje:</strong> postoje veleprodajne
+              cijene ili akcija, a „Komada u paketu” nije unesen (ili nije
+              cijeli broj ≥ 1). Ne možete objaviti dokument dok to ne ispravite
+              — obrišite veleprodaju ili unesite broj komada u paketu.
             </Text>
             <Box>
               <Button
@@ -120,14 +130,26 @@ export function WholesalePricePerPackageInput(props: NumberInputProps) {
         <Text size={1} weight="semibold">
           Zašto je ovo polje važno i šta radi dugme
         </Text>
-        <Text as="p" muted size={1} style={{ marginTop: "0.65rem", lineHeight: 1.45 }}>
-          Na sajtu se veleprodaja prikazuje pretežno preko <strong>cijene po komadu</strong>.{" "}
-          <strong>Cijena po paketu</strong> je opcionalna (ukupni iznos paketa); korisna je za kontrolu ili
-          ako želite cijenu po komadu izračunati iz ukupnog paketa.
+        <Text
+          as="p"
+          muted
+          size={1}
+          style={{ marginTop: "0.65rem", lineHeight: 1.45 }}
+        >
+          Na sajtu se veleprodaja prikazuje pretežno preko{" "}
+          <strong>cijene po komadu</strong>. <strong>Cijena po paketu</strong>{" "}
+          je opcionalna (ukupni iznos paketa); korisna je za kontrolu ili ako
+          želite cijenu po komadu izračunati iz ukupnog paketa.
         </Text>
-        <Text as="p" muted size={1} style={{ marginTop: "0.5rem", lineHeight: 1.45 }}>
-          Ako unesete oba iznosa, trebaju odgovarati <strong>cijena po komadu × komada u paketu</strong>.
-          Dugme ispod izračunava nedostajuće polje (× komada ili ÷ komada).
+        <Text
+          as="p"
+          muted
+          size={1}
+          style={{ marginTop: "0.5rem", lineHeight: 1.45 }}
+        >
+          Ako unesete oba iznosa, trebaju odgovarati{" "}
+          <strong>cijena po komadu × komada u paketu</strong>. Dugme ispod
+          izračunava nedostajuće polje (× komada ili ÷ komada).
         </Text>
       </Box>
 

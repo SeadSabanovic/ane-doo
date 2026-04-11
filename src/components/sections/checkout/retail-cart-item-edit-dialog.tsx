@@ -107,11 +107,7 @@ export function RetailCartItemEditDialog({
   return (
     <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="lg"
-          className={cn(triggerClassName)}
-        >
+        <Button variant="outline" size="lg" className={cn(triggerClassName)}>
           <Pencil />
           Uredi
         </Button>
@@ -214,4 +210,3 @@ export function RetailCartItemEditDialog({
     </Dialog>
   );
 }
-

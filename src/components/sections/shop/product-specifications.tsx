@@ -31,10 +31,7 @@ export function ProductSpecifications({
         const hasText = Boolean(displayValue);
 
         return (
-          <div
-            key={index}
-            className="flex items-start justify-between gap-4"
-          >
+          <div key={index} className="flex items-start justify-between gap-4">
             <h3 className="font-semibold">{spec.label}</h3>
             {hasText ? (
               <p className="text-right">{displayValue}</p>

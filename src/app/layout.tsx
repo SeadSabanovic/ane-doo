@@ -84,10 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="bs"
-      className={`${nunito.variable} ${lora.variable}`}
-    >
+    <html lang="bs" className={`${nunito.variable} ${lora.variable}`}>
       <body className="antialiased" suppressHydrationWarning>
         <OrganizationWebsiteJsonLd />
         <LenisScrollProvider>

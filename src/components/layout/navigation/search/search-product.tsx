@@ -12,7 +12,11 @@ export interface SearchProductItem {
   link: string;
 }
 
-export default function SearchProduct({ product }: { product: SearchProductItem }) {
+export default function SearchProduct({
+  product,
+}: {
+  product: SearchProductItem;
+}) {
   const salePrice = product.salePrice;
   const onSale = salePrice != null && salePrice > 0;
 
@@ -36,7 +40,7 @@ export default function SearchProduct({ product }: { product: SearchProductItem 
         ) : null}
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1 py-2">
-        <span className="text-xl font-medium line-clamp-2 wrap-break-word">
+        <span className="line-clamp-2 text-xl font-medium wrap-break-word">
           {product.name}
         </span>
         <div className="text-sm">
@@ -45,7 +49,10 @@ export default function SearchProduct({ product }: { product: SearchProductItem 
               <span className="sr-only">
                 Redovna cijena: {formatPrice(product.price)}
               </span>
-              <span aria-hidden="true" className="text-muted-foreground line-through">
+              <span
+                aria-hidden="true"
+                className="text-muted-foreground line-through"
+              >
                 {formatPrice(product.price)}
               </span>
               <span className="sr-only">

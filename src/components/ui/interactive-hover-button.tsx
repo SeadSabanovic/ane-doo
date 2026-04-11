@@ -24,7 +24,10 @@ export type InteractiveHoverButtonProps =
   | (Shared & {
       href: LinkProps["href"];
     } & Omit<HTMLMotionProps<"a">, "children" | "href">)
-  | (Shared & { href?: undefined } & Omit<HTMLMotionProps<"button">, "children">);
+  | (Shared & { href?: undefined } & Omit<
+        HTMLMotionProps<"button">,
+        "children"
+      >);
 
 export function InteractiveHoverButton(props: InteractiveHoverButtonProps) {
   const { children, variant = "dark", className } = props;
@@ -66,7 +69,12 @@ export function InteractiveHoverButton(props: InteractiveHoverButtonProps) {
     onMouseMove: handleMouse,
     onMouseLeave: reset,
     animate: { x, y },
-    transition: { type: "spring" as const, stiffness: 150, damping: 15, mass: 0.1 },
+    transition: {
+      type: "spring" as const,
+      stiffness: 150,
+      damping: 15,
+      mass: 0.1,
+    },
     whileTap: { scale: 0.95 },
     className: sharedClassName,
   };

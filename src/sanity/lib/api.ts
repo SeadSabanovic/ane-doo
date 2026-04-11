@@ -39,24 +39,22 @@ export interface Product {
     };
   };
   /** Veličine iz kataloga; `null` u nizu kad referenca nije razriješena (obrisan `size` ili pokvaren ref). */
-  sizes?: (
-    | {
+  sizes?:
+    | ({
         _id: string;
         name: string;
         slug: { current: string };
-      }
-    | null
-  )[] | null;
+      } | null)[]
+    | null;
   /** Boje iz kataloga; `null` u nizu kad referenca nije razriješena. */
-  colors?: (
-    | {
+  colors?:
+    | ({
         _id: string;
         name: string;
         hex: string;
         slug: { current: string };
-      }
-    | null
-  )[] | null;
+      } | null)[]
+    | null;
   inStock: boolean;
   featured: boolean;
   tags?: string[];
@@ -100,9 +98,7 @@ export interface Category {
  */
 export type ShopSort = "popular" | "newest" | "price-asc" | "price-desc";
 
-export function parseShopSortParam(
-  value: string | null | undefined,
-): ShopSort {
+export function parseShopSortParam(value: string | null | undefined): ShopSort {
   if (
     value === "newest" ||
     value === "price-asc" ||

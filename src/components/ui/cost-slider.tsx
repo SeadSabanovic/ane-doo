@@ -28,7 +28,9 @@ export default function CostSlider({
     const rawMax = searchParams.get("cijenaDo");
     const min = rawMin ? Number.parseInt(rawMin, 10) : DEFAULT_MIN;
     const max = rawMax ? Number.parseInt(rawMax, 10) : DEFAULT_MAX;
-    const safeMin = Number.isFinite(min) ? Math.max(DEFAULT_MIN, min) : DEFAULT_MIN;
+    const safeMin = Number.isFinite(min)
+      ? Math.max(DEFAULT_MIN, min)
+      : DEFAULT_MIN;
     const safeMax = Number.isFinite(max) ? Math.max(safeMin, max) : DEFAULT_MAX;
     return { initialMin: safeMin, initialMax: safeMax };
   }, [searchParams, DEFAULT_MIN, DEFAULT_MAX]);

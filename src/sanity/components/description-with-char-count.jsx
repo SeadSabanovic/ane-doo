@@ -12,7 +12,11 @@ export function DescriptionWithCharCount(props) {
 
   return (
     <Flex direction="column" gap={2}>
-      <Box>{typeof props.renderDefault === "function" ? props.renderDefault(props) : null}</Box>
+      <Box>
+        {typeof props.renderDefault === "function"
+          ? props.renderDefault(props)
+          : null}
+      </Box>
       <Text size={1} muted={!inRange} tone={inRange ? "positive" : "caution"}>
         Broj karaktera: {count} (preporuka: {RECOMMENDED_MIN}-{RECOMMENDED_MAX})
       </Text>
