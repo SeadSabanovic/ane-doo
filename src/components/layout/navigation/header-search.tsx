@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SearchDialog } from "./search/search-dialog";
 
-const SEARCH_SLOT_IDLE =
-  "flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden opacity-0 pointer-events-none transition-opacity duration-300 ease-out motion-reduce:transition-none";
+/** SSR + prvi client paint: fiksne klase (bez pathname grana) — izbjegava hydration mismatch. */
+const BUTTON_IDLE =
+  "text-foreground relative shrink-0 opacity-0 pointer-events-none transition-opacity duration-300 ease-out motion-reduce:transition-none";
 
 /**
  * Search trigger + dialog samo na `/`. SSR-safe: dok pathname nije pouzdan, fiksno stanje
- * (navReady) izbjegava hydration mismatch; na početnoj lagani fade-in nakon mounta.
+ * (navReady) izbjegava hydration mismatch; na početnoj lagani fade-in ikone nakon mounta.
  */
 export function HeaderSearch() {
   const pathname = usePathname();
@@ -47,34 +48,39 @@ export function HeaderSearch() {
 
   return (
     <>
-      <div
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
         className={
           navReady
             ? cn(
-                "flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden transition-opacity duration-300 ease-out motion-reduce:transition-none",
-                pathname !== "/" && "pointer-events-none w-0 max-w-0",
+                "text-foreground relative shrink-0",
+                /* Na `/` bez opacity na gumbu — ring ostaje kao kod ostalih; fade je na ikoni. */
+                pathname !== "/" &&
+                  "pointer-events-none w-0 max-w-0 overflow-hidden opacity-0 transition-opacity duration-300 ease-out motion-reduce:transition-none",
                 pathname === "/" && !searchReveal && "pointer-events-none",
-                pathname === "/" && searchReveal ? "opacity-100" : "opacity-0",
               )
-            : SEARCH_SLOT_IDLE
+            : BUTTON_IDLE
         }
-        aria-hidden={navReady ? pathname !== "/" || !searchReveal : true}
+        onClick={() => setSearchOpen(true)}
+        aria-label="Pretraži proizvode"
+        disabled={navReady && pathname !== "/"}
+        tabIndex={
+          navReady && pathname === "/" && searchReveal ? undefined : -1
+        }
       >
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="text-foreground relative shrink-0"
-          onClick={() => setSearchOpen(true)}
-          aria-label="Pretraži proizvode"
-          disabled={navReady && pathname !== "/"}
-          tabIndex={
-            navReady && pathname === "/" && searchReveal ? undefined : -1
-          }
+        <span
+          className={cn(
+            "inline-flex transition-opacity duration-300 ease-out motion-reduce:transition-none",
+            navReady && pathname === "/" && searchReveal
+              ? "opacity-100"
+              : "opacity-0",
+          )}
         >
-          <Search className="size-6" aria-hidden />
-        </Button>
-      </div>
+          <Search aria-hidden />
+        </span>
+      </Button>
       <SearchDialog
         open={navReady && searchOpen && pathname === "/"}
         onOpenChange={(open) => {
