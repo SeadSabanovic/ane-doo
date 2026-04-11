@@ -11,8 +11,6 @@ import DesktopMenu from "./desktop-menu";
 import { Badge } from "@/components/ui/badge";
 import MobileMenu from "./mobile-menu";
 import { SearchDialog } from "./search/search-dialog";
-import { SOCIALS } from "@/constants/socials";
-import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { useCartStore, useWishlistStore } from "@/stores";
 import { AneLogo } from "@/components/logo/ane-logo";
 
@@ -34,26 +32,6 @@ const Navigation = () => {
 
   return (
     <>
-      {/* Social Links Bar */}
-      <div className="bg-card-foreground text-primary-foreground hidden w-full lg:block">
-        <Container className="flex items-center justify-between py-2">
-          <a href="tel:+38761123456" className="flex items-center gap-2">
-            <AnimatedShinyText className="text-sm">
-              Pozovite nas: (+387) 61 101 871
-            </AnimatedShinyText>
-          </a>
-          <div className="flex items-center justify-between gap-6">
-            {SOCIALS.map((social) => (
-              <Link key={social.name} href={social.url} target="_blank">
-                <div className="text-primary-foreground flex size-5 items-center justify-center rounded-full transition-all duration-200 hover:scale-110">
-                  {social.icon}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </div>
-
       <header
         className={`bg-background/90 sticky top-0 left-0 z-50 w-full backdrop-blur-sm transition-all duration-300 ease-in-out`}
       >
@@ -83,12 +61,14 @@ const Navigation = () => {
                 {isRootRoute && (
                   <>
                     <Button
+                      type="button"
                       variant="ghost"
                       size="icon"
                       className="relative"
                       onClick={() => setSearchOpen(true)}
+                      aria-label="Pretraži proizvode"
                     >
-                      <Search />
+                      <Search aria-hidden />
                     </Button>
                     <SearchDialog
                       open={searchOpen}
@@ -97,22 +77,32 @@ const Navigation = () => {
                   </>
                 )}
                 {/* <!-- header top right / Wishlist and Cart --> */}
-                <Link href="/spaseno">
-                  <Button variant="ghost" size="icon" className="relative">
-                    <Heart className="text-destructive" />
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="relative"
+                >
+                  <Link href="/spaseno" aria-label="Spašeni proizvodi">
+                    <Heart className="text-destructive" aria-hidden />
                     {isHydrated && wishlistCount > 0 && (
                       <Badge
                         variant="outline"
-                        className="bg-background absolute -top-1 -right-2 h-5 min-w-5 rounded-full px-1 tabular-nums z-10"
+                        className="bg-background absolute -top-1 -right-2 z-10 h-5 min-w-5 rounded-full px-1 tabular-nums"
                       >
                         {wishlistCount}
                       </Badge>
                     )}
-                  </Button>
-                </Link>
-                <Link href="/narudzba">
-                  <Button variant="ghost" size="icon" className="relative">
-                    <ShoppingCart size={24} />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="relative"
+                >
+                  <Link href="/narudzba" aria-label="Korpa za narudžbu">
+                    <ShoppingCart size={24} aria-hidden />
                     {isHydrated && cartCount > 0 && (
                       <Badge
                         variant="outline"
@@ -121,8 +111,8 @@ const Navigation = () => {
                         {cartCount}
                       </Badge>
                     )}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
 
                 <Suspense fallback={null}>
                   <MobileMenu />

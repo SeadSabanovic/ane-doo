@@ -43,7 +43,7 @@ export default function HeroCarousel() {
           alt={heroData.title}
           width={1600}
           height={900}
-          className="absolute top-0 left-0 z-10 h-full w-full object-cover"
+          className="absolute top-0 left-0 z-10 h-full w-full object-cover object-bottom"
           priority
           fetchPriority="high"
         />

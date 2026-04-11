@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import LenisScrollProvider from "@/providers/lenis-provider";
 import RouteScrollReset from "@/providers/route-scroll-reset";
 import ConditionalLayout from "@/components/layout/conditional-layout";
+import SocialTopBar from "@/components/layout/navigation/social-top-bar";
 import OrganizationWebsiteJsonLd from "@/components/seo/organization-website-json-ld";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -91,7 +92,9 @@ export default function RootLayout({
         <OrganizationWebsiteJsonLd />
         <LenisScrollProvider>
           <RouteScrollReset />
-          <ConditionalLayout>{children}</ConditionalLayout>
+          <ConditionalLayout socialTopBar={<SocialTopBar />}>
+            {children}
+          </ConditionalLayout>
           <Toaster position="top-center" />
           <Analytics />
         </LenisScrollProvider>

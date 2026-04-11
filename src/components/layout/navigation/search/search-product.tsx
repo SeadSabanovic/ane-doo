@@ -35,8 +35,10 @@ export default function SearchProduct({ product }: { product: SearchProductItem 
           </Badge>
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col gap-1 py-2">
-        <span className="text-xl font-medium">{product.name}</span>
+      <div className="flex min-w-0 flex-1 flex-col gap-1 py-2">
+        <span className="text-xl font-medium line-clamp-2 wrap-break-word">
+          {product.name}
+        </span>
         <div className="text-sm">
           {onSale ? (
             <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0">

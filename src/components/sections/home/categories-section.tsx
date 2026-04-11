@@ -127,6 +127,7 @@ export default function CategoriesSection() {
           {/* Navigation buttons */}
           <div className="absolute top-0 right-0 hidden items-center gap-2 md:flex">
             <Button
+              type="button"
               variant="outline"
               size="icon"
               onClick={() => {
@@ -135,10 +136,12 @@ export default function CategoriesSection() {
               }}
               disabled={!canScrollPrev}
               className="size-10"
+              aria-label="Prethodna kategorija"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4" aria-hidden />
             </Button>
             <Button
+              type="button"
               variant="outline"
               size="icon"
               onClick={() => {
@@ -147,8 +150,9 @@ export default function CategoriesSection() {
               }}
               disabled={!canScrollNext}
               className="size-10"
+              aria-label="Sljedeća kategorija"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4" aria-hidden />
             </Button>
           </div>
         </div>

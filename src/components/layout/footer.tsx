@@ -160,12 +160,17 @@ const Footer = () => {
           </p>
 
           <div className="flex items-center gap-6">
-            {SOCIALS.map((social) => (
-              <Link key={social.name} href={social.url} target="_blank">
-                <div className="text-primary-foreground flex size-5 items-center justify-center rounded-full transition-all duration-200 hover:scale-110">
-                  {social.icon}
-                </div>
-              </Link>
+            {SOCIALS.map(({ name, url, Icon }) => (
+              <a
+                key={name}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+                className="text-primary-foreground flex size-5 items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+              >
+                <Icon className="size-5 shrink-0" aria-hidden />
+              </a>
             ))}
           </div>
         </Container>

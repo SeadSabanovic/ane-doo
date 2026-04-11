@@ -64,13 +64,14 @@ export default function MobileMenu() {
         <SheetHeader className="from-primary to-card-foreground relative bg-linear-to-r">
           <SheetClose asChild>
             <Button
+              type="button"
               variant="ghost"
               size="icon"
               className="absolute top-4 right-4 text-yellow-400 hover:bg-transparent hover:text-yellow-300"
               onClick={handleNavigate}
+              aria-label="Zatvori meni"
             >
-              <X className="size-6" />
-              <span className="sr-only">Zatvori meni</span>
+              <X className="size-6" aria-hidden />
             </Button>
           </SheetClose>
           <SheetTitle className="text-accent text-2xl font-bold">
